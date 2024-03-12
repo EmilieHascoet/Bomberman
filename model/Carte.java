@@ -12,14 +12,13 @@ public class Carte {
     public Carte() {
     }
 
+    // Déclarations des attributs
     /**
      * 
      */
-    public matrice map;
+    public Case[][] map;
 
-    /**
-     * 
-     */
-    public Image background;
+    // Déclaration des associations
+    List<Case> listCase;
 
 }

@@ -4,27 +4,24 @@ import java.util.*;
 /**
  * 
  */
-public class Bonus {
+public class Bonus extends Case {
 
     /**
      * Default constructor
      */
-    public Bonus() {
+    public Bonus(Boolean estTraversable, Integer positionX, Integer positionY, boolean estDestructible, Boolean isMalus, String effet) {
+        super(estTraversable, positionX, positionY, "Bonus", estDestructible);
+        this.isMalus = isMalus;
+        this.effet = effet;
     }
 
-    /**
-     * 
-     */
-    public String nom;
+    // Déclarations des attributs
+    public Boolean isMalus;
+    public String effet;
 
-    /**
-     * 
-     */
-    public Object effet;
-
-    /**
-     * 
-     */
-    public string desc;
+    // Déclarations des méthodes
+    public void estRamassee() {
+        // TODO implement here
+    }
 
 }

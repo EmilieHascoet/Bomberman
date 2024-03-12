@@ -9,39 +9,31 @@ public class Joueur {
     /**
      * Default constructor
      */
-    public Joueur() {
+    public Joueur(String nom, int vie, int stockBombe, int score, int positionX, int positionY, int Vitesse) {
+        this.nom = nom;
+        this.vie = vie;
+        this.stockBombe = stockBombe;
+        this.score = score;
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.Vitesse = Vitesse;
     }
 
-    /**
-     * 
-     */
+    // Déclarations des attributs
     public String nom;
+    public Integer vie;
+    public Integer stockBombe;
+    public Integer score;
+    public Integer positionX;
+    public Integer positionY;
+    public Integer Vitesse;
 
-    /**
-     * 
-     */
-    public Int vie;
 
-    /**
-     * 
-     */
-    public Int stockBombe;
-
-    /**
-     * 
-     */
-    public Int score;
-
-    /**
-     * 
-     */
-    public tuple position;
-
-    /**
-     * 
-     */
-    public int Vitesse;
-
+    // Déclarations des associations
+    public Partie partie;
+    public Contrôle contrôle;
+    
+    // Déclarations des méthodes
     /**
      * 
      */

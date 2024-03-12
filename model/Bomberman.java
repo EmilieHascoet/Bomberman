@@ -12,10 +12,11 @@ public class Bomberman {
     public Bomberman() {
     }
 
+    // Déclarations des méthodes
     /**
-     * @param paramètres
+     *
      */
-    public void nouvellePartie(void paramètres) {
+    public void nouvellePartie(Set<String> paramètres) {
         // TODO implement here
     }
 

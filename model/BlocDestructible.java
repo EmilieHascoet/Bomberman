@@ -4,12 +4,13 @@ import java.util.*;
 /**
  * 
  */
-public class BlocDestructible {
+public class BlocDestructible extends Case{
 
     /**
      * Default constructor
      */
-    public BlocDestructible() {
+    public BlocDestructible(Boolean estTraversable, Integer positionX, Integer positionY, boolean estDestructible) {
+        super(estTraversable, positionX, positionY, "BlocDestructible", estDestructible);
     }
 
     /**
