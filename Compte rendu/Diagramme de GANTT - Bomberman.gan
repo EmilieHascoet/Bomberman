@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="Diagramme de Gantt - Bomberman" company="" webLink="http://" view-date="2024-02-12" view-index="0" gantt-divider-location="347" resource-divider-location="325" version="3.3.3302" locale="fr_FR">
+    <description/>
+    <view zooming-state="default:7" id="gantt-chart">
+        <field id="tpd3" name="Nom" width="189" order="0"/>
+        <field id="tpd4" name="Date de début" width="71" order="1"/>
+        <field id="tpd5" name="Date de fin" width="71" order="2"/>
+        <field id="tpd15" name="Notes" width="20" order="3"/>
+        <option id="filter.completedTasks" value="false"/>
+        <option id="filter.dueTodayTasks" value="false"/>
+        <option id="filter.overdueTasks" value="false"/>
+        <option id="filter.inProgressTodayTasks" value="false"/>
+        <timeline><![CDATA[1]]></timeline>
+        <option id="color.recent"><![CDATA[#ff9999 #99ff99 #ff9900 #3366ff #ff3300]]></option>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Nom" width="223" order="0"/>
+        <field id="1" name="Rôle par défaut" width="98" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="14" uid="fd36040722bc4f52810bdb779f1335eb" name="Définition des règles de jeu" meeting="false" start="2024-02-20" duration="1" complete="0" expand="true"/>
+        <task id="0" uid="55148acb3f404119b46805d6ff84e180" name="UML" meeting="false" start="2024-02-20" duration="16" complete="0" expand="true">
+            <task id="2" uid="b6b26ad81dfd4bcc9cb74750cdc95a4c" name="Diagramme de classe" meeting="false" start="2024-02-20" duration="8" complete="0" expand="true">
+                <notes><![CDATA[Classe, méthode, attribut]]></notes>
+            </task>
+            <task id="5" uid="46f3e8efbc0849b39855ccbfaf4952b7" name="Diagramme d'activité" meeting="false" start="2024-03-01" duration="8" complete="0" expand="true"/>
+            <task id="6" uid="d2835b0bfda84a1185fccb7790558ed8" name="Diagramme de séquence" meeting="false" start="2024-03-01" duration="8" complete="0" priority="3" expand="true"/>
+            <task id="18" uid="f6c6f748182b417f8d7e1bf4db8c09c7" name="Controller" color="#99ff99" meeting="false" start="2024-03-01" duration="8" complete="0" expand="true"/>
+            <task id="17" uid="4ab39650bdd74d1084c80cb43544d213" name="Vue" color="#ff9999" meeting="false" start="2024-03-01" duration="8" complete="0" expand="true"/>
+            <task id="4" uid="510e87d2f905444f81887906b52d2f72" name="Relecture" color="#ff9900" meeting="false" start="2024-03-05" duration="1" complete="0" expand="true"/>
+            <task id="7" uid="bdf375a39550419282726912e60c25f0" name="Relecture Global" meeting="false" start="2024-03-12" duration="1" complete="0" expand="true"/>
+        </task>
+        <task id="8" uid="7893c0561e6044169bb0c66c20cfa1bf" name="Développement" meeting="false" start="2024-03-12" duration="21" complete="0" expand="true">
+            <task id="9" uid="46ea6305d2b04ae2bc814fe465b111c5" name="Classe bomberman" meeting="false" start="2024-03-12" duration="21" complete="0" expand="true"/>
+            <task id="10" uid="a7b34fb60b4f4fe6b355543a3706b61a" name="Classe Game" meeting="false" start="2024-03-12" duration="21" complete="0" expand="true"/>
+            <task id="11" uid="ff4c1fd4225141e8a8a8abc407c7b852" name="Classe Carte" meeting="false" start="2024-03-12" duration="21" complete="0" expand="true"/>
+            <task id="15" uid="df30a701a0074cafa2421ae3b57fbedd" name="Classe Bombe" meeting="false" start="2024-03-12" duration="21" complete="0" expand="true"/>
+            <task id="16" uid="309564913f154a0eb976e73ab18c8b55" name="Classe Joueur" meeting="false" start="2024-03-12" duration="21" complete="0" expand="true"/>
+        </task>
+        <task id="13" uid="e2814c5717414bf6bcd5323a10a4c9cd" name="Peaufinage/Amélioration" meeting="false" start="2024-05-07" duration="5" complete="0" expand="true"/>
+        <task id="12" uid="f9ef373ca12d4f23b419926de35fa3ca" name="Préparation orale" meeting="false" start="2024-05-14" duration="5" complete="0" expand="true"/>
+        <task id="1" uid="21742d6b40f946e5830a9e80d1744b7a" name="Fin de projet" color="#ff3300" meeting="true" start="2024-05-21" duration="0" complete="0" expand="true"/>
+    </tasks>
+    <resources>
+        <resource id="0" name="Davidson" function="Default:0" contacts="" phone=""/>
+        <resource id="1" name="Emilie" function="Default:0" contacts="" phone=""/>
+        <resource id="2" name="Hussein" function="Default:0" contacts="" phone=""/>
+    </resources>
+    <allocations>
+        <allocation task-id="2" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="5" resource-id="0" function="Default:0" responsible="false" load="40.0"/>
+        <allocation task-id="18" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="17" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="4" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="7" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="2" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="5" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="4" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="7" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="2" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="5" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="4" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="7" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
+    </allocations>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+</project>
