@@ -30,15 +30,16 @@ public class Partie {
 
     // Déclaration des méthodes
     /**
-     * Garde les points des 2 joueurs, reset le temps et génère une nouvelle carte
+     * Garde les score des 2 joueurs, reset le temps et génère une nouvelle carte
      */
     public void nouvellePartie() {
     }
 
     /**
-     * Génère la carte avec la taille
+     * Génère une nouvelle carte avec la taille
      */
     public void genererNouvelleCarte() {
+        carte = new Carte(longueurCarte, hauteurCarte);
     }
 
 }
