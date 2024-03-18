@@ -7,14 +7,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
-
 import java.awt.Font;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JCheckBox;
 import java.awt.event.ActionEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
+
 import javax.swing.BoxLayout;
 
 public class ParametresView {
