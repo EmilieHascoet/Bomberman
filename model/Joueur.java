@@ -29,7 +29,7 @@ public class Joueur {
 
     // Déclarations des associations
     public Partie partie;
-    public Contrôle contrôle;
+    public Touche contrôle;
     
     // Déclarations des méthodes
     /**

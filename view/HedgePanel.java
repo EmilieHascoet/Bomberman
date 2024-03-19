@@ -3,7 +3,7 @@ package view;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.MediaTracker;
+import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -15,11 +15,16 @@ class HedgePanel extends JPanel {
 
     public HedgePanel() {
         ClassLoader classLoader = getClass().getClassLoader();
-        ImageIcon icon = new ImageIcon(classLoader.getResource("Images/hedge.png"));
-        imageWidth = 30; // Largeur souhaitée
-        imageHeight = 30; // Hauteur souhaitée
-        hedgeImage = icon.getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
-        setPreferredSize(new Dimension(imageWidth, imageHeight));
+        URL imageUrl = classLoader.getResource("Images/hedge.png");
+        if (imageUrl != null) {
+            ImageIcon icon = new ImageIcon(imageUrl);
+            imageWidth = 30; // Largeur souhaitée
+            imageHeight = 30; // Hauteur souhaitée
+            hedgeImage = icon.getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+            setPreferredSize(new Dimension(imageWidth, imageHeight));
+        } else {
+            System.err.println("Image not found");
+        }
     }
 
     @Override
