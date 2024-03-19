@@ -29,13 +29,15 @@ public class Bomberman {
     }
 
     public void setParametres(Set<String> listBonus, int nbVie, int nbBombeInit, int boardWidth, int boardHeight) {
+        //Ajout des paramètres pour la partie (définis par l'utilisateur dans l'écran)
         parametres = new Parametres(listBonus, nbVie, nbBombeInit, boardWidth, boardHeight);
     }
     /**
      * Prend les paramètres entrés par le joueur et créer une nouvelle partie
      */
-    public void nouvellePartie(Set<String> listBonus, int nbVie, int nbBombeInit, int boardWidth, int boardHeight) {
-        partie = new Partie(listBonus, nbVie, nbBombeInit, boardWidth, boardHeight);
+    public void nouvellePartie(Parametres parametres) {
+        // Créer une nouvelle partie avec les paramètres entrés dans setParametres
+        partie = new Partie(parametres);
     }
 
 }
