@@ -1,7 +1,7 @@
 package view;
 
 import java.awt.*;
-import java.lang.ModuleLayer.Controller;
+import java.net.URL;
 
 import javax.swing.*;
 
@@ -16,6 +16,11 @@ public class AccueilPanel extends JPanel {
         this.frame = frame;
         setLayout(new BorderLayout());
 
+        Color backgroundColor = new Color(203, 239, 195);
+        Color complementColor = new Color(231, 195, 239);
+
+        // ajout de la couleur de fond
+        this.setBackground(backgroundColor);
 
         ///////////////// PANEL DU HAUT ///////////////////
         JPanel topPanel = new JPanel();
@@ -42,15 +47,31 @@ public class AccueilPanel extends JPanel {
         //explanation.setAlignmentX(Component.CENTER_ALIGNMENT);
         //topPanel.add(explanation);
 
-        // Ajout du panel du haut au panel principal
-        this.add(topPanel, BorderLayout.NORTH);
+        /////////////// Panel du centre ///////////////
+
+        //Affichage du labyrinthe au centre
+        JPanel centerPanel = new JPanel();
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL imageUrl = classLoader.getResource("Images/labyrinthe.png");
+        if (imageUrl != null) {
+            ImageIcon icon = new ImageIcon(imageUrl);
+            int imageWidth = 30; // Largeur souhaitée
+            int imageHeight = 30; // Hauteur souhaitée
+            Image img = icon.getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
+            ImageIcon resizedIcon = new ImageIcon(img);
+            JButton button = new JButton(resizedIcon);
+            centerPanel.add(button);
+        } else {
+            System.err.println("Image not found Labyrinthe");
+        }
+
 
         ///////////////// PANEL DE GAUCHE ///////////////////
         
         // Boutons de configuration pour les joueurs
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new GridLayout(6,2));
-
+        
 
         // Les 5 controles du joueur 1
         JLabel player1Settings = new JLabel("Controles du joueur 1");
@@ -84,8 +105,6 @@ public class AccueilPanel extends JPanel {
         leftPanel.add(player1BombeLabel);
         leftPanel.add(player1BombeButton);
 
-        // Ajout du panel de gauche au panel principal
-        this.add(leftPanel, BorderLayout.WEST);
 
         ///////////////// PANEL DE DROITE ///////////////////
         
@@ -125,18 +144,30 @@ public class AccueilPanel extends JPanel {
         rightPanel.add(player2BombeLabel);
         rightPanel.add(player2BombeButton);
 
-        // Ajout du panel de droite au panel principal
-        this.add(rightPanel, BorderLayout.EAST);
 
         ////////////////// PANEL DU BAS ///////////////////
 
         JButton playButton = new JButton("Nouvelle Partie");
         AccueilController ctrPlay = new AccueilController();
         playButton.addActionListener(ctrPlay);
+
+
+        /////////////// Ajout des panels au panel principal ///////////////
+
+        this.add(topPanel, BorderLayout.NORTH);
+        this.add(centerPanel, BorderLayout.CENTER);
+        this.add(leftPanel, BorderLayout.WEST);
+        this.add(rightPanel, BorderLayout.EAST);
         this.add(playButton, BorderLayout.SOUTH);
 
         // Afficher la fenêtre
         setVisible(true);
+
+        // Ajout de la couleur de fond pour tous les panels
+        this.setBackground(backgroundColor);
+        topPanel.setBackground(backgroundColor);
+        centerPanel.setBackground(backgroundColor);
+        leftPanel.setBackground(backgroundColor);
+        rightPanel.setBackground(backgroundColor);
     }
-    
 }

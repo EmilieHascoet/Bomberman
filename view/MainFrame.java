@@ -31,6 +31,7 @@ public class MainFrame extends JFrame {
     public static void main(String[] args) {
         // Exécution de l'interface graphique dans le thread de distribution des événements
         SwingUtilities.invokeLater(() -> {
+            
             MainFrame frame = new MainFrame();
             frame.setVisible(true);
         });
