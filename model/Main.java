@@ -1,3 +1,4 @@
+package model;
 import java.text.ParseException;
 
 import javax.swing.JFrame;
