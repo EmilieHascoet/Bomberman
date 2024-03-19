@@ -1,4 +1,6 @@
 package model;
+
+import java.util.Set;
 /**
  * 
  */
@@ -35,7 +37,7 @@ public class Bomberman {
         bonus[0] = new Bonus(true, 1, 1, false, false, "Boum");
         bonus[1] = new Bonus(true, 1, 1, false, true, "Boum");
         bonus[2] = new Bonus(true, 1, 1, false, false, "Boum");
-        Settings settings = new Settings(10, 10, 2, 2, 2, bonus);
+        Bomberman settings = new Bomberman(10, 10, 2, 2, 2, bonus);
     
         System.out.println("Voici les paramètres de la partie : " +
             "Taille du plateau : " + settings.boardWidth + "x" + settings.boardHeight + " " +

@@ -1,4 +1,4 @@
-
+package model;
 import java.util.*;
 
 /**
@@ -10,7 +10,7 @@ public class Partie {
      * Default constructor
      * Paramètres pour la partie, définis par l'utilisateur dans l'écran
      */
-    public void Partie(Set<String> listBonus, int nbVie, int nbBombeInit, int hauteurCarte, int longueurCarte, String j1Haut, String j1Bas, String j1Gauche, String j1Droite, String j2Haut, String j2Bas, String j2Gauche, String j2Droite, String j1Bombe, String j2Bombe) {
+    public Partie(Set<String> listBonus, int nbVie, int nbBombeInit, int hauteurCarte, int longueurCarte, String j1Haut, String j1Bas, String j1Gauche, String j1Droite, String j2Haut, String j2Bas, String j2Gauche, String j2Droite, String j1Bombe, String j2Bombe) {
         // Créer 2 joueurs avec les paramètres + génère la carte (créer une carte)
         this.listBonus = listBonus;
         this.hauteurCarte = hauteurCarte;
