@@ -4,9 +4,12 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import java.util.HashSet;
+import java.util.Arrays;
 
 import model.Bomberman;
 import model.Touche;
+
 
 public class MainFrame extends JFrame {
     MainFrame() {
