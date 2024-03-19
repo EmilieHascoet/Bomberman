@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import model.Bomberman;
+
 public class MainFrame extends JFrame {
     MainFrame() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,7 +35,7 @@ public class MainFrame extends JFrame {
     public static void main(String[] args) {
         // Exécution de l'interface graphique dans le thread de distribution des événements
         SwingUtilities.invokeLater(() -> {
-            
+            Bomberman bomberman = new Bomberman();
             MainFrame frame = new MainFrame();
             frame.setVisible(true);
         });
