@@ -45,7 +45,7 @@ public class Partie {
      * Génère une nouvelle carte avec la taille
      */
     public void genererNouvelleCarte() {
-        carte = new Carte(, boardHeight);
+        carte = new Carte(parametres.carteLongueur, parametres.carteHauteur);
     }
 
 }
