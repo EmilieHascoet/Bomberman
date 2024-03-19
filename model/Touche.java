@@ -2,16 +2,17 @@ package model;
 /**
  * 
  */
-public class Contrôle {
+public class Touche {
 
     /**
      * Default constructor
      */
-    public Contrôle(String haut, String bas, String droite, String gauche) {
+    public Touche(String haut, String bas, String droite, String gauche, String bombe) {
         this.haut = haut;
         this.bas = bas;
         this.droite = droite;
         this.gauche = gauche;
+        this.bombe = bombe;
     }
 
     // Déclarations des attributs
@@ -19,6 +20,7 @@ public class Contrôle {
     public String bas;
     public String droite;
     public String gauche;
+    public String bombe;
 
     // Déclarations des associations
     Joueur joueur;
