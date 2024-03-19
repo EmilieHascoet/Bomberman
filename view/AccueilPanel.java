@@ -28,9 +28,14 @@ public class AccueilPanel extends JPanel {
         topPanel.add(title);
 
         // Utilisation de HedgePanel pour créer une haie sous le titre
-        HedgePanel hedge = new HedgePanel();
-        hedge.setAlignmentX(Component.CENTER_ALIGNMENT);
-        topPanel.add(hedge);
+        JPanel hedgePanel = new JPanel();
+        hedgePanel.setLayout(new BoxLayout(hedgePanel, BoxLayout.X_AXIS));
+        for (int i = 0; i < 10; i++) {
+            HedgePanel hedge = new HedgePanel();
+            //hedge.setAlignmentX(Component.CENTER_ALIGNMENT);
+            hedgePanel.add(hedge);
+        }
+        topPanel.add(hedgePanel);
 
         // Explication du jeu
         //JLabel explanation = new JLabel("<html>Navigate the maze, place bombs to clear paths, and outsmart your opponent.<br>May the cleverest explorer win!</html>");
@@ -52,16 +57,16 @@ public class AccueilPanel extends JPanel {
         JLabel player1Icon = new JLabel("Icone du joueur 1");
 
         JLabel player1HautLabel = new JLabel("Aller en haut");
-        JButton player1HautButton = new JButton("⬆️");
+        JButton player1HautButton = new JButton("Fleche Haut");
 
         JLabel player1BasLabel = new JLabel("Aller en bas");
-        JButton player1BasButton = new JButton("⬇️");
+        JButton player1BasButton = new JButton("Fleche bas");
 
         JLabel player1GaucheLabel = new JLabel("Aller à gauche");
-        JButton player1GaucheButton = new JButton("⬅️");
+        JButton player1GaucheButton = new JButton("Fleche gauche");
 
         JLabel player1DroiteLabel = new JLabel("Aller à droite");
-        JButton player1DroiteButton = new JButton("➡️");
+        JButton player1DroiteButton = new JButton("Fleche droite");
 
         JLabel player1BombeLabel = new JLabel("Placer une bombe");
         JButton player1BombeButton = new JButton("Right Shift");
@@ -93,19 +98,19 @@ public class AccueilPanel extends JPanel {
         JLabel player2Icon = new JLabel("Icone du joueur 2");
 
         JLabel player2HautLabel = new JLabel("Aller en haut");
-        JButton player2HautButton = new JButton("⬆️");
+        JButton player2HautButton = new JButton("z");
 
         JLabel player2BasLabel = new JLabel("Aller en bas");
-        JButton player2BasButton = new JButton("⬇️");
+        JButton player2BasButton = new JButton("s");
 
         JLabel player2GaucheLabel = new JLabel("Aller à gauche");
-        JButton player2GaucheButton = new JButton("⬅️");
+        JButton player2GaucheButton = new JButton("q");
 
         JLabel player2DroiteLabel = new JLabel("Aller à droite");
-        JButton player2DroiteButton = new JButton("➡️");
+        JButton player2DroiteButton = new JButton("d");
 
         JLabel player2BombeLabel = new JLabel("Placer une bombe");
-        JButton player2BombeButton = new JButton("Enter");
+        JButton player2BombeButton = new JButton("Espace");
 
         rightPanel.add(player2Settings);
         rightPanel.add(player2Icon);

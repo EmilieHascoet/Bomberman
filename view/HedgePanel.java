@@ -14,9 +14,10 @@ class HedgePanel extends JPanel {
     private int imageHeight;
 
     public HedgePanel() {
-        ImageIcon icon = new ImageIcon("/Users/emilie/Documents/L3_MIAGE/JAVA/Bomberman/Images/Haie3.png");
-        imageWidth = 300; // Largeur souhaitée
-        imageHeight = 40; // Hauteur souhaitée
+        ClassLoader classLoader = getClass().getClassLoader();
+        ImageIcon icon = new ImageIcon(classLoader.getResource("Images/hedge.png"));
+        imageWidth = 30; // Largeur souhaitée
+        imageHeight = 30; // Hauteur souhaitée
         hedgeImage = icon.getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
         setPreferredSize(new Dimension(imageWidth, imageHeight));
     }
