@@ -10,7 +10,9 @@ public class MainFrame extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Bomberman");
         this.pack();
-        this.setSize(800,500);
+        // set size full sreen
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //this.setSize(800,500);
         this.setResizable(false);
         this.setLocationRelativeTo (null);
         this.setVisible(true);
