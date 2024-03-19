@@ -12,25 +12,27 @@ public class Partie {
      */
     public Partie(Set<String> listBonus, int nbVieInit, int nbBombeInit, int boardWidth, int boardHeight) {
         // Créer 2 joueurs avec les paramètres + génère la carte (créer une carte)
-        this.listBonus = listBonus;
+        /*this.listBonus = listBonus;
         this.nbVieInit = nbVieInit;
         this.nbBombeInit = nbBombeInit;
         this.boardWidth = boardWidth;
-        this.boardHeight = boardHeight;
+        this.boardHeight = boardHeight;*/
+        paramètres = new Paramètres(listBonus, nbVieInit, nbBombeInit, boardWidth, boardHeight);
         genererNouvelleCarte();
     }
 
     // Déclarations des attributs
     public Integer temps = 0;
-    public Set<String> listBonus;
+    /*public Set<String> listBonus;
     public int boardWidth;
     public int boardHeight;
     public int nbVieInit;
-    public int nbBombeInit;
+    public int nbBombeInit;*/
 
     // Déclarations des associations
-    List<Joueur> joueurs;
+    public List<Joueur> joueurs;
     public Carte carte;
+    public Paramètres paramètres;
 
     // Déclaration des méthodes
     /**
@@ -43,7 +45,7 @@ public class Partie {
      * Génère une nouvelle carte avec la taille
      */
     public void genererNouvelleCarte() {
-        carte = new Carte(boardWidth, boardHeight);
+        carte = new Carte(, boardHeight);
     }
 
 }

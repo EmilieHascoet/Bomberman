@@ -38,6 +38,5 @@ public class Carte {
 
     // Déclarations des attributs
     public Case[][] map;
-
 }
 
