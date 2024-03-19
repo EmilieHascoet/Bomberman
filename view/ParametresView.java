@@ -1,6 +1,5 @@
 package view;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.Color;
@@ -15,15 +14,11 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.BoxLayout;
 
-public class ParametresView {
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(900, 600);
-
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(null); // We'll manually position the squarePanel
-        mainPanel.setBackground(Color.red);
+public class ParametresView extends JPanel{
+    private MainFrame frame;
+    public ParametresView(MainFrame frame){
+        this.frame = frame;
+        setLayout(new BorderLayout());        
 
         JPanel squarePanel = new JPanel() {
             public void paintComponent(Graphics g) {
@@ -32,7 +27,6 @@ public class ParametresView {
                 g.fillRect(0, 0, getWidth(), getHeight()); // Fill the entire panel
             }
         };
-        squarePanel.setBounds(350, 250, 400, 300); // Position the panel in the center of the mainPanel
         squarePanel.setLayout(new BorderLayout(1, 2)); // So we can add components to it
 
         JPanel leftSide = new JPanel() {
@@ -52,7 +46,7 @@ public class ParametresView {
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 g.setColor(Color.green);
-                g.fillRect(0, 0, getWidth(), getHeight()); // Fill the entire panel
+                g.fillRect(0, 0, this.getWidth(), this.getHeight()); // Fill the entire panel
             }
         }; 
 
@@ -106,10 +100,9 @@ public class ParametresView {
 
         squarePanel.add(bottomButtons, BorderLayout.SOUTH);
 
-        mainPanel.add(squarePanel);
+        this.add(squarePanel);
 
-        frame.add(mainPanel);
-        frame.setVisible(true);
-
+        frame.add(this); // Add the mainPanel to the frame
+        frame.setVisible(true); // Make the frame visible
     }
 }
