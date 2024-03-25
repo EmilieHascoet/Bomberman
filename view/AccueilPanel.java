@@ -7,7 +7,7 @@ import javax.swing.*;
 
 import controller.AccueilController;
 
-public class AccueilPanel extends JPanel {
+public class AccueilPanel extends JDesktopPane {
     //JLabel logo = new JLabel(new ImageIcon("../Images/Blossom-Battles.jpg"));
 
     private MainFrame frame;
@@ -33,11 +33,10 @@ public class AccueilPanel extends JPanel {
         topPanel.add(title);
 
         // Utilisation de HedgePanel pour créer une haie sous le titre
-        JPanel hedgePanel = new JPanel();
-        hedgePanel.setLayout(new BoxLayout(hedgePanel, BoxLayout.X_AXIS));
+        JPanel hedgePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        hedgePanel.setBackground(backgroundColor);
         for (int i = 0; i < 10; i++) {
             HedgePanel hedge = new HedgePanel();
-            //hedge.setAlignmentX(Component.CENTER_ALIGNMENT);
             hedgePanel.add(hedge);
         }
         topPanel.add(hedgePanel);

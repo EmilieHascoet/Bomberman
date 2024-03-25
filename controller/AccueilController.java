@@ -10,4 +10,12 @@ public class AccueilController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         // TODO implement here
     }
+
+    public void boutonPlay() {
+        // TODO implement here
+    }
+
+    public void boutonTouche() {
+        // TODO implement here
+    }
 }
