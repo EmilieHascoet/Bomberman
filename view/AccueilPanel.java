@@ -7,7 +7,10 @@ import javax.swing.*;
 
 import controller.AccueilController;
 
-public class AccueilPanel extends JDesktopPane {
+
+import java.awt.event.*;
+
+public class AccueilPanel extends JPanel {
     //JLabel logo = new JLabel(new ImageIcon("../Images/Blossom-Battles.jpg"));
 
     private MainFrame frame;
@@ -91,6 +94,29 @@ public class AccueilPanel extends JDesktopPane {
         JLabel player1BombeLabel = new JLabel("Placer une bombe");
         JButton player1BombeButton = new JButton("Right Shift");
 
+        AccueilController ctr = new AccueilController("1", "Fleche Haut", "Haut", player1HautButton);
+        player1HautButton.addActionListener(ctr);
+
+        /*player1BasButton.addActionListener(e -> {
+            ChangerTouchePanel changerTouchePanel = new ChangerTouchePanel(1, "bas");
+            changerTouchePanel.setVisible(true);
+        });
+
+        player1GaucheButton.addActionListener(e -> {
+            ChangerTouchePanel changerTouchePanel = new ChangerTouchePanel(1, "gauche");
+            changerTouchePanel.setVisible(true);
+        });
+
+        player1DroiteButton.addActionListener(e -> {
+            ChangerTouchePanel changerTouchePanel = new ChangerTouchePanel(1, "droite");
+            changerTouchePanel.setVisible(true);
+        });
+
+        player1BombeButton.addActionListener(e -> {
+            ChangerTouchePanel changerTouchePanel = new ChangerTouchePanel(1, "bombe");
+            changerTouchePanel.setVisible(true);
+        });*/
+
         leftPanel.add(player1Settings);
         leftPanel.add(player1Icon);
         leftPanel.add(player1HautLabel);
@@ -147,9 +173,12 @@ public class AccueilPanel extends JDesktopPane {
         ////////////////// PANEL DU BAS ///////////////////
 
         JButton playButton = new JButton("Nouvelle Partie");
-        AccueilController ctrPlay = new AccueilController();
+        AccueilController ctrPlay = new AccueilController("boutonPlayPressed");
         playButton.addActionListener(ctrPlay);
 
+        JButton optionsButton = new JButton("Options");
+        AccueilController ctrOptions = new AccueilController("boutonOptionsPressed");
+        optionsButton.addActionListener(ctrOptions);
 
         /////////////// Ajout des panels au panel principal ///////////////
 
