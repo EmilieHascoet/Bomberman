@@ -3,106 +3,145 @@ package view;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.event.ActionListener;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Font;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JCheckBox;
-import java.awt.event.ActionEvent;
-
+import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
-public class ParametresView extends JPanel{
+import controller.RetourController;
+
+import java.awt.Insets;
+
+public class ParametresView extends JPanel {
     private MainFrame frame;
-    public ParametresView(MainFrame frame){
+    private JPanel rightPanel;
+    private CardLayout cardLayout;
+
+    public ParametresView(MainFrame frame) {
         this.frame = frame;
-        setLayout(new BorderLayout());        
+        setLayout(new GridBagLayout());
+        setBackground(Color.white);
 
-        JPanel squarePanel = new JPanel() {
-            public void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.setColor(Color.blue);
-                g.fillRect(0, 0, getWidth(), getHeight()); // Fill the entire panel
-            }
-        };
-        squarePanel.setLayout(new BorderLayout(1, 2)); // So we can add components to it
+        JPanel squarePanel = new JPanel();
+        squarePanel.setLayout(new GridLayout(1, 2));
+        squarePanel.setBackground(new Color(240, 240, 240));
 
-        JPanel leftSide = new JPanel() {
-            DefaultListModel<String> listModel = new DefaultListModel<>();
-            JList<String> list = new JList<>(listModel);
-            {
-                listModel.addElement("Item 1");
-                listModel.addElement("Item 2");
-                listModel.addElement("Item 3");
-                
-                list.setFont(new Font("Arial", Font.PLAIN, 20));
-                list.setForeground(Color.white);
-                list.setBackground(Color.green);
-                add(list);
-            }
+        // Left side containing labels
+        JPanel leftPanel = new JPanel();
+        leftPanel.setBackground(Color.white);
+        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+        leftPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-            public void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.setColor(Color.green);
-                g.fillRect(0, 0, this.getWidth(), this.getHeight()); // Fill the entire panel
-            }
-        }; 
+        // Label panel with titled border
+        JPanel labelPanel = new JPanel(new BorderLayout());
+        labelPanel.setBorder(BorderFactory.createTitledBorder("Settings"));
+        labelPanel.setBackground(Color.white);
 
-            JCheckBox checkbox1 = new JCheckBox("Option 1");
-            
-            JCheckBox checkbox2 = new JCheckBox("Option 2");
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        JList<String> list = new JList<>(listModel);
+        listModel.addElement("Label 1");
+        listModel.addElement("Label 2");
+        listModel.addElement("Label 3");
+        list.setFont(new Font("Arial", Font.PLAIN, 16));
+        list.setForeground(Color.black);
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Allow only single selection
 
-            JCheckBox checkbox3 = new JCheckBox("Option 3");
-         
-            JCheckBox[] list = new JCheckBox[3];
-            list[0] = checkbox1;
-            list[1] = checkbox2;
-            list[2] = checkbox3;
-        JPanel rightSide = new JPanel() {
-            {   
-                setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-                add(list[0]);
-                add(list[1]);
-                add(list[2]);
-            }
+        // Add a JScrollPane to the list
+        JScrollPane scrollPane = new JScrollPane(list);
+        labelPanel.add(scrollPane);
 
-            public void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.setColor(Color.yellow);
-                g.fillRect(0, 0, getWidth(), getHeight()); // Fill the entire panel
-            }
-        };
+        // Add the label panel to leftPanel
+        leftPanel.add(labelPanel);
 
-        squarePanel.add(leftSide, BorderLayout.WEST);
-        squarePanel.add(rightSide, BorderLayout.EAST);
-
-        JPanel bottomButtons = new JPanel();
-        bottomButtons.setLayout(new BorderLayout());
-        JButton retour = new JButton("Retour");
-        retour.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Retour button clicked");
-                for (JCheckBox elem : list) {
-                    if (elem.isSelected()) {
-                        System.out.println(elem.getText());
-                    
-                    }
+        // Add action listener to the list selection
+        list.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    String selectedLabel = list.getSelectedValue();
+                    cardLayout.show(rightPanel, selectedLabel);
                 }
-                frame.dispose();
             }
         });
 
-        bottomButtons.add(retour);
+        // Add the leftPanel to the squarePanel
+        squarePanel.add(leftPanel);
 
-        // Add some elements to the squarePanel
+        // Right side containing checkboxes using CardLayout
+        rightPanel = new JPanel();
+        cardLayout = new CardLayout();
+        rightPanel.setLayout(cardLayout);
+        rightPanel.setBackground(Color.white);
 
-        squarePanel.add(bottomButtons, BorderLayout.SOUTH);
+        // Create different sets of checkboxes for each label
+        createCheckBoxes("Label 1", rightPanel);
+        createCheckBoxes("Label 2", rightPanel);
+        createCheckBoxes("Label 3", rightPanel);
 
-        this.add(squarePanel);
+        // Add the rightPanel to the squarePanel
+        squarePanel.add(rightPanel);
 
-        frame.add(this); // Add the mainPanel to the frame
-        frame.setVisible(true); // Make the frame visible
+        // Bottom panel with a button
+        JButton retour = new JButton("Retour");
+        retour.addActionListener(new RetourController(retour, this.frame));
+        retour.setFont(new Font("Arial", Font.BOLD, 16));
+        retour.setForeground(Color.white);
+        retour.setBackground(new Color(51, 153, 255));
+
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setBackground(Color.white);
+        bottomPanel.add(retour);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(50, 50, 50, 50);
+        add(squarePanel, gbc);
+
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        add(bottomPanel, gbc);
+    }
+
+    // Method to create checkboxes for a specific label
+    private void createCheckBoxes(String label, JPanel parentPanel) {
+        JPanel checkBoxPanel = new JPanel();
+        checkBoxPanel.setBackground(Color.white);
+        checkBoxPanel.setLayout(new BoxLayout(checkBoxPanel, BoxLayout.Y_AXIS));
+
+        JCheckBox checkbox1 = new JCheckBox(label + " Option 1");
+        JCheckBox checkbox2 = new JCheckBox(label + " Option 2");
+        JCheckBox checkbox3 = new JCheckBox(label + " Option 3");
+        // Style checkboxes
+        checkbox1.setFont(new Font("Arial", Font.PLAIN, 14));
+        checkbox2.setFont(new Font("Arial", Font.PLAIN, 14));
+        checkbox3.setFont(new Font("Arial", Font.PLAIN, 14));
+        checkBoxPanel.add(checkbox1);
+        checkBoxPanel.add(checkbox2);
+        checkBoxPanel.add(checkbox3);
+
+        parentPanel.add(checkBoxPanel, label);
     }
 }
