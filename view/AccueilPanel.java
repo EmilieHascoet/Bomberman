@@ -6,17 +6,17 @@ import java.net.URL;
 import javax.swing.*;
 
 import controller.AccueilController;
-
-
-import java.awt.event.*;
+import model.Bomberman;
 
 public class AccueilPanel extends JPanel {
     //JLabel logo = new JLabel(new ImageIcon("../Images/Blossom-Battles.jpg"));
 
     private MainFrame frame;
+    private Bomberman bomberman;
 
-    public AccueilPanel(MainFrame frame) {
+    public AccueilPanel(MainFrame frame, Bomberman bomberman) {
         this.frame = frame;
+        this.bomberman = bomberman;
         setLayout(new BorderLayout());
 
         Color backgroundColor = new Color(203, 239, 195);
@@ -94,7 +94,7 @@ public class AccueilPanel extends JPanel {
         JLabel player1BombeLabel = new JLabel("Placer une bombe");
         JButton player1BombeButton = new JButton("Right Shift");
 
-        AccueilController ctr = new AccueilController("1", "Fleche Haut", "Haut", player1HautButton);
+        AccueilController ctr = new AccueilController("1", player1HautButton.getText(), "Haut", player1HautButton);
         player1HautButton.addActionListener(ctr);
 
         /*player1BasButton.addActionListener(e -> {

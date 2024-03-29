@@ -12,7 +12,9 @@ import model.Touche;
 
 
 public class MainFrame extends JFrame {
-    MainFrame() {
+    Bomberman bomberman;
+
+    MainFrame(Bomberman bomberman) {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Bomberman");
         this.pack();
@@ -28,7 +30,7 @@ public class MainFrame extends JFrame {
 
     private void initUI() {
         // Initialise avec le panneau de démarrage
-        setContentPane(new AccueilPanel(this));
+        setContentPane(new AccueilPanel(this, bomberman));
     }
 
     public void changePanel(JPanel panel) {
@@ -47,7 +49,7 @@ public class MainFrame extends JFrame {
                 bomberman.setTouche(2, "z", "s", "d", "q", "Espace");
                 bomberman.setParametres(new HashSet<String>(Arrays.asList("Bombe", "Vie", "Vitesse", "Portée")), 3, 3, 15, 15);
 
-                MainFrame frame = new MainFrame();
+                MainFrame frame = new MainFrame(bomberman);
                 frame.setVisible(true);
             }
         });

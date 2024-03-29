@@ -31,15 +31,19 @@ public class Bomberman {
         if (num > listeTouche.size()) {
             listeTouche.add(new Touche(haut, bas, droite, gauche, bombe));
         } else {
-            listeTouche.get(num - 1).setTouches(haut, bas, droite, gauche, bombe);
+            listeTouche.get(num - 1).setHaut(haut);
+            listeTouche.get(num - 1).setBas(bas);
+            listeTouche.get(num - 1).setDroite(droite);
+            listeTouche.get(num - 1).setGauche(gauche);
+            listeTouche.get(num - 1).setBombe(bombe);
         }
     }
 
     public void setParametres(Set<String> listBonus, int nbVie, int nbBombeInit, int boardWidth, int boardHeight) {
         // Ajout des paramètres pour la partie (définis par l'utilisateur dans l'écran) new 
-        if(parametres == null){
+        if (parametres == null){
             parametres = new Parametres(listBonus, nbVie, nbBombeInit, boardWidth, boardHeight, 1);
-        }else{
+        } else{
             parametres.setListBonus(listBonus);
             parametres.setNbVie(nbVie);
             parametres.setNbBombeInit(nbBombeInit);
@@ -51,9 +55,9 @@ public class Bomberman {
     /**
      * Prend les paramètres entrés par le joueur et créer une nouvelle partie
      */
-    public void nouvellePartie(List<String> nomJoueur) {
+    public void nouvellePartie(Parametres parametresPartie) {
         // Créer une nouvelle partie avec les paramètres entrés dans setParametres
-        partie = new Partie(parametres, listeTouche, nomJoueur);
+        partie = new Partie(parametresPartie, listeTouche, nomJoueurs);
     }
 
 }

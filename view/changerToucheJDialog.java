@@ -1,12 +1,14 @@
 package view;
 
 import javax.swing.*;
+
+import controller.AccueilController;
+import model.Touche;
+
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.awt.event.*;
-
-
 
 public class changerToucheJDialog extends JDialog {
 
@@ -26,30 +28,8 @@ public class changerToucheJDialog extends JDialog {
 
         // Create a text field for the user input
         textField = new JTextField(ancienneTouche);
+        textField.setEditable(false);
         add(textField, BorderLayout.CENTER);
-
-        // Créez la map pour la correspondance des touches
-        Map<Integer, String> keyMap = new HashMap<>();
-        keyMap.put(KeyEvent.VK_SHIFT, "Shift");
-        keyMap.put(KeyEvent.VK_CONTROL, "Ctrl");
-        keyMap.put(KeyEvent.VK_ALT, "Alt");
-        keyMap.put(KeyEvent.VK_META, "Pomme");
-        keyMap.put(KeyEvent.VK_SPACE, "Espace");
-        keyMap.put(KeyEvent.VK_ENTER, "Entrée");
-        keyMap.put(KeyEvent.VK_BACK_SPACE, "Retour arrière");
-        keyMap.put(KeyEvent.VK_DELETE, "Supprimer");
-        keyMap.put(KeyEvent.VK_UP, "Flèche du haut");
-        keyMap.put(KeyEvent.VK_DOWN, "Flèche du bas");
-        keyMap.put(KeyEvent.VK_LEFT, "Flèche de gauche");
-        keyMap.put(KeyEvent.VK_RIGHT, "Flèche de droite");
-        keyMap.put(KeyEvent.VK_TAB, "Tabulation");
-        keyMap.put(KeyEvent.VK_ESCAPE, "Esc");
-        keyMap.put(KeyEvent.VK_CAPS_LOCK, "MAJ");
-        keyMap.put(KeyEvent.VK_NUM_LOCK, "Verr num");
-        keyMap.put(KeyEvent.VK_SCROLL_LOCK, "Verrouillage du défilement");
-        for (int i = 1; i <= 12; i++) {
-            keyMap.put(KeyEvent.VK_F1 + i - 1, "F" + i);
-        }
         
         // Ajoutez un écouteur d'événements pour intercepter les touches
         Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
@@ -58,18 +38,22 @@ public class changerToucheJDialog extends JDialog {
                 KeyEvent ke = (KeyEvent) event;
                 if (ke.getID() == KeyEvent.KEY_PRESSED && ke.getSource() == textField) {
                     int keyCode = ke.getKeyCode();
-                    String keyName = keyMap.get(keyCode);
-                    if (keyName != null) {
-                        // Affichez le nom de la touche dans le JTextField
-                        textField.setText(keyName);
-                        // Consommez l'événement pour annuler l'action par défaut
-                        ke.consume();
-                    } else {
-                        // Vider le JTextField si la touche n'est pas mappée
-                        textField.setText("");
+                    String chosenKey = Touche.keyMap.get(keyCode);
+                    if (chosenKey == null) {
+                        chosenKey = KeyEvent.getKeyText(keyCode);
                     }
-                    String chosenKey = textField.getText();
+                    // Consommez l'événement pour annuler l'action par défaut
+                    ke.consume();
                     boutonChooseTouche.setText(chosenKey); // Change the text of the button
+
+                    // Remove all action listeners from the button
+                    for (ActionListener al : boutonChooseTouche.getActionListeners()) {
+                        boutonChooseTouche.removeActionListener(al);
+                    }
+
+                    // Ajout du nouveau controller
+                    AccueilController ctr = new AccueilController("1", chosenKey, "Haut", boutonChooseTouche);
+                    boutonChooseTouche.addActionListener(ctr);
                     dispose(); // Close the dialog
                 }
             }
@@ -81,5 +65,7 @@ public class changerToucheJDialog extends JDialog {
         this.setSize(500, 80);
         this.setLocationRelativeTo(null); // Centre la fenêtre sur l'écran
         this.setVisible(true);
+
+        
     }
 }

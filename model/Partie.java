@@ -5,7 +5,6 @@ import java.util.*;
  * 
  */
 public class Partie {
-    public Parametres param;
     /**
      * Default constructor
      * Paramètres pour la partie, définis par l'utilisateur dans l'écran
@@ -28,11 +27,11 @@ public class Partie {
     // Déclarations des associations
     public List<Joueur> joueurs;
     public Carte carte;
-    public Parametres paramètres;
+    public Parametres param;
 
     // Déclaration des méthodes
     /**
-     * Garde les score des 2 joueurs, reset le temps et génère une nouvelle carte
+     * Garde les scores des 2 joueurs, reset le temps et génère une nouvelle carte
      */
     public void nouvellePartie() {
     }

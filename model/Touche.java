@@ -1,4 +1,9 @@
 package model;
+
+import java.awt.event.KeyEvent;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 
  */
@@ -16,11 +21,11 @@ public class Touche {
     }
 
     // Déclarations des attributs
-    public String haut;
-    public String bas;
-    public String droite;
-    public String gauche;
-    public String bombe;
+    private String haut;
+    private String bas;
+    private String droite;
+    private String gauche;
+    private String bombe;
 
     // Déclarations des associations
     Joueur joueur;
@@ -30,11 +35,49 @@ public class Touche {
         this.joueur = j;
     }
 
-    public void setTouches(String haut, String bas, String droite, String gauche, String bombe) {
+    public void setHaut(String haut) {
         this.haut = haut;
+    }
+
+    public void setBas(String bas) {
         this.bas = bas;
+    }
+
+    public void setDroite(String droite) {
         this.droite = droite;
+    }
+
+    public void setGauche(String gauche) {
         this.gauche = gauche;
+    }
+
+    public void setBombe(String bombe) {
         this.bombe = bombe;
+    }
+
+    // Créez la map pour la correspondance des touches
+    static public Map<Integer, String> keyMap = new HashMap<>();
+
+    static {
+        keyMap.put(KeyEvent.VK_SHIFT, "Shift");
+        keyMap.put(KeyEvent.VK_CONTROL, "Ctrl");
+        keyMap.put(KeyEvent.VK_ALT, "Alt");
+        keyMap.put(KeyEvent.VK_META, "Pomme");
+        keyMap.put(KeyEvent.VK_SPACE, "Espace");
+        keyMap.put(KeyEvent.VK_ENTER, "Entrée");
+        keyMap.put(KeyEvent.VK_BACK_SPACE, "Retour arrière");
+        keyMap.put(KeyEvent.VK_DELETE, "Supprimer");
+        keyMap.put(KeyEvent.VK_UP, "Flèche du haut");
+        keyMap.put(KeyEvent.VK_DOWN, "Flèche du bas");
+        keyMap.put(KeyEvent.VK_LEFT, "Flèche de gauche");
+        keyMap.put(KeyEvent.VK_RIGHT, "Flèche de droite");
+        keyMap.put(KeyEvent.VK_TAB, "Tabulation");
+        keyMap.put(KeyEvent.VK_ESCAPE, "Esc");
+        keyMap.put(KeyEvent.VK_CAPS_LOCK, "MAJ");
+        keyMap.put(KeyEvent.VK_NUM_LOCK, "Verr num");
+        keyMap.put(KeyEvent.VK_SCROLL_LOCK, "Verrouillage du défilement");
+        for (int i = 1; i <= 12; i++) {
+            keyMap.put(KeyEvent.VK_F1 + i - 1, "F" + i);
+        }
     }
 }
