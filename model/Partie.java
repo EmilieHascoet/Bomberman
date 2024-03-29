@@ -10,24 +10,20 @@ public class Partie {
      * Default constructor
      * Paramètres pour la partie, définis par l'utilisateur dans l'écran
      */
-    public Partie(Parametres parametres) {
+    public Partie(Parametres parametres, List<Touche> listTouche, List<String> nomJoueur) {
         // Créer 2 joueurs avec les paramètres + génère la carte (créer une carte)
-        /*this.listBonus = listBonus;
-        this.nbVieInit = nbVieInit;
-        this.nbBombeInit = nbBombeInit;
-        this.boardWidth = boardWidth;
-        this.boardHeight = boardHeight;*/
         this.param = parametres;
+        this.joueurs = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            Joueur j = new Joueur(nomJoueur.get(i), param.getNbVie(), param.getNbBombeInit(), 0, 0, 0, param.getVitesse());
+            j.touche = listTouche.get(i);
+            joueurs.add(j);
+        }
         genererNouvelleCarte();
     }
 
     // Déclarations des attributs
     public Integer temps = 0;
-    /*public Set<String> listBonus;
-    public int boardWidth;
-    public int boardHeight;
-    public int nbVieInit;
-    public int nbBombeInit;*/
 
     // Déclarations des associations
     public List<Joueur> joueurs;

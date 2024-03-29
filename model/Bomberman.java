@@ -18,6 +18,9 @@ public class Bomberman {
 
     }
 
+    // Déclarations des attributs
+    public List<String> nomJoueurs = new ArrayList<>(Arrays.asList("Joueur 1", "Joueur 2"));
+
     // Déclarations des associations
     public Partie partie;
     public List<Touche> listeTouche = new ArrayList<>();
@@ -35,19 +38,22 @@ public class Bomberman {
     public void setParametres(Set<String> listBonus, int nbVie, int nbBombeInit, int boardWidth, int boardHeight) {
         // Ajout des paramètres pour la partie (définis par l'utilisateur dans l'écran) new 
         if(parametres == null){
-            parametres = new Parametres(listBonus, nbVie, nbBombeInit, boardWidth, boardHeight);
+            parametres = new Parametres(listBonus, nbVie, nbBombeInit, boardWidth, boardHeight, 1);
         }else{
-            parametres.setParametres(listBonus, nbVie, nbBombeInit, boardWidth, boardHeight);
+            parametres.setListBonus(listBonus);
+            parametres.setNbVie(nbVie);
+            parametres.setNbBombeInit(nbBombeInit);
+            parametres.setLargeur(boardWidth);
+            parametres.setHauteur(boardHeight);
         }
-
     }
 
     /**
      * Prend les paramètres entrés par le joueur et créer une nouvelle partie
      */
-    public void nouvellePartie(Parametres parametres) {
+    public void nouvellePartie(List<String> nomJoueur) {
         // Créer une nouvelle partie avec les paramètres entrés dans setParametres
-        partie = new Partie(parametres);
+        partie = new Partie(parametres, listeTouche, nomJoueur);
     }
 
 }

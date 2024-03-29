@@ -28,8 +28,7 @@ public class Joueur {
 
 
     // Déclarations des associations
-    public Partie partie;
-    public Touche contrôle;
+    public Touche touche;
     
     // Déclarations des méthodes
     /**
