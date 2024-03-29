@@ -24,4 +24,17 @@ public class Touche {
 
     // Déclarations des associations
     Joueur joueur;
+
+    // Déclarations des méthodes
+    public void setJoueur(Joueur j) {
+        this.joueur = j;
+    }
+
+    public void setTouches(String haut, String bas, String droite, String gauche, String bombe) {
+        this.haut = haut;
+        this.bas = bas;
+        this.droite = droite;
+        this.gauche = gauche;
+        this.bombe = bombe;
+    }
 }

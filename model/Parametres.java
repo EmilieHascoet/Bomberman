@@ -17,6 +17,14 @@ public class Parametres {
         this.boardHeight = boardHeight;
     }
 
+    public void setParametres(Set<String> listBonus, int nbVie, int nbBombeInit, int boardWidth, int boardHeight) {
+        this.listBonus = listBonus;
+        this.nbVie = nbVie;
+        this.nbBombeInit = nbBombeInit;
+        this.boardWidth = boardWidth;
+        this.boardHeight = boardHeight;;
+    }
+
     public Set<String> getListBonus() {
         return listBonus;
     }
