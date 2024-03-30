@@ -30,29 +30,41 @@ public class Touche {
     // Déclarations des associations
     Joueur joueur;
 
-    // Déclarations des méthodes
+    // Déclarations des méthodes setters
     public void setJoueur(Joueur j) {
         this.joueur = j;
     }
-
     public void setHaut(String haut) {
         this.haut = haut;
     }
-
     public void setBas(String bas) {
         this.bas = bas;
     }
-
     public void setDroite(String droite) {
         this.droite = droite;
     }
-
     public void setGauche(String gauche) {
         this.gauche = gauche;
     }
-
     public void setBombe(String bombe) {
         this.bombe = bombe;
+    }
+
+    // Déclarations des méthodes getters
+    public String getHaut() {
+        return haut;
+    }
+    public String getBas() {
+        return bas;
+    }
+    public String getDroite() {
+        return droite;
+    }
+    public String getGauche() {
+        return gauche;
+    }
+    public String getBombe() {
+        return bombe;
     }
 
     // Créez la map pour la correspondance des touches
