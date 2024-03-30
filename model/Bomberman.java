@@ -27,15 +27,15 @@ public class Bomberman {
     public Parametres parametres;
 
     // Déclarations des méthodes
-    public void setTouche(int num, String haut, String bas, String droite, String gauche, String bombe) {
-        if (num > listeTouche.size()) {
+    public void setTouche(int joueur, String haut, String bas, String droite, String gauche, String bombe) {
+        if (joueur > listeTouche.size()) {
             listeTouche.add(new Touche(haut, bas, droite, gauche, bombe));
         } else {
-            listeTouche.get(num - 1).setHaut(haut);
-            listeTouche.get(num - 1).setBas(bas);
-            listeTouche.get(num - 1).setDroite(droite);
-            listeTouche.get(num - 1).setGauche(gauche);
-            listeTouche.get(num - 1).setBombe(bombe);
+            listeTouche.get(joueur - 1).setHaut(haut);
+            listeTouche.get(joueur - 1).setBas(bas);
+            listeTouche.get(joueur - 1).setDroite(droite);
+            listeTouche.get(joueur - 1).setGauche(gauche);
+            listeTouche.get(joueur - 1).setBombe(bombe);
         }
     }
 
