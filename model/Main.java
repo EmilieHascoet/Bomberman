@@ -1,5 +1,8 @@
 package model;
 import java.text.ParseException;
+import java.util.Set; //Pour test
+import java.util.HashSet; //Pour test
+import java.util.Arrays; //Pour test
 
 import javax.swing.JFrame;
 
@@ -7,15 +10,11 @@ public class Main {
     public static JFrame main;
     public static void main(String args[]) throws ParseException {
         //main = new FirstPageView();
-        Carte carte = new Carte(10, 10);
-        // voir le resultat en console
-        System.out.println("carte.map.length : " + carte.map.length);
-        System.out.println("Carte générée : ");
-        for (int i = 0; i < carte.map.length ; i++) {
-            for (int j = 0; j < carte.map[i].length; j++) {
-                System.out.print(carte.map[i][j].estTraversable + "\t");
-            }
-            System.out.println();
-        }
+        Bomberman bomberman = new Bomberman();
+        Set<String> listBonus = new HashSet<String>(Arrays.asList("Bombe", "Flamme", "Vie", "Vitesse"));
+        bomberman.setParametres(listBonus, 3, 1, 15, 15);
+        bomberman.nouvellePartie(bomberman.parametres);
+        bomberman.partie.nouvellePartie();
+        bomberman.partie.carte.afficherCarte();
     }
 }
