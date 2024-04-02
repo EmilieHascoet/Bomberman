@@ -1,4 +1,5 @@
 package model;
+
 /**
  * 
  */
@@ -26,17 +27,21 @@ public class Joueur {
     public Integer positionY;
     public Integer Vitesse;
 
-
     // Déclarations des associations
     public Partie partie;
     public Touche contrôle;
-    
+
     // Déclarations des méthodes
     /**
      * 
      */
     public void poserBombe() {
-        // TODO implement here
+        if (stockBombe > 0) {
+            stockBombe--;
+            // temps à ajouter et passer en paramêtre
+            Bombe bombe = new Bombe(true, this.positionX, this.positionY, false, 2, 3);
+            // à completer en faissant un mise à jours de case
+        }
     }
 
     /**
