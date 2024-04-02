@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Diagramme de Gantt - Bomberman" company="" webLink="http://" view-date="2023-11-01" view-index="0" gantt-divider-location="471" resource-divider-location="325" version="3.3.3305" locale="fr_FR">
+<?xml version="1.0" encoding="UTF-8"?><project name="Diagramme de Gantt - Bomberman" company="" webLink="http://" view-date="2023-10-01" view-index="0" gantt-divider-location="458" resource-divider-location="325" version="3.3.3305" locale="fr_FR">
     <description/>
     <view zooming-state="default:9" id="gantt-chart">
-        <field id="tpd3" name="Nom" width="266" order="0"/>
-        <field id="tpd4" name="Date de début" width="101" order="1"/>
-        <field id="tpd5" name="Date de fin" width="103" order="2"/>
+        <field id="tpd3" name="Nom" width="250" order="0"/>
+        <field id="tpd4" name="Date de début" width="95" order="1"/>
+        <field id="tpd5" name="Date de fin" width="97" order="2"/>
         <field id="tpd15" name="Notes" width="20" order="3"/>
         <option id="filter.completedTasks" value="false"/>
         <option id="filter.dueTodayTasks" value="false"/>
@@ -50,13 +50,20 @@
             <task id="38" uid="804bc7247d544748a78ef255fe2cfb47" name="Recherche assets" meeting="false" start="2024-03-12" duration="6" complete="100" expand="true"/>
             <task id="7" uid="bdf375a39550419282726912e60c25f0" name="Relecture Global" meeting="false" start="2024-03-27" duration="1" complete="100" expand="true"/>
         </task>
-        <task id="8" uid="7893c0561e6044169bb0c66c20cfa1bf" name="Développement" meeting="false" start="2024-03-12" duration="30" complete="10" expand="true">
-            <task id="39" uid="4a9dd2a86b4c4bfd8fd4e5140ba18d0c" name="Model" meeting="false" start="2024-03-19" duration="25" complete="4" expand="false">
-                <task id="40" uid="aff72a12e9a94f77a7c9a7af320e878c" name="Classe Paramètre" meeting="false" start="2024-03-19" duration="6" complete="20" expand="true"/>
-                <task id="41" uid="238e75ff995c43bb83ad33a675a440d4" name="Classe Partie" meeting="false" start="2024-03-19" duration="6" complete="0" expand="true"/>
-                <task id="42" uid="787b71d574ee4fd3b6dfced052df3bcc" name="Methode du model" meeting="false" start="2024-04-02" duration="15" complete="0" expand="true"/>
+        <task id="8" uid="7893c0561e6044169bb0c66c20cfa1bf" name="Développement" meeting="false" start="2024-03-12" duration="30" complete="16" expand="true">
+            <task id="39" uid="4a9dd2a86b4c4bfd8fd4e5140ba18d0c" name="Model" meeting="false" start="2024-03-19" duration="16" complete="46" expand="true">
+                <task id="40" uid="aff72a12e9a94f77a7c9a7af320e878c" name="Classe Paramètre" meeting="false" start="2024-03-19" duration="6" complete="100" expand="true"/>
+                <task id="41" uid="238e75ff995c43bb83ad33a675a440d4" name="Classe Partie" meeting="false" start="2024-03-19" duration="6" complete="30" expand="true"/>
+                <task id="42" uid="787b71d574ee4fd3b6dfced052df3bcc" name="Methode du model" meeting="false" start="2024-04-02" duration="6" complete="27" expand="true">
+                    <task id="43" uid="2889cac153e246bf8e72de8bfb128474" name="Méthode pour Carte" meeting="false" start="2024-04-02" duration="6" complete="50" expand="false">
+                        <task id="44" uid="9362ee2d559742639ae879b9296be3cf" name="Changement état carte" meeting="false" start="2024-04-02" duration="6" complete="50" expand="true"/>
+                    </task>
+                    <task id="45" uid="7cc6c4d39bd94747b5463d52d3b0d660" name="Méthode pour Joueur" meeting="false" start="2024-04-02" duration="6" complete="5" expand="false">
+                        <task id="46" uid="6bb5557afa104b5c8769a306061a86e7" name="poserBombe()" meeting="false" start="2024-04-02" duration="6" complete="5" expand="true"/>
+                    </task>
+                </task>
             </task>
-            <task id="6" uid="d2835b0bfda84a1185fccb7790558ed8" name="Vue" meeting="false" start="2024-03-12" duration="22" complete="15" priority="3" expand="true">
+            <task id="6" uid="d2835b0bfda84a1185fccb7790558ed8" name="Vue" meeting="false" start="2024-03-12" duration="22" complete="15" priority="3" expand="false">
                 <task id="19" uid="aabf7a4dba59465c9eca863714853964" name="Ecran 1: Accueil" meeting="false" start="2024-03-12" duration="6" complete="33" expand="false">
                     <task id="26" uid="a8d5baba37f64cb296c58e623963d8bb" name="Affichage Jouer" meeting="false" start="2024-03-12" duration="6" complete="0" expand="true"/>
                     <task id="27" uid="5db58e8e907b4c8ea79589e25152b145" name="Affichage Contrôle" meeting="false" start="2024-03-12" duration="6" complete="0" expand="true"/>
@@ -100,6 +107,8 @@
         <allocation task-id="31" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="40" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="35" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="42" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="44" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="2" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="5" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="4" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
@@ -109,11 +118,14 @@
         <allocation task-id="38" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="41" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="28" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="42" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="2" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="5" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="4" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="7" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="21" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="42" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="46" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
     </allocations>
     <vacations/>
     <previous/>
