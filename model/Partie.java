@@ -6,17 +6,16 @@ import java.util.*;
  */
 public class Partie {
     public Parametres param;
+
+    public List<Joueur> joueurs;
+    public Carte carte;
+    public Parametres paramètres;
     /**
      * Default constructor
      * Paramètres pour la partie, définis par l'utilisateur dans l'écran
      */
     public Partie(Parametres parametres) {
         // Créer 2 joueurs avec les paramètres + génère la carte (créer une carte)
-        /*this.listBonus = listBonus;
-        this.nbVieInit = nbVieInit;
-        this.nbBombeInit = nbBombeInit;
-        this.boardWidth = boardWidth;
-        this.boardHeight = boardHeight;*/
         this.param = parametres;
         genererNouvelleCarte();
     }
@@ -30,9 +29,7 @@ public class Partie {
     public int nbBombeInit;*/
 
     // Déclarations des associations
-    public List<Joueur> joueurs;
-    public Carte carte;
-    public Parametres paramètres;
+    
 
     // Déclaration des méthodes
     /**

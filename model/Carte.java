@@ -36,6 +36,15 @@ public class Carte {
         }
     }
 
+    public void afficherCarte() {
+        for (int i = 0; i < map.length ; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                System.out.print(map[i][j].estTraversable + "\t\t");
+            }
+            System.out.println();
+        }
+    }
+
     // Déclarations des attributs
     public Case[][] map;
 }
