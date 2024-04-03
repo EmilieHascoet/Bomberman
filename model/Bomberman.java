@@ -15,14 +15,16 @@ public class Bomberman {
      * Default constructor
      */
     public Bomberman() {
-
+        setTouche(1, "Fleche du haut", "Fleche du bas", "Fleche de droite", "Fleche de gauche", "Shift");
+        setTouche(2, "Z", "S", "D", "Q", "Espace");
+        setParametres(new HashSet<String>(Arrays.asList("Bombe", "Vie", "Vitesse", "Portée")), 3, 3, 15, 15);
     }
 
     // Déclarations des attributs
     public List<String> nomJoueurs = new ArrayList<>(Arrays.asList("Joueur 1", "Joueur 2"));
 
     // Déclarations des associations
-    public Partie partie;
+    public List<Partie> parties = new ArrayList<>();
     public List<Touche> listeTouche = new ArrayList<>();
     public Parametres parametres;
 
@@ -57,6 +59,6 @@ public class Bomberman {
      */
     public void nouvellePartie(Parametres parametresPartie) {
         // Créer une nouvelle partie avec les paramètres entrés dans setParametres
-        partie = new Partie(parametresPartie, listeTouche, nomJoueurs);
+        parties.add(new Partie(parametresPartie, listeTouche, nomJoueurs));
     }
 }

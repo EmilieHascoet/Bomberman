@@ -47,9 +47,6 @@ public class MainFrame extends JFrame {
             public void run() {
                 // Créer deux objets contrôle contenant les touches de base
                 Bomberman bomberman = new Bomberman();
-                bomberman.setTouche(1, "Fleche haut", "Fleche bas", "Fleche droite", "Fleche gauche", "Shift");
-                bomberman.setTouche(2, "z", "s", "d", "q", "Espace");
-                bomberman.setParametres(new HashSet<String>(Arrays.asList("Bombe", "Vie", "Vitesse", "Portée")), 3, 3, 15, 15);
 
                 MainFrame frame = new MainFrame(bomberman);
                 frame.setVisible(true);

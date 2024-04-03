@@ -31,9 +31,9 @@ public class Partie {
 
     // Déclaration des méthodes
     /**
-     * Garde les scores des 2 joueurs, reset le temps et génère une nouvelle carte
+     * Rejouer / Garde les scores des 2 joueurs, reset le temps et génère une nouvelle carte
      */
-    public void nouvellePartie() {
+    public void rejouer() {
     }
 
     /**

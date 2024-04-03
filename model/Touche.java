@@ -79,10 +79,10 @@ public class Touche {
         keyMap.put(KeyEvent.VK_ENTER, "Entrée");
         keyMap.put(KeyEvent.VK_BACK_SPACE, "Retour arrière");
         keyMap.put(KeyEvent.VK_DELETE, "Supprimer");
-        keyMap.put(KeyEvent.VK_UP, "Flèche du haut");
-        keyMap.put(KeyEvent.VK_DOWN, "Flèche du bas");
-        keyMap.put(KeyEvent.VK_LEFT, "Flèche de gauche");
-        keyMap.put(KeyEvent.VK_RIGHT, "Flèche de droite");
+        keyMap.put(KeyEvent.VK_UP, "Fleche du haut");
+        keyMap.put(KeyEvent.VK_DOWN, "Fleche du bas");
+        keyMap.put(KeyEvent.VK_LEFT, "Fleche de gauche");
+        keyMap.put(KeyEvent.VK_RIGHT, "Fleche de droite");
         keyMap.put(KeyEvent.VK_TAB, "Tabulation");
         keyMap.put(KeyEvent.VK_ESCAPE, "Esc");
         keyMap.put(KeyEvent.VK_CAPS_LOCK, "MAJ");
