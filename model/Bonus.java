@@ -7,9 +7,11 @@ public class Bonus extends Case {
     /**
      * Default constructor
      */
-    public Bonus(Boolean estTraversable, Integer positionX, Integer positionY, boolean estDestructible, Boolean isMalus, String effet) {
-        super(estTraversable, positionX, positionY, "Bonus", estDestructible);
-        this.isMalus = isMalus;
+    public Bonus(Integer positionX, Integer positionY, Boolean isMalus, String effet) {
+        super(true, positionX, positionY, "Bonus", false);
+        // 30% de chance que ce soit un malus
+        if (Math.random() < 0.3) { this.isMalus = true; } 
+        else { this.isMalus = false; }
         this.effet = effet;
     }
 
@@ -18,8 +20,26 @@ public class Bonus extends Case {
     public String effet;
 
     // Déclarations des méthodes
-    public void estRamassee() {
-        // TODO implement here
+    /*
+     * Le joueur ramasse le bonus
+     */
+    public void estRamassee(Joueur joueur) {
+        switch (this.effet) {
+            case "vie":
+                if (this.isMalus) { joueur.setVie(joueur.getVie() - 1); } 
+                else { joueur.setVie(joueur.getVie() + 1); }
+                break;
+            case "stockBombe":
+                if (this.isMalus) { joueur.setStockBombe(joueur.getStockBombe() - 1); } 
+                else { joueur.setStockBombe(joueur.getStockBombe() + 1); }
+                break;
+            case "Vitesse":
+                if (this.isMalus) { joueur.setVitesse(joueur.getVitesse() - 1); }
+                else { joueur.setVitesse(joueur.getVitesse() + 1); }
+                break;
+            default:
+                break;
+        }
+        joueur.setScore(joueur.getScore() + super.Points);
     }
-
 }

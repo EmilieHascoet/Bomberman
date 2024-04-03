@@ -10,8 +10,8 @@ public class Bombe extends Case {
     /**
      * Default constructor
      */
-    public Bombe(Boolean estTraversable, Integer positionX, Integer positionY, boolean estDestructible, Integer tempsExplosion, Integer portée) {
-        super(estTraversable, positionX, positionY, "Bombe", estDestructible);
+    public Bombe(Integer positionX, Integer positionY, Integer tempsExplosion, Integer portée) {
+        super(true, positionX, positionY, "Bombe", false);
         this.tempsExplosion = tempsExplosion;
         this.portée = portée;
     }
