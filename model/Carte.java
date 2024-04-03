@@ -23,7 +23,7 @@ public class Carte {
                 }
                 // Les blocs indesctructibles sont placés sur les cases pairs
                 else if (i == 0 || j == 0 || i == n-1 || j == m-1 || (i % 2 == 0 && j % 2 == 0)) {
-                    map[i][j] = new Case(false, i, j, "BlocIndestructible", false);
+                    map[i][j] = new BlocDestructible(false, i, j, "BlocIndestructible", false);
                 }
                 // Les blocs destructibles sont placés aléatoirement
                 else if (Math.random() < 0.5) {
@@ -36,12 +36,17 @@ public class Carte {
         }
     }
 
-    public void afficherCarte() {
+    /**
+     * Affiche la carte
+     */
+    @Override
+    public void toString() {
+        String s = "Carte : \n";
         for (int i = 0; i < map.length ; i++) {
             for (int j = 0; j < map[i].length; j++) {
-                System.out.print(map[i][j].estTraversable + "\t");
+                s += map[i][j].estTraversable + "\t";
             }
-            System.out.println();
+            s += "\n";
         }
     }
 

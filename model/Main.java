@@ -15,6 +15,6 @@ public class Main {
         bomberman.setParametres(listBonus, 3, 1, 15, 15);
         bomberman.nouvellePartie(bomberman.parametres);
         bomberman.partie.nouvellePartie();
-        bomberman.partie.carte.afficherCarte();
+        System.out.println(bomberman.partie.carte);
     }
 }
