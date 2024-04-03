@@ -33,6 +33,10 @@ public class Bonus extends Case {
                 if (this.isMalus) { joueur.setStockBombe(joueur.getStockBombe() - 1); } 
                 else { joueur.setStockBombe(joueur.getStockBombe() + 1); }
                 break;
+            case "porteeBombe":
+                if (this.isMalus) { joueur.setPorteeBombe(joueur.getPorteeBombe() - 1); } 
+                else { joueur.setPorteeBombe(joueur.getPorteeBombe() + 1); }
+                break;
             case "Vitesse":
                 if (this.isMalus) { joueur.setVitesse(joueur.getVitesse() - 1); }
                 else { joueur.setVitesse(joueur.getVitesse() + 1); }

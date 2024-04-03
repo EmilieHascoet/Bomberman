@@ -14,7 +14,7 @@ public class Partie {
         this.param = parametres;
         this.joueurs = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
-            Joueur j = new Joueur(nomJoueur.get(i), param.getNbVie(), param.getNbBombeInit(), 0, 0, 0, param.getVitesse());
+            Joueur j = new Joueur(nomJoueur.get(i), param.getNbVie(), param.getVitesse(), param.getNbBombeInit(), param.getPorteeBombe(), 0, 0);
             j.touche = listTouche.get(i);
             joueurs.add(j);
         }
@@ -40,6 +40,6 @@ public class Partie {
      * Génère une nouvelle carte avec la taille
      */
     public void genererNouvelleCarte() {
-        carte = new Carte(param.getLargeur(), param.getHauteur());
+        carte = new Carte(param.getBoardWidth(), param.getBoardHeight());
     }
 }

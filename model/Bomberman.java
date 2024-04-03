@@ -17,7 +17,7 @@ public class Bomberman {
     public Bomberman() {
         setTouche(1, "Fleche du haut", "Fleche du bas", "Fleche de droite", "Fleche de gauche", "Shift");
         setTouche(2, "Z", "S", "D", "Q", "Espace");
-        setParametres(new HashSet<String>(Arrays.asList("Bombe", "Vie", "Vitesse", "Portée")), 3, 3, 15, 15);
+        setParametres(new HashSet<String>(Arrays.asList("Bombe", "Vie", "Vitesse", "Portée")), 3, 1, 1, 1, 15, 15);
     }
 
     // Déclarations des attributs
@@ -41,16 +41,16 @@ public class Bomberman {
         }
     }
 
-    public void setParametres(Set<String> listBonus, int nbVie, int nbBombeInit, int boardWidth, int boardHeight) {
+    public void setParametres(Set<String> listBonus, int nbVie, int vitesse, int nbBombeInit, int porteeBombe, int boardWidth, int boardHeight) {
         // Ajout des paramètres pour la partie (définis par l'utilisateur dans l'écran) new 
         if (parametres == null){
-            parametres = new Parametres(listBonus, nbVie, nbBombeInit, boardWidth, boardHeight, 1);
+            parametres = new Parametres(listBonus, nbVie, vitesse, nbBombeInit, porteeBombe, boardWidth, boardHeight);
         } else{
             parametres.setListBonus(listBonus);
             parametres.setNbVie(nbVie);
             parametres.setNbBombeInit(nbBombeInit);
-            parametres.setLargeur(boardWidth);
-            parametres.setHauteur(boardHeight);
+            parametres.setBoardWidth(boardWidth);
+            parametres.setBoardHeight(boardHeight);
         }
     }
 

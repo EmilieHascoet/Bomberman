@@ -3,59 +3,69 @@ package model;
 import java.util.Set;
 
 public class Parametres {
+    // Déclarations des attributs
     private Set<String> listBonus;
     private int nbVie;
+    private int vitesse;
     private int nbBombeInit;
+    private int porteeBombe;
     private int boardWidth;
     private int boardHeight;
-    private int vitesse;
 
-    public Parametres(Set<String> listBonus, int nbVie, int nbBombeInit, int boardWidth, int boardHeight, int vitesse) { //Declaration du constructeur Parametres
+    // Déclaration du constructeur Parametres
+    public Parametres(Set<String> listBonus, int nbVie, int vitesse, int nbBombeInit, int porteeBombe, int boardWidth, int boardHeight) {
         this.listBonus = listBonus;
         this.nbVie = nbVie;
+        this.vitesse = vitesse;
         this.nbBombeInit = nbBombeInit;
+        this.porteeBombe = porteeBombe;
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
-        this.vitesse = vitesse;
     }
 
     // Déclarations des méthodes getters
+    public Set<String> getListBonus() {
+        return listBonus;
+    }
     public int getNbVie() {
         return nbVie;
-    }
-    public int getNbBombeInit() {
-        return nbBombeInit;
-    }
-    public int getLargeur() {
-        return boardWidth;
-    }
-    public int getHauteur() {
-        return boardHeight;
     }
     public int getVitesse() {
         return vitesse;
     }
-
-    // Déclarations des méthodes setters
-    public Set<String> getListBonus() {
-        return listBonus;
+    public int getNbBombeInit() {
+        return nbBombeInit;
     }
+    public int getPorteeBombe() {
+        return porteeBombe;
+    }
+    public int getBoardWidth() {
+        return boardWidth;
+    }
+    public int getBoardHeight() {
+        return boardHeight;
+    }
+    
+    // Déclarations des méthodes setters
     public void setListBonus(Set<String> listBonus) {
         this.listBonus = listBonus;
     }
     public void setNbVie(int nbVie) {
         this.nbVie = nbVie;
     }
+    public void setVitesse(int vitesse) {
+        this.vitesse = vitesse;
+    }
     public void setNbBombeInit(int nbBombeInit) {
         this.nbBombeInit = nbBombeInit;
     }
-    public void setLargeur(int boardWidth) {
+    public void setPorteeBombe(int porteeBombe) {
+        this.porteeBombe = porteeBombe;
+    }
+    public void setBoardWidth(int boardWidth) {
         this.boardWidth = boardWidth;
     }
-    public void setHauteur(int boardHeight) {
+    public void setBoardHeight(int boardHeight) {
         this.boardHeight = boardHeight;
-    }
-    public void setVitesse(int vitesse) {
-        this.vitesse = vitesse;
     }
 }
