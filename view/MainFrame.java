@@ -12,13 +12,17 @@ import model.Touche;
 
 
 public class MainFrame extends JFrame {
-    MainFrame() {
+    Bomberman bomberman;
+
+    MainFrame(Bomberman bomberman) {
+        this.bomberman = bomberman;
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Bomberman");
         this.pack();
         // set size full sreen
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //this.setSize(800,500);
+        //this.setSize(1000,600);
         this.setResizable(false);
         this.setLocationRelativeTo (null);
         this.setVisible(true);
@@ -28,7 +32,7 @@ public class MainFrame extends JFrame {
 
     private void initUI() {
         // Initialise avec le panneau de démarrage
-        setContentPane(new AccueilPanel(this));
+        setContentPane(new AccueilPanel(this, this.bomberman));
     }
 
     public void changePanel(JPanel panel) {
@@ -43,11 +47,11 @@ public class MainFrame extends JFrame {
             public void run() {
                 // Créer deux objets contrôle contenant les touches de base
                 Bomberman bomberman = new Bomberman();
-                bomberman.setTouche(1, "Fleche haut", "Fleche bas", "Fleche droite", "Fleche gauche", "Shift Droit");
+                bomberman.setTouche(1, "Fleche haut", "Fleche bas", "Fleche droite", "Fleche gauche", "Shift");
                 bomberman.setTouche(2, "z", "s", "d", "q", "Espace");
                 bomberman.setParametres(new HashSet<String>(Arrays.asList("Bombe", "Vie", "Vitesse", "Portée")), 3, 3, 15, 15);
 
-                MainFrame frame = new MainFrame();
+                MainFrame frame = new MainFrame(bomberman);
                 frame.setVisible(true);
             }
         });

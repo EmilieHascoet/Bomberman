@@ -7,11 +7,12 @@ import javax.swing.JButton;
 import view.changerToucheJDialog;
 
 public class AccueilController implements ActionListener {
-    String joueur, ancienneTouche, actionTouche, typeAction;
+    int joueur;
+    String ancienneTouche, actionTouche, typeAction;
     JButton boutonChooseTouche;
     
     // Constructeur pour le changement de touche
-    public AccueilController(String joueur, String ancienneTouche, String actionTouche, JButton boutonChooseTouche) {
+    public AccueilController(int joueur, String ancienneTouche, String actionTouche, JButton boutonChooseTouche) {
         this.joueur = joueur;
         this.ancienneTouche = ancienneTouche;
         this.actionTouche = actionTouche;
