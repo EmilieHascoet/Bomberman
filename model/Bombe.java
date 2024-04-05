@@ -9,7 +9,7 @@ public class Bombe extends Case {
      * Default constructor
      */
     public Bombe(Integer positionX, Integer positionY, Integer tempsExplosion, Integer portée) {
-        super(true, positionX, positionY, "Bombe", false);
+        super(false, positionX, positionY, "Bombe", false);
         this.tempsExplosion = tempsExplosion;
         this.portée = portée;
     }
