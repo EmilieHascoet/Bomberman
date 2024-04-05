@@ -23,7 +23,7 @@ public class Partie {
         this.param = parametres;
         this.joueurs = new ArrayList<>();
         for (int i = 0; i < nomJoueur.size(); i++) {
-            Joueur j = new Joueur(nomJoueur.get(i), param.getNbVie(), param.getVitesse(), param.getNbBombeInit(), param.getPorteeBombe(), 0, 0);
+            Joueur j = new Joueur(nomJoueur.get(i), param.getNbVie(), param.getVitesse(), param.getNbBombeInit(), param.getPorteeBombe(), 0, 0, this);
             j.touche = listTouche.get(i);
             joueurs.add(j);
         }

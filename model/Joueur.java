@@ -22,7 +22,7 @@ public class Joueur {
     /**
      * Default constructor
      */
-    public Joueur(String nom, int vie, int vitesse, int stockBombe, int porteeBombe, int positionX, int positionY) {
+    public Joueur(String nom, int vie, int vitesse, int stockBombe, int porteeBombe, int positionX, int positionY, Partie partie) {
         this.nom = nom;
         this.vie = vie;
         this.stockBombe = stockBombe;
@@ -31,6 +31,7 @@ public class Joueur {
         this.positionX = positionX;
         this.positionY = positionY;
         this.vitesse = vitesse;
+        this.partie = partie;
     }
 
     // Déclarations des méthodes
