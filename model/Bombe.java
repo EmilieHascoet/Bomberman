@@ -1,7 +1,5 @@
 package model;
 
-
-
 /**
  * 
  */
@@ -26,6 +24,12 @@ public class Bombe extends Case {
      */
     public void explose() {
         // TODO implement here
+    }
+
+    @Override
+    public String toString() {
+        return ("A bomb at Positon : " + positionX + positionY + "TempsExplosion : " + tempsExplosion + "avec portée :"
+                + portée);
     }
 
 }
