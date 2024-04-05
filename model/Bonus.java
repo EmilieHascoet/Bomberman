@@ -34,30 +34,21 @@ public class Bonus extends Case {
                 else { joueur.vie = joueur.vie - 1; }
                 break;
             case "stockBombe":
-                if (this.isMalus) {
-                    joueur.setStockBombe(joueur.getStockBombe() - 1);
-                } else {
-                    joueur.setStockBombe(joueur.getStockBombe() + 1);
-                }
+                if (this.isMalus) { joueur.stockBombe = joueur.stockBombe - 1; }
+                else { joueur.stockBombe = joueur.stockBombe + 1; }
                 break;
             case "porteeBombe":
-                if (this.isMalus) {
-                    joueur.setPorteeBombe(joueur.getPorteeBombe() - 1);
-                } else {
-                    joueur.setPorteeBombe(joueur.getPorteeBombe() + 1);
-                }
+                if (this.isMalus) { joueur.porteeBombe = joueur.porteeBombe - 1; }
+                else { joueur.porteeBombe = joueur.porteeBombe + 1; }
                 break;
             case "Vitesse":
-                if (this.isMalus) {
-                    joueur.setVitesse(joueur.getVitesse() - 1);
-                } else {
-                    joueur.setVitesse(joueur.getVitesse() + 1);
-                }
+                if (this.isMalus) { joueur.vitesse = joueur.vitesse - 1; }
+                else { joueur.vitesse = joueur.vitesse + 1; }
                 break;
             default:
                 break;
         }
-        joueur.setScore(joueur.getScore() + super.Points);
+        joueur.score += super.Points;
     }
 
     @Override
