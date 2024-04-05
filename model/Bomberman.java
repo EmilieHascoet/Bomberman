@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Set;
 
 import java.util.HashSet;
+
 /**
  * 
  */
@@ -41,11 +42,13 @@ public class Bomberman {
         }
     }
 
-    public void setParametres(Set<String> listBonus, int nbVie, int vitesse, int nbBombeInit, int porteeBombe, int boardWidth, int boardHeight) {
-        // Ajout des paramètres pour la partie (définis par l'utilisateur dans l'écran) new 
-        if (parametres == null){
+    public void setParametres(Set<String> listBonus, int nbVie, int vitesse, int nbBombeInit, int porteeBombe,
+            int boardWidth, int boardHeight) {
+        // Ajout des paramètres pour la partie (définis par l'utilisateur dans l'écran)
+        // new
+        if (parametres == null) {
             parametres = new Parametres(listBonus, nbVie, vitesse, nbBombeInit, porteeBombe, boardWidth, boardHeight);
-        } else{
+        } else {
             parametres.setListBonus(listBonus);
             parametres.setNbVie(nbVie);
             parametres.setNbBombeInit(nbBombeInit);
@@ -60,5 +63,11 @@ public class Bomberman {
     public void nouvellePartie(Parametres parametresPartie) {
         // Créer une nouvelle partie avec les paramètres entrés dans setParametres
         parties.add(new Partie(parametresPartie, listeTouche, nomJoueurs));
+    }
+
+    @Override
+    public String toString() {
+        return ("les joueurs sont : " + nomJoueurs + "les parties sont : " + parties + "les touches sont : "
+                + listeTouche + "les parametres sont : " + parametres);
     }
 }

@@ -1,8 +1,9 @@
 package model;
+
 /**
  * 
  */
-public class BlocDestructible extends Case{
+public class BlocDestructible extends Case {
 
     /**
      * Default constructor
@@ -18,4 +19,8 @@ public class BlocDestructible extends Case{
         // TODO implement here
     }
 
+    @Override
+    public String toString() {
+        return ("A destructible block at Positon : " + positionX + positionY);
+    }
 }

@@ -37,24 +37,31 @@ public class Joueur {
     public String getNom() {
         return nom;
     }
+
     public Integer getVie() {
         return vie;
     }
+
     public Integer getStockBombe() {
         return stockBombe;
     }
+
     public Integer getPorteeBombe() {
         return porteeBombe;
     }
+
     public Integer getScore() {
         return score;
     }
+
     public Integer getPositionX() {
         return positionX;
     }
+
     public Integer getPositionY() {
         return positionY;
     }
+
     public Integer getVitesse() {
         return vitesse;
     }
@@ -63,24 +70,31 @@ public class Joueur {
     public void setNom(String nom) {
         this.nom = nom;
     }
+
     public void setVie(Integer vie) {
         this.vie = vie;
     }
+
     public void setStockBombe(Integer stockBombe) {
         this.stockBombe = stockBombe;
     }
+
     public void setPorteeBombe(Integer porteeBombe) {
         this.porteeBombe = porteeBombe;
     }
+
     public void setScore(Integer score) {
         this.score = score;
     }
+
     public void setPositionX(Integer positionX) {
         this.positionX = positionX;
     }
+
     public void setPositionY(Integer positionY) {
         this.positionY = positionY;
     }
+
     public void setVitesse(Integer Vitesse) {
         this.vitesse = Vitesse;
     }
@@ -103,6 +117,14 @@ public class Joueur {
      */
     public void seDéplacer() {
         // TODO implement here
+    }
+
+    // on fait un override de la méthode toString pour afficher tous les
+    // informations current du joueur
+    @Override
+    public String toString() {
+        return ("Joueur : " + nom + "Vie : " + vie + "StockBombe : " + stockBombe + "PorteeBombe : " + porteeBombe
+                + "Score : " + score + "Position : " + positionX + positionY + "Vitesse : " + vitesse);
     }
 
 }
