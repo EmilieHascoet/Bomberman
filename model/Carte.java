@@ -25,22 +25,22 @@ public class Carte {
             for (int j = 0; j < m; j++) {
                 // La carte est entourée de blocs indestructibles
                 if (i == 0 || j == 0 || i == n - 1 || j == m - 1) {
-                    map[i][j] = new Case(false, i, j, "BlocIndestructible", false, partie);
+                    map[i][j] = new Case(false, j, i, "BlocIndestructible", false, partie);
                 }
                 // Les 2 coins opposés sont vides pour laisser la place aux joueurs
                 else if ((i == 1 && j == 1) || (i == 1 && j == 2) || (i == 2 && j == 1) || (i == n - 2 && j == m - 2)
                         || (i == n - 2 && j == m - 3) || (i == n - 3 && j == m - 2)) {
-                    map[i][j] = new Case(true, i, j, "CaseVide", false, partie);
+                    map[i][j] = new Case(true, j, i, "CaseVide", false, partie);
                 }
                 // Les blocs indesctructibles sont placés sur les cases pairs
                 else if (i == 0 || j == 0 || i == n - 1 || j == m - 1 || (i % 2 == 0 && j % 2 == 0)) {
-                    map[i][j] = new BlocDestructible(i, j, partie);
+                    map[i][j] = new BlocDestructible(j, i, partie);
                 }
                 // Les blocs destructibles sont placés aléatoirement
                 else if (Math.random() < 0.5) {
-                    map[i][j] = new BlocDestructible(i, j, partie);
+                    map[i][j] = new BlocDestructible(j, i, partie);
                 } else {
-                    map[i][j] = new Case(true, i, j, "CaseVide", false, partie);
+                    map[i][j] = new Case(true, j, i, "CaseVide", false, partie);
                 }
 
             }
@@ -59,9 +59,18 @@ public class Carte {
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
                 if (map[i][j].joueur != null) {
-                    s += map[i][j].joueur.nom + "\t";
+                    s += "J\t";
                 } else {
-                    s += map[i][j].estTraversable + "\t";
+                    if(map[i][j].typeImage.equals("BlocIndestructible"))
+                        s += "I" + "\t";
+                    else if(map[i][j].typeImage.equals("BlocDestructible"))
+                        s += "D" + "\t";
+                    else if(map[i][j].typeImage.equals("CaseVide"))
+                        s += "V" + "\t";
+                    else if(map[i][j].typeImage.equals("Bombe"))
+                        s += "Bombe" + "\t";
+                    else if(map[i][j].typeImage.equals("Bonus"))
+                        s += "Malus" + "\t";
                 }
             }
             s += "\n";

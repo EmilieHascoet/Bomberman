@@ -26,6 +26,7 @@ public class Bonus extends Case {
     // Déclarations des méthodes
     /*
      * Le joueur ramasse le bonus
+     * La case devient vide
      */
     public void estRamassee(Joueur joueur) {
         switch (this.effet) {
@@ -49,6 +50,9 @@ public class Bonus extends Case {
                 break;
         }
         joueur.score += super.Points;
+        int posX = super.positionX;
+        int posY = super.positionY;
+        super.partie.carte.map[posY][posX] = new Case(true, posX, posY, "CaseVide", false, super.partie);
     }
 
     @Override

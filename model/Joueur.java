@@ -40,48 +40,66 @@ public class Joueur {
      */
     public void poserBombe() {
         if (stockBombe > 0) {
-            stockBombe--;
             Bombe newBombe = new Bombe(this.positionX, this.positionY, 2, porteeBombe, partie);
+            partie.carte.map[this.positionY][this.positionX] = newBombe;
             Case caseBombe = (Case) newBombe;
             caseBombe.setJoueur(this);
-            partie.carte.map[this.positionX][this.positionY] = newBombe;
+            stockBombe--;
         }
     }
 
+    
     /**
-     * Vérifie si le joueur peut se déplacer à l'emplacement voulue
-     * Puis le déplace si c'est possible
-     * Change l'état des cases pour suivre ou est le joueur
+     * Moves the player in the specified direction.
+     * 
+     * @param direction the direction in which the player should move ("haut", "bas", "gauche", "droite")
      */
-    public void seDéplacer(String direction) {
-        Case caseDepart = partie.carte.map[positionY][positionX];
+    public void seDeplacer(String direction) {
+        // Récupère la case de départ du joueur
+        Case caseDepart = (Case) partie.carte.map[positionY][positionX];
         Case caseArrivee;
+    
+        // Selon la direction choisie, détermine la case d'arrivée
         switch (direction) {
             case "haut":
-                caseArrivee = partie.carte.map[positionY-1][positionX];
+                caseArrivee = (Case) partie.carte.map[positionY-1][positionX];
                 break;
             case "bas":
-                caseArrivee = partie.carte.map[positionX+1][positionY];
+                caseArrivee = (Case) partie.carte.map[positionY+1][positionX];
                 break;
             case "gauche":
-                caseArrivee = partie.carte.map[positionX][positionY-1];
+                caseArrivee = (Case) partie.carte.map[positionY][positionX-1];
                 break;
             case "droite":
-                caseArrivee = partie.carte.map[positionX][positionY+1];
+                caseArrivee = (Case) partie.carte.map[positionY][positionX+1];
                 break;
             default:
+                // Si la direction n'est pas reconnue, le joueur reste sur place
                 caseArrivee = caseDepart;
         }
+    
+        // Vérifie si le joueur peut se déplacer vers la case d'arrivée
         if (peutSeDeplacer(caseArrivee)) {
+            // Si oui, déplace le joueur vers la case d'arrivée
             caseDepart.joueur = null;
             caseArrivee.joueur = this;
             positionX = caseArrivee.positionX;
             positionY = caseArrivee.positionY;
+    
+            // Si la case d'arrivée est un bonus, applique l'effet du bonus
+            if (caseArrivee.typeImage == "Bonus") {
+                Bonus bonus = (Bonus) caseArrivee;
+                bonus.estRamassee(this);
+            }
         }
     }
 
+
     /**
-     * Vérifie si le joueur peut se déplacer sur la case entree en parametre
+     * Checks if the player can move to the specified destination case.
+     *
+     * @param caseArrivee The destination case to check.
+     * @return true if the destination case is traversable and does not contain another player, false otherwise.
      */
     public boolean peutSeDeplacer(Case caseArrivee) {
         return caseArrivee.estTraversable && caseArrivee.joueur == null;
