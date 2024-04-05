@@ -16,9 +16,10 @@ public class Carte {
      * indestructibles
      */
     public Carte(int longueur, int hauteur, Partie partie) {
+        this.partie = partie;
+        // Genere la carte avec la hauteur et longueur en tree en parametres
         int m = longueur + 2;
         int n = hauteur + 2;
-        this.partie = partie;
         map = new Case[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
@@ -44,6 +45,9 @@ public class Carte {
 
             }
         }
+        // place les joueurs sur les cases
+        map[1][1].setJoueur(partie.joueurs.get(0));
+        map[n-2][m-2].setJoueur(partie.joueurs.get(1));
     }
 
     /**
@@ -54,7 +58,11 @@ public class Carte {
         String s = "Carte : \n";
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
-                s += map[i][j].estTraversable + "\t";
+                if (map[i][j].joueur != null) {
+                    s += map[i][j].joueur.nom + "\t";
+                } else {
+                    s += map[i][j].estTraversable + "\t";
+                }
             }
             s += "\n";
         }
