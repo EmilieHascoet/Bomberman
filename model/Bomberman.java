@@ -27,7 +27,8 @@ public class Bomberman {
         setTouche(1, "Fleche du haut", "Fleche du bas", "Fleche de droite", "Fleche de gauche", "Shift");
         setTouche(2, "Z", "S", "D", "Q", "Espace");
         setParametres(new HashSet<String>(Arrays.asList("Bombe", "Vie", "Vitesse", "Portée")), 3, 1, 1, 1, 15, 15);
-        setNomJoueurs("Joueur 1", "Joueur 2");
+        setNomJoueurs(0, "Joueur 1");
+        setNomJoueurs(1, "Joueur 2");
     }
 
     // Déclarations des méthodes
@@ -58,9 +59,12 @@ public class Bomberman {
         }
     }
 
-    public void setNomJoueurs(String nomJoueur1, String nomJoueur2) {
-        nomJoueurs.set(0, nomJoueur1);
-        nomJoueurs.set(1, nomJoueur2);
+    public void setNomJoueurs(int index, String nomJoueur) {
+        if(nomJoueurs.size() <= index) {
+            nomJoueurs.add(nomJoueur);
+        } else {
+            nomJoueurs.set(index, nomJoueur);
+        }
     }
 
     /**

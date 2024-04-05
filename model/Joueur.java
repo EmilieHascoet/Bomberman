@@ -7,13 +7,13 @@ public class Joueur {
 
     // Déclarations des attributs
     public String nom;
-    public Integer vie;
-    public Integer stockBombe;
-    public Integer porteeBombe;
-    public Integer score;
-    public Integer positionX;
-    public Integer positionY;
-    public Integer vitesse;
+    public int vie;
+    public int stockBombe;
+    public int porteeBombe;
+    public int score;
+    public int positionX;
+    public int positionY;
+    public int vitesse;
 
     // Déclarations des associations
     public Partie partie;

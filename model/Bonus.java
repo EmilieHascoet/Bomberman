@@ -30,11 +30,8 @@ public class Bonus extends Case {
     public void estRamassee(Joueur joueur) {
         switch (this.effet) {
             case "vie":
-                if (this.isMalus) {
-                    joueur.setVie(joueur.getVie() - 1);
-                } else {
-                    joueur.setVie(joueur.getVie() + 1);
-                }
+                if (this.isMalus) { joueur.vie = joueur.vie - 1; }
+                else { joueur.vie = joueur.vie - 1; }
                 break;
             case "stockBombe":
                 if (this.isMalus) {

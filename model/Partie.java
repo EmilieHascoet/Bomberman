@@ -22,11 +22,15 @@ public class Partie {
         // Créer 2 joueurs avec les paramètres + génère la carte (créer une carte)
         this.param = parametres;
         this.joueurs = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < nomJoueur.size(); i++) {
             Joueur j = new Joueur(nomJoueur.get(i), param.getNbVie(), param.getVitesse(), param.getNbBombeInit(), param.getPorteeBombe(), 0, 0);
             j.touche = listTouche.get(i);
             joueurs.add(j);
         }
+        this.joueurs.get(0).positionX = 1;
+        this.joueurs.get(0).positionY = 1;
+        this.joueurs.get(1).positionX = param.getBoardWidth();
+        this.joueurs.get(1).positionY = param.getBoardHeight();
         genererNouvelleCarte();
     }
 
