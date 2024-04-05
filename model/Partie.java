@@ -12,7 +12,7 @@ public class Partie {
     // Déclarations des associations
     public List<Joueur> joueurs;
     public Carte carte;
-    public Parametres param;
+    public static Parametres paramPartie;
 
     /**
      * Default constructor
@@ -20,17 +20,17 @@ public class Partie {
      */
     public Partie(Parametres parametres, List<Touche> listTouche, List<String> nomJoueur) {
         // Créer 2 joueurs avec les paramètres + génère la carte (créer une carte)
-        this.param = parametres;
+        Partie.paramPartie = parametres;
         this.joueurs = new ArrayList<>();
-        for (int i = 0; i < nomJoueur.size(); i++) {
-            Joueur j = new Joueur(nomJoueur.get(i), param.getNbVie(), param.getVitesse(), param.getNbBombeInit(), param.getPorteeBombe(), 0, 0, this);
-            j.touche = listTouche.get(i);
-            joueurs.add(j);
-        }
-        this.joueurs.get(0).positionX = 1;
-        this.joueurs.get(0).positionY = 1;
-        this.joueurs.get(1).positionX = param.getBoardWidth();
-        this.joueurs.get(1).positionY = param.getBoardHeight();
+
+        Joueur j1 = new Joueur(nomJoueur.get(0), 1, 1);
+        j1.touche = listTouche.get(0);
+        joueurs.add(j1);
+        
+        Joueur j2 = new Joueur(nomJoueur.get(1), parametres.getBoardWidth(), parametres.getBoardHeight());
+        j2.touche = listTouche.get(1);
+        joueurs.add(j2);
+
         genererNouvelleCarte();
     }
 
@@ -46,6 +46,6 @@ public class Partie {
      * Génère une nouvelle carte avec la taille
      */
     public void genererNouvelleCarte() {
-        carte = new Carte(param.getBoardWidth(), param.getBoardHeight(), this);
+        carte = new Carte(Partie.paramPartie.getBoardWidth(), Partie.paramPartie.getBoardHeight(), this);
     }
 }

@@ -8,15 +8,13 @@ import java.util.ArrayList;
  */
 public class Carte {
     // Déclarations des attributs
-    public Case[][] map;
-    public Partie partie;
+    public static Case[][] map;
 
     /**
      * Génère la carte avec la taille, les blocs destructibles et les blocs
      * indestructibles
      */
     public Carte(int longueur, int hauteur, Partie partie) {
-        this.partie = partie;
         // Genere la carte avec la hauteur et longueur en tree en parametres
         int m = longueur + 2;
         int n = hauteur + 2;
@@ -25,22 +23,22 @@ public class Carte {
             for (int j = 0; j < m; j++) {
                 // La carte est entourée de blocs indestructibles
                 if (i == 0 || j == 0 || i == n - 1 || j == m - 1) {
-                    map[i][j] = new Case(false, j, i, "BlocIndestructible", false, partie);
+                    map[i][j] = new Case(false, j, i, "BlocIndestructible", false);
                 }
                 // Les 2 coins opposés sont vides pour laisser la place aux joueurs
                 else if ((i == 1 && j == 1) || (i == 1 && j == 2) || (i == 2 && j == 1) || (i == n - 2 && j == m - 2)
                         || (i == n - 2 && j == m - 3) || (i == n - 3 && j == m - 2)) {
-                    map[i][j] = new Case(true, j, i, "CaseVide", false, partie);
+                    map[i][j] = new Case(true, j, i, "CaseVide", false);
                 }
                 // Les blocs indesctructibles sont placés sur les cases pairs
                 else if (i == 0 || j == 0 || i == n - 1 || j == m - 1 || (i % 2 == 0 && j % 2 == 0)) {
-                    map[i][j] = new Case(false, j, i, "BlocIndestructible", false, partie);
+                    map[i][j] = new Case(false, j, i, "BlocIndestructible", false);
                 }
                 // Les blocs destructibles sont placés aléatoirement
                 else if (Math.random() < 0.5) {
-                    map[i][j] = new BlocDestructible(j, i, partie);
+                    map[i][j] = new BlocDestructible(j, i);
                 } else {
-                    map[i][j] = new Case(true, j, i, "CaseVide", false, partie);
+                    map[i][j] = new Case(true, j, i, "CaseVide", false);
                 }
 
             }

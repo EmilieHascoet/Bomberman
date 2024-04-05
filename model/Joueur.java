@@ -16,22 +16,20 @@ public class Joueur {
     public int vitesse;
 
     // Déclarations des associations
-    public Partie partie;
     public Touche touche;
 
     /**
      * Default constructor
      */
-    public Joueur(String nom, int vie, int vitesse, int stockBombe, int porteeBombe, int positionX, int positionY, Partie partie) {
+    public Joueur(String nom, int positionX, int positionY) {
         this.nom = nom;
-        this.vie = vie;
-        this.stockBombe = stockBombe;
-        this.porteeBombe = porteeBombe;
+        this.vie = Partie.paramPartie.getNbVie();
+        this.stockBombe = Partie.paramPartie.getNbBombeInit();
+        this.porteeBombe = Partie.paramPartie.getPorteeBombe();
+        this.vitesse = Partie.paramPartie.getVitesse();
         this.score = 0;
         this.positionX = positionX;
         this.positionY = positionY;
-        this.vitesse = vitesse;
-        this.partie = partie;
     }
 
     // Déclarations des méthodes
@@ -40,8 +38,8 @@ public class Joueur {
      */
     public void poserBombe() {
         if (stockBombe > 0) {
-            Bombe newBombe = new Bombe(this.positionX, this.positionY, 2, porteeBombe, partie);
-            partie.carte.map[this.positionY][this.positionX] = newBombe;
+            Bombe newBombe = new Bombe(this.positionX, this.positionY, 2, porteeBombe);
+            Carte.map[this.positionY][this.positionX] = newBombe;
             Case caseBombe = (Case) newBombe;
             caseBombe.setJoueur(this);
             stockBombe--;
@@ -56,22 +54,22 @@ public class Joueur {
      */
     public void seDeplacer(String direction) {
         // Récupère la case de départ du joueur
-        Case caseDepart = (Case) partie.carte.map[positionY][positionX];
+        Case caseDepart = (Case) Carte.map[positionY][positionX];
         Case caseArrivee;
     
         // Selon la direction choisie, détermine la case d'arrivée
         switch (direction) {
             case "haut":
-                caseArrivee = (Case) partie.carte.map[positionY-1][positionX];
+                caseArrivee = (Case) Carte.map[positionY-1][positionX];
                 break;
             case "bas":
-                caseArrivee = (Case) partie.carte.map[positionY+1][positionX];
+                caseArrivee = (Case) Carte.map[positionY+1][positionX];
                 break;
             case "gauche":
-                caseArrivee = (Case) partie.carte.map[positionY][positionX-1];
+                caseArrivee = (Case) Carte.map[positionY][positionX-1];
                 break;
             case "droite":
-                caseArrivee = (Case) partie.carte.map[positionY][positionX+1];
+                caseArrivee = (Case) Carte.map[positionY][positionX+1];
                 break;
             default:
                 // Si la direction n'est pas reconnue, le joueur reste sur place

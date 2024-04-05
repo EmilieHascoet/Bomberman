@@ -12,8 +12,8 @@ public class BlocDestructible extends Case {
     /**
      * Default constructor
      */
-    public BlocDestructible(Integer positionX, Integer positionY, Partie partie) {
-        super(false, positionX, positionY, "BlocDestructible", true, partie);
+    public BlocDestructible(Integer positionX, Integer positionY) {
+        super(false, positionX, positionY, "BlocDestructible", true);
     }
 
     /**
@@ -23,14 +23,14 @@ public class BlocDestructible extends Case {
         Random rand = new Random();
         double random = rand.nextDouble();
         List<String> listeBonus = new ArrayList<String>();
-        listeBonus.addAll(this.partie.param.getListBonus());
+        listeBonus.addAll(Partie.paramPartie.getListBonus());
         if (random < 0.3) {
-            Bonus bonus = new Bonus(this.positionX, this.positionY, true, listeBonus.get(rand.nextInt(listeBonus.size())), this.partie);
-            this.partie.carte.map[this.positionX][this.positionY] = bonus;
+            Bonus bonus = new Bonus(this.positionX, this.positionY, true, listeBonus.get(rand.nextInt(listeBonus.size())));
+            Carte.map[this.positionX][this.positionY] = bonus;
         } else {
-            this.partie.carte.map[this.positionX][this.positionY].estTraversable = true; 
-            this.partie.carte.map[this.positionX][this.positionY].estDestructible = false;
-            this.partie.carte.map[this.positionX][this.positionY].typeImage = "CaseVide";
+            Carte.map[this.positionX][this.positionY].estTraversable = true; 
+            Carte.map[this.positionX][this.positionY].estDestructible = false;
+            Carte.map[this.positionX][this.positionY].typeImage = "CaseVide";
         }        
     }
 

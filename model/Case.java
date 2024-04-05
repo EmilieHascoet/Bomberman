@@ -22,20 +22,18 @@ public class Case {
     public int Points; 
 
     // Déclarations des associations
-    Partie partie;
     Joueur joueur;
 
     /**
      * Default constructor
      */
     public Case(Boolean estTraversable, Integer positionX, Integer positionY, String typeImage,
-            boolean estDestructible, Partie partie) {
+            boolean estDestructible) {
         this.estTraversable = estTraversable;
         this.positionX = positionX;
         this.positionY = positionY;
         this.typeImage = typeImage;
         this.estDestructible = estDestructible;
-        this.partie = partie;
         // Méthode pour calculer les points automatiquement avec de l'aléatoire
         // this.Points = Points;
     }

@@ -13,8 +13,8 @@ public class Bombe extends Case {
     /**
      * Default constructor
      */
-    public Bombe(Integer positionX, Integer positionY, Integer tempsExplosion, Integer portee, Partie partie) {
-        super(false, positionX, positionY, "Bombe", false, partie);
+    public Bombe(Integer positionX, Integer positionY, Integer tempsExplosion, Integer portee) {
+        super(false, positionX, positionY, "Bombe", false);
         this.tempsExplosion = tempsExplosion;
         this.portee = portee;
     }
@@ -43,20 +43,20 @@ public class Bombe extends Case {
                         positionXtemp = -p;
                         break;
                 }
-                if (super.partie.carte.map[positionYtemp][positionXtemp].joueur != null) { // si c'est un joueur il perd
+                if (Carte.map[positionYtemp][positionXtemp].joueur != null) { // si c'est un joueur il perd
                                                                                            // un vie et explosion
                                                                                            // continue
-                    super.partie.carte.map[positionYtemp][positionXtemp].joueur.vie--; // il faut voir et verifier si il
+                    Carte.map[positionYtemp][positionXtemp].joueur.vie--; // il faut voir et verifier si il
                                                                                        // y a une ou plus de jouers
                                                                                        // d'abord
                 }
 
-                else if (!super.partie.carte.map[positionYtemp][positionXtemp].estTraversable) {
-                    if (super.partie.carte.map[positionYtemp][positionXtemp] instanceof BlocDestructible) // si c'est
+                else if (!Carte.map[positionYtemp][positionXtemp].estTraversable) {
+                    if (Carte.map[positionYtemp][positionXtemp] instanceof BlocDestructible) // si c'est
                                                                                                           // destructible
                         // le blocl est destruit
                         // et explosion continue
-                        ((BlocDestructible) super.partie.carte.map[positionYtemp][positionXtemp]).destruction(); // cast
+                        ((BlocDestructible) Carte.map[positionYtemp][positionXtemp]).destruction(); // cast
                                                                                                                  // and
                                                                                                                  // call
                                                                                                                  // the
