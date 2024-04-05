@@ -47,7 +47,7 @@ public class Carte {
         }
         // place les joueurs sur les cases
         map[1][1].setJoueur(partie.joueurs.get(0));
-        map[n-2][m-2].setJoueur(partie.joueurs.get(1));
+        map[n - 2][m - 2].setJoueur(partie.joueurs.get(1));
     }
 
     /**
@@ -67,5 +67,23 @@ public class Carte {
             s += "\n";
         }
         return s;
+    }
+
+    /* pour test */
+    public void afficherCarte() {
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                if (map[i][j].estTraversable && !map[i][j].estDestructible) {
+                    System.out.print("\u001B[34m " + "T" + "\t" + "\u001B[0m");
+                } else if (!map[i][j].estTraversable && map[i][j].estDestructible) {
+                    System.out.print("\u001B[32m " + "D" + "\t" + "\u001B[0m");
+                } else if (!map[i][j].estTraversable && !map[i][j].estDestructible) {
+                    System.out.print("\u001B[31m " + "M" + "\t" + "\u001B[0m");
+                } else {
+                    System.out.print("V" + "\t");
+                }
+            }
+            System.out.println();
+        }
     }
 }
