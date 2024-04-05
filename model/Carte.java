@@ -1,13 +1,15 @@
 package model;
+
+import java.util.List;
+import java.util.ArrayList;
 /**
  * 
  */
 public class Carte {
-
     // Déclarations des attributs
     public Case[][] map;
     public Partie partie;
-
+    
     /**
      * Génère la carte avec la taille, les blocs destructibles et les blocs indestructibles
      */
