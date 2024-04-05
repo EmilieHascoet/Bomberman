@@ -1,14 +1,15 @@
 package model;
+
 /**
  * 
  */
-public class BlocDestructible extends Case{
+public class BlocDestructible extends Case {
 
     /**
      * Default constructor
      */
-    public BlocDestructible(Boolean estTraversable, Integer positionX, Integer positionY, boolean estDestructible) {
-        super(estTraversable, positionX, positionY, "BlocDestructible", estDestructible);
+    public BlocDestructible(Integer positionX, Integer positionY) {
+        super(false, positionX, positionY, "BlocDestructible", true);
     }
 
     /**
@@ -18,4 +19,8 @@ public class BlocDestructible extends Case{
         // TODO implement here
     }
 
+    @Override
+    public String toString() {
+        return ("A destructible block at Positon : " + positionX + positionY);
+    }
 }

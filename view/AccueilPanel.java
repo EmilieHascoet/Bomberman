@@ -2,47 +2,55 @@ package view;
 
 import java.awt.*;
 import java.net.URL;
+import java.util.*;
+import java.util.List;
+import java.util.function.Supplier;
 
 import javax.swing.*;
 
 import controller.AccueilController;
-
-
-import java.awt.event.*;
+import model.Bomberman;
+import model.Touche;
 
 public class AccueilPanel extends JPanel {
     //JLabel logo = new JLabel(new ImageIcon("../Images/Blossom-Battles.jpg"));
 
     private MainFrame frame;
+    private Bomberman bomberman;
 
-    public AccueilPanel(MainFrame frame) {
+    public AccueilPanel(MainFrame frame, Bomberman bomberman) {
         this.frame = frame;
+        this.bomberman = bomberman;
         setLayout(new BorderLayout());
+        // Bordure pour le panel de 10 pixels
+        int borderSize = 20;
+        setBorder(BorderFactory.createEmptyBorder(borderSize, borderSize, borderSize, borderSize));
 
         Color backgroundColor = new Color(203, 239, 195);
-        Color complementColor = new Color(231, 195, 239);
 
         // ajout de la couleur de fond
         this.setBackground(backgroundColor);
 
         ///////////////// PANEL DU HAUT ///////////////////
+
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
 
         // Titre
         JLabel title = new JLabel("Bomberman Labyrinth");
-        title.setFont(new Font("Serif", Font.BOLD, 24));
+        title.setFont(new Font("Serif", Font.BOLD, 30));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setForeground(Color.RED);
         topPanel.add(title);
 
-        // Utilisation de HedgePanel pour créer une haie sous le titre
+        /*// Utilisation de HedgePanel pour créer une haie sous le titre
         JPanel hedgePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         hedgePanel.setBackground(backgroundColor);
         for (int i = 0; i < 10; i++) {
             HedgePanel hedge = new HedgePanel();
             hedgePanel.add(hedge);
         }
-        topPanel.add(hedgePanel);
+        topPanel.add(hedgePanel);*/
 
         // Explication du jeu
         //JLabel explanation = new JLabel("<html>Navigate the maze, place bombs to clear paths, and outsmart your opponent.<br>May the cleverest explorer win!</html>");
@@ -51,142 +59,91 @@ public class AccueilPanel extends JPanel {
 
         /////////////// Panel du centre ///////////////
 
-        //Affichage du labyrinthe au centre
-        JPanel centerPanel = new JPanel();
+        // Affichage du labyrinthe au centre
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        centerPanel.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createEmptyBorder(60, 0, 40, 0),
+            BorderFactory.createLineBorder(Color.BLACK, 3)
+        ));
+
         ClassLoader classLoader = getClass().getClassLoader();
         URL imageUrl = classLoader.getResource("Images/labyrinthe.png");
         if (imageUrl != null) {
             ImageIcon icon = new ImageIcon(imageUrl);
-            int imageWidth = 30; // Largeur souhaitée
-            int imageHeight = 30; // Hauteur souhaitée
-            Image img = icon.getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
-            ImageIcon resizedIcon = new ImageIcon(img);
-            JButton button = new JButton(resizedIcon);
-            centerPanel.add(button);
+            JButton button = new JButton(icon);
+            centerPanel.add(button, BorderLayout.CENTER);
         } else {
             System.err.println("Image not found Labyrinthe");
         }
 
 
-        ///////////////// PANEL DE GAUCHE ///////////////////
+        ///////////////// PANEL DE GAUCHE ET DE DROITE ///////////////////
         
         // Boutons de configuration pour les joueurs
-        JPanel leftPanel = new JPanel();
-        leftPanel.setLayout(new GridLayout(6,2));
-        
 
-        // Les 5 controles du joueur 1
-        JLabel player1Settings = new JLabel("Controles du joueur 1");
-        JLabel player1Icon = new JLabel("Icone du joueur 1");
+        ArrayList<String> listNomTouche = new ArrayList<String>(Arrays.asList("Aller en haut", "Aller en bas", "Aller à gauche", "Aller à droite", "Placer une bombe"));
 
-        JLabel player1HautLabel = new JLabel("Aller en haut");
-        JButton player1HautButton = new JButton("Fleche Haut");
+        for (int i = 0; i < 2; i++) {
+            Touche touche = this.bomberman.listeTouche.get(i);
+            List<Supplier<String>> actions = Arrays.asList(touche::getHaut, touche::getBas, touche::getGauche, touche::getDroite, touche::getBombe);
 
-        JLabel player1BasLabel = new JLabel("Aller en bas");
-        JButton player1BasButton = new JButton("Fleche bas");
+            JPanel panel = new JPanel();
+            panel.setLayout(new GridLayout(6,2, 50, 20));
+            panel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+            panel.setBackground(backgroundColor);
+            
+            JLabel SettingsLabel = new JLabel("Controles du joueur " + (i+1));
+            JLabel playerIcon = new JLabel("Icone du joueur " + (i+1));
+            panel.add(SettingsLabel);
+            panel.add(playerIcon);
 
-        JLabel player1GaucheLabel = new JLabel("Aller à gauche");
-        JButton player1GaucheButton = new JButton("Fleche gauche");
+            for (int j = 0; j < 5; j++) {
+                String nomTouche = listNomTouche.get(j);
+                String actionTouche = actions.get(j).get();
 
-        JLabel player1DroiteLabel = new JLabel("Aller à droite");
-        JButton player1DroiteButton = new JButton("Fleche droite");
+                JLabel toucheLabel = new JLabel(nomTouche);
+                JButton ToucheButton = new JButton(actionTouche);
+    
+                panel.add(toucheLabel);
+                panel.add(ToucheButton);
+    
+                AccueilController ctr = new AccueilController(i+1, actionTouche, nomTouche , ToucheButton);
+                ToucheButton.addActionListener(ctr);
+            }
 
-        JLabel player1BombeLabel = new JLabel("Placer une bombe");
-        JButton player1BombeButton = new JButton("Right Shift");
-
-        AccueilController ctr = new AccueilController("1", "Fleche Haut", "Haut", player1HautButton);
-        player1HautButton.addActionListener(ctr);
-
-        /*player1BasButton.addActionListener(e -> {
-            ChangerTouchePanel changerTouchePanel = new ChangerTouchePanel(1, "bas");
-            changerTouchePanel.setVisible(true);
-        });
-
-        player1GaucheButton.addActionListener(e -> {
-            ChangerTouchePanel changerTouchePanel = new ChangerTouchePanel(1, "gauche");
-            changerTouchePanel.setVisible(true);
-        });
-
-        player1DroiteButton.addActionListener(e -> {
-            ChangerTouchePanel changerTouchePanel = new ChangerTouchePanel(1, "droite");
-            changerTouchePanel.setVisible(true);
-        });
-
-        player1BombeButton.addActionListener(e -> {
-            ChangerTouchePanel changerTouchePanel = new ChangerTouchePanel(1, "bombe");
-            changerTouchePanel.setVisible(true);
-        });*/
-
-        leftPanel.add(player1Settings);
-        leftPanel.add(player1Icon);
-        leftPanel.add(player1HautLabel);
-        leftPanel.add(player1HautButton);
-        leftPanel.add(player1BasLabel);
-        leftPanel.add(player1BasButton);
-        leftPanel.add(player1GaucheLabel);
-        leftPanel.add(player1GaucheButton);
-        leftPanel.add(player1DroiteLabel);
-        leftPanel.add(player1DroiteButton);
-        leftPanel.add(player1BombeLabel);
-        leftPanel.add(player1BombeButton);
-
-
-        ///////////////// PANEL DE DROITE ///////////////////
-        
-        // Boutons de configuration pour les joueurs
-        JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new GridLayout(6,2));
-
-        // Les 5 controles du joueur 2
-        JLabel player2Settings = new JLabel("Controles du joueur 2");
-        JLabel player2Icon = new JLabel("Icone du joueur 2");
-
-        JLabel player2HautLabel = new JLabel("Aller en haut");
-        JButton player2HautButton = new JButton("z");
-
-        JLabel player2BasLabel = new JLabel("Aller en bas");
-        JButton player2BasButton = new JButton("s");
-
-        JLabel player2GaucheLabel = new JLabel("Aller à gauche");
-        JButton player2GaucheButton = new JButton("q");
-
-        JLabel player2DroiteLabel = new JLabel("Aller à droite");
-        JButton player2DroiteButton = new JButton("d");
-
-        JLabel player2BombeLabel = new JLabel("Placer une bombe");
-        JButton player2BombeButton = new JButton("Espace");
-
-        rightPanel.add(player2Settings);
-        rightPanel.add(player2Icon);
-        rightPanel.add(player2HautLabel);
-        rightPanel.add(player2HautButton);
-        rightPanel.add(player2BasLabel);
-        rightPanel.add(player2BasButton);
-        rightPanel.add(player2GaucheLabel);
-        rightPanel.add(player2GaucheButton);
-        rightPanel.add(player2DroiteLabel);
-        rightPanel.add(player2DroiteButton);
-        rightPanel.add(player2BombeLabel);
-        rightPanel.add(player2BombeButton);
-
+            if(i == 0){
+                this.add(panel, BorderLayout.WEST);
+            } else {
+                this.add(panel, BorderLayout.EAST);
+            }
+        }
 
         ////////////////// PANEL DU BAS ///////////////////
+
+        // Boutons pour jouer et accéder aux options
+        JPanel bottomPanel = new JPanel();
+
+        bottomPanel.setLayout(new GridLayout(1, 2, borderSize, 0));
+        bottomPanel.setBackground(backgroundColor);
 
         JButton playButton = new JButton("Nouvelle Partie");
         AccueilController ctrPlay = new AccueilController("boutonPlayPressed");
         playButton.addActionListener(ctrPlay);
+        playButton.setPreferredSize(new Dimension(playButton.getPreferredSize().width, 40));
 
         JButton optionsButton = new JButton("Options");
         AccueilController ctrOptions = new AccueilController("boutonOptionsPressed");
         optionsButton.addActionListener(ctrOptions);
+        optionsButton.setPreferredSize(new Dimension(optionsButton.getPreferredSize().width, 40));
+
+        bottomPanel.add(playButton);
+        bottomPanel.add(optionsButton);
 
         /////////////// Ajout des panels au panel principal ///////////////
 
         this.add(topPanel, BorderLayout.NORTH);
         this.add(centerPanel, BorderLayout.CENTER);
-        this.add(leftPanel, BorderLayout.WEST);
-        this.add(rightPanel, BorderLayout.EAST);
-        this.add(playButton, BorderLayout.SOUTH);
+        this.add(bottomPanel, BorderLayout.SOUTH);
 
         // Afficher la fenêtre
         setVisible(true);
@@ -195,7 +152,5 @@ public class AccueilPanel extends JPanel {
         this.setBackground(backgroundColor);
         topPanel.setBackground(backgroundColor);
         centerPanel.setBackground(backgroundColor);
-        leftPanel.setBackground(backgroundColor);
-        rightPanel.setBackground(backgroundColor);
     }
 }

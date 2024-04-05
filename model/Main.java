@@ -11,10 +11,7 @@ public class Main {
     public static void main(String args[]) throws ParseException {
         //main = new FirstPageView();
         Bomberman bomberman = new Bomberman();
-        Set<String> listBonus = new HashSet<String>(Arrays.asList("Bombe", "Flamme", "Vie", "Vitesse"));
-        bomberman.setParametres(listBonus, 3, 1, 15, 15);
         bomberman.nouvellePartie(bomberman.parametres);
-        bomberman.partie.nouvellePartie();
-        bomberman.partie.carte.afficherCarte();
+        System.out.println(bomberman.parties.get(0).carte);
     }
 }
