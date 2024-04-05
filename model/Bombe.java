@@ -8,28 +8,54 @@ public class Bombe extends Case {
     /**
      * Default constructor
      */
-    public Bombe(Integer positionX, Integer positionY, Integer tempsExplosion, Integer portée) {
+    public Bombe(Integer positionX, Integer positionY, Integer tempsExplosion, Integer portee) {
         super(false, positionX, positionY, "Bombe", false);
         this.tempsExplosion = tempsExplosion;
-        this.portée = portée;
+        this.portee = portee;
     }
 
     // Déclarations des attributs
     public Integer tempsExplosion;
     public Partie partie;
-    public Integer portée;
+    public Integer portee;
 
     /**
      * 
      */
     public void explose() {
-        // TODO implement here
+       for(int direction = 0 ; direction<4 ; direction++){  //0 nord(y-) , 1 est(x-) , 2 sud(y+) , 3 ouest(x+)
+       boolean cont= true;
+       int p=1;
+        do{
+            switch(direction){
+                case 0:
+                    if (estJoueur(positionY+p,positionX)){ // si c'est un joueur il perd un vie et explosion continue
+                        joeurVie-- // il faut voir et verifier si il y a une ou plus de jouers d'abord   
+                    }
+
+                    else if !estTraversable(positionY-p , positionX){ 
+                            if (estDestructible(positionY-p,positionX)) // si c'est destructible le blocl est destruit et explosion continue
+                                destrurireBlock(positionX-p,positionX);
+                            else // si block n'est pas destructible explostion s'arrete
+                                cont=false;
+                    }
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+            }
+        p++;
+        }while(cont && p<=portee);
+       }
     }
 
     @Override
     public String toString() {
-        return ("A bomb at Positon : " + positionX + positionY + "TempsExplosion : " + tempsExplosion + "avec portée :"
-                + portée);
+        return ("A bomb at Positon : " + positionX + positionY + "TempsExplosion : " + tempsExplosion + "avec portee :"
+                + portee);
     }
 
 }
