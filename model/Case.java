@@ -23,6 +23,7 @@ public class Case {
 
     // Déclarations des associations
     Partie partie;
+    Joueur joueur;
 
     /**
      * Default constructor
@@ -40,6 +41,10 @@ public class Case {
     }
 
     // Déclarations des méthodes
+
+    public void setJoueur(Joueur joueur) {
+        this.joueur = joueur;
+    }
 
     @Override
     public String toString() {
