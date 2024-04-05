@@ -12,6 +12,14 @@ import java.util.HashSet;
  */
 public class Bomberman {
 
+    // Déclarations des attributs
+    public List<String> nomJoueurs = new ArrayList<>();
+
+    // Déclarations des associations
+    public List<Partie> parties = new ArrayList<>();
+    public List<Touche> listeTouche = new ArrayList<>();
+    public Parametres parametres;
+
     /**
      * Default constructor
      */
@@ -19,15 +27,8 @@ public class Bomberman {
         setTouche(1, "Fleche du haut", "Fleche du bas", "Fleche de droite", "Fleche de gauche", "Shift");
         setTouche(2, "Z", "S", "D", "Q", "Espace");
         setParametres(new HashSet<String>(Arrays.asList("Bombe", "Vie", "Vitesse", "Portée")), 3, 1, 1, 1, 15, 15);
+        setNomJoueurs("Joueur 1", "Joueur 2");
     }
-
-    // Déclarations des attributs
-    public List<String> nomJoueurs = new ArrayList<>(Arrays.asList("Joueur 1", "Joueur 2"));
-
-    // Déclarations des associations
-    public List<Partie> parties = new ArrayList<>();
-    public List<Touche> listeTouche = new ArrayList<>();
-    public Parametres parametres;
 
     // Déclarations des méthodes
     public void setTouche(int joueur, String haut, String bas, String droite, String gauche, String bombe) {
@@ -55,6 +56,11 @@ public class Bomberman {
             parametres.setBoardWidth(boardWidth);
             parametres.setBoardHeight(boardHeight);
         }
+    }
+
+    public void setNomJoueurs(String nomJoueur1, String nomJoueur2) {
+        nomJoueurs.set(0, nomJoueur1);
+        nomJoueurs.set(1, nomJoueur2);
     }
 
     /**

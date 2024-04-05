@@ -9,6 +9,16 @@ import java.util.Map;
  */
 public class Touche {
 
+    // Déclarations des attributs
+    private String haut;
+    private String bas;
+    private String droite;
+    private String gauche;
+    private String bombe;
+
+    // Déclarations des associations
+    Joueur joueur;
+
     /**
      * Default constructor
      */
@@ -19,16 +29,6 @@ public class Touche {
         this.gauche = gauche;
         this.bombe = bombe;
     }
-
-    // Déclarations des attributs
-    private String haut;
-    private String bas;
-    private String droite;
-    private String gauche;
-    private String bombe;
-
-    // Déclarations des associations
-    Joueur joueur;
 
     // Déclarations des méthodes setters
     public void setJoueur(Joueur j) {
