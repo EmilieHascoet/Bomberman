@@ -5,6 +5,15 @@ import java.util.*;
  * 
  */
 public class Partie {
+
+    // Déclarations des attributs
+    public Integer temps = 0;
+
+    // Déclarations des associations
+    public List<Joueur> joueurs;
+    public Carte carte;
+    public Parametres param;
+
     /**
      * Default constructor
      * Paramètres pour la partie, définis par l'utilisateur dans l'écran
@@ -21,13 +30,6 @@ public class Partie {
         genererNouvelleCarte();
     }
 
-    // Déclarations des attributs
-    public Integer temps = 0;
-
-    // Déclarations des associations
-    public List<Joueur> joueurs;
-    public Carte carte;
-    public Parametres param;
 
     // Déclaration des méthodes
     /**
@@ -40,6 +42,6 @@ public class Partie {
      * Génère une nouvelle carte avec la taille
      */
     public void genererNouvelleCarte() {
-        carte = new Carte(param.getBoardWidth(), param.getBoardHeight());
+        carte = new Carte(param.getBoardWidth(), param.getBoardHeight(), this);
     }
 }

@@ -5,11 +5,15 @@ package model;
  */
 public class Bonus extends Case {
 
+    // Déclarations des attributs
+    public Boolean isMalus;
+    public String effet;
+
     /**
      * Default constructor
      */
-    public Bonus(Integer positionX, Integer positionY, Boolean isMalus, String effet) {
-        super(true, positionX, positionY, "Bonus", false);
+    public Bonus(Integer positionX, Integer positionY, Boolean isMalus, String effet, Partie partie) {
+        super(true, positionX, positionY, "Bonus", false, partie);
         // 30% de chance que ce soit un malus
         if (Math.random() < 0.3) {
             this.isMalus = true;
@@ -18,10 +22,6 @@ public class Bonus extends Case {
         }
         this.effet = effet;
     }
-
-    // Déclarations des attributs
-    public Boolean isMalus;
-    public String effet;
 
     // Déclarations des méthodes
     /*

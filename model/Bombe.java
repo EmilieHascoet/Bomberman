@@ -5,19 +5,19 @@ package model;
  */
 public class Bombe extends Case {
 
-    /**
-     * Default constructor
-     */
-    public Bombe(Integer positionX, Integer positionY, Integer tempsExplosion, Integer portee) {
-        super(false, positionX, positionY, "Bombe", false);
-        this.tempsExplosion = tempsExplosion;
-        this.portee = portee;
-    }
-
     // Déclarations des attributs
     public Integer tempsExplosion;
     public Partie partie;
     public Integer portee;
+
+    /**
+     * Default constructor
+     */
+    public Bombe(Integer positionX, Integer positionY, Integer tempsExplosion, Integer portee, Partie partie) {
+        super(false, positionX, positionY, "Bombe", false, partie);
+        this.tempsExplosion = tempsExplosion;
+        this.portee = portee;
+    }
 
     /**
      * 

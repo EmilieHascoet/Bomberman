@@ -8,8 +8,8 @@ public class BlocDestructible extends Case {
     /**
      * Default constructor
      */
-    public BlocDestructible(Integer positionX, Integer positionY) {
-        super(false, positionX, positionY, "BlocDestructible", true);
+    public BlocDestructible(Integer positionX, Integer positionY, Partie partie) {
+        super(false, positionX, positionY, "BlocDestructible", true, partie);
     }
 
     /**
