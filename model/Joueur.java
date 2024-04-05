@@ -41,8 +41,10 @@ public class Joueur {
     public void poserBombe() {
         if (stockBombe > 0) {
             stockBombe--;
-            Bombe bombe = new Bombe(this.positionX, this.positionY, 2, porteeBombe, partie);
-            partie.carte.map[this.positionX][this.positionY] = bombe;
+            Bombe newBombe = new Bombe(this.positionX, this.positionY, 2, porteeBombe, partie);
+            Case caseBombe = (Case) newBombe;
+            caseBombe.setJoueur(this);
+            partie.carte.map[this.positionX][this.positionY] = newBombe;
         }
     }
 
