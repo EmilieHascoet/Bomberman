@@ -72,8 +72,15 @@ public class Bombe extends Case {
 
     @Override
     public String toString() {
-        return ("A bomb at Positon : " + positionX + positionY + "TempsExplosion : " + tempsExplosion + "avec portee :"
-                + portee);
+        StringBuilder sb = new StringBuilder();
+        sb.append("BlocDestructible {");
+        sb.append("\n  positionX: ").append(positionX);
+        sb.append("\n  positionY: ").append(positionY);
+        sb.append("\n  estTraversable: ").append(estTraversable);
+        sb.append("\n  estDestructible: ").append(estDestructible);
+        sb.append("\n  typeImage: ").append(typeImage);
+        sb.append("\n}");
+        return sb.toString();
     }
 
 }

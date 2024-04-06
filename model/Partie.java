@@ -48,4 +48,16 @@ public class Partie {
     public void genererNouvelleCarte() {
         carte = new Carte(Partie.paramPartie.getBoardWidth(), Partie.paramPartie.getBoardHeight(), this);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Partie {");
+        sb.append("\n  temps: ").append(temps);
+        sb.append("\n  joueurs: ").append(joueurs);
+        sb.append("\n  carte: ").append(carte);
+        sb.append("\n  paramPartie: ").append(paramPartie);
+        sb.append("\n}");
+        return sb.toString();
+    }
 }

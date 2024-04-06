@@ -108,8 +108,19 @@ public class Joueur {
     // informations current du joueur
     @Override
     public String toString() {
-        return ("Joueur : " + nom + "Vie : " + vie + "StockBombe : " + stockBombe + "PorteeBombe : " + porteeBombe
-                + "Score : " + score + "Position : " + positionX + positionY + "Vitesse : " + vitesse);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Joueur {");
+        sb.append("\n  nom: ").append(nom);
+        sb.append("\n  vie: ").append(vie);
+        sb.append("\n  stockBombe: ").append(stockBombe);
+        sb.append("\n  porteeBombe: ").append(porteeBombe);
+        sb.append("\n  score: ").append(score);
+        sb.append("\n  positionX: ").append(positionX);
+        sb.append("\n  positionY: ").append(positionY);
+        sb.append("\n  vitesse: ").append(vitesse);
+        sb.append("\n}");
+        return sb.toString();
     }
 
 }

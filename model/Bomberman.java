@@ -16,7 +16,7 @@ public class Bomberman {
     public List<String> nomJoueurs = new ArrayList<>();
 
     // Déclarations des associations
-    public List<Partie> parties = new ArrayList<>();
+    public Partie partie;
     public List<Touche> listeTouche = new ArrayList<>();
     public Parametres parametres;
 
@@ -72,12 +72,18 @@ public class Bomberman {
      */
     public void nouvellePartie(Parametres parametresPartie) {
         // Créer une nouvelle partie avec les paramètres entrés dans setParametres
-        parties.add(new Partie(parametresPartie, listeTouche, nomJoueurs));
+        partie = new Partie(parametresPartie, listeTouche, nomJoueurs);
     }
 
     @Override
     public String toString() {
-        return ("les joueurs sont : " + nomJoueurs + "les parties sont : " + parties + "les touches sont : "
-                + listeTouche + "les parametres sont : " + parametres);
+        StringBuilder sb = new StringBuilder();
+        sb.append("Bomberman {");
+        sb.append("\n  nomJoueurs: ").append(nomJoueurs);
+        sb.append("\n  partie: ").append(partie);
+        sb.append("\n  listeTouche: ").append(listeTouche);
+        sb.append("\n  parametres: ").append(parametres);
+        sb.append("\n}");
+        return sb.toString();
     }
 }

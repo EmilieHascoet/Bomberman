@@ -92,4 +92,21 @@ public class Touche {
             keyMap.put(KeyEvent.VK_F1 + i - 1, "F" + i);
         }
     }
+
+    public static String getKeyText(int keyCode) {
+        return keyMap.get(keyCode);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Touche {");
+        sb.append("\n  haut: ").append(haut);
+        sb.append("\n  bas: ").append(bas);
+        sb.append("\n  droite: ").append(droite);
+        sb.append("\n  gauche: ").append(gauche);
+        sb.append("\n  bombe: ").append(bombe);
+        sb.append("\n}");
+        return sb.toString();
+    }
 }

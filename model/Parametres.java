@@ -85,9 +85,17 @@ public class Parametres {
     // on overide la méthode toString pour afficher tous les paramètres
     @Override
     public String toString() {
-        return ("Les parametres choisi sont :\n Liste des bonus : " + listBonus + "\nNombre de vie : " + nbVie
-                + "\nVitesse : " + vitesse + "\nNombre de bombe initiale : " + nbBombeInit + "\nPortée de la bombe : "
-                + porteeBombe + "\nLargeur du plateau : " + boardWidth + "\n Hauteur du plateau : " + boardHeight);
+        StringBuilder sb = new StringBuilder();
+        sb.append("Parametres {");
+        sb.append("\n  listBonus: ").append(listBonus);
+        sb.append("\n  nbVie: ").append(nbVie);
+        sb.append("\n  vitesse: ").append(vitesse);
+        sb.append("\n  nbBombeInit: ").append(nbBombeInit);
+        sb.append("\n  porteeBombe: ").append(porteeBombe);
+        sb.append("\n  boardWidth: ").append(boardWidth);
+        sb.append("\n  boardHeight: ").append(boardHeight);
+        sb.append("\n}");
+        return sb.toString();
     }
 
 }

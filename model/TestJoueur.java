@@ -13,12 +13,12 @@ public class TestJoueur {
         bomberman.nouvellePartie(bomberman.parametres);
         System.out.println(Carte.map[1][1]);
 
-        /*Joueur j1 = bomberman.parties.get(0).joueurs.get(0);
-        Joueur j2 = bomberman.parties.get(0).joueurs.get(1);
+        Joueur j1 = bomberman.partie.joueurs.get(0);
+        Joueur j2 = bomberman.partie.joueurs.get(1);
         j1.seDeplacer("droite");
         j1.poserBombe();
         j1.seDeplacer("gauche");
         j1.seDeplacer("bas");
-        System.out.println(bomberman.parties.get(0).carte);*/
+        System.out.println(bomberman.partie.carte);
     }
 }

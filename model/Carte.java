@@ -53,7 +53,7 @@ public class Carte {
      */
     @Override
     public String toString() {
-        String s = "Carte : \n";
+        String s = "Carte {\n";
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
                 if (map[i][j].joueur != null) {
@@ -73,7 +73,7 @@ public class Carte {
             }
             s += "\n";
         }
-        return s;
+        return s + "}";
     }
 
     /* pour test */

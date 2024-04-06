@@ -46,8 +46,16 @@ public class Case {
 
     @Override
     public String toString() {
-        return ("A case at Positon : " + positionX + positionY + "Type : " + typeImage + "Traversable : "
-                + estTraversable + "Destructible : " + estDestructible);
+        StringBuilder sb = new StringBuilder();
+        sb.append("Case {");
+        sb.append("\n  positionX: ").append(positionX);
+        sb.append("\n  positionY: ").append(positionY);
+        sb.append("\n  estTraversable: ").append(estTraversable);
+        sb.append("\n  estDestructible: ").append(estDestructible);
+        sb.append("\n  typeImage: ").append(typeImage);
+        sb.append("\n  Points: ").append(Points);
+        sb.append("\n  joueur: ").append(joueur); // Si vous avez un attribut joueur dans la classe Case
+        sb.append("\n}");
+        return sb.toString();
     }
-
 }

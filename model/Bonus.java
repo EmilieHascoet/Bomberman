@@ -57,6 +57,13 @@ public class Bonus extends Case {
 
     @Override
     public String toString() {
-        return ("A bonus at Positon : " + positionX + positionY + "Effet : " + effet + "Malus : " + isMalus);
+        StringBuilder sb = new StringBuilder();
+        sb.append("Bonus {");
+        sb.append("\n  positionX: ").append(positionX);
+        sb.append("\n  positionY: ").append(positionY);
+        sb.append("\n  isMalus: ").append(isMalus);
+        sb.append("\n  effet: ").append(effet);
+        sb.append("\n}");
+        return sb.toString();
     }
 }
