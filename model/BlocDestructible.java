@@ -19,7 +19,7 @@ public class BlocDestructible extends Case {
     /**
      * 
      */
-    public void destruction() {
+    public void destruction(Joueur joueur) {
         Random rand = new Random();
         double random = rand.nextDouble();
         List<String> listeBonus = new ArrayList<String>();
@@ -30,7 +30,8 @@ public class BlocDestructible extends Case {
         } else {
             Case caseVide = new Case(true, this.positionX, this.positionY, "CaseVide", false);
             Carte.map[this.positionY][this.positionX] = caseVide;
-        }        
+        }
+        joueur.score += super.Points;
     }
 
     @Override

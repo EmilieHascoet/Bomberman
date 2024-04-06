@@ -38,7 +38,7 @@ public class Joueur {
      */
     public Bombe poseBombe() {
         if (stockBombe > 0) {
-            Bombe newBombe = new Bombe(this.positionX, this.positionY, 2, porteeBombe);
+            Bombe newBombe = new Bombe(this.positionX, this.positionY, 2, porteeBombe, this);
             Carte.map[this.positionY][this.positionX] = newBombe;
             Case caseBombe = (Case) newBombe;
             caseBombe.setJoueur(this);
@@ -88,9 +88,7 @@ public class Joueur {
     
             // Si la case d'arrivée est un bonus, applique l'effet du bonus
             if (caseArrivee.typeImage == "Bonus") {
-                System.out.println("Bonus trouvé !");
                 Bonus bonus = (Bonus) caseArrivee;
-                System.out.println("Bonus : " + bonus);
                 bonus.estRamassee(this);
             }
         }

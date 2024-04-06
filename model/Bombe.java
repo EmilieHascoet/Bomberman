@@ -7,16 +7,17 @@ public class Bombe extends Case {
 
     // Déclarations des attributs
     public Integer tempsExplosion;
-    public Partie partie;
     public Integer portee;
+    public Joueur joueurPoseBombe;
 
     /**
      * Default constructor
      */
-    public Bombe(Integer positionX, Integer positionY, Integer tempsExplosion, Integer portee) {
+    public Bombe(Integer positionX, Integer positionY, Integer tempsExplosion, Integer portee, Joueur joueur) {
         super(false, positionX, positionY, "Bombe", false);
         this.tempsExplosion = tempsExplosion;
         this.portee = portee;
+        this.joueurPoseBombe = joueur;
     }
 
     /**
@@ -56,7 +57,7 @@ public class Bombe extends Case {
                                                                                                           // destructible
                         // le blocl est destruit
                         // et explosion continue
-                        ((BlocDestructible) Carte.map[positionYtemp][positionXtemp]).destruction(); // cast
+                        ((BlocDestructible) Carte.map[positionYtemp][positionXtemp]).destruction(this.joueurPoseBombe); // cast
                                                                                                                  // and
                                                                                                                  // call
                                                                                                                  // the
