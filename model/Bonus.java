@@ -12,7 +12,7 @@ public class Bonus extends Case {
     /**
      * Default constructor
      */
-    public Bonus(Integer positionX, Integer positionY, Boolean isMalus, String effet) {
+    public Bonus(Integer positionX, Integer positionY, String effet) {
         super(true, positionX, positionY, "Bonus", false);
         // 30% de chance que ce soit un malus
         if (Math.random() < 0.3) {
@@ -32,7 +32,7 @@ public class Bonus extends Case {
         switch (this.effet) {
             case "vie":
                 if (this.isMalus) { joueur.vie = joueur.vie - 1; }
-                else { joueur.vie = joueur.vie - 1; }
+                else { joueur.vie = joueur.vie + 1; }
                 break;
             case "stockBombe":
                 if (this.isMalus) { joueur.stockBombe = joueur.stockBombe - 1; }
@@ -52,7 +52,8 @@ public class Bonus extends Case {
         joueur.score += super.Points;
         int posX = super.positionX;
         int posY = super.positionY;
-        Carte.map[posY][posX] = new Case(true, posX, posY, "CaseVide", false);
+        Case caseVide = Carte.map[posY][posX] = new Case(true, posX, posY, "CaseVide", false);
+        caseVide.setJoueur(joueur);
     }
 
     @Override
