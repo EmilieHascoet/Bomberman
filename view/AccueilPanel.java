@@ -19,6 +19,22 @@ public class AccueilPanel extends JPanel {
     private Bomberman bomberman;
 
     public AccueilPanel(MainFrame frame, Bomberman bomberman) {
+        // Définir la nouvelle taille de police
+        int newFontSize = 18;
+
+        // Récupérer la police par défaut
+        Font defaultFont = UIManager.getDefaults().getFont("Label.font");
+
+        // Créer une nouvelle police avec la nouvelle taille
+        Font newFont = defaultFont.deriveFont((float)newFontSize);
+
+        // Définir la nouvelle police comme police par défaut pour tous les composants
+        UIManager.put("Label.font", newFont);
+        UIManager.put("Button.font", newFont);
+        UIManager.put("TextField.font", newFont);
+        UIManager.put("TextArea.font", newFont);
+        // Ajoutez d'autres types de composants si nécessaire
+
         this.frame = frame;
         this.bomberman = bomberman;
         setLayout(new BorderLayout());
