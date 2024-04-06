@@ -6,7 +6,9 @@ import javax.swing.JFrame;
 public class Main {
     public static JFrame main;
     public static void main(String args[]) throws ParseException {
-        testJoueurRamasseBonus();
+        //testJoueurRamasseBonus();
+        //testJoueurPoseBombe();
+        testDestructionBlocDestructible();
     }
 
     public static void testJoueurRamasseBonus() {
@@ -50,7 +52,27 @@ public class Main {
         System.out.println(j1);
 
         // Pose une bombe
-        j1.poseBombe();
+        Bombe bombe1 = j1.poseBombe();
+        bombe1.explose();
         System.out.println("Après que le joueur ait pose une bombe :\n" + bomberman.partie.carte + j1);
+    }
+
+    public static void testDestructionBlocDestructible() {
+        // Initialisation de la partie
+        Bomberman bomberman = new Bomberman();
+        // Change la taille par defaut de la carte
+        bomberman.parametres.setBoardHeight(10);
+        bomberman.parametres.setBoardWidth(10);
+        // Cree la partie
+        bomberman.nouvellePartie(bomberman.parametres);
+
+        // Ajoute un bloc destructible à droite du joueur
+        BlocDestructible blocDestructible = new BlocDestructible(2, 1);
+        Carte.map[1][2] = blocDestructible;
+        System.out.println(blocDestructible);
+
+        // Detruit le bloc destructible
+        blocDestructible.destruction();
+        System.out.println("Après destruction du bloc destructible :\n" + bomberman.partie.carte + Carte.map[1][2]);
     }
 }
