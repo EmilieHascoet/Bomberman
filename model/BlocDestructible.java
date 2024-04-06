@@ -25,12 +25,11 @@ public class BlocDestructible extends Case {
         List<String> listeBonus = new ArrayList<String>();
         listeBonus.addAll(Partie.paramPartie.getListBonus());
         if (random < 0.3) {
-            Bonus bonus = new Bonus(this.positionX, this.positionY, true, listeBonus.get(rand.nextInt(listeBonus.size())));
-            Carte.map[this.positionX][this.positionY] = bonus;
+            Bonus bonus = new Bonus(this.positionX, this.positionY, listeBonus.get(rand.nextInt(listeBonus.size())));
+            Carte.map[this.positionY][this.positionX] = bonus;
         } else {
-            Carte.map[this.positionX][this.positionY].estTraversable = true; 
-            Carte.map[this.positionX][this.positionY].estDestructible = false;
-            Carte.map[this.positionX][this.positionY].typeImage = "CaseVide";
+            Case caseVide = new Case(true, this.positionX, this.positionY, "CaseVide", false);
+            Carte.map[this.positionY][this.positionX] = caseVide;
         }        
     }
 
