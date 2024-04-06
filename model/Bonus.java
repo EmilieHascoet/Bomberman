@@ -17,6 +17,7 @@ public class Bonus extends Case {
         // 30% de chance que ce soit un malus
         if (Math.random() < 0.3) {
             this.isMalus = true;
+            super.Points += (int) (Math.random() * 50);
         } else {
             this.isMalus = false;
         }

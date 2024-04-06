@@ -35,7 +35,11 @@ public class Case {
         this.typeImage = typeImage;
         this.estDestructible = estDestructible;
         // Méthode pour calculer les points automatiquement avec de l'aléatoire
-        // this.Points = Points;
+        if (estDestructible) {
+            this.Points = (int) (Math.random() * 100);
+        } else if (typeImage.equals("Bonus")) {
+            this.Points = (int) (Math.random() * 50);
+        }
     }
 
     // Déclarations des méthodes
