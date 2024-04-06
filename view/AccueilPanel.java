@@ -8,19 +8,66 @@ import java.util.function.Supplier;
 
 import javax.swing.*;
 
-import controller.AccueilController;
+import controller.AccueilControleur;
 import model.Bomberman;
 import model.Touche;
 
 public class AccueilPanel extends JPanel {
-    //JLabel logo = new JLabel(new ImageIcon("../Images/Blossom-Battles.jpg"));
+    ClassLoader classLoader = getClass().getClassLoader();
+    URL imageLabyUrl = classLoader.getResource("Images/labyrinthe.png");
+    URL imageLogoUrl = classLoader.getResource("Images/Blossom-Battles.jpg");
 
-    private MainFrame frame;
-    private Bomberman bomberman;
-
+    private MainFrame mainFrame;
+    private Bomberman gameBomberman;
+    public Color backgroundColor = new Color(203, 239, 195);
+    int borderSize = 20;
+    
+    /**
+     * Constructs a new AccueilPanel with the specified MainFrame and Bomberman objects.
+     * 
+     * @param frame the MainFrame object that represents the main frame of the application
+     * @param bomberman the Bomberman object that represents the game instance
+     */
     public AccueilPanel(MainFrame frame, Bomberman bomberman) {
+        this.mainFrame = frame;
+        this.gameBomberman = bomberman;
+
+        // Configuration de l'interface utilisateur
+        configureUI();
+
+        // Configuration du panel principal
+        setLayout(new BorderLayout());
+        setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        setBackground(backgroundColor);
+
+        // Création des panels
+        JPanel topPanel = createTopPanel();
+        JPanel centerPanel = createCenterPanel();
+        createPanelControles();
+        JPanel bottomPanel = createBottomPanel();
+
+        // Ajout des panels au panel principal
+        add(topPanel, BorderLayout.NORTH);
+        add(centerPanel, BorderLayout.CENTER);
+        add(bottomPanel, BorderLayout.SOUTH);
+
+        // Ajout de la couleur de fond pour tous les panels
+        this.setBackground(backgroundColor);
+        topPanel.setBackground(backgroundColor);
+        centerPanel.setBackground(backgroundColor);
+        bottomPanel.setBackground(backgroundColor);
+
+        // Affichage du panel
+        setVisible(true);
+    }
+
+    /**
+     * Configures the user interface by setting a new font size for all components.
+     * The new font size is applied to labels, buttons, text fields, and text areas.
+     */
+    private void configureUI() {
         // Définir la nouvelle taille de police
-        int newFontSize = 18;
+        int newFontSize = 16;
 
         // Récupérer la police par défaut
         Font defaultFont = UIManager.getDefaults().getFont("Label.font");
@@ -33,140 +80,168 @@ public class AccueilPanel extends JPanel {
         UIManager.put("Button.font", newFont);
         UIManager.put("TextField.font", newFont);
         UIManager.put("TextArea.font", newFont);
-        // Ajoutez d'autres types de composants si nécessaire
+    }
 
-        this.frame = frame;
-        this.bomberman = bomberman;
-        setLayout(new BorderLayout());
-        // Bordure pour le panel de 10 pixels
-        int borderSize = 20;
-        setBorder(BorderFactory.createEmptyBorder(borderSize, borderSize, borderSize, borderSize));
-
-        Color backgroundColor = new Color(203, 239, 195);
-
-        // ajout de la couleur de fond
-        this.setBackground(backgroundColor);
-
-        ///////////////// PANEL DU HAUT ///////////////////
-
-        JPanel topPanel = new JPanel();
-        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+    /**
+     * Crée un JPanel contenant le titre et les règles du jeu.
+     * @return JPanel : le panel contenant le titre et les règles du jeu
+     */
+    private JPanel createTopPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         // Titre
-        JLabel title = new JLabel("Bomberman Labyrinth");
-        title.setFont(new Font("Serif", Font.BOLD, 30));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        title.setForeground(Color.RED);
-        topPanel.add(title);
+        JLabel label = new JLabel("Bomberman Labyrinth");
+        label.setFont(new Font("Serif", Font.BOLD, 30));
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
+        label.setForeground(Color.RED);
+        panel.add(label);
 
-        /*// Utilisation de HedgePanel pour créer une haie sous le titre
-        JPanel hedgePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        hedgePanel.setBackground(backgroundColor);
-        for (int i = 0; i < 10; i++) {
-            HedgePanel hedge = new HedgePanel();
-            hedgePanel.add(hedge);
-        }
-        topPanel.add(hedgePanel);*/
+        // Ajout d'un espace entre les deux labels
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // Explication du jeu
-        //JLabel explanation = new JLabel("<html>Navigate the maze, place bombs to clear paths, and outsmart your opponent.<br>May the cleverest explorer win!</html>");
-        //explanation.setAlignmentX(Component.CENTER_ALIGNMENT);
-        //topPanel.add(explanation);
+        // texte explicatif du jeu
+        String rules = "<html>Le jeu de Bomberman est une bataille stratégique entre deux joueurs. Chaque joueur contrôle un personnage dans un labyrinthe.<br>"
+        + "Le but ? Éliminer l'adversaire à l'aide de fleurs explosives.<br>"
+        + "Voici comment cela fonctionne :<br>"
+        + "<ul>"
+        + "<li> Explorez le labyrinthe : Le terrain de jeu est un labyrinthe rempli de haies. Votre mission est de naviguer à travers ce labyrinthe pour trouver votre adversaire.</li>"
+        + "<li> Utilisez des fleurs explosives : Vous avez la capacité de placer des fleurs explosives. Ces fleurs peuvent détruire les haies, créant ainsi de nouveaux chemins à travers le labyrinthe.</li>"
+        + "<li> Éliminez votre adversaire : Votre objectif ultime est d'utiliser vos fleurs explosives pour éliminer l'adversaire. Soyez stratégique et rapide pour gagner la partie !</li>"
+        + "</ul>"
+        + "Le premier joueur à éliminer son adversaire remporte la partie. Bonne chance et amusez-vous bien !</html>";
+        JLabel label2 = new JLabel(rules);
+        label2.setFont(new Font("Serif", Font.BOLD, 17));
 
-        /////////////// Panel du centre ///////////////
+        // Créer un nouveau JPanel avec FlowLayout aligné à gauche
+        JPanel textPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        textPanel.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
+        textPanel.setBackground(backgroundColor);
+        textPanel.add(label2);
 
-        // Affichage du labyrinthe au centre
-        JPanel centerPanel = new JPanel(new BorderLayout());
-        centerPanel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createEmptyBorder(60, 0, 40, 0),
+        panel.add(textPanel);
+        // Logo
+        /*if (imageLogoUrl != null) {
+
+            Image image = (new ImageIcon(imageLogoUrl)).getImage();
+            Image resizedImage = image.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH); // Ajustez la largeur et la hauteur comme vous le souhaitez
+            ImageIcon icon = new ImageIcon(resizedImage);
+
+            JLabel logo = new JLabel(icon);
+            panel.add(logo);
+        } else {
+            System.err.println("Image not found Blossom-Battles");
+        }*/
+
+        return panel;
+    }
+
+    
+    /**
+     * Creates a JPanel that displays a labyrinth.
+     * 
+     * @return the created JPanel
+     */
+    private JPanel createCenterPanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createEmptyBorder(50, 0, 50, 0),
             BorderFactory.createLineBorder(Color.BLACK, 3)
         ));
 
-        ClassLoader classLoader = getClass().getClassLoader();
-        URL imageUrl = classLoader.getResource("Images/labyrinthe.png");
-        if (imageUrl != null) {
-            ImageIcon icon = new ImageIcon(imageUrl);
+        if (imageLabyUrl != null) {
+            ImageIcon icon = new ImageIcon(imageLabyUrl);
             JButton button = new JButton(icon);
-            centerPanel.add(button, BorderLayout.CENTER);
+            button.setHorizontalTextPosition(JButton.CENTER);
+            button.setVerticalTextPosition(JButton.CENTER);
+            panel.add(button, BorderLayout.CENTER);
         } else {
             System.err.println("Image not found Labyrinthe");
         }
+        return panel;
+    }
 
+    /**
+     * Creates a panel to display the controls for the players.
+     * The panel contains labels and buttons for each player's controls.
+     * The controls include actions such as moving up, moving down, moving left, moving right, and placing a bomb.
+     * The controls are retrieved from the gameBomberman object's listeTouche attribute.
+     * The panel is added to the main panel of the AccueilPanel.
+     */
+    private void createPanelControles() {
+        // Liste des noms des touches
+        ArrayList<String> listeNomsTouches = new ArrayList<String>(Arrays.asList("Aller en haut", "Aller en bas", "Aller à gauche", "Aller à droite", "Placer une fleur"));
 
-        ///////////////// PANEL DE GAUCHE ET DE DROITE ///////////////////
-        
-        // Boutons de configuration pour les joueurs
-
-        ArrayList<String> listNomTouche = new ArrayList<String>(Arrays.asList("Aller en haut", "Aller en bas", "Aller à gauche", "Aller à droite", "Placer une bombe"));
-
+        // Boucle sur les deux joueurs
         for (int i = 0; i < 2; i++) {
-            Touche touche = this.bomberman.listeTouche.get(i);
+            // Récupère les touches du joueur
+            Touche touche = this.gameBomberman.listeTouche.get(i);
+            // Liste des actions associées aux touches
             List<Supplier<String>> actions = Arrays.asList(touche::getHaut, touche::getBas, touche::getGauche, touche::getDroite, touche::getBombe);
 
+            // Crée un nouveau panel pour les controles du joueur
             JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(6,2, 50, 20));
             panel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
             panel.setBackground(backgroundColor);
             
-            JLabel SettingsLabel = new JLabel("Controles du joueur " + (i+1));
-            JLabel playerIcon = new JLabel("Icone du joueur " + (i+1));
-            panel.add(SettingsLabel);
-            panel.add(playerIcon);
+            // Crée les labels pour les controles du joueur
+            JLabel labelParametres = new JLabel("Contrôles de " + gameBomberman.nomJoueurs.get(i));
+            JLabel iconeJoueur = new JLabel("Icône du joueur " + (i+1));
+            panel.add(labelParametres);
+            panel.add(iconeJoueur);
 
+            // Boucle sur les touches du joueur
             for (int j = 0; j < 5; j++) {
-                String nomTouche = listNomTouche.get(j);
+                String nomTouche = listeNomsTouches.get(j);
                 String actionTouche = actions.get(j).get();
 
-                JLabel toucheLabel = new JLabel(nomTouche);
-                JButton ToucheButton = new JButton(actionTouche);
-    
-                panel.add(toucheLabel);
-                panel.add(ToucheButton);
-    
-                AccueilController ctr = new AccueilController(i+1, actionTouche, nomTouche , ToucheButton);
-                ToucheButton.addActionListener(ctr);
+                // Crée les labels et les boutons pour les touches
+                JLabel labelTouche = new JLabel(nomTouche);
+                JButton boutonTouche = new JButton(actionTouche);
+
+                panel.add(labelTouche);
+                panel.add(boutonTouche);
+
+                // Crée le controleur pour le bouton de la touche
+                AccueilControleur controleur = new AccueilControleur(i+1, actionTouche, nomTouche , boutonTouche);
+                boutonTouche.addActionListener(controleur);
             }
 
+            // Ajoute le panel au panel principal
             if(i == 0){
                 this.add(panel, BorderLayout.WEST);
             } else {
                 this.add(panel, BorderLayout.EAST);
             }
         }
+    }
 
-        ////////////////// PANEL DU BAS ///////////////////
+    /**
+     * Creates a JPanel that contains buttons for starting a new game and accessing options.
+     * 
+     * @return the created JPanel
+     */
+    private JPanel createBottomPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(1, 2, borderSize, 0));
 
-        // Boutons pour jouer et accéder aux options
-        JPanel bottomPanel = new JPanel();
+        // Création du bouton pour démarrer une nouvelle partie
+        JButton newGameButton = new JButton("Nouvelle Partie");
+        AccueilControleur newGameController = new AccueilControleur("boutonPlayPressed");
+        newGameButton.addActionListener(newGameController);
+        newGameButton.setPreferredSize(new Dimension(newGameButton.getPreferredSize().width, 40));
 
-        bottomPanel.setLayout(new GridLayout(1, 2, borderSize, 0));
-        bottomPanel.setBackground(backgroundColor);
-
-        JButton playButton = new JButton("Nouvelle Partie");
-        AccueilController ctrPlay = new AccueilController("boutonPlayPressed");
-        playButton.addActionListener(ctrPlay);
-        playButton.setPreferredSize(new Dimension(playButton.getPreferredSize().width, 40));
-
+        // Création du bouton pour accéder aux options
         JButton optionsButton = new JButton("Options");
-        AccueilController ctrOptions = new AccueilController("boutonOptionsPressed");
-        optionsButton.addActionListener(ctrOptions);
+        AccueilControleur optionsController = new AccueilControleur("boutonOptionsPressed");
+        optionsButton.addActionListener(optionsController);
         optionsButton.setPreferredSize(new Dimension(optionsButton.getPreferredSize().width, 40));
 
-        bottomPanel.add(playButton);
-        bottomPanel.add(optionsButton);
+        // Ajout des boutons au panel
+        panel.add(newGameButton);
+        panel.add(optionsButton);
 
-        /////////////// Ajout des panels au panel principal ///////////////
-
-        this.add(topPanel, BorderLayout.NORTH);
-        this.add(centerPanel, BorderLayout.CENTER);
-        this.add(bottomPanel, BorderLayout.SOUTH);
-
-        // Afficher la fenêtre
-        setVisible(true);
-
-        // Ajout de la couleur de fond pour tous les panels
-        this.setBackground(backgroundColor);
-        topPanel.setBackground(backgroundColor);
-        centerPanel.setBackground(backgroundColor);
+        return panel;
     }
 }

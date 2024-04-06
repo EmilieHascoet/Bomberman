@@ -3,7 +3,7 @@ package view;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import controller.AccueilController;
+import controller.AccueilControleur;
 import model.Touche;
 
 import java.awt.*;
@@ -58,7 +58,7 @@ public class changerToucheJDialog extends JDialog {
                     }
 
                     // Ajout du nouveau controller
-                    AccueilController ctr = new AccueilController(joueur, chosenKey, "Haut", boutonChooseTouche);
+                    AccueilControleur ctr = new AccueilControleur(joueur, chosenKey, "Haut", boutonChooseTouche);
                     boutonChooseTouche.addActionListener(ctr);
                     dispose(); // Close the dialog
                 }
