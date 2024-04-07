@@ -32,7 +32,8 @@ public class MainFrame extends JFrame {
 
     private void initUI() {
         // Initialise avec le panneau de démarrage
-        setContentPane(new AccueilPanel(this, this.bomberman));
+        //setContentPane(new AccueilPanel(this, this.bomberman));
+        setContentPane(new PartiePanel(this, this.bomberman));
     }
 
     public void changePanel(JPanel panel) {
@@ -45,11 +46,22 @@ public class MainFrame extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                // Créer deux objets contrôle contenant les touches de base
+                /*// Crée une nouvelle instance de Bomberman
                 Bomberman bomberman = new Bomberman();
+                // Lance la partie pour le test de l'interface PartiePanel
+                bomberman.nouvellePartie(bomberman.parametres);
 
                 MainFrame frame = new MainFrame(bomberman);
-                frame.setVisible(true);
+                frame.setVisible(true);*/
+
+                // Crée une nouvelle instance de MainFrame
+                Bomberman bomberman2 = new Bomberman();
+                bomberman2.setParametres(new HashSet<String>(Arrays.asList("Bombe", "Vie", "Vitesse", "Portée")), 3, 1, 1, 1, 5, 5);
+                // Lance la partie pour le test de l'interface PartiePanel
+                bomberman2.nouvellePartie(bomberman2.parametres);
+
+                MainFrame frame2 = new MainFrame(bomberman2);
+                frame2.setVisible(true);
             }
         });
     }

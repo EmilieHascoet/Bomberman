@@ -4,7 +4,7 @@ import java.awt.event.*;
 
 import javax.swing.JButton;
 
-import view.changerToucheJDialog;
+import view.ChangerToucheJDialog;
 
 public class AccueilControleur implements ActionListener {
     int joueur;
@@ -36,7 +36,7 @@ public class AccueilControleur implements ActionListener {
     }
 
     public void AfficheJDialogChangerTouche() {
-        new changerToucheJDialog(joueur, ancienneTouche, actionTouche, boutonChooseTouche);
+        new ChangerToucheJDialog(joueur, ancienneTouche, actionTouche, boutonChooseTouche);
     }
 
     /**

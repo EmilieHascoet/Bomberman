@@ -11,12 +11,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.awt.event.*;
 
-public class changerToucheJDialog extends JDialog {
+public class ChangerToucheJDialog extends JDialog {
 
     private JTextField textField;
     Color backgrounfColor = new Color(231, 195, 239);
 
-    public changerToucheJDialog(int joueur, String ancienneTouche, String actionTouche, JButton boutonChooseTouche) {
+    public ChangerToucheJDialog(int joueur, String ancienneTouche, String actionTouche, JButton boutonChooseTouche) {
         // Create a panel to add padding
         JPanel contentPanel = new JPanel(new BorderLayout());
         contentPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
