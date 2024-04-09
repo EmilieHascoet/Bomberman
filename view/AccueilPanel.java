@@ -21,6 +21,9 @@ public class AccueilPanel extends JPanel {
     private Bomberman gameBomberman;
     public Color backgroundColor = new Color(203, 239, 195);
     int borderSize = 20;
+
+    JPanel topPanel, centerPanel, bottomPanel;
+    List<JPanel> listePanelControles = new ArrayList<JPanel>();
     
     /**
      * Constructs a new AccueilPanel with the specified MainFrame and Bomberman objects.
@@ -41,20 +44,24 @@ public class AccueilPanel extends JPanel {
         setBackground(backgroundColor);
 
         // Création des panels
-        JPanel topPanel = createTopPanel();
-        JPanel centerPanel = createCenterPanel();
+        createTopPanel();
+        createCenterPanel();
         createPanelControles();
-        JPanel bottomPanel = createBottomPanel();
+        createBottomPanel();
 
         // Ajout des panels au panel principal
         add(topPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
+        add(listePanelControles.get(0), BorderLayout.WEST);
+        add(listePanelControles.get(1), BorderLayout.EAST);
         add(bottomPanel, BorderLayout.SOUTH);
 
         // Ajout de la couleur de fond pour tous les panels
         this.setBackground(backgroundColor);
         topPanel.setBackground(backgroundColor);
         centerPanel.setBackground(backgroundColor);
+        listePanelControles.get(0).setBackground(backgroundColor);
+        listePanelControles.get(1).setBackground(backgroundColor);
         bottomPanel.setBackground(backgroundColor);
 
         // Affichage du panel
@@ -86,19 +93,19 @@ public class AccueilPanel extends JPanel {
      * Crée un JPanel contenant le titre et les règles du jeu.
      * @return JPanel : le panel contenant le titre et les règles du jeu
      */
-    private JPanel createTopPanel() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+    private void createTopPanel() {
+        topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
 
         // Titre
         JLabel label = new JLabel("Bomberman Labyrinth");
         label.setFont(new Font("Serif", Font.BOLD, 30));
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
         label.setForeground(Color.RED);
-        panel.add(label);
+        topPanel.add(label);
 
         // Ajout d'un espace entre les deux labels
-        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        topPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 
         // texte explicatif du jeu
         String rules = "<html>Le jeu de Bomberman est une bataille stratégique entre deux joueurs. Chaque joueur contrôle un personnage dans un labyrinthe.<br>"
@@ -119,7 +126,7 @@ public class AccueilPanel extends JPanel {
         textPanel.setBackground(backgroundColor);
         textPanel.add(label2);
 
-        panel.add(textPanel);
+        topPanel.add(textPanel);
         // Logo
         /*if (imageLogoUrl != null) {
 
@@ -132,8 +139,6 @@ public class AccueilPanel extends JPanel {
         } else {
             System.err.println("Image not found Blossom-Battles");
         }*/
-
-        return panel;
     }
 
     
@@ -142,9 +147,9 @@ public class AccueilPanel extends JPanel {
      * 
      * @return the created JPanel
      */
-    private JPanel createCenterPanel() {
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(BorderFactory.createCompoundBorder(
+    private void createCenterPanel() {
+        centerPanel  = new JPanel(new BorderLayout());
+        centerPanel.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createEmptyBorder(50, 0, 50, 0),
             BorderFactory.createLineBorder(Color.BLACK, 3)
         ));
@@ -154,11 +159,10 @@ public class AccueilPanel extends JPanel {
             JButton button = new JButton(icon);
             button.setHorizontalTextPosition(JButton.CENTER);
             button.setVerticalTextPosition(JButton.CENTER);
-            panel.add(button, BorderLayout.CENTER);
+            centerPanel.add(button, BorderLayout.CENTER);
         } else {
             System.err.println("Image not found Labyrinthe");
         }
-        return panel;
     }
 
     /**
@@ -183,7 +187,7 @@ public class AccueilPanel extends JPanel {
             JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(6,2, 50, 20));
             panel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
-            panel.setBackground(backgroundColor);
+            listePanelControles.add(panel);
             
             // Crée les labels pour les controles du joueur
             JLabel labelParametres = new JLabel("Contrôles de " + gameBomberman.nomJoueurs.get(i));
@@ -207,13 +211,6 @@ public class AccueilPanel extends JPanel {
                 AccueilControleur controleur = new AccueilControleur(i+1, actionTouche, nomTouche , boutonTouche);
                 boutonTouche.addActionListener(controleur);
             }
-
-            // Ajoute le panel au panel principal
-            if(i == 0){
-                this.add(panel, BorderLayout.WEST);
-            } else {
-                this.add(panel, BorderLayout.EAST);
-            }
         }
     }
 
@@ -222,26 +219,24 @@ public class AccueilPanel extends JPanel {
      * 
      * @return the created JPanel
      */
-    private JPanel createBottomPanel() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(1, 2, borderSize, 0));
+    private void createBottomPanel() {
+        bottomPanel = new JPanel();
+        bottomPanel.setLayout(new GridLayout(1, 2, borderSize, 0));
 
         // Création du bouton pour démarrer une nouvelle partie
         JButton newGameButton = new JButton("Nouvelle Partie");
-        AccueilControleur newGameController = new AccueilControleur("boutonPlayPressed", mainFrame, gameBomberman);
+        AccueilControleur newGameController = new AccueilControleur("boutonPlayPressed", mainFrame, gameBomberman, listePanelControles);
         newGameButton.addActionListener(newGameController);
         newGameButton.setPreferredSize(new Dimension(newGameButton.getPreferredSize().width, 40));
 
         // Création du bouton pour accéder aux options
         JButton optionsButton = new JButton("Options");
-        AccueilControleur optionsController = new AccueilControleur("boutonOptionsPressed", mainFrame, gameBomberman);
+        AccueilControleur optionsController = new AccueilControleur("boutonOptionsPressed", mainFrame, gameBomberman, listePanelControles);
         optionsButton.addActionListener(optionsController);
         optionsButton.setPreferredSize(new Dimension(optionsButton.getPreferredSize().width, 40));
 
         // Ajout des boutons au panel
-        panel.add(newGameButton);
-        panel.add(optionsButton);
-
-        return panel;
+        bottomPanel.add(newGameButton);
+        bottomPanel.add(optionsButton);
     }
 }

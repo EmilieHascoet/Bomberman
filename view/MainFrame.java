@@ -61,7 +61,7 @@ public class MainFrame extends JFrame {
                 Bomberman bomberman2 = new Bomberman();
                 bomberman2.setParametres(new HashSet<String>(Arrays.asList("Bombe", "Vie", "Vitesse", "Portée")), 3, 1, 1, 1, 5, 5);
                 // Lance la partie pour le test de l'interface PartiePanel
-                bomberman2.nouvellePartie(bomberman2.parametres);
+                bomberman2.nouvellePartie();
 
                 MainFrame frame2 = new MainFrame(bomberman2);
                 frame2.setVisible(true);

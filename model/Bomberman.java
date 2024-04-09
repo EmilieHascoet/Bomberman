@@ -70,9 +70,9 @@ public class Bomberman {
     /**
      * Prend les paramètres entrés par le joueur et créer une nouvelle partie
      */
-    public void nouvellePartie(Parametres parametresPartie) {
+    public void nouvellePartie() {
         // Créer une nouvelle partie avec les paramètres entrés dans setParametres
-        partie = new Partie(parametresPartie, listeTouche, nomJoueurs);
+        partie = new Partie(parametres, listeTouche, nomJoueurs);
     }
 
     @Override

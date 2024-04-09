@@ -19,7 +19,7 @@ public class Main {
         bomberman.parametres.setBoardHeight(10);
         bomberman.parametres.setBoardWidth(10);
         // Cree la partie
-        bomberman.nouvellePartie(bomberman.parametres);
+        bomberman.nouvellePartie();
 
         // Ajoute un bonus à droite du joueur
         Carte.map[1][2] = new Bonus(2, 1, "vie");
@@ -46,7 +46,7 @@ public class Main {
         bomberman.parametres.setBoardHeight(10);
         bomberman.parametres.setBoardWidth(10);
         // Cree la partie
-        bomberman.nouvellePartie(bomberman.parametres);
+        bomberman.nouvellePartie();
 
         // Recupere le joueur 1
         Joueur j1 = bomberman.partie.joueurs.get(0);
@@ -68,7 +68,7 @@ public class Main {
         bomberman.parametres.setBoardHeight(10);
         bomberman.parametres.setBoardWidth(10);
         // Cree la partie
-        bomberman.nouvellePartie(bomberman.parametres);
+        bomberman.nouvellePartie();
 
         // Recupere le joueur 1
         Joueur j1 = bomberman.partie.joueurs.get(0);
@@ -94,7 +94,7 @@ public class Main {
         bomberman.parametres.setBoardHeight(10);
         bomberman.parametres.setBoardWidth(10);
         // Cree la partie
-        bomberman.nouvellePartie(bomberman.parametres);
+        bomberman.nouvellePartie();
 
         // Ajoute un bonus à droite du joueur
         Carte.map[1][2] = new Bonus(2, 1, "vie");
