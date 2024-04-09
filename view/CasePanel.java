@@ -17,7 +17,6 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 
 public class CasePanel extends JPanel {
-    private ImageIcon icon;
     Case caseModel;
     private String path;
     MainFrame frame;
@@ -25,56 +24,42 @@ public class CasePanel extends JPanel {
     int height = Partie.paramPartie.getBoardHeight()+2;
     int size;
     Image imageCase;
+    String typeImage;
 
     public CasePanel(Case caseModel, MainFrame frame) {
         this.caseModel = caseModel;
         this.frame = frame;
         this.size = Math.min(frame.getWidth() / width, frame.getHeight() / height);
         ClassLoader classLoader = getClass().getClassLoader();
-        switch(this.caseModel.typeImage) {
-            case "BlocIndestructible":
-                this.path = "Images/blocIndestructible.png";
-                break;
-            case "BlocDestructible":
-                this.path = "Images/blocDestructible.png";
-                break;
-            case "Bombe":
-                this.path = "Images/bombe.png";
-                break;
-            case "Bonus":
-            switch (((Bonus)this.caseModel).effet) {
-                case "vie":
-                    this.path = "Images/bonusVie.png";
-                    break;
-            
-                default:
-                    this.path = "Images/bonus.png";
-                    break;
-            }
-            default:
-                this.path = "";
-                break;
+        this.typeImage = caseModel.typeImage;
+
+        if(typeImage != "Bonus") {
+            this.path = "Images/" + typeImage + ".png";
+        } else {
+            this.path = "Images/bonus/" + ((Bonus)this.caseModel).effet + ".png";
         }
         
         URL imageUrl = classLoader.getResource(this.path);
+
         if (imageUrl != null) {
-            icon = new ImageIcon(imageUrl);
-            imageCase = icon.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH);
-            setPreferredSize(new Dimension(size, size));
-        } else {
+            this.imageCase = new ImageIcon(imageUrl).getImage();
+
+        } else if (typeImage != "CaseVide") {
             System.err.println("Image not found");
         }
+        setPreferredSize(new Dimension(size, size));
     }
 
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (icon != null) {
-            int x = (getWidth() - size) / 2;
-            int y = (getHeight() - size) / 2;
-            g.drawImage(imageCase, x, y, this);
-
+        if (typeImage.equals("CaseVide")) {
+            g.setColor(Color.BLACK);
+            g.fillRect(0, 0, getWidth(), getHeight());
+        }
+        else if (this.imageCase != null) {
+            g.drawImage(imageCase, 0, 0, getWidth(), getHeight(), this);
         }
     }
 }
