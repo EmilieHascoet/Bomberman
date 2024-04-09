@@ -4,12 +4,17 @@ import java.awt.event.*;
 
 import javax.swing.JButton;
 
+import model.Bomberman;
 import view.ChangerToucheJDialog;
+import view.MainFrame;
+import view.PartiePanel;
 
 public class AccueilControleur implements ActionListener {
     int joueur;
     String ancienneTouche, actionTouche, typeAction;
     JButton boutonChooseTouche;
+    MainFrame mainFrame;
+    Bomberman bomberman;
     
     // Constructeur pour le changement de touche
     public AccueilControleur(int joueur, String ancienneTouche, String actionTouche, JButton boutonChooseTouche) {
@@ -20,8 +25,10 @@ public class AccueilControleur implements ActionListener {
         this.typeAction = "boutonTouchePressed";
     }
 
-    public AccueilControleur(String typeAction) {
+    public AccueilControleur(String typeAction, MainFrame mainFrame, Bomberman bomberman) {
         this.typeAction = typeAction;
+        this.mainFrame = mainFrame;
+        this.bomberman = bomberman;
     }
 
     // Méthode pour gérer les actions des boutons
@@ -44,7 +51,7 @@ public class AccueilControleur implements ActionListener {
      *  Puis affiche l'écran pour choisir les paramètres de la partie
      */
     public void boutonPlay() {
-        // TODO implement here
+        mainFrame.changePanel(new PartiePanel(mainFrame, bomberman));
     }
 
     /**

@@ -1,20 +1,24 @@
 package view;
 
-import java.awt.GridLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 
 import controller.PartieKeyListener;
 import model.Bomberman;
 import model.Carte;
+import model.Case;
 import model.Partie;
 
 public class PartiePanel extends JPanel {
@@ -29,7 +33,7 @@ public class PartiePanel extends JPanel {
         this.mainFrame = frame;
         this.gameBomberman = bomberman;
 
-        this.setLayout(new BorderLayout());
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBackground(backgroundColor);
 
         // Add a key listener to the panel
@@ -46,8 +50,8 @@ public class PartiePanel extends JPanel {
         plateauPanel.setAlignmentX(CENTER_ALIGNMENT);
 
         // Add the panel to the center of the frame
-        this.add(infoPanel, BorderLayout.NORTH);
-        this.add(plateauPanel, BorderLayout.CENTER);
+        this.add(infoPanel);
+        this.add(plateauPanel);
     }
 
     private JPanel createPlateauPanel() {
@@ -57,29 +61,17 @@ public class PartiePanel extends JPanel {
         int height = Partie.paramPartie.getBoardHeight()+2;
         
         JPanel plateauPanel = new JPanel();
+        plateauPanel.setBackground(new Color(0, 0, 0));
+        plateauPanel.setLayout(new BoxLayout(plateauPanel, BoxLayout.Y_AXIS));
 
-        plateauPanel.setLayout(new GridLayout(width, height));
         for (int i = 0; i < width; i++) {
+            JPanel panel = new JPanel();
+            panel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
             for (int j = 0; j < height; j++) {
-                plateauPanel.add(new CasePanel(Carte.map[i][j]));
+                panel.add(new CasePanel(Carte.map[i][j], mainFrame));
             }
+            plateauPanel.add(panel);
         }
-
-        repaint();
-        revalidate();
-
-        plateauPanel.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                for (Component component : plateauPanel.getComponents()) {
-                    if (component instanceof CasePanel) {
-                        ((CasePanel) component).repaint();
-                    }
-                }
-                plateauPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 3));
-            }
-        });
-
         return plateauPanel;
     }
 
@@ -88,7 +80,7 @@ public class PartiePanel extends JPanel {
         infoPanel.setLayout(new GridLayout(1, 3));
 
         // Set the preferred size of the panel
-        infoPanel.setPreferredSize(new Dimension(0, 70));
+        infoPanel.setPreferredSize(new Dimension(infoPanel.getWidth(), 70));
 
         infoPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 

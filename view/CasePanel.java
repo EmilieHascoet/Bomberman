@@ -1,6 +1,12 @@
 package view;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import model.Bonus;
+import model.Case;
+import model.Main;
+import model.Partie;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -10,17 +16,20 @@ import java.net.URL;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 
-import model.Case;
-import model.Bonus;
-
 public class CasePanel extends JPanel {
     private ImageIcon icon;
     Case caseModel;
     private String path;
+    MainFrame frame;
+    int width = Partie.paramPartie.getBoardWidth()+2;
+    int height = Partie.paramPartie.getBoardHeight()+2;
+    int size;
+    Image imageCase;
 
-    public CasePanel(Case caseModel) {
+    public CasePanel(Case caseModel, MainFrame frame) {
         this.caseModel = caseModel;
-        System.out.println(caseModel);
+        this.frame = frame;
+        this.size = Math.min(frame.getWidth() / width, frame.getHeight() / height);
         ClassLoader classLoader = getClass().getClassLoader();
         switch(this.caseModel.typeImage) {
             case "BlocIndestructible":
@@ -50,26 +59,22 @@ public class CasePanel extends JPanel {
         URL imageUrl = classLoader.getResource(this.path);
         if (imageUrl != null) {
             icon = new ImageIcon(imageUrl);
-
-            //JLabel label = new JLabel(icon);
-            //this.add(label);
+            imageCase = icon.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH);
+            setPreferredSize(new Dimension(size, size));
         } else {
             System.err.println("Image not found");
         }
-        //bordure noir
-        //this.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
     }
+
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int size = Math.min(this.getWidth(), this.getHeight());
         if (icon != null) {
-            Image image = icon.getImage();
-            g.drawImage(image, 0, 0, size, size, this);
-        } else {
-            g.setColor(Color.BLACK);
-            g.fillRect(0, 0, size, size);
+            int x = (getWidth() - size) / 2;
+            int y = (getHeight() - size) / 2;
+            g.drawImage(imageCase, x, y, this);
+
         }
     }
 }

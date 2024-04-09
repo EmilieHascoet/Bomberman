@@ -4,11 +4,12 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import java.util.HashSet;
-import java.util.Arrays;
 
 import model.Bomberman;
 import model.Touche;
+
+import java.util.HashSet;
+import java.util.Arrays;
 
 
 public class MainFrame extends JFrame {
@@ -32,8 +33,8 @@ public class MainFrame extends JFrame {
 
     private void initUI() {
         // Initialise avec le panneau de démarrage
-        //setContentPane(new AccueilPanel(this, this.bomberman));
-        setContentPane(new PartiePanel(this, this.bomberman));
+        setContentPane(new AccueilPanel(this, this.bomberman));
+        //setContentPane(new PartiePanel(this, this.bomberman));
     }
 
     public void changePanel(JPanel panel) {
@@ -46,6 +47,8 @@ public class MainFrame extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
+                // Chargez toutes les images au démarrage de l'application
+                
                 /*// Crée une nouvelle instance de Bomberman
                 Bomberman bomberman = new Bomberman();
                 // Lance la partie pour le test de l'interface PartiePanel

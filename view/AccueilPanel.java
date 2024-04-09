@@ -228,13 +228,13 @@ public class AccueilPanel extends JPanel {
 
         // Création du bouton pour démarrer une nouvelle partie
         JButton newGameButton = new JButton("Nouvelle Partie");
-        AccueilControleur newGameController = new AccueilControleur("boutonPlayPressed");
+        AccueilControleur newGameController = new AccueilControleur("boutonPlayPressed", mainFrame, gameBomberman);
         newGameButton.addActionListener(newGameController);
         newGameButton.setPreferredSize(new Dimension(newGameButton.getPreferredSize().width, 40));
 
         // Création du bouton pour accéder aux options
         JButton optionsButton = new JButton("Options");
-        AccueilControleur optionsController = new AccueilControleur("boutonOptionsPressed");
+        AccueilControleur optionsController = new AccueilControleur("boutonOptionsPressed", mainFrame, gameBomberman);
         optionsButton.addActionListener(optionsController);
         optionsButton.setPreferredSize(new Dimension(optionsButton.getPreferredSize().width, 40));
 
