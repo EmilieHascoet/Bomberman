@@ -94,6 +94,16 @@ public class Joueur {
         }
     }
 
+    public void reinitialiserJoueur(int posX, int posY) {
+        this.vie = Partie.paramPartie.getNbVie();
+        this.stockBombe = Partie.paramPartie.getNbBombeInit();
+        this.porteeBombe = Partie.paramPartie.getPorteeBombe();
+        this.vitesse = Partie.paramPartie.getVitesse();
+        this.score = 0;
+        this.positionX = posX;
+        this.positionY = posY;
+    }
+
 
     /**
      * Checks if the player can move to the specified destination case.

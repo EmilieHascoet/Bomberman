@@ -51,7 +51,7 @@ public class PartiePanel extends JPanel {
     }
 
     private JPanel createPlateauPanel() {
-        System.out.println(gameBomberman.partie.carte);
+        Carte.afficherCarte();
         // panel de type grille
         int width = Partie.paramPartie.getBoardWidth()+2;
         int height = Partie.paramPartie.getBoardHeight()+2;

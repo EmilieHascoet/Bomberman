@@ -26,14 +26,16 @@ public class Main {
 
         // Recupere le joueur 1
         Joueur j1 = bomberman.partie.joueurs.get(0);
-        System.out.println("Avant que le joueur ne se deplace :\n" + bomberman.partie.carte);
+        System.out.println("Avant que le joueur ne se deplace :\n");
+        Carte.afficherCarte();
         System.out.println(j1);
 
         // Deplace le joueur sur le bonus
         j1.seDeplacer("droite");
 
         // Affiche la carte + le joueur
-        System.out.println("Après que le joueur se soit deplace :\n" + bomberman.partie.carte + j1);
+        System.out.println("Après que le joueur se soit deplace :\n" + j1);
+        Carte.afficherCarte();
     }
 
     public static void testJoueurPoseBombe() {
@@ -47,13 +49,15 @@ public class Main {
 
         // Recupere le joueur 1
         Joueur j1 = bomberman.partie.joueurs.get(0);
-        System.out.println("Avant que le joueur ne pose une bombe :\n" + bomberman.partie.carte);
+        System.out.println("Avant que le joueur ne pose une bombe :\n");
+        Carte.afficherCarte();
         System.out.println(j1);
 
         // Pose une bombe
         Bombe bombe1 = j1.poseBombe();
         bombe1.explose();
-        System.out.println("Après que le joueur ait pose une bombe :\n" + bomberman.partie.carte + j1);
+        System.out.println("Après que le joueur ait pose une bombe :\n" + j1);
+        Carte.afficherCarte();
     }
 
     public static void testDestructionBlocDestructible() {
@@ -72,11 +76,13 @@ public class Main {
         BlocDestructible blocDestructible = new BlocDestructible(2, 1);
         Carte.map[1][2] = blocDestructible;
 
-        System.out.println("Avant que le joueur ne detruise le bloc destructible :\n" + bomberman.partie.carte);
+        System.out.println("Avant que le joueur ne detruise le bloc destructible :\n");
+        Carte.afficherCarte();
         System.out.println((Case)blocDestructible);
 
         // Detruit le bloc destructible
         blocDestructible.destruction(j1);
-        System.out.println("Après destruction du bloc destructible :\n" + bomberman.partie.carte + Carte.map[1][2] + j1);
+        System.out.println("Après destruction du bloc destructible :\n" + Carte.map[1][2] + j1);
+        Carte.afficherCarte();
     }
 }

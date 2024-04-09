@@ -11,7 +11,6 @@ public class Partie {
 
     // Déclarations des associations
     public List<Joueur> joueurs;
-    public Carte carte;
     public static Parametres paramPartie;
 
     /**
@@ -40,13 +39,17 @@ public class Partie {
      * Rejouer / Garde les scores des 2 joueurs, reset le temps et génère une nouvelle carte
      */
     public void rejouer() {
+        joueurs.get(0).reinitialiserJoueur(1, 1);
+        joueurs.get(1).reinitialiserJoueur(Partie.paramPartie.getBoardWidth(), Partie.paramPartie.getBoardHeight());
+        this.temps = 0;
+        genererNouvelleCarte();
     }
 
     /**
      * Génère une nouvelle carte avec la taille
      */
     public void genererNouvelleCarte() {
-        carte = new Carte(Partie.paramPartie.getBoardWidth(), Partie.paramPartie.getBoardHeight(), this);
+        Carte.genererNouvelleCarteCarte(Partie.paramPartie.getBoardWidth(), Partie.paramPartie.getBoardHeight(), this);
     }
 
     @Override
@@ -55,7 +58,6 @@ public class Partie {
         sb.append("Partie {");
         sb.append("\n  temps: ").append(temps);
         sb.append("\n  joueurs: ").append(joueurs);
-        sb.append("\n  carte: ").append(carte);
         sb.append("\n  paramPartie: ").append(paramPartie);
         sb.append("\n}");
         return sb.toString();

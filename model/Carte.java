@@ -15,6 +15,13 @@ public class Carte {
      * indestructibles
      */
     public Carte(int longueur, int hauteur, Partie partie) {
+        genererNouvelleCarteCarte(longueur, hauteur, partie);
+    }
+    
+    /**
+     * Génère une nouvelle carte
+     */
+    public static void genererNouvelleCarteCarte(int longueur, int hauteur, Partie partie) {
         // Genere la carte avec la hauteur et longueur en tree en parametres
         int m = longueur + 2;
         int n = hauteur + 2;
@@ -77,7 +84,7 @@ public class Carte {
     }
 
     /* pour test */
-    public void afficherCarte() {
+    public static void afficherCarte() {
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
                 if (map[i][j].estTraversable && !map[i][j].estDestructible) {
