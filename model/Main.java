@@ -8,7 +8,8 @@ public class Main {
     public static void main(String args[]) throws ParseException {
         //testJoueurRamasseBonus();
         //testJoueurPoseBombe();
-        testDestructionBlocDestructible();
+        //testDestructionBlocDestructible();
+        testRejouer();
     }
 
     public static void testJoueurRamasseBonus() {
@@ -83,6 +84,38 @@ public class Main {
         // Detruit le bloc destructible
         blocDestructible.destruction(j1);
         System.out.println("Après destruction du bloc destructible :\n" + Carte.map[1][2] + j1);
+        Carte.afficherCarte();
+    }
+
+    public static void testRejouer() {
+        // Initialisation de la partie
+        Bomberman bomberman = new Bomberman();
+        // Change la taille par defaut de la carte
+        bomberman.parametres.setBoardHeight(10);
+        bomberman.parametres.setBoardWidth(10);
+        // Cree la partie
+        bomberman.nouvellePartie(bomberman.parametres);
+
+        // Ajoute un bonus à droite du joueur
+        Carte.map[1][2] = new Bonus(2, 1, "vie");
+        System.out.println(Carte.map[1][2]);
+
+        // Recupere le joueur 1
+        Joueur j1 = bomberman.partie.joueurs.get(0);
+        System.out.println("Avant que le joueur ne se deplace :\n");
+        Carte.afficherCarte();
+        System.out.println(j1);
+
+        // Deplace le joueur sur le bonus
+        j1.seDeplacer("droite");
+
+        // Affiche la carte + le joueur
+        System.out.println("Après que le joueur se soit deplace :\n" + j1);
+        Carte.afficherCarte();
+
+        // Rejoue la partie
+        bomberman.partie.rejouer();
+        System.out.println("Après que la partie ait été rejouée :\n" + j1);
         Carte.afficherCarte();
     }
 }
