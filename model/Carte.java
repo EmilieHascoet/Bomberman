@@ -85,7 +85,7 @@ public class Carte {
 
     /* pour test */
     public static void afficherCarte() {
-        System.out.print("  ");
+        System.out.print("   ");
         for (int i = 0; i < map.length; i++)
             System.out.print(i + "\t");
         System.out.println();
