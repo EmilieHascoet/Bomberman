@@ -1,15 +1,57 @@
 package model;
+
 import java.text.ParseException;
 
 import javax.swing.JFrame;
 
 public class Main {
     public static JFrame main;
+
     public static void main(String args[]) throws ParseException {
-        //testJoueurRamasseBonus();
-        //testJoueurPoseBombe();
-        //testDestructionBlocDestructible();
-        testRejouer();
+        // testJoueurRamasseBonus();
+        // testJoueurPoseBombe();
+        // testDestructionBlocDestructible();
+
+        // testRejouer();
+        testExplose();
+    }
+
+    public static void testExplose() {
+        // pour tester la méthode explose de la classe Bombe et voir qu'est que ce passe
+        // visuellement c'est mieux d'uiliser
+        // le méthode poser bombe sans thread et sans délai
+        Bomberman bomberman = new Bomberman();
+        // Change la taille par defaut de la carte
+        bomberman.parametres.setBoardHeight(9);
+        bomberman.parametres.setBoardWidth(9);
+        bomberman.parametres.setPorteeBombe(3);
+        // Cree la partie
+        bomberman.nouvellePartie();
+        Joueur j1 = bomberman.partie.joueurs.get(0);
+        Joueur j2 = bomberman.partie.joueurs.get(1);
+
+        if (!j1.placerJoueur(3, 5))
+            System.out.println("ops peut pas placer le joueur ");
+        if (!j2.placerJoueur(3, 4))
+            System.out.println("ops peut pas placer le joueur ");
+        // Recupere le joueur 1
+        System.out.println("Avant que le joueur ne pose une bombe :\n");
+        Carte.afficherCarte();
+        System.out.println(j1);
+        System.out.println(j2);
+
+        // Pose une bombe
+        j1.poseBombe_test(); // explose est ajouté dans poserBomb
+
+        System.out.println("Après que le joueur 1 ait pose une bombe :\n" + j1);
+        System.out.println(j2);
+
+        Carte.afficherCarte();
+
+        j2.poseBombe_test(); // explose est ajouté dans poserBomb
+        System.out.println("Après que le joueur 2 ait pose une bombe :\n" + j1);
+        System.out.println(j2);
+        Carte.afficherCarte();
     }
 
     public static void testJoueurRamasseBonus() {
@@ -79,7 +121,7 @@ public class Main {
 
         System.out.println("Avant que le joueur ne detruise le bloc destructible :\n");
         Carte.afficherCarte();
-        System.out.println((Case)blocDestructible);
+        System.out.println((Case) blocDestructible);
 
         // Detruit le bloc destructible
         blocDestructible.destruction(j1);
