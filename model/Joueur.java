@@ -70,7 +70,7 @@ public class Joueur {
             new Thread(() -> {
                 try {
                     // Le thread est mis en pause pour le délai défini (2000 ms = 2 secondes ici).
-                    Thread.sleep(bomb.tempsExplosion * 1000)); // Modifiez ce délai en fonction des besoins du jeu.
+                    Thread.sleep(newBombe.tempsExplosion * 2000); // Modifiez ce délai en fonction des besoins du jeu.
 
                     // Après le délai, la méthode explose() de la bombe est appelée.
                     newBombe.explose();
