@@ -147,11 +147,12 @@ public class ParametresPanel extends JPanel {
                     // Get the text areas
                     for (int i = 0; i < l.length; i++) {
                         JTextField textArea = (JTextField) ((JPanel) rightPanel.getComponent(1)).getComponent(i);
-                        if (textArea.getText().equals(list.get(textArea.getText().toString()))) {
+                        if (textArea.getText().equals(l[i])) {
                             JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs.", "Erreur",
                                     JOptionPane.ERROR_MESSAGE);
                             return;
                         }
+                        
                         else{
                             switch (i) {
                                 case 0:
@@ -180,6 +181,7 @@ public class ParametresPanel extends JPanel {
                                     JOptionPane.ERROR_MESSAGE);
                             return;
                         }
+            
                         else{
                             switch (i) {
                                 case 0:
@@ -212,8 +214,6 @@ public class ParametresPanel extends JPanel {
                             }
                         }
                     }
-
-                    
                     
                     JDialog dialog = new JDialog();
                     dialog.setAlwaysOnTop(true);
@@ -225,7 +225,16 @@ public class ParametresPanel extends JPanel {
                     dialog.add(new JPanel() {
                         {
                             setBackground(Color.white);
-                            add(new JTextArea(listBonus.toString().format("Liste de bonus : %s", listBonus) + "\n" + list.toString().format("Partie : %s", list)) {
+                            list2.toString();
+                            add(new JTextArea("Voici  les paramètres que vous avez choisis : \n" + listBonus.toString() + "\n" + list.toString() + "\n" + list2.toString() + "\n") {
+                                {
+                                    setFont(new Font("Arial", Font.PLAIN, 16));
+                                    setForeground(Color.black);
+                                    setEditable(false);
+                                    setBackground(Color.white);
+                                    setLineWrap(true);
+                                    setWrapStyleWord(true);
+                                }
                                 {
                                     setFont(new Font("Arial", Font.PLAIN, 16));
                                     setForeground(Color.black);
@@ -238,7 +247,9 @@ public class ParametresPanel extends JPanel {
                             });
                             add(new JButton("OK") {
                                 {
-                                    addActionListener(e -> dialog.dispose());
+                                    addActionListener(e -> {dialog.dispose();
+                                        b.setParametres(listBonus, Integer.parseInt(list.get(l[0])), Integer.parseInt(list.get(l[1])), Integer.parseInt(list.get(l[2])), Integer.parseInt(list.get(l[3])), Integer.parseInt(list.get(l[4])), Integer.parseInt(list.get(l[5])));} 
+                                    );
                                 }
                             });
                         
@@ -325,15 +336,14 @@ public class ParametresPanel extends JPanel {
                         setText(list[i]);
                         setForeground(new Color(153, 153, 153));
                     }
-                    /*
-                     * String text = this.getText();
-                     * if (!text.matches("\\d*")) { // Vérifie si la chaîne ne contient que des
-                     * chiffres
-                     * JOptionPane.showMessageDialog(this,
-                     * "Veuillez entrer uniquement des chiffres.", "Erreur",
-                     * JOptionPane.ERROR_MESSAGE);
-                     * }
-                     */
+                    
+                      String text = this.getText();
+                      if (!text.matches("\\d*")) { // Vérifie si la chaîne ne contient que des chiffres
+                     JOptionPane.showMessageDialog(this,
+                     "Veuillez entrer uniquement des chiffres.", "Erreur",
+                     JOptionPane.ERROR_MESSAGE);
+                     }
+                    
                 }
             };
             textAreas[i].setFont(new Font("Arial", Font.PLAIN, 16));
