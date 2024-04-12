@@ -1,6 +1,12 @@
 package view;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import model.Bonus;
+import model.Case;
+import model.Main;
+import model.Partie;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -10,66 +16,50 @@ import java.net.URL;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 
-import model.Case;
-import model.Bonus;
-
 public class CasePanel extends JPanel {
-    private ImageIcon icon;
     Case caseModel;
     private String path;
+    MainFrame frame;
+    int width = Partie.paramPartie.getBoardWidth()+2;
+    int height = Partie.paramPartie.getBoardHeight()+2;
+    int size;
+    Image imageCase;
+    String typeImage;
 
-    public CasePanel(Case caseModel) {
+    public CasePanel(Case caseModel, MainFrame frame) {
         this.caseModel = caseModel;
-        System.out.println(caseModel);
+        this.frame = frame;
+        this.size = Math.min(frame.getWidth() / width, frame.getHeight() / height);
         ClassLoader classLoader = getClass().getClassLoader();
-        switch(this.caseModel.typeImage) {
-            case "BlocIndestructible":
-                this.path = "Images/blocIndestructible.png";
-                break;
-            case "BlocDestructible":
-                this.path = "Images/blocDestructible.png";
-                break;
-            case "Bombe":
-                this.path = "Images/bombe.png";
-                break;
-            case "Bonus":
-            switch (((Bonus)this.caseModel).effet) {
-                case "vie":
-                    this.path = "Images/bonusVie.png";
-                    break;
-            
-                default:
-                    this.path = "Images/bonus.png";
-                    break;
-            }
-            default:
-                this.path = "";
-                break;
+        this.typeImage = caseModel.typeImage;
+
+        if(typeImage != "Bonus") {
+            this.path = "Images/" + typeImage + ".png";
+        } else {
+            this.path = "Images/bonus/" + ((Bonus)this.caseModel).effet + ".png";
         }
         
         URL imageUrl = classLoader.getResource(this.path);
-        if (imageUrl != null) {
-            icon = new ImageIcon(imageUrl);
 
-            //JLabel label = new JLabel(icon);
-            //this.add(label);
-        } else {
+        if (imageUrl != null) {
+            this.imageCase = new ImageIcon(imageUrl).getImage();
+
+        } else if (typeImage != "CaseVide") {
             System.err.println("Image not found");
         }
-        //bordure noir
-        //this.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        setPreferredSize(new Dimension(size, size));
     }
+
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int size = Math.min(this.getWidth(), this.getHeight());
-        if (icon != null) {
-            Image image = icon.getImage();
-            g.drawImage(image, 0, 0, size, size, this);
-        } else {
+        if (typeImage.equals("CaseVide")) {
             g.setColor(Color.BLACK);
-            g.fillRect(0, 0, size, size);
+            g.fillRect(0, 0, getWidth(), getHeight());
+        }
+        else if (this.imageCase != null) {
+            g.drawImage(imageCase, 0, 0, getWidth(), getHeight(), this);
         }
     }
 }

@@ -17,7 +17,7 @@ public class Carte {
     public Carte(int longueur, int hauteur, Partie partie) {
         genererNouvelleCarteCarte(longueur, hauteur, partie);
     }
-    
+
     /**
      * Génère une nouvelle carte
      */
@@ -66,15 +66,15 @@ public class Carte {
                 if (map[i][j].joueur != null) {
                     s += "J\t";
                 } else {
-                    if(map[i][j].typeImage.equals("BlocIndestructible"))
+                    if (map[i][j].typeImage.equals("BlocIndestructible"))
                         s += "I" + "\t";
-                    else if(map[i][j].typeImage.equals("BlocDestructible"))
+                    else if (map[i][j].typeImage.equals("BlocDestructible"))
                         s += "D" + "\t";
-                    else if(map[i][j].typeImage.equals("CaseVide"))
+                    else if (map[i][j].typeImage.equals("CaseVide"))
                         s += "V" + "\t";
-                    else if(map[i][j].typeImage.equals("Bombe"))
+                    else if (map[i][j].typeImage.equals("Bombe"))
                         s += "Bombe" + "\t";
-                    else if(map[i][j].typeImage.equals("Bonus"))
+                    else if (map[i][j].typeImage.equals("Bonus"))
                         s += "Malus" + "\t";
                 }
             }
@@ -85,15 +85,24 @@ public class Carte {
 
     /* pour test */
     public static void afficherCarte() {
+        System.out.print("   ");
+        for (int i = 0; i < map.length; i++)
+            System.out.print(i + "\t");
+        System.out.println();
         for (int i = 0; i < map.length; i++) {
+            if (i < 10 && i >= 0)
+                System.out.print(i + "  ");
+            else
+                System.out.print(i + " ");
+
             for (int j = 0; j < map[i].length; j++) {
                 if (map[i][j].joueur != null) {
                     System.out.print("\u001B[35m" + "J" + "\t" + "\u001B[0m"); // Violet pour le joueur
                 } else if (map[i][j].typeImage.equals("CaseVide")) {
                     System.out.print("\u001B[34m" + "T" + "\t" + "\u001B[0m"); // Bleu pour le terrain
-                } else if(map[i][j].typeImage.equals("BlocDestructible")) {
+                } else if (map[i][j].typeImage.equals("BlocDestructible")) {
                     System.out.print("\u001B[32m" + "D" + "\t" + "\u001B[0m"); // Vert pour les blocs destructibles
-                } else if(map[i][j].typeImage.equals("BlocIndestructible")) {
+                } else if (map[i][j].typeImage.equals("BlocIndestructible")) {
                     System.out.print("\u001B[31m" + "M" + "\t" + "\u001B[0m"); // Rouge pour les blocs indestructibles
                 } else if (map[i][j].typeImage.equals("Bombe")) {
                     System.out.print("\u001B[33m" + "B" + "\t" + "\u001B[0m"); // Jaune pour les bombes
