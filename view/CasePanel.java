@@ -33,10 +33,14 @@ public class CasePanel extends JPanel {
         ClassLoader classLoader = getClass().getClassLoader();
         this.typeImage = caseModel.typeImage;
 
-        if(typeImage != "Bonus") {
-            this.path = "Images/" + typeImage + ".png";
+        if(caseModel.joueur != null) {
+            this.path = "Images/Personnage/perso1.png"; // TODO chemin vers l'image du personnage dans la classe Joueur
         } else {
-            this.path = "Images/bonus/" + ((Bonus)this.caseModel).effet + ".png";
+            if(typeImage != "Bonus") {
+                this.path = "Images/" + typeImage + ".png";
+            } else {
+                this.path = "Images/bonus/" + ((Bonus)this.caseModel).effet + ".png";
+            }
         }
         
         URL imageUrl = classLoader.getResource(this.path);
@@ -54,8 +58,8 @@ public class CasePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (typeImage.equals("CaseVide")) {
-            g.setColor(Color.BLACK);
+        if (typeImage.equals("CaseVide") && this.caseModel.joueur == null) {
+            g.setColor(new Color(203, 239, 195));
             g.fillRect(0, 0, getWidth(), getHeight());
         }
         else if (this.imageCase != null) {

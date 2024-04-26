@@ -63,6 +63,7 @@ public class AccueilControleur implements ActionListener {
      */
     public void boutonPlay() {
         setTouches();
+        bomberman.nouvellePartie();
         mainFrame.changePanel(new PartiePanel(mainFrame, bomberman));
     }
 
@@ -72,7 +73,7 @@ public class AccueilControleur implements ActionListener {
      */
     public void boutonOptions() {
         setTouches();
-        mainFrame.changePanel(new ParametresPanel(mainFrame));
+        mainFrame.changePanel(new ParametresPanel(mainFrame, bomberman));
     }
 
     public void setTouches() {

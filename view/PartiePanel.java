@@ -56,6 +56,7 @@ public class PartiePanel extends JPanel {
 
     private JPanel createPlateauPanel() {
         Carte.afficherCarte();
+        System.out.println(Partie.paramPartie);
         // panel de type grille
         int width = Partie.paramPartie.getBoardWidth()+2;
         int height = Partie.paramPartie.getBoardHeight()+2;
@@ -64,14 +65,16 @@ public class PartiePanel extends JPanel {
         plateauPanel.setBackground(new Color(0, 0, 0));
         plateauPanel.setLayout(new BoxLayout(plateauPanel, BoxLayout.Y_AXIS));
 
-        for (int i = 0; i < width; i++) {
+        for (int i = 0; i < height; i++) {
             JPanel panel = new JPanel();
             panel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-            for (int j = 0; j < height; j++) {
+            for (int j = 0; j < width; j++) {
                 panel.add(new CasePanel(Carte.map[i][j], mainFrame));
             }
             plateauPanel.add(panel);
         }
+
+        plateauPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         return plateauPanel;
     }
 
