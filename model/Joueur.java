@@ -32,21 +32,6 @@ public class Joueur {
         this.positionY = positionY;
     }
 
-    // Déclarations des méthodes
-    // debug poser bomb sans thread
-    public Bombe poseBombe_test() {
-        if (stockBombe > 0) {
-            Bombe newBombe = new Bombe(this.positionX, this.positionY, 2, porteeBombe, this);
-            Carte.map[this.positionY][this.positionX] = newBombe;
-            Case caseBombe = (Case) newBombe;
-            caseBombe.setJoueur(this);
-            stockBombe--;
-            newBombe.explose();
-            return newBombe;
-        }
-        return null;
-    }
-
     /**
      * Pose une bombe à l'emplacement du joueur si il lui en reste
      */
@@ -54,7 +39,7 @@ public class Joueur {
         // Vérifie s'il reste des bombes en stock.
         if (stockBombe > 0) {
             // Crée une nouvelle bombe à la position actuelle du joueur.
-            Bombe newBombe = new Bombe(this.positionX, this.positionY, 2, porteeBombe, this);
+            Bombe newBombe = new Bombe(this.positionX, this.positionY, 3, porteeBombe, this);
 
             // Place la bombe sur la carte à la position actuelle du joueur.
             Carte.map[this.positionY][this.positionX] = newBombe;
@@ -65,21 +50,6 @@ public class Joueur {
 
             // Décrémente le stock de bombes puisqu'une nouvelle bombe a été placée.
             stockBombe--;
-
-            // Crée un nouveau thread pour gérer l'explosion de la bombe après un délai.
-            new Thread(() -> {
-                try {
-                    // Le thread est mis en pause pour le délai défini (2000 ms = 2 secondes ici).
-                    Thread.sleep(newBombe.tempsExplosion * 2000); // Modifiez ce délai en fonction des besoins du jeu.
-
-                    // Après le délai, la méthode explose() de la bombe est appelée.
-                    newBombe.explose();
-                } catch (InterruptedException e) {
-                    // Gestion de l'interruption du thread (important pour la gestion d'erreurs).
-                    Thread.currentThread().interrupt();
-                    System.out.println("Le thread d'explosion a été interrompu");
-                }
-            }).start(); // Démarre le thread pour l'exécution en parallèle.
 
             // Retourne la nouvelle bombe.
             return newBombe;
@@ -184,25 +154,17 @@ public class Joueur {
      *         - si la case d'arrivée est un bloc indestructible
      *         - si il y a déjà un joueur sur la case d'arrivée
      */
-    public Boolean placerJoueur(int posX, int posY) {
+    public void placerJoueur(int posX, int posY) {
         Case caseDepart = (Case) Carte.map[this.positionY][this.positionX];
         Case caseArrivee = (Case) Carte.map[posY][posX];
-        if (caseArrivee.estDestructible) {
+        if (!peutSeDeplacer(caseArrivee)) {
             BlocDestructible bloc = (BlocDestructible) caseArrivee;
             bloc.viderCase();
-            caseDepart.joueur = null;
-            caseArrivee.joueur = this;
-            this.positionX = posX;
-            this.positionY = posY;
-            return true;
-        } else if (peutSeDeplacer(caseArrivee)) {
-            caseDepart.joueur = null;
-            caseArrivee.joueur = this;
-            this.positionX = posX;
-            this.positionY = posY;
-            return true;
         }
-        return false;
+        caseDepart.joueur = null;
+        caseArrivee.joueur = this;
+        this.positionX = posX;
+        this.positionY = posY;
     }
 
 }

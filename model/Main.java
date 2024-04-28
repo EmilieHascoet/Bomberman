@@ -1,6 +1,7 @@
 package model;
 
 import java.text.ParseException;
+import java.util.List;
 
 import javax.swing.JFrame;
 
@@ -30,28 +31,22 @@ public class Main {
         Joueur j1 = bomberman.partie.joueurs.get(0);
         Joueur j2 = bomberman.partie.joueurs.get(1);
 
-        if (!j1.placerJoueur(3, 5))
-            System.out.println("ops peut pas placer le joueur ");
-        if (!j2.placerJoueur(3, 4))
-            System.out.println("ops peut pas placer le joueur ");
-        // Recupere le joueur 1
+        // Place les joueurs
+        j1.placerJoueur(3, 5);
+        j2.placerJoueur(3, 4);
+
         System.out.println("Avant que le joueur ne pose une bombe :\n");
         Carte.afficherCarte();
         System.out.println(j1);
         System.out.println(j2);
 
         // Pose une bombe
-        j1.poseBombe_test(); // explose est ajouté dans poserBomb
-
-        System.out.println("Après que le joueur 1 ait pose une bombe :\n" + j1);
-        System.out.println(j2);
-
+        Bombe bombeJ1 = j1.poseBombe();
+        List<Case> casesTraversees = bombeJ1.explose();
+        System.out.println("Cases traversées par la bombe : " + casesTraversees);
+        System.out.println("Après que le joueur ait pose une bombe :\n" + j1);
         Carte.afficherCarte();
-
-        j2.poseBombe_test(); // explose est ajouté dans poserBomb
-        System.out.println("Après que le joueur 2 ait pose une bombe :\n" + j1);
         System.out.println(j2);
-        Carte.afficherCarte();
     }
 
     public static void testJoueurRamasseBonus() {
