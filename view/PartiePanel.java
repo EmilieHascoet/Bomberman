@@ -1,17 +1,12 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.util.List;
 
 import javax.swing.JPanel;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 
@@ -28,6 +23,8 @@ public class PartiePanel extends JPanel {
     
     JPanel infoPanel = new JPanel();
     JPanel plateauPanel;
+
+    public static CasePanel[][] casesPlateauPanel;
 
     public PartiePanel(MainFrame frame, Bomberman bomberman) {
         this.mainFrame = frame;
@@ -55,11 +52,11 @@ public class PartiePanel extends JPanel {
     }
 
     private JPanel createPlateauPanel() {
-        Carte.afficherCarte();
-        System.out.println(Partie.paramPartie);
         // panel de type grille
         int width = Partie.paramPartie.getBoardWidth()+2;
         int height = Partie.paramPartie.getBoardHeight()+2;
+
+        casesPlateauPanel = new CasePanel[height][width];
         
         JPanel plateauPanel = new JPanel();
         plateauPanel.setBackground(new Color(0, 0, 0));
@@ -69,7 +66,9 @@ public class PartiePanel extends JPanel {
             JPanel panel = new JPanel();
             panel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
             for (int j = 0; j < width; j++) {
-                panel.add(new CasePanel(Carte.map[i][j], mainFrame));
+                CasePanel casePlateauPanel = new CasePanel(Carte.map[i][j], mainFrame);
+                panel.add(casePlateauPanel);
+                casesPlateauPanel[i][j] = casePlateauPanel;
             }
             plateauPanel.add(panel);
         }

@@ -93,9 +93,14 @@ public class Bombe extends Case {
         }
 
         // Supprime la bombe de la carte
-        Joueur joueur = super.joueur;
+        System.out.println("Explosion de la bombe en [" + this.positionX + ", " + this.positionY + "]");
+        Joueur joueur = this.joueur;
         Case thisCase = Carte.map[this.positionY][this.positionX] = new Case(true, this.positionX, this.positionY, "CaseVide", false);
         thisCase.joueur = joueur;
+
+        // Le joueur récupère une bombe dans son stock
+        this.joueurPoseBombe.stockBombe++;
+        Carte.afficherCarte();
 
         return casesTraversees;
     }

@@ -40,9 +40,7 @@ public class Partie {
         List<Case> casesModifiees = new ArrayList<Case>();
         for (Joueur joueur : joueurs) {
             List<Case> casesModifieesJoueur = joueur.jouer(KeyCode);
-            casesModifiees.addAll(casesModifieesJoueur);
-            System.out.println("#Partie jouerTouche# : casesModifiees : " + casesModifieesJoueur + 
-            " par l'action du joueur : " + joueur.toString());
+            if (casesModifieesJoueur != null) casesModifiees.addAll(casesModifieesJoueur);
         }
         return casesModifiees;
     }

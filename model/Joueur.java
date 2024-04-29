@@ -47,7 +47,6 @@ public class Joueur {
     public List<Case> jouer(int KeyCode) {
         List<Case> casesModifiees = new ArrayList<Case>();
         String action = touche.determinerActionJoueur(KeyCode);
-        System.out.println("Action: " + action);
         if(action != null) {
             if(action == "bombe") {
                 casesModifiees.add(poseBombe());

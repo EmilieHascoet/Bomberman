@@ -181,7 +181,7 @@ public class AccueilPanel extends JPanel {
             // Récupère les touches du joueur
             Touche touche = this.gameBomberman.listeTouche.get(i);
             // Liste des actions associées aux touches
-            List<Supplier<String>> actions = Arrays.asList(touche::getHaut, touche::getBas, touche::getGauche, touche::getDroite, touche::getBombe);
+            List<Supplier<String>> actions = Arrays.asList(touche::getHaut, touche::getBas, touche::getDroite, touche::getGauche, touche::getBombe);
 
             // Crée un nouveau panel pour les controles du joueur
             JPanel panel = new JPanel();
