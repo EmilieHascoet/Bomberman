@@ -35,6 +35,17 @@ public class Partie {
 
 
     // Déclaration des méthodes
+
+    public List<Case> jouerTouche(int KeyCode) {
+        List<Case> casesModifiees = new ArrayList<Case>();
+        for (Joueur joueur : joueurs) {
+            List<Case> casesModifieesJoueur = joueur.jouer(KeyCode);
+            casesModifiees.addAll(casesModifieesJoueur);
+            System.out.println("#Partie jouerTouche# : casesModifiees : " + casesModifieesJoueur + 
+            " par l'action du joueur : " + joueur.toString());
+        }
+        return casesModifiees;
+    }
     /**
      * Rejouer / Garde les scores des 2 joueurs, reset le temps et génère une nouvelle carte
      */

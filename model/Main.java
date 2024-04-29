@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.util.List;
 
@@ -9,12 +10,15 @@ public class Main {
     public static JFrame main;
 
     public static void main(String args[]) throws ParseException {
+        // TEST OK
         // testJoueurRamasseBonus();
         // testJoueurPoseBombe();
         // testDestructionBlocDestructible();
-
         // testRejouer();
-        testExplose();
+        // testExplose();
+        // testJoueur1KeyPressed();
+
+        testPartieKeyPressed();
     }
 
     public static void testExplose() {
@@ -47,6 +51,80 @@ public class Main {
         System.out.println("Après que le joueur ait pose une bombe :\n" + j1);
         Carte.afficherCarte();
         System.out.println(j2);
+    }
+
+    public static void testJoueur1KeyPressed() {
+        // Initialisation de la partie
+        Bomberman bomberman = new Bomberman();
+        // Change la taille par defaut de la carte
+        bomberman.parametres.setBoardHeight(10);
+        bomberman.parametres.setBoardWidth(10);
+        // Cree la partie
+        bomberman.nouvellePartie();
+
+        // Recupere le joueur 1
+        Joueur j1 = bomberman.partie.joueurs.get(0);
+        System.out.println("Avant que le joueur ne se deplace :\n");
+        Carte.afficherCarte();
+        System.out.println(j1);
+
+        // Deplace le joueur à droite
+        List<Case> caseModifiees = j1.jouer(39);
+        System.out.println("Après que le joueur se soit deplace a droite :\n" + j1);
+        Carte.afficherCarte();
+        System.out.println("Cases modifiées : " + caseModifiees);
+
+        // Deplace le joueur à gauche
+        j1.jouer(37);
+        System.out.println("Après que le joueur se soit deplace a gauche :\n" + j1);
+        Carte.afficherCarte();
+
+        // Deplace le joueur en bas
+        j1.jouer(40);
+        System.out.println("Après que le joueur se soit deplace en bas :\n" + j1);
+        Carte.afficherCarte();
+
+        // Pose une bombe
+        List<Case> caseModifiees2 = j1.jouer(16);
+        System.out.println("Après que le joueur ait posé une bombe :\n" + j1);
+        Carte.afficherCarte();
+        System.out.println("Cases modifiées : " + caseModifiees2);
+
+        // Deplace le joueur en haut
+        j1.jouer(38);
+        System.out.println("Après que le joueur se soit deplace en haut :\n" + j1);
+        Carte.afficherCarte();
+    }
+
+    public static void testPartieKeyPressed() {
+        // Initialisation de la partie
+        Bomberman bomberman = new Bomberman();
+        // Change la taille par defaut de la carte
+        bomberman.parametres.setBoardHeight(10);
+        bomberman.parametres.setBoardWidth(10);
+        // Cree la partie
+        bomberman.nouvellePartie();
+
+        // Recupere le joueur 1
+        Joueur j1 = bomberman.partie.joueurs.get(0);
+        System.out.println("Avant que le joueur ne se deplace :\n");
+        Carte.afficherCarte();
+        System.out.println(j1);
+
+        // Deplace le joueur à droite
+        bomberman.partie.jouerTouche(39);
+        System.out.println("Après que le joueur se soit deplace a droite :\n" + j1);
+        Carte.afficherCarte();
+
+        // pose une bombe
+        bomberman.partie.jouerTouche(16);
+        System.out.println("Après que le joueur ait posé une bombe :\n" + j1);
+        Carte.afficherCarte();
+
+        // Deplace le joueur à gauche
+        bomberman.partie.jouerTouche(37);
+        System.out.println("Après que le joueur se soit deplace a gauche :\n" + j1);
+        Carte.afficherCarte();
     }
 
     public static void testJoueurRamasseBonus() {

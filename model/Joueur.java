@@ -1,5 +1,9 @@
 package model;
 
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  */
@@ -32,6 +36,28 @@ public class Joueur {
         this.positionY = positionY;
     }
 
+    // Déclarations des méthodes
+
+    /**
+     * Performs an action based on the given KeyCode and returns a list of modified cases.
+     * 
+     * @param KeyCode the key code representing the action to be performed
+     * @return a list of modified cases
+     */
+    public List<Case> jouer(int KeyCode) {
+        List<Case> casesModifiees = new ArrayList<Case>();
+        String action = touche.determinerActionJoueur(KeyCode);
+        System.out.println("Action: " + action);
+        if(action != null) {
+            if(action == "bombe") {
+                casesModifiees.add(poseBombe());
+            } else {
+                casesModifiees = seDeplacer(action);
+            }
+        }
+        return casesModifiees;
+    }
+
     /**
      * Pose une bombe à l'emplacement du joueur si il lui en reste
      */
@@ -59,59 +85,52 @@ public class Joueur {
     }
 
     /**
-     * Moves the player in the specified direction.
-     * 
-     * @param direction the direction in which the player should move ("haut",
-     *                  "bas", "gauche", "droite")
+     * Moves the player in the specified direction and returns the modified cases.
+     *
+     * @param direction the direction in which the player wants to move ("haut", "bas", "gauche", "droite")
+     * @return a list of modified cases if the player moved, null otherwise
      */
-    public void seDeplacer(String direction) {
+    public List<Case> seDeplacer(String direction) {
         // Récupère la case de départ du joueur
-        Case caseDepart = (Case) Carte.map[positionY][positionX];
+        Case caseDepart = (Case) Carte.map[this.positionY][this.positionX];
         Case caseArrivee;
 
         // Selon la direction choisie, détermine la case d'arrivée
         switch (direction) {
             case "haut":
-                caseArrivee = (Case) Carte.map[positionY - 1][positionX];
+                caseArrivee = (Case) Carte.map[this.positionY - 1][this.positionX];
                 break;
             case "bas":
-                caseArrivee = (Case) Carte.map[positionY + 1][positionX];
+                caseArrivee = (Case) Carte.map[this.positionY + 1][this.positionX];
                 break;
             case "gauche":
-                caseArrivee = (Case) Carte.map[positionY][positionX - 1];
+                caseArrivee = (Case) Carte.map[this.positionY][this.positionX - 1];
                 break;
             case "droite":
-                caseArrivee = (Case) Carte.map[positionY][positionX + 1];
+                caseArrivee = (Case) Carte.map[this.positionY][this.positionX + 1];
                 break;
             default:
                 // Si la direction n'est pas reconnue, le joueur reste sur place
                 caseArrivee = caseDepart;
         }
 
-        // Vérifie si le joueur peut se déplacer vers la case d'arrivée
         if (peutSeDeplacer(caseArrivee)) {
             // Si oui, déplace le joueur vers la case d'arrivée
             caseDepart.joueur = null;
             caseArrivee.joueur = this;
-            positionX = caseArrivee.positionX;
-            positionY = caseArrivee.positionY;
+            this.positionX = caseArrivee.positionX;
+            this.positionY = caseArrivee.positionY;
 
             // Si la case d'arrivée est un bonus, applique l'effet du bonus
             if (caseArrivee.typeImage == "Bonus") {
                 Bonus bonus = (Bonus) caseArrivee;
                 bonus.estRamassee(this);
             }
+            // Retourne les cases modifiées car le joueur a bougé
+            return Arrays.asList(caseDepart, caseArrivee);
         }
-    }
-
-    public void reinitialiserJoueur(int posX, int posY) {
-        this.vie = Partie.paramPartie.getNbVie();
-        this.stockBombe = Partie.paramPartie.getNbBombeInit();
-        this.porteeBombe = Partie.paramPartie.getPorteeBombe();
-        this.vitesse = Partie.paramPartie.getVitesse();
-        this.score = 0;
-        this.positionX = posX;
-        this.positionY = posY;
+        // Si non, retourne null car le joueur n'a pas bougé
+        return null;
     }
 
     /**
@@ -123,6 +142,16 @@ public class Joueur {
      */
     public boolean peutSeDeplacer(Case caseArrivee) {
         return caseArrivee.estTraversable && caseArrivee.joueur == null;
+    }
+
+    public void reinitialiserJoueur(int posX, int posY) {
+        this.vie = Partie.paramPartie.getNbVie();
+        this.stockBombe = Partie.paramPartie.getNbBombeInit();
+        this.porteeBombe = Partie.paramPartie.getPorteeBombe();
+        this.vitesse = Partie.paramPartie.getVitesse();
+        this.score = 0;
+        this.positionX = posX;
+        this.positionY = posY;
     }
 
     // on fait un override de la méthode toString pour afficher tous les
