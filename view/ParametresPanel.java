@@ -25,6 +25,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.JOptionPane;
 
+import controller.ParametreController;
 import controller.RetourController;
 
 import java.awt.Insets;
@@ -39,7 +40,7 @@ public class ParametresPanel extends JPanel {
     private Bomberman b;
 
     public ParametresPanel(MainFrame frame, Bomberman bomberman) {
-        this.frame = frame;
+        this.frame = frame; 
         setLayout(new GridBagLayout());
         setBackground(Color.white);
         b = bomberman;
@@ -113,152 +114,13 @@ public class ParametresPanel extends JPanel {
 
         // Bottom panel with a button
         JButton retour = new JButton("Retour");
-        retour.addActionListener(new RetourController(retour, this.frame));
+        retour.addActionListener(new ParametreController(retour, this.frame, this, b));
         retour.setFont(new Font("Arial", Font.BOLD, 16));
         retour.setForeground(Color.white);
         retour.setBackground(new Color(51, 153, 255));
 
-        JButton valider = new JButton("Valider") {
-            {
-                Set<String> listBonus = new HashSet<>();
-                String [] l = new String[] {"Nombre de vies", "Vitesse", "Nombre de bombes initiales", "Portée de la bombe", "Largeur du plateau", "Hauteur du plateau"};
-                Map<String, String> list = new java.util.HashMap<>();
-                Map<String, String> list2 = new java.util.HashMap<>();
-                
-                addActionListener(e -> {
-                    // Get the selected checkboxes
-                    for (int i = 0; i < b.parametres.getListBonus().size(); i++) {
-                        JCheckBox checkBox = (JCheckBox) ((JPanel) rightPanel.getComponent(0)).getComponent(i);
-                        if (checkBox.isSelected()) {
-                            listBonus.add(checkBox.getText());
-                        } else {
-                            listBonus.remove(checkBox.getText());
-                        }
-                    }
-                    if (listBonus.isEmpty()) {
-                        JOptionPane.showMessageDialog(this, "Veuillez sélectionner au moins un bonus.", "Erreur",
-                                JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-                    else{
-                        b.parametres.setListBonus(listBonus);
-                    }
-
-                    // Get the text areas
-                    for (int i = 0; i < l.length; i++) {
-                        JTextField textArea = (JTextField) ((JPanel) rightPanel.getComponent(1)).getComponent(i);
-                        if (textArea.getText().equals(l[i])) {
-                            JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs.", "Erreur",
-                                    JOptionPane.ERROR_MESSAGE);
-                            return;
-                        }
-                        
-                        else{
-                            switch (i) {
-                                case 0:
-                                    list.put(l[0], textArea.getText());
-                                case 1:
-                                    list.put(l[1], textArea.getText());
-                                case 2:
-                                    list.put(l[2], textArea.getText());
-                                case 3:
-                                    list.put(l[3], textArea.getText());
-                                case 4:
-                                    list.put(l[4], textArea.getText());
-                                case 5:
-                                    list.put(l[5], textArea.getText());
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-
-                    for (int i = 0; i < 2; i++) {
-                        JTextField textArea = (JTextField) ((JPanel) rightPanel.getComponent(2)).getComponent(i);
-                        if (textArea.getText().equals(list2.get(textArea.getText().toString()))) {
-                            JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs.", "Erreur",
-                                    JOptionPane.ERROR_MESSAGE);
-                            return;
-                        }
-            
-                        else{
-                            switch (i) {
-                                case 0:
-                                    list2.put("Nom du joueur 1", textArea.getText());
-                                case 1:
-                                    list2.put("Couleur du joueur 1", textArea.getText());
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-
-                    for (int i = 0; i < 2; i++) {
-                        JTextField textArea = (JTextField) ((JPanel) rightPanel.getComponent(3)).getComponent(i);
-                        if (textArea.getText().equals(list2.get(textArea.getText().toString()))) {
-                            JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs.", "Erreur",
-                                    JOptionPane.ERROR_MESSAGE);
-                            return;
-                        }
-                        else{
-                            switch (i) {
-                                case 0:
-                                    list2.put("Nom du joueur 2", textArea.getText());
-                                case 1:
-                                    list2.put("Couleur du joueur 2", textArea.getText());
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-                    
-                    JDialog dialog = new JDialog();
-                    dialog.setAlwaysOnTop(true);
-                    dialog.setModal(true);
-                    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-                    dialog.setTitle("Paramètres");
-                    dialog.setSize(400, 300);
-                    dialog.setLocationRelativeTo(null);
-                    dialog.add(new JPanel() {
-                        {
-                            setBackground(Color.white);
-                            list2.toString();
-                            add(new JTextArea("Voici  les paramètres que vous avez choisis : \n" + listBonus.toString() + "\n" + list.toString() + "\n" + list2.toString() + "\n") {
-                                {
-                                    setFont(new Font("Arial", Font.PLAIN, 16));
-                                    setForeground(Color.black);
-                                    setEditable(false);
-                                    setBackground(Color.white);
-                                    setLineWrap(true);
-                                    setWrapStyleWord(true);
-                                }
-                                {
-                                    setFont(new Font("Arial", Font.PLAIN, 16));
-                                    setForeground(Color.black);
-                                    setEditable(false);
-                                    setBackground(Color.white);
-                                    setLineWrap(true);
-                                    setWrapStyleWord(true);
-                                    
-                                }
-                            });
-                            add(new JButton("OK") {
-                                {
-                                    addActionListener(e -> {dialog.dispose();
-                                        b.setParametres(listBonus, Integer.parseInt(list.get(l[0])), Integer.parseInt(list.get(l[1])), Integer.parseInt(list.get(l[2])), Integer.parseInt(list.get(l[3])), Integer.parseInt(list.get(l[4])), Integer.parseInt(list.get(l[5])));} 
-                                    );
-                                }
-                            });
-                        
-                        }
-                    });
-                    dialog.setVisible(true);
-                });
-            }
-        };
+        JButton valider = new JButton("Valider");           
+        valider.addActionListener(new ParametreController(valider, this.frame, this, b));
         valider.setFont(new Font("Arial", Font.BOLD, 16));
         valider.setForeground(Color.white);
         valider.setBackground(new Color(51, 153, 255));
@@ -311,44 +173,28 @@ public class ParametresPanel extends JPanel {
 
         for (int j = 0; j < list.length; j++) {
             final int i = j;
-            textAreas[i] = new JTextField(list[i]) {
-                {
-                    addFocusListener(new java.awt.event.FocusAdapter() {
-                        public void focusGained(java.awt.event.FocusEvent evt) {
-                            jTextFieldFocusGained(evt);
-                        }
-
-                        public void focusLost(java.awt.event.FocusEvent evt) {
-                            jTextFieldFocusLost(evt);
-                        }
-                    });
-                }
-
-                private void jTextFieldFocusGained(java.awt.event.FocusEvent evt) {
-                    if (getText().equals(list[i])) {
-                        setText("");
-                        setForeground(Color.black);
+            textAreas[i] = new JTextField(list[i]);
+            textAreas[i].setName(list[i]);
+            textAreas[i].addFocusListener(new java.awt.event.FocusAdapter() {
+                public void focusGained(java.awt.event.FocusEvent evt) {
+                    if (textAreas[i].getText().equals(list[i])) {
+                        textAreas[i].setText("");
+                        textAreas[i].setForeground(Color.black);
                     }
                 }
 
-                private void jTextFieldFocusLost(java.awt.event.FocusEvent evt) {
-                    if (getText().equals("")) {
-                        setText(list[i]);
-                        setForeground(new Color(153, 153, 153));
+                public void focusLost(java.awt.event.FocusEvent evt) {
+                    if (textAreas[i].getText().equals("")) {
+                        textAreas[i].setText(list[i]);
+                        textAreas[i].setForeground(new Color(153, 153, 153));
                     }
-                    
-                      String text = this.getText();
-                      if (!text.matches("\\d*")) { // Vérifie si la chaîne ne contient que des chiffres
-                     JOptionPane.showMessageDialog(this,
-                     "Veuillez entrer uniquement des chiffres.", "Erreur",
-                     JOptionPane.ERROR_MESSAGE);
-                     }
-                    
                 }
-            };
+            });
+
             textAreas[i].setFont(new Font("Arial", Font.PLAIN, 16));
             textAreas[i].setForeground(new Color(153, 153, 153));
             textAreaPanel.add(textAreas[i]);
+
         }
 
         parentPanel.add(textAreaPanel, label);
