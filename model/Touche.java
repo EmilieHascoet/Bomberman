@@ -97,6 +97,21 @@ public class Touche {
         return keyMap.get(keyCode);
     }
 
+    public String determinerActionJoueur(int keyCode) {
+        String keyTextString = getKeyText(keyCode) != null ? getKeyText(keyCode) : KeyEvent.getKeyText(keyCode);
+        if (keyTextString.equals(this.haut))
+            return "haut";
+        else if (keyTextString.equals(this.bas))
+            return "bas";
+        else if (keyTextString.equals(this.droite))
+            return "droite";
+        else if (keyTextString.equals(this.gauche))
+            return "gauche";
+        else if (keyTextString.equals(this.bombe))
+            return "bombe";
+        return null;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

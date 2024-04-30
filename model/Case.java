@@ -22,7 +22,7 @@ public class Case {
     public int Points; 
 
     // Déclarations des associations
-    Joueur joueur;
+    public Joueur joueur;
 
     /**
      * Default constructor

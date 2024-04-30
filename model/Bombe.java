@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  */
@@ -18,18 +21,36 @@ public class Bombe extends Case {
         this.tempsExplosion = tempsExplosion;
         this.portee = portee;
         this.joueurPoseBombe = joueur;
+
+        // Lancer le timer pour l'explosion
+        lancerTimer();
     }
 
+    // Méthode pour lancer le timer de l'explosion
+    private void lancerTimer() {
+        Thread timerThread = new Thread(() -> {
+            try {
+                Thread.sleep(this.tempsExplosion * 1000);
+                this.explose();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        timerThread.start();
+    }
+
+
     /**
+     * Triggers the explosion of the bomb and returns a list of the traversed cases.
+     * The explosion can occur in five directions: north, east, south, west, and the bomb itself.
+     * The method checks for players and destructible blocks in the traversed cases and applies the necessary actions.
      * 
+     * @return A list of the cases traversed by the explosion.
      */
-    public void explose() {
-        /*
-         * debug
-         * System.out.println(this.toString());
-         */
-        for (int direction = 0; direction < 5; direction++) { // 0 nord(y-) , 1 est(x+) , 2 sud(y+) , 3 ouest(x-) , 4
-                                                              // position du bombe lui même
+    public List<Case> explose() {
+        List<Case> casesTraversees = new ArrayList<>();
+
+        for (int direction = 0; direction < 5; direction++) {
             boolean cont = true;
             int p = 1;
 
@@ -53,37 +74,35 @@ public class Bombe extends Case {
                         cont = false; // bombe elle même une fois
                         break;
                     default:
-                        System.err.println("il y a un grave probléme (fonction explose on dans default)");
+                        System.err.println("il y a un grave probléme (fonction explose, on est dans default)");
                         System.exit(1);
                 }
-                /* debug */
-                /*
-                 * System.out.println("_______________________________________");
-                 * System.out.println("direction = " + direction);
-                 * System.out.println("position = (" + positionXtemp + "," + positionYtemp +
-                 * ")");
-                 * System.out.println("_______________________________________");
-                 */
-                /* debug */
-                if (Carte.map[positionYtemp][positionXtemp].joueur != null) { // si c'est un joueur il perd
-                                                                              // un vie et explosion
-                                                                              // continue
-                    Carte.map[positionYtemp][positionXtemp].joueur.vie--; // il faut voir et verifier si il
-                                                                          // y a une ou plus de jouers
-                                                                          // d'abord
-                }
 
-                else if (!Carte.map[positionYtemp][positionXtemp].estTraversable) {
-                    if (Carte.map[positionYtemp][positionXtemp] instanceof BlocDestructible) // si c'est destructible
-                        // le blocl est destruit
-                        // et explosion continue
-                        ((BlocDestructible) Carte.map[positionYtemp][positionXtemp]).destruction(this.joueurPoseBombe); // cast
-                    else // si block n'est pas destructible explostion s'arrete
-                        cont = false;
+                Case caseCourante = Carte.map[positionYtemp][positionXtemp];
+                casesTraversees.add(caseCourante);
+
+                if (caseCourante.joueur != null) {
+                    caseCourante.joueur.vie--;
+                } else if (!caseCourante.estTraversable) {
+                    if (caseCourante instanceof BlocDestructible)
+                        ((BlocDestructible) caseCourante).destruction(this.joueurPoseBombe);
+                    cont = false;
                 }
                 p++;
             } while (cont && p <= portee);
         }
+
+        // Supprime la bombe de la carte
+        System.out.println("Explosion de la bombe en [" + this.positionX + ", " + this.positionY + "]");
+        Joueur joueur = this.joueur;
+        Case thisCase = Carte.map[this.positionY][this.positionX] = new Case(true, this.positionX, this.positionY, "CaseVide", false);
+        thisCase.joueur = joueur;
+
+        // Le joueur récupère une bombe dans son stock
+        this.joueurPoseBombe.stockBombe++;
+        Carte.afficherCarte();
+
+        return casesTraversees;
     }
 
     @Override
