@@ -72,7 +72,7 @@ public class AccueilControleur implements ActionListener {
      */
     public void boutonOptions() {
         setTouches();
-        mainFrame.changePanel(new ParametresPanel(mainFrame));
+        mainFrame.changePanel(new ParametresPanel(this.mainFrame, this.bomberman));
     }
 
     public void setTouches() {
