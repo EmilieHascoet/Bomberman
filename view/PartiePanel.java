@@ -14,6 +14,7 @@ import controller.PartieKeyListener;
 import model.Bomberman;
 import model.Carte;
 import model.Case;
+import model.Joueur;
 import model.Partie;
 
 public class PartiePanel extends JPanel {
@@ -86,17 +87,19 @@ public class PartiePanel extends JPanel {
 
         infoPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        // Create a label to display the number of lives
-        JLabel labelLives = new JLabel("Vies: " + gameBomberman.partie.joueurs.get(0).vie);
-        infoPanel.add(labelLives);
+        for (Joueur joueur : gameBomberman.partie.joueurs) {
+            // Create a label to display the number of lives
+            JLabel labelLives = new JLabel("Vies: " + joueur.vie);
+            infoPanel.add(labelLives);
 
-        // Create a label to display the number of bombs
-        JLabel labelBombs = new JLabel("Bombe: " + gameBomberman.partie.joueurs.get(0).stockBombe);
-        infoPanel.add(labelBombs);
+            // Create a label to display the number of bombs
+            JLabel labelBombs = new JLabel("Bombe: " + joueur.stockBombe);
+            infoPanel.add(labelBombs);
 
-        // Create a label to display the number of lives
-        JLabel labelScore = new JLabel("Score: " + gameBomberman.partie.joueurs.get(0).score);
-        infoPanel.add(labelScore);
+            // Create a label to display the score
+            JLabel labelScore = new JLabel("Score: " + joueur.score);
+            infoPanel.add(labelScore);
+        }
 
         return infoPanel;
     }
