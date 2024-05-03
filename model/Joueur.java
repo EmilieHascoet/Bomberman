@@ -195,4 +195,25 @@ public class Joueur {
         this.positionY = posY;
     }
 
+    /**
+     * Augmente le score du joueur de la valeur spécifiée.
+     * 
+     * @param valeur La valeur à ajouter au score du joueur.
+     */
+    public void augmenterScore(int valeur) {
+        this.score += valeur;
+    }
+
+    /**
+     * Diminue la vie du joueur de 1.
+     */
+
+    public void perdreVie() {
+        if (this.vie > 0) {
+            this.vie--;
+        }
+    }
+
+
+
 }

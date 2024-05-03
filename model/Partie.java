@@ -1,5 +1,14 @@
 package model;
+
+
+import view.PartiePanel;
 import java.util.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.Timer;
+import javax.swing.text.View;
+
+
 
 /**
  * 
@@ -7,12 +16,15 @@ import java.util.*;
 public class Partie {
 
     // Déclarations des attributs
-    public Integer temps = 0;
+    private int temps;
+    private Timer time;
+    private ActionListener timerAction;
 
     // Déclarations des associations
     public List<Joueur> joueurs;
     public static Parametres paramPartie;
 
+    private PartiePanel observer;
     /**
      * Default constructor
      * Paramètres pour la partie, définis par l'utilisateur dans l'écran
@@ -30,6 +42,15 @@ public class Partie {
         j2.touche = listTouche.get(1);
         joueurs.add(j2);
 
+        timerAction = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                decrementerTemps();
+            }
+        };
+        time = new Timer(1000, timerAction);
+
+        this.temps = 999;
+        
         genererNouvelleCarte();
     }
 
@@ -50,7 +71,7 @@ public class Partie {
     public void rejouer() {
         joueurs.get(0).reinitialiserJoueur(1, 1);
         joueurs.get(1).reinitialiserJoueur(Partie.paramPartie.getBoardWidth(), Partie.paramPartie.getBoardHeight());
-        this.temps = 0;
+        this.temps = 999;
         genererNouvelleCarte();
     }
 
@@ -61,6 +82,40 @@ public class Partie {
         Carte.genererNouvelleCarteCarte(Partie.paramPartie.getBoardWidth(), Partie.paramPartie.getBoardHeight(), this);
     }
 
+    public int getTemps() {
+        return this.temps;
+    }
+
+    public void demarrerTemps() {
+        this.time.start();
+    }
+
+    public void arreterTemps() {
+        this.time.stop();
+    }
+
+
+    public void incrementerTemps() {
+        this.time.setDelay(this.time.getDelay() + 1000);
+    }
+
+    public void decrementerTemps() {
+        if (this.temps > 0) {
+            this.temps--;
+            notifyObservers();
+        } else {
+            arreterTemps();
+        }
+    }
+
+    public void addObserver(PartiePanel observer) {
+        this.observer = observer;
+    }
+
+    public void notifyObservers() {
+        observer.updateAll(this.temps);
+    }
+    
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
