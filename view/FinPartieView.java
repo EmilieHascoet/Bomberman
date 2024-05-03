@@ -3,6 +3,8 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+
+import controller.AccueilControleur;
 import controller.FinPartieController;
 import model.Bomberman;
 
@@ -71,9 +73,13 @@ public class FinPartieView extends JFrame {
         buttonMenu.addActionListener(listener);
     }
 
-    public static void main(String[] args) {
-        // Création de la fenêtre de fin de partie avec des valeurs de test.
-        SwingUtilities.invokeLater(() -> new FinPartieController(new FinPartieView(3, 5, 10, true), new Bomberman()));
-
-    }
+    /*
+     * public static void main(String[] args) {
+     * // Création de la fenêtre de fin de partie avec des valeurs de test.
+     * SwingUtilities.invokeLater(() -> new FinPartieController(new FinPartieView(3,
+     * 5, 10, true),
+     * new AccueilControleur(null, null, null, null)));
+     * 
+     * }
+     */
 }
