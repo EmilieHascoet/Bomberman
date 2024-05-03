@@ -116,13 +116,12 @@ private JPanel createInfosPanel() {
     for(int i = 0; i < gameBomberman.partie.joueurs.size(); i++){
         // Create a label to display the number of lives
         labelName.add(new JLabel("Joueur: " + gameBomberman.partie.joueurs.get(i).nom + " "));
-        labelBombs.add(new JLabel("Bombes: " + gameBomberman.partie.joueurs.get(i).stockBombe + " "));
+        labelBombs.add(new JLabel("Stock de bombes: " + gameBomberman.partie.joueurs.get(i).stockBombe + " "));
         labelScore.add(new JLabel("Score: " + gameBomberman.partie.joueurs.get(i).score + " "));
 
         // Create a panel to hold the life squares
         JPanel lifePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
-        lifePanel.setLayout(new BoxLayout(lifePanel, BoxLayout.X_AXIS));
-        lifePanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
 
         JLabel lifeLabel = new JLabel("Vies:");
         lifePanel.add(lifeLabel);
@@ -130,7 +129,7 @@ private JPanel createInfosPanel() {
         // Add the life squares to the panel
         for(int j = 0; j < gameBomberman.partie.joueurs.get(i).vie; j++){
             JPanel lifeSquare = new JPanel();
-            lifeSquare.setPreferredSize(new Dimension(5, 10));
+            lifeSquare.setPreferredSize(new Dimension(10, 20));
             lifeSquare.setBackground(Color.GREEN);
             lifeSquare.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,10,0,10));
             lifePanel.add(lifeSquare);
@@ -170,7 +169,7 @@ public void updateInfosPanel() {
         lifePanel.add(lifeLabel);
         for(int j = 0; j < gameBomberman.partie.paramPartie.getNbVie(); j++){
             JPanel lifeSquare = new JPanel();
-            lifeSquare.setPreferredSize(new Dimension(5, 10));
+            lifeSquare.setPreferredSize(new Dimension(10, 20));
             lifeSquare.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,10,0,10));
 
             if(j < gameBomberman.partie.joueurs.get(i).vie){
@@ -183,9 +182,8 @@ public void updateInfosPanel() {
         }
         south.add(lifePanel);
 
-        south.add(new JLabel("Bombes: " + gameBomberman.partie.joueurs.get(i).stockBombe + " "));
+        south.add(new JLabel("Stock de bombes: " + gameBomberman.partie.joueurs.get(i).stockBombe + " "));
         south.add(new JLabel("Score: " + gameBomberman.partie.joueurs.get(i).score + " "));
-        System.out.println("Joueur: " + gameBomberman.partie.joueurs.get(i).nom + " " + "Vies: " + gameBomberman.partie.joueurs.get(i).vie);
     }
     infoPanel.add(south);
 }
