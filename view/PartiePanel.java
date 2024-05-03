@@ -103,53 +103,97 @@ public class PartiePanel extends JPanel {
         return plateauPanel;
     }
 
-    private JPanel createInfosPanel() {
+    private List<JPanel> lifePanels = new ArrayList<>(); // Add this line at the class level
 
-        JPanel infoPanel = new JPanel();
-        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+private JPanel createInfosPanel() {
+    JPanel infoPanel = new JPanel();
+    infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 
-        infoPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+    infoPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        north.add(chrono);
+    north.add(chrono);
 
-        for(int i = 0; i < gameBomberman.partie.joueurs.size(); i++){
-            // Create a label to display the number of lives
-            labelName.add(new JLabel("Joueur: " + gameBomberman.partie.joueurs.get(i).nom + " "));
-            labelLives.add(new JLabel("Vies: " + gameBomberman.partie.joueurs.get(i).vie + " "));
-            labelBombs.add(new JLabel("Bombes: " + gameBomberman.partie.joueurs.get(i).stockBombe + " "));
-            labelScore.add(new JLabel("Score: " + gameBomberman.partie.joueurs.get(i).score + " "));
-            //labelBombs.add(new JLabel("Bonus: " + gameBomberman.partie.joueurs.get(i).listBonus + " "));
-            south.add(labelName.get(i));
-            south.add(labelLives.get(i));
-            south.add(labelBombs.get(i));
-            south.add(labelScore.get(i));
+    for(int i = 0; i < gameBomberman.partie.joueurs.size(); i++){
+        // Create a label to display the number of lives
+        labelName.add(new JLabel("Joueur: " + gameBomberman.partie.joueurs.get(i).nom + " "));
+        labelBombs.add(new JLabel("Bombes: " + gameBomberman.partie.joueurs.get(i).stockBombe + " "));
+        labelScore.add(new JLabel("Score: " + gameBomberman.partie.joueurs.get(i).score + " "));
+
+        // Create a panel to hold the life squares
+        JPanel lifePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+        lifePanel.setLayout(new BoxLayout(lifePanel, BoxLayout.X_AXIS));
+        lifePanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        JLabel lifeLabel = new JLabel("Vies:");
+        lifePanel.add(lifeLabel);
+
+        // Add the life squares to the panel
+        for(int j = 0; j < gameBomberman.partie.joueurs.get(i).vie; j++){
+            JPanel lifeSquare = new JPanel();
+            lifeSquare.setPreferredSize(new Dimension(5, 10));
+            lifeSquare.setBackground(Color.GREEN);
+            lifeSquare.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,10,0,10));
+            lifePanel.add(lifeSquare);
         }
-        infoPanel.add(north);
-        infoPanel.add(south);
 
-        return infoPanel;
+        // Add the life panel to the list of life panels
+        lifePanels.add(lifePanel); // This line is new
+
+        south.add(labelName.get(i));
+        south.add(lifePanels.get(i)); // This line has changed
+        south.add(labelBombs.get(i));
+        south.add(labelScore.get(i));
     }
 
-    public void updateInfosPanel() {
-        // Update the information panel
-        south.removeAll();
-        north.setPreferredSize(new Dimension(infoPanel.getWidth(), 70));
-        south.setPreferredSize(new Dimension(infoPanel.getWidth(), 70));
-        infoPanel.remove(this.south);
-        north.add(chrono);
+    infoPanel.add(north);
+    infoPanel.add(south);
 
-        for(int i = 0; i < gameBomberman.partie.joueurs.size(); i++){
-            south.add(new JLabel("Joueur: " + gameBomberman.partie.joueurs.get(i).nom + " "));
-            south.add(new JLabel("Vies: " + gameBomberman.partie.joueurs.get(i).vie + " "));
-            south.add(new JLabel("Bombes: " + gameBomberman.partie.joueurs.get(i).stockBombe + " "));
-            south.add(new JLabel("Score: " + gameBomberman.partie.joueurs.get(i).score + " "));
+    return infoPanel;
+}
+
+public void updateInfosPanel() {
+    // Update the information panel
+    south.removeAll();
+    north.setPreferredSize(new Dimension(infoPanel.getWidth(), 70));
+    south.setPreferredSize(new Dimension(infoPanel.getWidth(), 70));
+    infoPanel.remove(this.south);
+    north.add(chrono);
+
+    for(int i = 0; i < gameBomberman.partie.joueurs.size(); i++){
+        south.add(new JLabel("Joueur: " + gameBomberman.partie.joueurs.get(i).nom + " "));
+        
+        // Update the life squares
+        JPanel lifePanel = lifePanels.get(i);
+        lifePanel.removeAll();
+
+        JLabel lifeLabel = new JLabel("Vies:");
+        lifePanel.add(lifeLabel);
+        for(int j = 0; j < gameBomberman.partie.paramPartie.getNbVie(); j++){
+            JPanel lifeSquare = new JPanel();
+            lifeSquare.setPreferredSize(new Dimension(5, 10));
+            lifeSquare.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,10,0,10));
+
+            if(j < gameBomberman.partie.joueurs.get(i).vie){
+                lifeSquare.setBackground(Color.GREEN);
+            } else {
+                lifeSquare.setBackground(Color.RED);
+            }
+
+            lifePanel.add(lifeSquare);
         }
-        infoPanel.add(south);
+        south.add(lifePanel);
+
+        south.add(new JLabel("Bombes: " + gameBomberman.partie.joueurs.get(i).stockBombe + " "));
+        south.add(new JLabel("Score: " + gameBomberman.partie.joueurs.get(i).score + " "));
+        System.out.println("Joueur: " + gameBomberman.partie.joueurs.get(i).nom + " " + "Vies: " + gameBomberman.partie.joueurs.get(i).vie);
     }
+    infoPanel.add(south);
+}
 
     public void updateAll(int temps){
         chrono.setText("Temps: " + temps);
         gameBomberman.partie.joueurs.get(0).augmenterScore(1);
+        gameBomberman.partie.joueurs.get(1).perdreVie();
         updateInfosPanel();
         plateauPanel.repaint();
     }    
