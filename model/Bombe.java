@@ -3,6 +3,9 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import view.CasePanel;
+import view.PartiePanel;
+
 /**
  * 
  */
@@ -31,7 +34,7 @@ public class Bombe extends Case {
         Thread timerThread = new Thread(() -> {
             try {
                 Thread.sleep(this.tempsExplosion * 1000);
-                this.explose();
+                this.explosion();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -40,69 +43,72 @@ public class Bombe extends Case {
     }
 
 
-    /**
-     * Triggers the explosion of the bomb and returns a list of the traversed cases.
-     * The explosion can occur in five directions: north, east, south, west, and the bomb itself.
-     * The method checks for players and destructible blocks in the traversed cases and applies the necessary actions.
-     * 
-     * @return A list of the cases traversed by the explosion.
-     */
-    public List<Case> explose() {
-        List<Case> casesTraversees = new ArrayList<>();
+    public void explosion() {
+        List<Case> caseModifiees = new ArrayList<>();
+        Thread explosionThread = new Thread(() -> {
+            try {
+                // Explosion at the bomb's position
+                Case thisCase = Carte.map[this.positionY][this.positionX] = new Case(true, this.positionX, this.positionY, "CaseVide", false);
+                thisCase.joueur = this.joueur;
+                caseModifiees.add(thisCase);
+                
+                System.out.println("Explosion de la bombe en [" + this.positionX + ", " + this.positionY + "]");
+                joueurPoseBombe.stockBombe++;
+                Carte.afficherCarte();
 
-        for (int direction = 0; direction < 5; direction++) {
-            boolean cont = true;
-            int p = 1;
+                // Calculate the cross shape
+                for (int i = 1; i <= portee; i++) {
 
-            do {
-                int positionYtemp = this.positionY;
-                int positionXtemp = this.positionX;
-                switch (direction) {
-                    case 0: // nord => y-1
-                        positionYtemp -= p;
-                        break;
-                    case 1: // est ==> x+1
-                        positionXtemp += p;
-                        break;
-                    case 2: // sud => y+1
-                        positionYtemp += p;
-                        break;
-                    case 3: // ouest => x-1
-                        positionXtemp -= p;
-                        break;
-                    case 4:
-                        cont = false; // bombe elle même une fois
-                        break;
-                    default:
-                        System.err.println("il y a un grave probléme (fonction explose, on est dans default)");
-                        System.exit(1);
+                    List<Case> cases = new ArrayList<>();
+                    // North (y - i)
+                    if (this.positionY - i >= 1) {
+                        cases.add(Carte.map[this.positionY - i][this.positionX]);
+                    }
+                    // South (y + i)
+                    if (this.positionY + i < Carte.map.length - 1) {
+                        cases.add(Carte.map[this.positionY + i][this.positionX]);
+                    }
+                    // East (x + i)
+                    if (this.positionX + i < Carte.map[0].length - 1) {
+                        cases.add(Carte.map[this.positionY][this.positionX + i]);
+                    }
+                    // West (x - i)
+                    if (this.positionX - i >= 1) {
+                        cases.add(Carte.map[this.positionY][this.positionX - i]);
+                    }
+
+                    for (Case caseCourante : cases) {
+                        /*CasePanel caseAModifier = PartiePanel.casesPlateauPanel[caseCourante.positionY][caseCourante.positionX];
+                        caseAModifier.setCaseModel(caseCourante);
+                        caseAModifier.loadImage();
+                        caseAModifier.repaint();
+                        caseAModifier.revalidate();*/
+                        if (caseCourante.joueur != null) {
+                            caseCourante.joueur.vie--;
+                        } else if (!caseCourante.estTraversable) {
+                            if (caseCourante instanceof BlocDestructible)
+                            caseModifiees.add(((BlocDestructible) caseCourante).destruction(this.joueurPoseBombe));
+                            // else, bloque la propagation dans cette direction
+                        }
+                        System.out.println("Explosion en [" + caseCourante.positionX + ", " + caseCourante.positionY + "]");
+                    }
+                    
+                    Carte.afficherCarte();
+                    // Delay next expansion
+                    Thread.sleep(2000);
                 }
-
-                Case caseCourante = Carte.map[positionYtemp][positionXtemp];
-                casesTraversees.add(caseCourante);
-
-                if (caseCourante.joueur != null) {
-                    caseCourante.joueur.vie--;
-                } else if (!caseCourante.estTraversable) {
-                    if (caseCourante instanceof BlocDestructible)
-                        ((BlocDestructible) caseCourante).destruction(this.joueurPoseBombe);
-                    cont = false;
-                }
-                p++;
-            } while (cont && p <= portee);
-        }
-
-        // Supprime la bombe de la carte
-        System.out.println("Explosion de la bombe en [" + this.positionX + ", " + this.positionY + "]");
-        Joueur joueur = this.joueur;
-        Case thisCase = Carte.map[this.positionY][this.positionX] = new Case(true, this.positionX, this.positionY, "CaseVide", false);
-        thisCase.joueur = joueur;
-
-        // Le joueur récupère une bombe dans son stock
-        this.joueurPoseBombe.stockBombe++;
-        Carte.afficherCarte();
-
-        return casesTraversees;
+                /*for(Case c : caseModifiees){
+                    CasePanel caseAModifier = PartiePanel.casesPlateauPanel[c.positionY][c.positionX];
+                    caseAModifier.setCaseModel(c);
+                    caseAModifier.loadImage();
+                    caseAModifier.repaint();
+                    caseAModifier.revalidate();
+                }*/
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        explosionThread.start(); // Start the explosion thread
     }
 
     @Override

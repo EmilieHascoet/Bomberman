@@ -55,7 +55,7 @@ public class CasePanel extends JPanel {
         if (imageUrl != null) {
             this.imageCase = new ImageIcon(imageUrl).getImage();
         } else if (typeImage != "CaseVide") {
-            System.err.println("Image not found");
+            System.err.println("Image not found + " + this.path);
         }
     }
 
