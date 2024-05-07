@@ -1,24 +1,21 @@
 package controller;
 
-import model.Bomberman;
-import view.MainFrame;
-import view.AccueilPanel;
-
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
+import model.Bomberman;
+import view.AccueilPanel;
+import view.MainFrame;
 
 public class ParametreController implements ActionListener {
     private MainFrame fenetre;
@@ -52,12 +49,9 @@ public class ParametreController implements ActionListener {
     public void boutonValider() {
         Set<String> listBonus = new HashSet<>();
         List<String> errors = new ArrayList<>();
-        System.out.println("Je suis dans le bouton valider");
         Map<String, String> list = new java.util.HashMap<>(); // Parametres du joueur 1
-        Map<String, String> list2 = new java.util.HashMap<>();
 
         for (Component c : p.getComponents()) { // Jpanel
-            // System.out.println("Voici le niveau 1 " + c.getClass());
             for (Component c2 : ((JPanel) c).getComponents()) { // Jpanel et JButton
                 if (c2 instanceof JPanel) {
                     for (Component c3 : ((JPanel) c2).getComponents()) {
@@ -164,8 +158,8 @@ public class ParametreController implements ActionListener {
                     Integer.parseInt(list.get("Vitesse")), Integer.parseInt(list.get("Nombre de bombes initiales")),
                     Integer.parseInt(list.get("Portée de la bombe")), Integer.parseInt(list.get("Largeur du plateau")),
                     Integer.parseInt(list.get("Hauteur du plateau")));
-            b.setNomJoueurs(0, list2.get("Nom du joueur 1"));
-            b.setNomJoueurs(1, list2.get("Nom du joueur 2"));
+            b.setNomJoueurs(0, list.get("Nom du joueur 1"));
+            b.setNomJoueurs(1, list.get("Nom du joueur 2"));
             fenetre.changePanel(new AccueilPanel(fenetre, b));
         }
     }
