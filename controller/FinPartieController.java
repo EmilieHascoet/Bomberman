@@ -1,15 +1,14 @@
 package controller;
 
 import view.*;
-import model.Bomberman;
 
 public class FinPartieController {
     private FinPartieView view;
-    private Bomberman bomber;
+    private AccueilControleur ac;
 
-    public FinPartieController(FinPartieView view, Bomberman bomber) {
-        this.bomber = bomber;
+    public FinPartieController(FinPartieView view, AccueilControleur ac) {
         this.view = view;
+        this.ac = ac;
         initController();
     }
 
@@ -21,12 +20,10 @@ public class FinPartieController {
 
     private void exitApplication() {
         System.exit(0);
-        view.dispose();
     }
 
     private void replayGame() {
-        bomber.partie.rejouer();
-
+        ac.boutonPlay();
     }
 
     private void returnToMenu() {
