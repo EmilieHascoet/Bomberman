@@ -26,26 +26,27 @@ public class Bonus extends Case {
 
     // Déclarations des méthodes
     /*
-     * Le joueur ramasse le bonus
+     * Le joueur ramasse le bonus, ce qui a pour effet de modifier ses attributs
+     * Ajout ou retrait (si malus) de vie, stock de bombe, portée de bombe, vitesse
      * La case devient vide
      */
     public void estRamassee(Joueur joueur) {
         switch (this.effet) {
             case "vie":
-                if (this.isMalus) { joueur.vie = joueur.vie - 1; }
-                else { joueur.vie = joueur.vie + 1; }
+                if (this.isMalus) { joueur.vie--; }
+                else { joueur.vie++; }
                 break;
             case "stockBombe":
-                if (this.isMalus) { joueur.stockBombe = joueur.stockBombe - 1; }
-                else { joueur.stockBombe = joueur.stockBombe + 1; }
+                if (this.isMalus) { if(joueur.stockBombe>1) joueur.stockBombe--; }
+                else { joueur.stockBombe++; }
                 break;
             case "porteeBombe":
-                if (this.isMalus) { joueur.porteeBombe = joueur.porteeBombe - 1; }
-                else { joueur.porteeBombe = joueur.porteeBombe + 1; }
+                if (this.isMalus) { if(joueur.porteeBombe>1) joueur.porteeBombe--; }
+                else { joueur.porteeBombe++; }
                 break;
-            case "Vitesse":
-                if (this.isMalus) { joueur.vitesse = joueur.vitesse - 1; }
-                else { joueur.vitesse = joueur.vitesse + 1; }
+            case "vitesse":
+                if (this.isMalus) { joueur.vitesse--; }
+                else { joueur.vitesse++; }
                 break;
             default:
                 break;

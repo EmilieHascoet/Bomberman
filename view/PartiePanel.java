@@ -1,16 +1,19 @@
 package view;
 
 import controller.PartieKeyListener;
-import controller.TimeController;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
+
 import model.Bomberman;
 import model.Carte;
 import model.Partie;
@@ -20,7 +23,13 @@ public class PartiePanel extends JPanel {
     Bomberman gameBomberman;
     public Color backgroundColor = new Color(203, 239, 195);
 
-    
+    // Timer du jeu pour le taux de rafraichissement
+    private Timer timer;
+    private ActionListener timerAction;
+    private int temps = 300;
+    private int tauxRafraichissement = 100;
+    private int compteur = 0;
+
     JPanel infoPanel = new JPanel();
     JPanel north = new JPanel();
     JPanel south = new JPanel();
@@ -43,6 +52,14 @@ public class PartiePanel extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBackground(backgroundColor);
 
+        infoPanel = createInfosPanel();
+        plateauPanel = createPlateauPanel();
+        plateauPanel.setAlignmentX(CENTER_ALIGNMENT);
+
+        // Add the panel to the center of the frame
+        this.add(infoPanel);
+        this.add(plateauPanel);
+
         // Add a key listener to the panel
         PartieKeyListener keyListener = new PartieKeyListener(gameBomberman);
         this.addKeyListener(keyListener);
@@ -50,18 +67,15 @@ public class PartiePanel extends JPanel {
         // Make sure the panel can receive keyboard input
         this.setFocusable(true);
         this.requestFocusInWindow();
-        
-        infoPanel = createInfosPanel();
-        plateauPanel = createPlateauPanel();
-        plateauPanel.setAlignmentX(CENTER_ALIGNMENT);
-        new TimeController(gameBomberman.partie, this);
 
-        gameBomberman.partie.demarrerTemps();
+        timerAction = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                decrementerTemps();
+            }
+        };
+        timer = new Timer(tauxRafraichissement, timerAction);
 
-        // Add the panel to the center of the frame
-        this.add(infoPanel);
-        this.add(plateauPanel);
-
+        this.timer.start();
     }
 
     private JPanel createPlateauPanel() {
@@ -94,7 +108,7 @@ public class PartiePanel extends JPanel {
         JPanel infoPanel = new JPanel();
 
         //JLabel to display
-        chrono = new JLabel("Temps: " + gameBomberman.partie.getTemps());
+        chrono = new JLabel("Temps: " + temps / 60 + " : " + temps % 60);;
         labelName = new ArrayList<>();
         labelLives = new ArrayList<>();
         labelBombs = new ArrayList<>();
@@ -199,12 +213,21 @@ public class PartiePanel extends JPanel {
         infoPanel.add(south);
     }
 
-    public void updateAll(int temps){
-        chrono.setText("Temps: " + temps);
-        //gameBomberman.partie.joueurs.get(0).augmenterScore(1);
-        //gameBomberman.partie.joueurs.get(1).perdreVie();
+    public void decrementerTemps() {
+        compteur++;
         updateInfosPanel();
         updatePlateauPanel();
-        //plateauPanel.repaint();
-    }    
+        // Décrémentez le temps seulement lorsque le compteur atteint 10 (c'est-à-dire toutes les secondes)
+        if (compteur >= 10) {
+            if (temps > 0) {
+                temps--;
+                chrono.setText("Temps: " + temps / 60 + " : " + temps % 60);
+            } else {
+                // Arrêtez le timer lorsque le temps est écoulé
+                this.timer.stop();
+            }
+            // Réinitialisez le compteur
+            compteur = 0;
+        }
+    }
 }

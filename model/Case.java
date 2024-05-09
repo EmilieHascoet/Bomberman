@@ -9,6 +9,7 @@ public class Case {
     public Boolean estTraversable;
     public Integer positionX;
     public Integer positionY;
+    public Boolean isFire;
     /**
      * Définit le type de case pour savoir quelle image afficher dans la vue
      * Valeurs possibles : Bombe, BlocDestructible, BlocIndestructible, Bonus,
@@ -34,6 +35,7 @@ public class Case {
         this.positionY = positionY;
         this.typeImage = typeImage;
         this.estDestructible = estDestructible;
+        this.isFire = false;
         // Méthode pour calculer les points automatiquement avec de l'aléatoire
         if (estDestructible) {
             this.Points = (int) (Math.random() * 100);

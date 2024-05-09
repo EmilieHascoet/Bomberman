@@ -3,9 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-import view.CasePanel;
-import view.PartiePanel;
-
 /**
  * 
  */
@@ -14,6 +11,9 @@ public class Bombe extends Case {
     // Déclarations des attributs
     public Integer tempsExplosion;
     public Integer portee;
+    public Integer tempsPropagation = 70;
+
+    // Déclarations des associations
     public Joueur joueurPoseBombe;
 
     /**
@@ -43,73 +43,95 @@ public class Bombe extends Case {
     }
 
 
+    /**
+     * Déclenche l'explosion de la bombe.
+     * Cette méthode propage l'explosion aux cases adjacentes selon la portee de la bombe
+     * et détruit tous les blocs qui se trouvent sur son chemin.
+     */
     public void explosion() {
         List<Case> caseModifiees = new ArrayList<>();
-        Thread explosionThread = new Thread(() -> {
-            try {
-                // Explosion at the bomb's position
-                Case thisCase = Carte.map[this.positionY][this.positionX] = new Case(true, this.positionX, this.positionY, "CaseVide", false);
-                thisCase.joueur = this.joueur;
-                caseModifiees.add(thisCase);
-                
-                System.out.println("Explosion de la bombe en [" + this.positionX + ", " + this.positionY + "]");
-                joueurPoseBombe.stockBombe++;
-                Carte.afficherCarte();
-
-                // Calculate the cross shape
-                for (int i = 1; i <= portee; i++) {
-
-                    List<Case> cases = new ArrayList<>();
-                    // North (y - i)
-                    if (this.positionY - i >= 1) {
-                        cases.add(Carte.map[this.positionY - i][this.positionX]);
-                    }
-                    // South (y + i)
-                    if (this.positionY + i < Carte.map.length - 1) {
-                        cases.add(Carte.map[this.positionY + i][this.positionX]);
-                    }
-                    // East (x + i)
-                    if (this.positionX + i < Carte.map[0].length - 1) {
-                        cases.add(Carte.map[this.positionY][this.positionX + i]);
-                    }
-                    // West (x - i)
-                    if (this.positionX - i >= 1) {
-                        cases.add(Carte.map[this.positionY][this.positionX - i]);
-                    }
-
-                    for (Case caseCourante : cases) {
-                        /*CasePanel caseAModifier = PartiePanel.casesPlateauPanel[caseCourante.positionY][caseCourante.positionX];
-                        caseAModifier.setCaseModel(caseCourante);
-                        caseAModifier.loadImage();
-                        caseAModifier.repaint();
-                        caseAModifier.revalidate();*/
-                        if (caseCourante.joueur != null) {
-                            caseCourante.joueur.vie--;
-                        } else if (!caseCourante.estTraversable) {
-                            if (caseCourante instanceof BlocDestructible)
-                            caseModifiees.add(((BlocDestructible) caseCourante).destruction(this.joueurPoseBombe));
-                            // else, bloque la propagation dans cette direction
-                        }
-                        System.out.println("Explosion en [" + caseCourante.positionX + ", " + caseCourante.positionY + "]");
-                    }
-                    
-                    Carte.afficherCarte();
-                    // Delay next expansion
-                    Thread.sleep(2000);
-                }
-                /*for(Case c : caseModifiees){
-                    CasePanel caseAModifier = PartiePanel.casesPlateauPanel[c.positionY][c.positionX];
-                    caseAModifier.setCaseModel(c);
-                    caseAModifier.loadImage();
-                    caseAModifier.repaint();
-                    caseAModifier.revalidate();
-                }*/
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        explosionThread.start(); // Start the explosion thread
+        propagateExplosion(caseModifiees);
+        destroyBlocks(caseModifiees);
     }
+    
+    /**
+     * Propage l'explosion de la position de la bombe aux cases adjacentes en forme de croix.
+     * L'explosion se propage dans quatre directions : Nord, Sud, Est et Ouest.
+     * Chaque explosion propagée met à jour les cellules affectées (les met en feu).
+     * La propagation s'arrête dans un certaine direction si la case n'est pas traversable.
+     * 
+     * @param caseModifiees une liste pour stocker les cases modifiées pendant la propagation de l'explosion
+     */
+    private void propagateExplosion(List<Case> caseModifiees) {
+        try {
+            // Propagate explosion from the bomb's position
+            Case thisCase = Carte.map[this.positionY][this.positionX] = new Case(true, this.positionX, this.positionY, "CaseVide", false);
+            thisCase.joueur = this.joueur;
+            if (thisCase.joueur != null) thisCase.joueur.vie--;
+            thisCase.isFire = true;
+            caseModifiees.add(thisCase);
+            joueurPoseBombe.stockBombe++;
+            Thread.sleep(tempsPropagation);
+            Carte.afficherCarte();
+    
+            // Calculate the cross shape
+            boolean[] stopDirections = new boolean[4]; // North, South, East, West
+    
+            for (int i = 1; i <= portee; i++) {
+                // Propagate explosion in each direction
+                if (!stopDirections[0]) stopDirections[0] = propagateInDirection(this.positionX, this.positionY - i, caseModifiees); // North
+                if (!stopDirections[1]) stopDirections[1] = propagateInDirection(this.positionX, this.positionY + i, caseModifiees); // South
+                if (!stopDirections[2]) stopDirections[2] = propagateInDirection(this.positionX + i, this.positionY, caseModifiees); // East
+                if (!stopDirections[3]) stopDirections[3] = propagateInDirection(this.positionX - i, this.positionY, caseModifiees); // West
+
+                if (stopDirections[0] && stopDirections[1] && stopDirections[2] && stopDirections[3]) break; // Stop if all directions are blocked
+    
+                Carte.afficherCarte();
+                // Delay next expansion
+                Thread.sleep(tempsPropagation);
+            }
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Propage l'explosion de la bombe dans une direction spécifique à partir des coordonnées données.
+     * 
+     * @param startX La coordonnée X de départ.
+     * @param startY La coordonnée Y de départ.
+     * @param caseModifiees Une liste pour stocker les cases modifiés pendant la propagation.
+     * @return True si la propagation doit s'arrêter dans cette direction, false sinon.
+     */
+    private boolean propagateInDirection(int startX, int startY, List<Case> caseModifiees) {    
+        Case currentCase = Carte.map[startY][startX];
+    
+        if (currentCase.typeImage.equals("BlocDestructible") || currentCase.estTraversable) {
+            caseModifiees.add(currentCase);
+            currentCase.isFire = true;
+        }
+        if (currentCase.joueur != null) currentCase.joueur.vie--;
+        if (!currentCase.estTraversable) {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Détruit les blocs dans la liste donnée des cases modifiés.
+     * Si une case est une instance de BlocDestructible, la méthode de destruction est appelée.
+     * Sinon, il met l'indicateur isFire de la case à false.
+     *
+     * @param caseModifiees la liste des cases modifiés durant la propagation du feu
+     */
+    private void destroyBlocks(List<Case> caseModifiees) {
+        for (Case c : caseModifiees) {
+            if (c instanceof BlocDestructible) ((BlocDestructible) c).destruction(this.joueurPoseBombe);
+            else c.isFire = false;
+        }
+    }
+    
 
     @Override
     public String toString() {

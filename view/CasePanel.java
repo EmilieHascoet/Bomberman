@@ -39,35 +39,52 @@ public class CasePanel extends JPanel {
     
     public void loadImage() {
         ClassLoader classLoader = getClass().getClassLoader();
-    
+
         if(caseModel.joueur != null) {
             this.path = "Images/Personnage/perso1.png"; // TODO chemin vers l'image du personnage dans la classe Joueur
-        } else {
-            if(typeImage != "Bonus") {
+        } else if(typeImage != "Bonus") {
                 this.path = "Images/" + typeImage + ".png";
-            } else {
-                this.path = "Images/bonus/" + ((Bonus)this.caseModel).effet + ".png";
-            }
+        } else {
+            this.path = "Images/bonus/" + ((Bonus)this.caseModel).effet + ".png";
         }
         
         URL imageUrl = classLoader.getResource(this.path);
     
         if (imageUrl != null) {
             this.imageCase = new ImageIcon(imageUrl).getImage();
-        } else if (typeImage != "CaseVide") {
+        }
+        /* Test path
+        else if (typeImage != "CaseVide") {
             System.err.println("Image not found + " + this.path);
+        } */
+        else {
+            this.imageCase = null;
         }
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (typeImage.equals("CaseVide") && this.caseModel.joueur == null) {
-            g.setColor(new Color(203, 239, 195));
-            g.fillRect(0, 0, getWidth(), getHeight());
-        }
-        else if (this.imageCase != null) {
+        // Set the background color
+        g.setColor(new Color(203, 239, 195));
+        g.fillRect(0, 0, getWidth(), getHeight());
+
+        if (this.imageCase != null) {
             g.drawImage(imageCase, 0, 0, getWidth(), getHeight(), this);
+        }
+        if(this.typeImage.equals("Bombe")) {
+            URL imageUrl = getClass().getClassLoader().getResource("Images/bombe.png");
+            if (imageUrl != null) {
+                Image imageBombe = new ImageIcon(imageUrl).getImage();
+                g.drawImage(imageBombe, 0, 0, getWidth(), getHeight(), this);
+            }
+        }
+        if (caseModel.isFire) {
+            URL imageUrl = getClass().getClassLoader().getResource("Images/Explosion/cote.png");
+            if (imageUrl != null) {
+                Image imageFire = new ImageIcon(imageUrl).getImage();
+                g.drawImage(imageFire, 0, 0, getWidth(), getHeight(), this);
+            }
         }
     }
 }

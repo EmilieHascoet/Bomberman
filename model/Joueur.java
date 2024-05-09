@@ -125,6 +125,10 @@ public class Joueur {
                 Bonus bonus = (Bonus) caseArrivee;
                 bonus.estRamassee(this);
             }
+            // Si case d'arrivée est en feu et case de départ ne l'est pas, le joueur perd une vie
+            if (caseArrivee.isFire && !caseDepart.isFire) {
+                this.perdreVie();
+            }
             // Retourne les cases modifiées car le joueur a bougé
             return Arrays.asList(caseDepart, caseArrivee);
         }
