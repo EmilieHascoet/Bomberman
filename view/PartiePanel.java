@@ -31,6 +31,7 @@ public class PartiePanel extends JPanel {
     private int compteur = 0;
 
     JPanel infoPanel = new JPanel();
+    static int infoPanelHeight = 150;
     JPanel north = new JPanel();
     JPanel south = new JPanel();
     JPanel plateauPanel;
@@ -117,8 +118,7 @@ public class PartiePanel extends JPanel {
 
         // Create a panel to display information
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-        north.setPreferredSize(new Dimension(infoPanel.getWidth(), 70));
-        south.setPreferredSize(new Dimension(infoPanel.getWidth(), 70));
+        infoPanel.setPreferredSize(new Dimension(mainFrame.getWidth(), infoPanelHeight));
         north.setLayout(new BoxLayout(north, BoxLayout.X_AXIS));
         south.setLayout(new GridLayout(2, gameBomberman.partie.joueurs.size() + 1));
 
@@ -178,8 +178,6 @@ public class PartiePanel extends JPanel {
     public void updateInfosPanel() {
         // Update the information panel
         south.removeAll();
-        north.setPreferredSize(new Dimension(infoPanel.getWidth(), 70));
-        south.setPreferredSize(new Dimension(infoPanel.getWidth(), 70));
         infoPanel.remove(this.south);
         north.add(chrono);
 

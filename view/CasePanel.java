@@ -26,7 +26,7 @@ public class CasePanel extends JPanel {
     public CasePanel(Case caseModel, MainFrame frame) {
         this.caseModel = caseModel;
         this.frame = frame;
-        this.size = Math.min(frame.getWidth() / width, frame.getHeight() / height);
+        this.size = Math.min(frame.getWidth() / width, (frame.getHeight() - PartiePanel.infoPanelHeight) / height);
         this.typeImage = caseModel.typeImage;
         loadImage();
         setPreferredSize(new Dimension(size, size));
