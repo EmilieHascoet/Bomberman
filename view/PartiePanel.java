@@ -4,11 +4,18 @@ import controller.PartieKeyListener;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,6 +36,9 @@ public class PartiePanel extends JPanel {
     private int temps = 300;
     private int tauxRafraichissement = 100;
     private int compteur = 0;
+
+    private BufferedImage backgroundImage;
+    private int sizeBorderPlateau = 5;
 
     JPanel infoPanel = new JPanel();
     static int infoPanelHeight = 150;
@@ -67,8 +77,9 @@ public class PartiePanel extends JPanel {
 
         // Make sure the panel can receive keyboard input
         this.setFocusable(true);
-        this.requestFocusInWindow();
+        this.setFocusTraversalKeysEnabled(false);
 
+        // Create a timer to update the game every 100 milliseconds
         timerAction = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 decrementerTemps();
@@ -77,6 +88,13 @@ public class PartiePanel extends JPanel {
         timer = new Timer(tauxRafraichissement, timerAction);
 
         this.timer.start();
+
+        // Load the background image
+        try {
+            backgroundImage = ImageIO.read(new File("Images/background.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private JPanel createPlateauPanel() {
@@ -86,23 +104,43 @@ public class PartiePanel extends JPanel {
 
         casesPlateauPanel = new CasePanel[height][width];
         
+        int sizeCase = Math.min(mainFrame.getWidth()-sizeBorderPlateau*2 / width, (mainFrame.getHeight() - infoPanelHeight) / height);
         JPanel plateauPanel = new JPanel();
-        plateauPanel.setBackground(new Color(0, 0, 0));
+        plateauPanel.setOpaque(false);
+        plateauPanel.setPreferredSize(new Dimension(sizeCase*width+sizeBorderPlateau*2, sizeCase*height+sizeBorderPlateau*2));
+        plateauPanel.setMaximumSize(plateauPanel.getPreferredSize());
+        //plateauPanel.setBackground(new Color(0, 0, 0));
         plateauPanel.setLayout(new BoxLayout(plateauPanel, BoxLayout.Y_AXIS));
 
         for (int i = 0; i < height; i++) {
             JPanel panel = new JPanel();
+            panel.setOpaque(false);
             panel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
             for (int j = 0; j < width; j++) {
-                CasePanel casePlateauPanel = new CasePanel(Carte.map[i][j], mainFrame);
+                CasePanel casePlateauPanel = new CasePanel(Carte.map[i][j]);
+                casePlateauPanel.setPreferredSize(new Dimension(sizeCase, sizeCase));
                 panel.add(casePlateauPanel);
                 casesPlateauPanel[i][j] = casePlateauPanel;
             }
             plateauPanel.add(panel);
         }
 
-        plateauPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        System.out.println("Dimension preferred plateau: " + sizeCase*width + " " + sizeCase*height);
+        System.out.println("Dimension frame: " + mainFrame.getWidth() + " " + mainFrame.getHeight());
+        System.out.println("Dimension plateau: " + plateauPanel.getWidth() + " " + plateauPanel.getHeight());
+        // Add a black border around the plateau panel
+        plateauPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), sizeBorderPlateau));
         return plateauPanel;
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        // Dessiner l'image de fond
+        if (backgroundImage != null) {
+            g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
+        }
     }
 
     private JPanel createInfosPanel() {

@@ -16,20 +16,16 @@ import javax.swing.ImageIcon;
 public class CasePanel extends JPanel {
     public Case caseModel;
     private String path;
-    MainFrame frame;
     int width = Partie.paramPartie.getBoardWidth()+2;
     int height = Partie.paramPartie.getBoardHeight()+2;
     int size;
     Image imageCase;
     String typeImage;
 
-    public CasePanel(Case caseModel, MainFrame frame) {
+    public CasePanel(Case caseModel) {
         this.caseModel = caseModel;
-        this.frame = frame;
-        this.size = Math.min(frame.getWidth() / width, (frame.getHeight() - PartiePanel.infoPanelHeight) / height);
         this.typeImage = caseModel.typeImage;
         loadImage();
-        setPreferredSize(new Dimension(size, size));
     }
 
     public void setCaseModel(Case caseModel) {

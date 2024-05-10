@@ -64,7 +64,9 @@ public class AccueilControleur implements ActionListener {
     public void boutonPlay() {
         setTouches();
         bomberman.nouvellePartie();
-        mainFrame.changePanel(new PartiePanel(mainFrame, bomberman));
+        PartiePanel partiePanel = new PartiePanel(mainFrame, bomberman);
+        mainFrame.changePanel(partiePanel);
+        partiePanel.requestFocusInWindow();
     }
 
     /**
