@@ -18,6 +18,7 @@ public class Joueur {
     public int positionX;
     public int positionY;
     public int vitesse;
+    public String avatar;
 
     // Déclarations des associations
     public Touche touche;
@@ -25,7 +26,7 @@ public class Joueur {
     /**
      * Default constructor
      */
-    public Joueur(String nom, int positionX, int positionY) {
+    public Joueur(String nom, int positionX, int positionY, String avatar) {
         this.nom = nom;
         this.vie = Partie.paramPartie.getNbVie();
         this.stockBombe = Partie.paramPartie.getNbBombeInit();
@@ -34,6 +35,7 @@ public class Joueur {
         this.score = 0;
         this.positionX = positionX;
         this.positionY = positionY;
+
     }
 
     // Déclarations des méthodes
@@ -153,6 +155,9 @@ public class Joueur {
         this.positionY = posY;
     }
 
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
     // on fait un override de la méthode toString pour afficher tous les
     // informations current du joueur
     @Override
