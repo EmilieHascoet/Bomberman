@@ -154,12 +154,12 @@ public class ParametreController implements ActionListener {
             JOptionPane.showMessageDialog(null, errorMessage, "Erreur", JOptionPane.ERROR_MESSAGE);
             return;
         } else {
-            b.setParametres(listBonus, Integer.parseInt(list.get("Nombre de vies")),
+            b.setParametres(listBonus, Integer.parseInt(list.get("Nombres de vies")),
                     Integer.parseInt(list.get("Vitesse")), Integer.parseInt(list.get("Nombre de bombes initiales")),
                     Integer.parseInt(list.get("Portée de la bombe")), Integer.parseInt(list.get("Largeur du plateau")),
                     Integer.parseInt(list.get("Hauteur du plateau")));
-            b.setNomJoueurs(0, list.get("Nom du joueur 1"));
-            b.setNomJoueurs(1, list.get("Nom du joueur 2"));
+            b.setNomJoueurs(0, list.get("Joueur 1"));
+            b.setNomJoueurs(1, list.get("Joueur 2"));
             fenetre.changePanel(new AccueilPanel(fenetre, b));
         }
     }

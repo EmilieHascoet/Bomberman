@@ -1,37 +1,30 @@
 package view;
 
-import model.Bomberman;
-
-import javax.swing.JPanel;
-import javax.swing.JButton;
+import controller.ParametreController;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Font;
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
-import javax.swing.JCheckBox;
-import javax.swing.JDialog;
-import javax.swing.JTextField;
+import java.awt.Insets;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.JOptionPane;
-
-import controller.ParametreController;
-import controller.RetourController;
-
-import java.awt.Insets;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import model.Bomberman;
 
 public class ParametresPanel extends JPanel {
     private MainFrame frame;
@@ -98,17 +91,25 @@ public class ParametresPanel extends JPanel {
         rightPanel.setLayout(cardLayout);
         rightPanel.setBackground(Color.white);
 
-        // Create different sets of checkboxes for each label
+
+        Map<String, Integer> mapP = new HashMap<>();
+        String[] lab = new String[] { "Nombres de vies", "Vitesse",
+        "Nombre de bombes initiales", "Portée de la bombe", "Largeur du plateau", "Hauteur du plateau" };
+        mapP.put("Nombres de vies", b.parametres.getNbVie());
+        mapP.put("Vitesse", b.parametres.getVitesse());
+        mapP.put("Nombre de bombes initiales", b.parametres.getNbBombeInit());
+        mapP.put("Portée de la bombe", b.parametres.getPorteeBombe());
+        mapP.put("Largeur du plateau", b.parametres.getBoardWidth());
+        mapP.put("Hauteur du plateau", b.parametres.getBoardHeight()); 
+
 
         // Create checkboxes for each label
         createCheckBoxes(listModel.get(0).toString(), rightPanel,
                 b.parametres.getListBonus().toArray(new String[b.parametres.getListBonus().size()]));
-        createTextAreas(listModel.get(1).toString(), rightPanel, new String[] {
-                "Nombre de vies", "Vitesse", "Nombre de bombes initiales", "Portée de la bombe", "Largeur du plateau",
-                "Hauteur du plateau"
-        });
-        createTextAreas(listModel.get(2), rightPanel, new String[] { "Nom du joueur 1", "Couleur du joueur 1" });
-        createTextAreas(listModel.get(3), rightPanel, new String[] { "Nom du joueur 2", "Couleur du joueur 2" });
+        createTextAreasM(listModel.get(1).toString(), rightPanel, mapP, lab);
+
+        createTextAreas(listModel.get(2), rightPanel, new String[] { "Joueur 1"});
+        createTextAreas(listModel.get(3), rightPanel, new String[] { "Joueur 2"});
 
         squarePanel.add(rightPanel);
 
@@ -170,14 +171,17 @@ public class ParametresPanel extends JPanel {
         textAreaPanel.setLayout(new BoxLayout(textAreaPanel, BoxLayout.Y_AXIS));
 
         JTextField[] textAreas = new JTextField[list.length];
+        JLabel[] labels = new JLabel[list.length];
 
         for (int j = 0; j < list.length; j++) {
             final int i = j;
+            labels[i] = new JLabel(list[i]);
             textAreas[i] = new JTextField(list[i]);
             textAreas[i].setName(list[i]);
             textAreas[i].addFocusListener(new java.awt.event.FocusAdapter() {
                 public void focusGained(java.awt.event.FocusEvent evt) {
                     if (textAreas[i].getText().equals(list[i])) {
+                        labels[i].setText(list[i]);
                         textAreas[i].setText("");
                         textAreas[i].setForeground(Color.black);
                     }
@@ -193,6 +197,50 @@ public class ParametresPanel extends JPanel {
 
             textAreas[i].setFont(new Font("Arial", Font.PLAIN, 16));
             textAreas[i].setForeground(new Color(153, 153, 153));
+            labels[i].setFont(new Font("Arial", Font.PLAIN, 16));
+            labels[i].setForeground(Color.black);
+            textAreaPanel.add(labels[i]);
+            textAreaPanel.add(textAreas[i]);
+
+        }
+
+        parentPanel.add(textAreaPanel, label);
+    }
+    private <K, V> void createTextAreasM(String label, JPanel parentPanel, Map<K, V> m, String[] l) {
+        JPanel textAreaPanel = new JPanel();
+        textAreaPanel.setBackground(Color.white);
+        textAreaPanel.setLayout(new BoxLayout(textAreaPanel, BoxLayout.Y_AXIS));
+
+        JTextField[] textAreas = new JTextField[m.size()];
+        JLabel[] labels = new JLabel[m.size()];
+
+        for (int j = 0; j < m.size(); j++) {
+            final int i = j;
+            labels[i] = new JLabel(l[i]);
+            textAreas[i] = new JTextField(m.get(l[i]) + "");
+            textAreas[i].setName(l[i]);
+            textAreas[i].addFocusListener(new java.awt.event.FocusAdapter() {
+                public void focusGained(java.awt.event.FocusEvent evt) {
+                    if (textAreas[i].getText().equals(m.get(l[i]) +"")) {
+                        labels[i].setText(l[i]);
+                        textAreas[i].setText("");
+                        textAreas[i].setForeground(Color.black);
+                    }
+                }
+
+                public void focusLost(java.awt.event.FocusEvent evt) {
+                    if (textAreas[i].getText().equals("")) {
+                        textAreas[i].setText(m.get(l[i]) + "");
+                        textAreas[i].setForeground(new Color(153, 153, 153));
+                    }
+                }
+            });
+
+            textAreas[i].setFont(new Font("Arial", Font.PLAIN, 16));
+            textAreas[i].setForeground(new Color(153, 153, 153));
+            labels[i].setFont(new Font("Arial", Font.PLAIN, 16));
+            labels[i].setForeground(Color.black);
+            textAreaPanel.add(labels[i]);
             textAreaPanel.add(textAreas[i]);
 
         }
