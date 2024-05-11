@@ -25,7 +25,7 @@ public class Bomberman {
     public Bomberman() {
         setTouche(1, "Fleche du haut", "Fleche du bas", "Fleche de droite", "Fleche de gauche", "Shift");
         setTouche(2, "Z", "S", "D", "Q", "Espace");
-        setParametres(new HashSet<String>(Arrays.asList("Bombe", "Vie", "Vitesse", "Portée")), 3, 1, 1, 1, 15, 15, new String[] { "Images/Personnage/perso1.png", "Images/Personnage/perso2.png"});
+        setParametres(new HashSet<String>(Arrays.asList("stockBombe", "vie", "porteeBombe")), 3, 1, 1, 2, 15, 15, new String[] { "Images/Personnage/perso1.png", "Images/Personnage/perso2.png"});
         setNomJoueurs(0, "Joueur 1");
         setNomJoueurs(1, "Joueur 2");
     }

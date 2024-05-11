@@ -3,10 +3,6 @@ package model;
 
 import view.PartiePanel;
 import java.util.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.Timer;
-import javax.swing.text.View;
 
 
 
@@ -15,16 +11,10 @@ import javax.swing.text.View;
  */
 public class Partie {
 
-    // Déclarations des attributs
-    private int temps;
-    private Timer time;
-    private ActionListener timerAction;
-
     // Déclarations des associations
     public List<Joueur> joueurs;
     public static Parametres paramPartie;
 
-    private PartiePanel observer;
     /**
      * Default constructor
      * Paramètres pour la partie, définis par l'utilisateur dans l'écran
@@ -34,22 +24,13 @@ public class Partie {
         Partie.paramPartie = parametres;
         this.joueurs = new ArrayList<>();
 
-        Joueur j1 = new Joueur(nomJoueur.get(0), 1, 1, parametres.getAvatar(0));
+        Joueur j1 = new Joueur(nomJoueur.get(0), parametres.getBoardWidth(), parametres.getBoardHeight(), parametres.getAvatar(0));
         j1.touche = listTouche.get(0);
         joueurs.add(j1);
         
-        Joueur j2 = new Joueur(nomJoueur.get(1), parametres.getBoardWidth(), parametres.getBoardHeight(), parametres.getAvatar(1));
+        Joueur j2 = new Joueur(nomJoueur.get(1), 1, 1, parametres.getAvatar(1));
         j2.touche = listTouche.get(1);
         joueurs.add(j2);
-
-        timerAction = new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                decrementerTemps();
-            }
-        };
-        time = new Timer(1000, timerAction);
-
-        this.temps = 999;
         
         genererNouvelleCarte();
     }
@@ -66,12 +47,11 @@ public class Partie {
         return casesModifiees;
     }
     /**
-     * Rejouer / Garde les scores des 2 joueurs, reset le temps et génère une nouvelle carte
+     * Rejouer / Garde les scores des 2 joueurs et génère une nouvelle carte
      */
     public void rejouer() {
         joueurs.get(0).reinitialiserJoueur(1, 1);
         joueurs.get(1).reinitialiserJoueur(Partie.paramPartie.getBoardWidth(), Partie.paramPartie.getBoardHeight());
-        this.temps = 999;
         genererNouvelleCarte();
     }
 
@@ -81,46 +61,11 @@ public class Partie {
     public void genererNouvelleCarte() {
         Carte.genererNouvelleCarteCarte(Partie.paramPartie.getBoardWidth(), Partie.paramPartie.getBoardHeight(), this);
     }
-
-    public int getTemps() {
-        return this.temps;
-    }
-
-    public void demarrerTemps() {
-        this.time.start();
-    }
-
-    public void arreterTemps() {
-        this.time.stop();
-    }
-
-
-    public void incrementerTemps() {
-        this.time.setDelay(this.time.getDelay() + 1000);
-    }
-
-    public void decrementerTemps() {
-        if (this.temps > 0) {
-            this.temps--;
-            notifyObservers();
-        } else {
-            arreterTemps();
-        }
-    }
-
-    public void addObserver(PartiePanel observer) {
-        this.observer = observer;
-    }
-
-    public void notifyObservers() {
-        observer.updateAll(this.temps);
-    }
     
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Partie {");
-        sb.append("\n  temps: ").append(temps);
         sb.append("\n  joueurs: ").append(joueurs);
         sb.append("\n  paramPartie: ").append(paramPartie);
         sb.append("\n}");

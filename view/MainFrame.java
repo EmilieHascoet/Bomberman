@@ -1,7 +1,5 @@
 package view;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -55,7 +53,6 @@ public class MainFrame extends JFrame {
 
                 // Crée une nouvelle instance de MainFrame
                 Bomberman bomberman2 = new Bomberman();
-                bomberman2.setParametres(new HashSet<String>(Arrays.asList("Bombe", "Vie", "Vitesse", "Portée")), 3, 1, 1, 1, 15, 10, new String[] { "Images/Personnage/perso1.png", "Images/Personnage/perso2.png"});
 
                 MainFrame frame2 = new MainFrame(bomberman2);
                 frame2.setVisible(true);

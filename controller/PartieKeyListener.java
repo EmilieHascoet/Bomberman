@@ -18,20 +18,6 @@ public class PartieKeyListener extends KeyAdapter {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        // Ajoutez votre logique de jeu ici
-        List<Case> caseModifiees = gameBomberman.partie.jouerTouche(e.getKeyCode());
-        if (caseModifiees != null) {
-            for (Case c : caseModifiees) {
-                System.out.println("#PartieKeyListener# Case modifiée : " + "[" + c.positionX + ", " + c.positionY + "]");
-                //PartiePanel.casesPlateauPanel[c.positionY][c.positionX].repaint();
-                CasePanel caseAModifier = PartiePanel.casesPlateauPanel[c.positionY][c.positionX];
-                System.out.println("#PartieKeyListener# Case : " + caseAModifier.caseModel);
-                Carte.afficherCarte();
-                caseAModifier.setCaseModel(c);
-                caseAModifier.loadImage();
-                caseAModifier.repaint();
-                caseAModifier.revalidate();
-            }
-        }
+        gameBomberman.partie.jouerTouche(e.getKeyCode());
     }
 }
