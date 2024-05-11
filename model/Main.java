@@ -17,39 +17,33 @@ public class Main {
         // testRejouer();
         // testExplose();
         // testJoueur1KeyPressed();
-
-        testPartieKeyPressed();
     }
 
-    public static void testExplose() {
-        // pour tester la méthode explose de la classe Bombe et voir qu'est que ce passe
-        // visuellement c'est mieux d'uiliser
-        // le méthode poser bombe sans thread et sans délai
-        Bomberman bomberman = new Bomberman();
+    public static void testExplose() {        
+        new Partie();
         // Change la taille par defaut de la carte
-        bomberman.parametres.setBoardHeight(9);
-        bomberman.parametres.setBoardWidth(9);
-        bomberman.parametres.setPorteeBombe(3);
-        // Cree la partie
-        bomberman.nouvellePartie();
-        Joueur j1 = bomberman.partie.joueurs.get(0);
-        Joueur j2 = bomberman.partie.joueurs.get(1);
+        Partie.paramPartie.setBoardHeight(9);
+        Partie.paramPartie.setBoardWidth(9);
+        Partie.paramPartie.setPorteeBombe(3);
+
+        // Cree une partie a 2 joueurs
+        Partie.lancerNouvellePartie(2);
+        Joueur j1 = Partie.joueurs.get(0);
+        Joueur j2 = Partie.joueurs.get(1);
 
         // Place les joueurs
         j1.placerJoueur(3, 5);
         j2.placerJoueur(3, 4);
 
         System.out.println("Avant que le joueur ne pose une bombe :\n");
-        Carte.afficherCarte();
+        Partie.afficherCarte();
         System.out.println(j1);
         System.out.println(j2);
 
         // Pose une bombe
-        Bombe bombeJ1 = j1.poseBombe();
-        List<Case> casesTraversees = bombeJ1.explose();
-        System.out.println("Cases traversées par la bombe : " + casesTraversees);
+        j1.poseBombe();
         System.out.println("Après que le joueur ait pose une bombe :\n" + j1);
-        Carte.afficherCarte();
+        Partie.afficherCarte();
         System.out.println(j2);
     }
 
@@ -137,8 +131,8 @@ public class Main {
         bomberman.nouvellePartie();
 
         // Ajoute un bonus à droite du joueur
-        Carte.map[1][2] = new Bonus(2, 1, "vie");
-        System.out.println(Carte.map[1][2]);
+        Partie.carte[1][2] = new Bonus(2, 1, "vie");
+        System.out.println(Partie.carte[1][2]);
 
         // Recupere le joueur 1
         Joueur j1 = bomberman.partie.joueurs.get(0);
@@ -190,7 +184,7 @@ public class Main {
 
         // Ajoute un bloc destructible à droite du joueur
         BlocDestructible blocDestructible = new BlocDestructible(2, 1);
-        Carte.map[1][2] = blocDestructible;
+        Partie.carte[1][2] = blocDestructible;
 
         System.out.println("Avant que le joueur ne detruise le bloc destructible :\n");
         Carte.afficherCarte();
@@ -198,7 +192,7 @@ public class Main {
 
         // Detruit le bloc destructible
         blocDestructible.destruction(j1);
-        System.out.println("Après destruction du bloc destructible :\n" + Carte.map[1][2] + j1);
+        System.out.println("Après destruction du bloc destructible :\n" + Partie.carte[1][2] + j1);
         Carte.afficherCarte();
     }
 
@@ -212,8 +206,8 @@ public class Main {
         bomberman.nouvellePartie();
 
         // Ajoute un bonus à droite du joueur
-        Carte.map[1][2] = new Bonus(2, 1, "vie");
-        System.out.println(Carte.map[1][2]);
+        Partie.carte[1][2] = new Bonus(2, 1, "vie");
+        System.out.println(Partie.carte[1][2]);
 
         // Recupere le joueur 1
         Joueur j1 = bomberman.partie.joueurs.get(0);

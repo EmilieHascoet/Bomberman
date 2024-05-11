@@ -8,7 +8,8 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import model.Bomberman;
+import model.Partie;
+import model.Touche;
 import view.ChangerToucheJDialog;
 import view.MainFrame;
 import view.ParametresPanel;
@@ -19,7 +20,6 @@ public class AccueilControleur implements ActionListener {
     String ancienneTouche, actionTouche, typeAction;
     JButton boutonChooseTouche;
     MainFrame mainFrame;
-    Bomberman bomberman;
     List<JPanel> touchesJoueursPanels;
     
     // Constructeur pour le changement de touche
@@ -32,10 +32,9 @@ public class AccueilControleur implements ActionListener {
     }
 
     // Constructeur pour les boutons Play et Options
-    public AccueilControleur(String typeAction, MainFrame mainFrame, Bomberman bomberman, List<JPanel> touchesJoueursPanels) {
+    public AccueilControleur(String typeAction, MainFrame mainFrame, List<JPanel> touchesJoueursPanels) {
         this.typeAction = typeAction;
         this.mainFrame = mainFrame;
-        this.bomberman = bomberman;
         this.touchesJoueursPanels = touchesJoueursPanels;
     }
 
@@ -62,9 +61,9 @@ public class AccueilControleur implements ActionListener {
      *  Puis affiche l'écran pour jouer
      */
     public void boutonPlay() {
+        Partie.lancerNouvellePartie();
         setTouches();
-        bomberman.nouvellePartie();
-        PartiePanel partiePanel = new PartiePanel(mainFrame, bomberman);
+        PartiePanel partiePanel = new PartiePanel(mainFrame);
         mainFrame.changePanel(partiePanel);
         partiePanel.requestFocusInWindow();
     }
@@ -75,7 +74,7 @@ public class AccueilControleur implements ActionListener {
      */
     public void boutonOptions() {
         setTouches();
-        mainFrame.changePanel(new ParametresPanel(this.mainFrame, this.bomberman));
+        mainFrame.changePanel(new ParametresPanel(this.mainFrame));
     }
 
     public void setTouches() {
@@ -89,8 +88,7 @@ public class AccueilControleur implements ActionListener {
                     touches.add(touche);
                 }
             }
-            bomberman.setTouche(i+1, touches.get(0), touches.get(1), touches.get(2), touches.get(3), touches.get(4));
+            Partie.joueurs.get(i).touche = new Touche(touches.get(0), touches.get(1), touches.get(2), touches.get(3), touches.get(4));
         }
-        System.out.println(bomberman.listeTouche);
     }
 }

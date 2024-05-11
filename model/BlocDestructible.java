@@ -1,6 +1,10 @@
 package model;
 
 import java.util.Random;
+import java.util.Set;
+
+import model.Partie.bonusEnum;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -22,16 +26,15 @@ public class BlocDestructible extends Case {
     public Case destruction(Joueur joueur) {
         Random rand = new Random();
         double random = rand.nextDouble();
-        List<String> listeBonus = new ArrayList<String>();
-        listeBonus.addAll(Partie.paramPartie.getListBonus());
+        List<bonusEnum> listeBonus = new ArrayList<>(Partie.paramPartie.getListBonus());
         if (random < 0.3) {
             Bonus bonus = new Bonus(this.positionX, this.positionY, listeBonus.get(rand.nextInt(listeBonus.size())));
-            Carte.map[this.positionY][this.positionX] = bonus;
+            Partie.carte[this.positionY][this.positionX] = bonus;
             joueur.score += super.Points;
             return bonus;
         } else {
             Case caseVide = new Case(true, this.positionX, this.positionY, "CaseVide", false);
-            Carte.map[this.positionY][this.positionX] = caseVide;
+            Partie.carte[this.positionY][this.positionX] = caseVide;
             joueur.score += super.Points;
             return caseVide;
         }
@@ -47,7 +50,7 @@ public class BlocDestructible extends Case {
     public boolean viderCase() {
         if (this.estDestructible) {
             Case caseVide = new Case(true, this.positionX, this.positionY, "CaseVide", false);
-            Carte.map[this.positionY][this.positionX] = caseVide;
+            Partie.carte[this.positionY][this.positionX] = caseVide;
             return true;
         }
         return false;

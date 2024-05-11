@@ -1,7 +1,5 @@
 package view;
 
-import model.Bomberman;
-
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.Color;
@@ -23,12 +21,15 @@ import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
 import javax.swing.JOptionPane;
 
 import controller.ParametreController;
 import controller.RetourController;
+import model.Partie;
 
 import java.awt.Insets;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -37,13 +38,11 @@ public class ParametresPanel extends JPanel {
     private MainFrame frame;
     private JPanel rightPanel;
     private CardLayout cardLayout;
-    private Bomberman b;
 
-    public ParametresPanel(MainFrame frame, Bomberman bomberman) {
+    public ParametresPanel(MainFrame frame) {
         this.frame = frame; 
         setLayout(new GridBagLayout());
         setBackground(Color.white);
-        b = bomberman;
 
         JPanel squarePanel = new JPanel();
         squarePanel.setLayout(new GridLayout(1, 2));
@@ -102,10 +101,10 @@ public class ParametresPanel extends JPanel {
 
         // Create checkboxes for each label
         createCheckBoxes(listModel.get(0).toString(), rightPanel,
-                b.parametres.getListBonus().toArray(new String[b.parametres.getListBonus().size()]));
+            Arrays.stream(Partie.bonusEnum.values()).map(Enum::toString).toArray(String[]::new));
         createTextAreas(listModel.get(1).toString(), rightPanel, new String[] {
-                "Nombre de vies", "Vitesse", "Nombre de bombes initiales", "Portée de la bombe", "Largeur du plateau",
-                "Hauteur du plateau"
+            "Nombre de vies", "Vitesse", "Nombre de bombes initiales", "Portée de la bombe", "Largeur du plateau",
+            "Hauteur du plateau"
         });
         createTextAreas(listModel.get(2), rightPanel, new String[] { "Nom du joueur 1", "Couleur du joueur 1" });
         createTextAreas(listModel.get(3), rightPanel, new String[] { "Nom du joueur 2", "Couleur du joueur 2" });
@@ -114,13 +113,13 @@ public class ParametresPanel extends JPanel {
 
         // Bottom panel with a button
         JButton retour = new JButton("Retour");
-        retour.addActionListener(new ParametreController(retour, this.frame, this, b));
+        retour.addActionListener(new ParametreController(retour, this.frame, this));
         retour.setFont(new Font("Arial", Font.BOLD, 16));
         retour.setForeground(Color.white);
         retour.setBackground(new Color(51, 153, 255));
 
         JButton valider = new JButton("Valider");           
-        valider.addActionListener(new ParametreController(valider, this.frame, this, b));
+        valider.addActionListener(new ParametreController(valider, this.frame, this));
         valider.setFont(new Font("Arial", Font.BOLD, 16));
         valider.setForeground(Color.white);
         valider.setBackground(new Color(51, 153, 255));

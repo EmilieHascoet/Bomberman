@@ -1,14 +1,12 @@
 package controller;
 
+import model.Partie;
 import view.*;
-import model.Bomberman;
 
 public class FinPartieController {
     private FinPartieView view;
-    private Bomberman bomber;
 
-    public FinPartieController(FinPartieView view, Bomberman bomber) {
-        this.bomber = bomber;
+    public FinPartieController(FinPartieView view) {
         this.view = view;
         initController();
     }
@@ -25,7 +23,7 @@ public class FinPartieController {
     }
 
     private void replayGame() {
-        bomber.partie.rejouer();
+        Partie.rejouer();
 
     }
 

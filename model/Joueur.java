@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Partie.avatar;;
+
 /**
  * 
  */
@@ -18,6 +20,7 @@ public class Joueur {
     public int positionX;
     public int positionY;
     public int vitesse;
+    public avatar avatar;
 
     // Déclarations des associations
     public Touche touche;
@@ -25,28 +28,39 @@ public class Joueur {
     /**
      * Default constructor
      */
-    public Joueur(String nom, int positionX, int positionY) {
+    public Joueur(String nom, avatar avatar) {
         this.nom = nom;
+        initJoueur();
+        this.avatar = avatar;
+    }
+
+    public void initJoueur() {
         this.vie = Partie.paramPartie.getNbVie();
         this.stockBombe = Partie.paramPartie.getNbBombeInit();
         this.porteeBombe = Partie.paramPartie.getPorteeBombe();
         this.vitesse = Partie.paramPartie.getVitesse();
         this.score = 0;
-        this.positionX = positionX;
-        this.positionY = positionY;
+    }
+
+        /**
+     * Place le joueur sur la carte à la position spécifiée.
+     */
+    public void placerJoueur(int posX, int posY) {
+        this.positionX = posX;
+        this.positionY = posY;
     }
 
     // Déclarations des méthodes
 
     /**
-     * Performs an action based on the given KeyCode and returns a list of modified cases.
+     * Joue une touche du joueur, 
+     * rien ne se passe si cette touche n'appartient pas aux touches du joueur.
      * 
-     * @param KeyCode the key code representing the action to be performed
-     * @return a list of modified cases
+     * @param keyString La touche à jouer.
      */
-    public List<Case> jouer(int KeyCode) {
+    public List<Case> jouer(String keyString) {
         List<Case> casesModifiees = new ArrayList<Case>();
-        String action = touche.determinerActionJoueur(KeyCode);
+        String action = touche.determinerActionJoueur(keyString);
         if(action != null) {
             if(action == "bombe") {
                 casesModifiees.add(poseBombe());
@@ -67,7 +81,7 @@ public class Joueur {
             Bombe newBombe = new Bombe(this.positionX, this.positionY, 3, porteeBombe, this);
 
             // Place la bombe sur la carte à la position actuelle du joueur.
-            Carte.map[this.positionY][this.positionX] = newBombe;
+            Partie.carte[this.positionY][this.positionX] = newBombe;
 
             // Cast la nouvelle bombe en type Case et l'associe au joueur.
             Case caseBombe = (Case) newBombe;
@@ -91,22 +105,22 @@ public class Joueur {
      */
     public List<Case> seDeplacer(String direction) {
         // Récupère la case de départ du joueur
-        Case caseDepart = (Case) Carte.map[this.positionY][this.positionX];
+        Case caseDepart = (Case) Partie.carte[this.positionY][this.positionX];
         Case caseArrivee;
 
         // Selon la direction choisie, détermine la case d'arrivée
         switch (direction) {
             case "haut":
-                caseArrivee = (Case) Carte.map[this.positionY - 1][this.positionX];
+                caseArrivee = (Case) Partie.carte[this.positionY - 1][this.positionX];
                 break;
             case "bas":
-                caseArrivee = (Case) Carte.map[this.positionY + 1][this.positionX];
+                caseArrivee = (Case) Partie.carte[this.positionY + 1][this.positionX];
                 break;
             case "gauche":
-                caseArrivee = (Case) Carte.map[this.positionY][this.positionX - 1];
+                caseArrivee = (Case) Partie.carte[this.positionY][this.positionX - 1];
                 break;
             case "droite":
-                caseArrivee = (Case) Carte.map[this.positionY][this.positionX + 1];
+                caseArrivee = (Case) Partie.carte[this.positionY][this.positionX + 1];
                 break;
             default:
                 // Si la direction n'est pas reconnue, le joueur reste sur place
@@ -147,16 +161,6 @@ public class Joueur {
         return caseArrivee.estTraversable && caseArrivee.joueur == null;
     }
 
-    public void reinitialiserJoueur(int posX, int posY) {
-        this.vie = Partie.paramPartie.getNbVie();
-        this.stockBombe = Partie.paramPartie.getNbBombeInit();
-        this.porteeBombe = Partie.paramPartie.getPorteeBombe();
-        this.vitesse = Partie.paramPartie.getVitesse();
-        this.score = 0;
-        this.positionX = posX;
-        this.positionY = posY;
-    }
-
     // on fait un override de la méthode toString pour afficher tous les
     // informations current du joueur
     @Override
@@ -174,29 +178,6 @@ public class Joueur {
         sb.append("\n  vitesse: ").append(vitesse);
         sb.append("\n}");
         return sb.toString();
-    }
-
-    /**
-     * Place le joueur sur la carte à la position spécifiée.
-     * 
-     * @param posX La position en abscisse de la case sur laquelle placer le joueur.
-     * @param posY La position en ordonnée de la case sur laquelle placer le joueur.
-     * @return true si le joueur a été placé avec succès, false sinon.
-     *         les cas false sont :
-     *         - si la case d'arrivée est un bloc indestructible
-     *         - si il y a déjà un joueur sur la case d'arrivée
-     */
-    public void placerJoueur(int posX, int posY) {
-        Case caseDepart = (Case) Carte.map[this.positionY][this.positionX];
-        Case caseArrivee = (Case) Carte.map[posY][posX];
-        if (!peutSeDeplacer(caseArrivee)) {
-            BlocDestructible bloc = (BlocDestructible) caseArrivee;
-            bloc.viderCase();
-        }
-        caseDepart.joueur = null;
-        caseArrivee.joueur = this;
-        this.positionX = posX;
-        this.positionY = posY;
     }
 
     /**

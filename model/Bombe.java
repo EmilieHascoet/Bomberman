@@ -11,7 +11,7 @@ public class Bombe extends Case {
     // Déclarations des attributs
     public Integer tempsExplosion;
     public Integer portee;
-    public Integer tempsPropagation = 70;
+    public Integer tempsPropagation = 50;
 
     // Déclarations des associations
     public Joueur joueurPoseBombe;
@@ -65,14 +65,14 @@ public class Bombe extends Case {
     private void propagateExplosion(List<Case> caseModifiees) {
         try {
             // Propagate explosion from the bomb's position
-            Case thisCase = Carte.map[this.positionY][this.positionX] = new Case(true, this.positionX, this.positionY, "CaseVide", false);
+            Case thisCase = Partie.carte[this.positionY][this.positionX] = new Case(true, this.positionX, this.positionY, "CaseVide", false);
             thisCase.joueur = this.joueur;
             if (thisCase.joueur != null) thisCase.joueur.vie--;
             thisCase.isFire = true;
             caseModifiees.add(thisCase);
-            joueurPoseBombe.stockBombe++;
+            this.joueurPoseBombe.stockBombe++;
             Thread.sleep(tempsPropagation);
-            Carte.afficherCarte();
+            Partie.afficherCarte();
     
             // Calculate the cross shape
             boolean[] stopDirections = new boolean[4]; // North, South, East, West
@@ -86,7 +86,6 @@ public class Bombe extends Case {
 
                 if (stopDirections[0] && stopDirections[1] && stopDirections[2] && stopDirections[3]) break; // Stop if all directions are blocked
     
-                Carte.afficherCarte();
                 // Delay next expansion
                 Thread.sleep(tempsPropagation);
             }
@@ -105,7 +104,7 @@ public class Bombe extends Case {
      * @return True si la propagation doit s'arrêter dans cette direction, false sinon.
      */
     private boolean propagateInDirection(int startX, int startY, List<Case> caseModifiees) {    
-        Case currentCase = Carte.map[startY][startX];
+        Case currentCase = Partie.carte[startY][startX];
     
         if (currentCase.typeImage.equals("BlocDestructible") || currentCase.estTraversable) {
             caseModifiees.add(currentCase);

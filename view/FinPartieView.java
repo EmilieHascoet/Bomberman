@@ -1,10 +1,10 @@
 package view;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 import controller.FinPartieController;
-import model.Bomberman;
 
 public class FinPartieView extends JFrame {
 
@@ -73,7 +73,7 @@ public class FinPartieView extends JFrame {
 
     public static void main(String[] args) {
         // Création de la fenêtre de fin de partie avec des valeurs de test.
-        SwingUtilities.invokeLater(() -> new FinPartieController(new FinPartieView(3, 5, 10, true), new Bomberman()));
+        SwingUtilities.invokeLater(() -> new FinPartieController(new FinPartieView(3, 5, 10, true)));
 
     }
 }

@@ -16,9 +16,6 @@ public class Touche {
     private String gauche;
     private String bombe;
 
-    // Déclarations des associations
-    Joueur joueur;
-
     /**
      * Default constructor
      */
@@ -31,9 +28,6 @@ public class Touche {
     }
 
     // Déclarations des méthodes setters
-    public void setJoueur(Joueur j) {
-        this.joueur = j;
-    }
     public void setHaut(String haut) {
         this.haut = haut;
     }
@@ -97,17 +91,22 @@ public class Touche {
         return keyMap.get(keyCode);
     }
 
-    public String determinerActionJoueur(int keyCode) {
-        String keyTextString = getKeyText(keyCode) != null ? getKeyText(keyCode) : KeyEvent.getKeyText(keyCode);
-        if (keyTextString.equals(this.haut))
+    /**
+     * Détermine l'action du joueur en fonction de la touche appuyée.
+     * 
+     * @param keyString La touche appuyée.
+     * @return L'action du joueur correspondante à la touche appuyée.
+     */
+    public String determinerActionJoueur(String keyString) {
+        if (keyString.equals(this.haut))
             return "haut";
-        else if (keyTextString.equals(this.bas))
+        else if (keyString.equals(this.bas))
             return "bas";
-        else if (keyTextString.equals(this.droite))
+        else if (keyString.equals(this.droite))
             return "droite";
-        else if (keyTextString.equals(this.gauche))
+        else if (keyString.equals(this.gauche))
             return "gauche";
-        else if (keyTextString.equals(this.bombe))
+        else if (keyString.equals(this.bombe))
             return "bombe";
         return null;
     }

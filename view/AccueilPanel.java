@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 import javax.swing.*;
 
 import controller.AccueilControleur;
-import model.Bomberman;
+import model.Partie;
 import model.Touche;
 
 public class AccueilPanel extends JPanel {
@@ -18,7 +18,6 @@ public class AccueilPanel extends JPanel {
     URL imageLogoUrl = classLoader.getResource("Images/Blossom-Battles.jpg");
 
     private MainFrame mainFrame;
-    private Bomberman gameBomberman;
     public Color backgroundColor = new Color(203, 239, 195);
     int borderSize = 20;
 
@@ -31,9 +30,8 @@ public class AccueilPanel extends JPanel {
      * @param frame the MainFrame object that represents the main frame of the application
      * @param bomberman the Bomberman object that represents the game instance
      */
-    public AccueilPanel(MainFrame frame, Bomberman bomberman) {
+    public AccueilPanel(MainFrame frame) {
         this.mainFrame = frame;
-        this.gameBomberman = bomberman;
 
         // Configuration de l'interface utilisateur
         configureUI();
@@ -166,11 +164,9 @@ public class AccueilPanel extends JPanel {
     }
 
     /**
-     * Creates a panel to display the controls for the players.
-     * The panel contains labels and buttons for each player's controls.
-     * The controls include actions such as moving up, moving down, moving left, moving right, and placing a bomb.
-     * The controls are retrieved from the gameBomberman object's listeTouche attribute.
-     * The panel is added to the main panel of the AccueilPanel.
+     * Creates a JPanel that contains buttons for changing the controls of the players.
+     * 
+     * @return the created JPanel
      */
     private void createPanelControles() {
         // Liste des noms des touches
@@ -179,7 +175,7 @@ public class AccueilPanel extends JPanel {
         // Boucle sur les deux joueurs
         for (int i = 0; i < 2; i++) {
             // Récupère les touches du joueur
-            Touche touche = this.gameBomberman.listeTouche.get(i);
+            Touche touche = Partie.joueurs.get(i).touche;
             // Liste des actions associées aux touches
             List<Supplier<String>> actions = Arrays.asList(touche::getHaut, touche::getBas, touche::getDroite, touche::getGauche, touche::getBombe);
 
@@ -190,8 +186,9 @@ public class AccueilPanel extends JPanel {
             listePanelControles.add(panel);
             
             // Crée les labels pour les controles du joueur
-            JLabel labelParametres = new JLabel("Contrôles de " + gameBomberman.nomJoueurs.get(i));
-            JLabel iconeJoueur = new JLabel("Icône du joueur " + (i+1));
+            JLabel labelParametres = new JLabel("Contrôles de " + Partie.joueurs.get(i).nom);
+            // TODO : Ajouter l'icone du joueur
+            JLabel iconeJoueur = new JLabel("Icône du joueur " + Partie.joueurs.get(i).nom);
             panel.add(labelParametres);
             panel.add(iconeJoueur);
 
@@ -224,19 +221,19 @@ public class AccueilPanel extends JPanel {
         bottomPanel.setLayout(new GridLayout(1, 2, borderSize, 0));
 
         // Création du bouton pour démarrer une nouvelle partie
-        JButton newGameButton = new JButton("Nouvelle Partie");
-        AccueilControleur newGameController = new AccueilControleur("boutonPlayPressed", mainFrame, gameBomberman, listePanelControles);
-        newGameButton.addActionListener(newGameController);
-        newGameButton.setPreferredSize(new Dimension(newGameButton.getPreferredSize().width, 40));
+        JButton nouvellePartieButton = new JButton("Nouvelle Partie");
+        AccueilControleur nouvellePartieController = new AccueilControleur("boutonPlayPressed", mainFrame, listePanelControles);
+        nouvellePartieButton.addActionListener(nouvellePartieController);
+        nouvellePartieButton.setPreferredSize(new Dimension(nouvellePartieButton.getPreferredSize().width, 40));
 
         // Création du bouton pour accéder aux options
         JButton optionsButton = new JButton("Options");
-        AccueilControleur optionsController = new AccueilControleur("boutonOptionsPressed", mainFrame, gameBomberman, listePanelControles);
+        AccueilControleur optionsController = new AccueilControleur("boutonOptionsPressed", mainFrame, listePanelControles);
         optionsButton.addActionListener(optionsController);
         optionsButton.setPreferredSize(new Dimension(optionsButton.getPreferredSize().width, 40));
 
         // Ajout des boutons au panel
-        bottomPanel.add(newGameButton);
+        bottomPanel.add(nouvellePartieButton);
         bottomPanel.add(optionsButton);
     }
 }

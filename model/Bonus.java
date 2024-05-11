@@ -1,5 +1,7 @@
 package model;
 
+import model.Partie.bonusEnum;
+
 /**
  * 
  */
@@ -7,12 +9,12 @@ public class Bonus extends Case {
 
     // Déclarations des attributs
     public Boolean isMalus;
-    public String effet;
+    public bonusEnum effet;
 
     /**
      * Default constructor
      */
-    public Bonus(Integer positionX, Integer positionY, String effet) {
+    public Bonus(Integer positionX, Integer positionY, bonusEnum effet) {
         super(true, positionX, positionY, "Bonus", false);
         // 30% de chance que ce soit un malus
         if (Math.random() < 0.3) {
@@ -31,30 +33,30 @@ public class Bonus extends Case {
      * La case devient vide
      */
     public void estRamassee(Joueur joueur) {
-        switch (this.effet) {
-            case "vie":
+        switch (effet) {
+            case VIE:
                 if (this.isMalus) { joueur.vie--; }
                 else { joueur.vie++; }
                 break;
-            case "stockBombe":
+            case BOMBE:
                 if (this.isMalus) { if(joueur.stockBombe>1) joueur.stockBombe--; }
                 else { joueur.stockBombe++; }
                 break;
-            case "porteeBombe":
+            case PORTEE:
                 if (this.isMalus) { if(joueur.porteeBombe>1) joueur.porteeBombe--; }
                 else { joueur.porteeBombe++; }
                 break;
-            case "vitesse":
+            /*case VITESSE:
                 if (this.isMalus) { joueur.vitesse--; }
                 else { joueur.vitesse++; }
-                break;
+                break;*/
             default:
                 break;
         }
         joueur.score += super.Points;
         int posX = super.positionX;
         int posY = super.positionY;
-        Case caseVide = Carte.map[posY][posX] = new Case(true, posX, posY, "CaseVide", false);
+        Case caseVide = Partie.carte[posY][posX] = new Case(true, posX, posY, "CaseVide", false);
         caseVide.setJoueur(joueur);
     }
 

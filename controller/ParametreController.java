@@ -1,18 +1,22 @@
 package controller;
 
-import model.Bomberman;
 import view.MainFrame;
 import view.AccueilPanel;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Parameter;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import model.Parametres;
+import model.Partie;
+import model.Partie.bonusEnum;
 
 import java.util.Set;
 import java.util.HashSet;
@@ -23,15 +27,13 @@ import java.util.ArrayList;
 public class ParametreController implements ActionListener {
     private MainFrame fenetre;
     private JPanel p;
-    private Bomberman b;
     private String typeAction;
 
-    public ParametreController(JButton bouton, MainFrame frame, JPanel pan, Bomberman bomberman) {
+    public ParametreController(JButton bouton, MainFrame frame, JPanel pan) {
         for (ActionListener al : bouton.getActionListeners()) {
             bouton.removeActionListener(al);
         }
         fenetre = frame;
-        b = bomberman;
         typeAction = bouton.getText();
         p = pan;
     }
@@ -46,11 +48,11 @@ public class ParametreController implements ActionListener {
 
     public void boutonRetour() {
         // Retourner au menu principal
-        fenetre.changePanel(new AccueilPanel(fenetre, b));
+        fenetre.changePanel(new AccueilPanel(fenetre));
     }
 
     public void boutonValider() {
-        Set<String> listBonus = new HashSet<>();
+        Set<bonusEnum> listBonus = new HashSet<>();
         List<String> errors = new ArrayList<>();
         System.out.println("Je suis dans le bouton valider");
         Map<String, String> list = new java.util.HashMap<>(); // Parametres du joueur 1
@@ -64,7 +66,9 @@ public class ParametreController implements ActionListener {
                         for (Component c4 : ((JPanel) c3).getComponents()) {
                             if (c4 instanceof JCheckBox) {
                                 if (((JCheckBox) c4).isSelected()) {
-                                    listBonus.add(((JCheckBox) c4).getText());
+                                    String bonusText = ((JCheckBox) c4).getText();
+                                    Partie.bonusEnum bonus = Partie.bonusEnum.valueOf(bonusText);
+                                    listBonus.add(bonus);
                                 }
                             }
                             if (c4 instanceof JTextField) {
@@ -160,13 +164,14 @@ public class ParametreController implements ActionListener {
             JOptionPane.showMessageDialog(null, errorMessage, "Erreur", JOptionPane.ERROR_MESSAGE);
             return;
         } else {
-            b.setParametres(listBonus, Integer.parseInt(list.get("Nombre de vies")),
+            Partie.paramPartie = new Parametres(listBonus, Integer.parseInt(list.get("Nombre de vies")),
                     Integer.parseInt(list.get("Vitesse")), Integer.parseInt(list.get("Nombre de bombes initiales")),
                     Integer.parseInt(list.get("Portée de la bombe")), Integer.parseInt(list.get("Largeur du plateau")),
                     Integer.parseInt(list.get("Hauteur du plateau")));
-            b.setNomJoueurs(0, list2.get("Nom du joueur 1"));
-            b.setNomJoueurs(1, list2.get("Nom du joueur 2"));
-            fenetre.changePanel(new AccueilPanel(fenetre, b));
+            Partie.joueurs.get(0).nom = list2.get("Nom du joueur 1");
+            Partie.joueurs.get(1).nom = list2.get("Nom du joueur 2");
+
+            fenetre.changePanel(new AccueilPanel(fenetre));
         }
     }
 }

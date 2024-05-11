@@ -1,10 +1,15 @@
 package model;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import model.Partie.bonusEnum;
 
 public class Parametres {
     // Déclarations des attributs
-    private Set<String> listBonus;
+    private Set<bonusEnum> listBonus;
     private int nbVie;
     private int vitesse;
     private int nbBombeInit;
@@ -13,9 +18,8 @@ public class Parametres {
     private int boardHeight;
 
     // Déclaration du constructeur Parametres
-    public Parametres(Set<String> listBonus, int nbVie, int vitesse, int nbBombeInit, int porteeBombe, int boardWidth,
-            int boardHeight) {
-        this.listBonus = listBonus;
+    public Parametres(Set<bonusEnum> bonusEnums, int nbVie, int vitesse, int nbBombeInit, int porteeBombe, int boardWidth, int boardHeight) {
+        this.listBonus = bonusEnums;
         this.nbVie = nbVie;
         this.vitesse = vitesse;
         this.nbBombeInit = nbBombeInit;
@@ -25,7 +29,7 @@ public class Parametres {
     }
 
     // Déclarations des méthodes getters
-    public Set<String> getListBonus() {
+    public Set<bonusEnum> getListBonus() {
         return listBonus;
     }
 
@@ -54,7 +58,7 @@ public class Parametres {
     }
 
     // Déclarations des méthodes setters
-    public void setListBonus(Set<String> listBonus) {
+    public void setListBonus(Set<bonusEnum> listBonus) {
         this.listBonus = listBonus;
     }
 

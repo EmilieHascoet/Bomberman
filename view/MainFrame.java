@@ -4,15 +4,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import model.Bomberman;
+import model.Partie;
 
 
 public class MainFrame extends JFrame {
-    Bomberman bomberman;
 
-    MainFrame(Bomberman bomberman) {
-        this.bomberman = bomberman;
-
+    public MainFrame() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Bomberman");
         this.pack();
@@ -28,7 +25,7 @@ public class MainFrame extends JFrame {
 
     private void initUI() {
         // Initialise avec le panneau de démarrage
-        setContentPane(new AccueilPanel(this, this.bomberman));
+        setContentPane(new AccueilPanel(this));
         //setContentPane(new PartiePanel(this, this.bomberman));
     }
 
@@ -43,19 +40,9 @@ public class MainFrame extends JFrame {
             @Override
             public void run() {
                 // Chargez toutes les images au démarrage de l'application
-                
-                /*// Crée une nouvelle instance de Bomberman
-                Bomberman bomberman = new Bomberman();
-                // Lance la partie pour le test de l'interface PartiePanel
-                bomberman.nouvellePartie(bomberman.parametres);
+                new Partie();
 
-                MainFrame frame = new MainFrame(bomberman);
-                frame.setVisible(true);*/
-
-                // Crée une nouvelle instance de MainFrame
-                Bomberman bomberman2 = new Bomberman();
-
-                MainFrame frame2 = new MainFrame(bomberman2);
+                MainFrame frame2 = new MainFrame();
                 frame2.setVisible(true);
             }
         });
