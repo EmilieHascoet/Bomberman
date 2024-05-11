@@ -43,12 +43,12 @@ public class Main {
         System.out.println(j2);
 
         // Pose une bombe
-        Bombe bombeJ1 = j1.poseBombe();
+        /* Bombe bombeJ1 = j1.poseBombe();
         List<Case> casesTraversees = bombeJ1.explose();
         System.out.println("Cases traversées par la bombe : " + casesTraversees);
         System.out.println("Après que le joueur ait pose une bombe :\n" + j1);
         Carte.afficherCarte();
-        System.out.println(j2);
+        System.out.println(j2); */
     }
 
     public static void testJoueur1KeyPressed() {
@@ -169,7 +169,7 @@ public class Main {
 
         // Pose une bombe
         Bombe bombe1 = j1.poseBombe();
-        bombe1.explose();
+        bombe1.explosion();
         System.out.println("Après que le joueur ait pose une bombe :\n" + j1);
         Carte.afficherCarte();
     }

@@ -22,6 +22,7 @@ public class CasePanel extends JPanel {
     public CasePanel(Case caseModel, MainFrame frame) {
         this.caseModel = caseModel;
         this.typeImage = caseModel.typeImage;
+        this.frame = frame;
         loadImage();
     }
 
@@ -34,10 +35,10 @@ public class CasePanel extends JPanel {
         ClassLoader classLoader = getClass().getClassLoader();
 
         if(caseModel.joueur != null) {
-            if(caseModel.joueur.avatar  == frame.b.partie.joueurs.get(0).avatar) {
-                this.path = frame.b.partie.joueurs.get(0).avatar;
+            if(caseModel.joueur.avatar  == frame.bomberman.partie.joueurs.get(0).nom) {
+                this.path = frame.bomberman.partie.joueurs.get(0).avatar;
             } else {
-                this.path = frame.b.partie.joueurs.get(1).avatar;
+                this.path = frame.bomberman.partie.joueurs.get(1).avatar;
             }
         } else if(typeImage != "Bonus") {
                 this.path = "Images/" + typeImage + ".png";
