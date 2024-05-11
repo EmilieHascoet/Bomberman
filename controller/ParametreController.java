@@ -13,6 +13,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import model.Bomberman;
 import view.AccueilPanel;
 import view.MainFrame;
@@ -56,12 +57,23 @@ public class ParametreController implements ActionListener {
                 if (c2 instanceof JPanel) {
                     for (Component c3 : ((JPanel) c2).getComponents()) {
                         for (Component c4 : ((JPanel) c3).getComponents()) {
-                            if (c4 instanceof JCheckBox) {
+                            if(c4 instanceof JPanel){
+                                for(Component c5 : ((JPanel) c4).getComponents()){
+                                    for(Component c6 : ((JPanel) c5).getComponents()){
+                                        if(c6 instanceof JToggleButton){
+                                            if(((JToggleButton) c6).isSelected()){
+                                                listBonus.add(((JToggleButton) c6).getName());
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else if (c4 instanceof JCheckBox) {
                                 if (((JCheckBox) c4).isSelected()) {
                                     listBonus.add(((JCheckBox) c4).getText());
                                 }
                             }
-                            if (c4 instanceof JTextField) {
+                            else if (c4 instanceof JTextField) {
                                 String name = ((JTextField) c4).getName();
                                 String value = ((JTextField) c4).getText();
                                 if (name != null) {
@@ -71,76 +83,61 @@ public class ParametreController implements ActionListener {
                                                 Integer.parseInt(value);
                                             } catch (NumberFormatException ex) {
                                                 errors.add("Veuillez entrer un nombre de vies");
-                                                break;
                                             }
+                                            break;
                                         case "Vitesse":
                                             try {
                                                 Integer.parseInt(value);
                                             } catch (NumberFormatException ex) {
                                                 errors.add("Veuillez entrer une vitesse");
-                                                break;
                                             }
+                                            break;
                                         case "Nombre de bombes initiales":
                                             try {
                                                 Integer.parseInt(value);
                                             } catch (NumberFormatException ex) {
                                                 errors.add("Veuillez entrer un nombre de bombes initiales");
-                                                break;
                                             }
+                                            break;
                                         case "Portée de la bombe":
                                             try {
                                                 Integer.parseInt(value);
                                             } catch (NumberFormatException ex) {
                                                 errors.add("Veuillez entrer une portée de bombe");
-                                                break;
                                             }
+                                            break;
                                         case "Largeur du plateau":
                                             try {
                                                 Integer.parseInt(value);
                                             } catch (NumberFormatException ex) {
                                                 errors.add("Veuillez entrer une largeur de plateau");
-                                                break;
                                             }
+                                            break;
                                         case "Hauteur du plateau":
                                             try {
                                                 Integer.parseInt(value);
                                             } catch (NumberFormatException ex) {
                                                 errors.add("Veuillez entrer une hauteur de plateau");
-                                                break;
                                             }
-                                        case "Nom du joueur 1":
+                                            break;
+                                        case "Joueur 1":
                                             try {
-                                                String.format(value);
+                                                String.format(value, "%s");
                                             } catch (NumberFormatException ex) {
                                                 errors.add("Veuillez entrer un nom pour le joueur 1");
-                                                break;
                                             }
-                                        case "Nom du joueur 2":
+                                            break;
+                                        case "Joueur 2":
                                             try {
                                                 String.format(value, "%s");
                                             } catch (NumberFormatException ex) {
                                                 errors.add("Veuillez entrer un nom pour le joueur 2");
-                                                break;
                                             }
-                                        case "Couleur du joueur 1":
-                                            try {
-                                                String.format(value, "%s");
-                                            } catch (NumberFormatException ex) {
-                                                errors.add("Veuillez entrer une couleur pour le joueur 1");
-                                                break;
-                                            }
-                                        case "Couleur du joueur 2":
-                                            try {
-                                                String.format(value, "%s");
-                                            } catch (NumberFormatException ex) {
-                                                errors.add("Veuillez entrer une couleur pour le joueur 2");
-                                                break;
-                                            }
+                                            break;
                                     }
                                     list.put(((JTextField) c4).getName(), value);
                                 }
-
-                            }
+                            }                                                            
                         }
                     }
                 }
@@ -157,10 +154,11 @@ public class ParametreController implements ActionListener {
             b.setParametres(listBonus, Integer.parseInt(list.get("Nombres de vies")),
                     Integer.parseInt(list.get("Vitesse")), Integer.parseInt(list.get("Nombre de bombes initiales")),
                     Integer.parseInt(list.get("Portée de la bombe")), Integer.parseInt(list.get("Largeur du plateau")),
-                    Integer.parseInt(list.get("Hauteur du plateau")));
+                    Integer.parseInt(list.get("Hauteur du plateau")) );
             b.setNomJoueurs(0, list.get("Joueur 1"));
             b.setNomJoueurs(1, list.get("Joueur 2"));
             fenetre.changePanel(new AccueilPanel(fenetre, b));
         }
     }
+
 }

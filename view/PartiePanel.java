@@ -190,8 +190,6 @@ public void updateInfosPanel() {
 
     public void updateAll(int temps){
         chrono.setText("Temps: " + temps);
-        gameBomberman.partie.joueurs.get(0).vie++;
-        System.out.println("vie: " + gameBomberman.partie.joueurs.get(0).vie);
         updateInfosPanel();
         plateauPanel.repaint();
     }    

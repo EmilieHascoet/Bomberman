@@ -4,16 +4,21 @@ import controller.ParametreController;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ItemEvent;
+import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -21,13 +26,13 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import model.Bomberman;
 
 public class ParametresPanel extends JPanel {
-    private MainFrame frame;
+    private final MainFrame frame;
     private JPanel rightPanel;
     private CardLayout cardLayout;
     private Bomberman b;
@@ -72,13 +77,10 @@ public class ParametresPanel extends JPanel {
         leftPanel.add(labelPanel);
 
         // Add action listener to the list selection
-        list.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    String selectedLabel = list.getSelectedValue();
-                    cardLayout.show(rightPanel, selectedLabel);
-                }
+        list.addListSelectionListener((ListSelectionEvent e) -> {
+            if (!e.getValueIsAdjusting()) {
+                String selectedLabel = list.getSelectedValue();
+                cardLayout.show(rightPanel, selectedLabel);
             }
         });
 
@@ -104,9 +106,9 @@ public class ParametresPanel extends JPanel {
 
 
         // Create checkboxes for each label
-        createCheckBoxes(listModel.get(0).toString(), rightPanel,
+        createCheckBoxes(listModel.get(0), rightPanel,
                 b.parametres.getListBonus().toArray(new String[b.parametres.getListBonus().size()]));
-        createTextAreasM(listModel.get(1).toString(), rightPanel, mapP, lab);
+        createTextAreasM(listModel.get(1), rightPanel, mapP, lab);
 
         createTextAreas(listModel.get(2), rightPanel, new String[] { "Joueur 1"});
         createTextAreas(listModel.get(3), rightPanel, new String[] { "Joueur 2"});
@@ -179,6 +181,7 @@ public class ParametresPanel extends JPanel {
             textAreas[i] = new JTextField(list[i]);
             textAreas[i].setName(list[i]);
             textAreas[i].addFocusListener(new java.awt.event.FocusAdapter() {
+                @Override
                 public void focusGained(java.awt.event.FocusEvent evt) {
                     if (textAreas[i].getText().equals(list[i])) {
                         labels[i].setText(list[i]);
@@ -186,7 +189,7 @@ public class ParametresPanel extends JPanel {
                         textAreas[i].setForeground(Color.black);
                     }
                 }
-
+                @Override
                 public void focusLost(java.awt.event.FocusEvent evt) {
                     if (textAreas[i].getText().equals("")) {
                         textAreas[i].setText(list[i]);
@@ -199,11 +202,66 @@ public class ParametresPanel extends JPanel {
             textAreas[i].setForeground(new Color(153, 153, 153));
             labels[i].setFont(new Font("Arial", Font.PLAIN, 16));
             labels[i].setForeground(Color.black);
+            labels[i].setAlignmentX(LEFT_ALIGNMENT);
             textAreaPanel.add(labels[i]);
             textAreaPanel.add(textAreas[i]);
 
         }
 
+        JLabel avatarLabel = new JLabel("Avatar");
+        avatarLabel.setText("Avatar");
+        avatarLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        avatarLabel.setAlignmentX(LEFT_ALIGNMENT);
+        textAreaPanel.add(avatarLabel);
+
+        JPanel avatar = new JPanel(); // Avatar panel
+        avatar.setLayout(new FlowLayout());        
+        avatar.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+
+        JPanel imagePanel = new JPanel(); // Image panel
+        imagePanel.setLayout(new FlowLayout());
+        // Paths to your image files
+
+        File folder = new File("Bomberman/Images/Personnage");
+        File[] listOfFiles = folder.listFiles();
+
+        List<JToggleButton> toggleButtons = new java.util.ArrayList<>();
+
+        for(File file : listOfFiles){
+        if(file.isFile()){
+            ImageIcon icon = new ImageIcon(file.getPath());
+            icon = new ImageIcon(icon.getImage().getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH));
+
+            // Create a toggle button with the image icon
+            JToggleButton toggleButton = new JToggleButton();
+            toggleButton.setIcon(icon);
+            toggleButton.setSelectedIcon(icon);
+            toggleButton.setName(file.getName());
+
+            toggleButton.addItemListener((ItemEvent e) -> {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    for (JToggleButton tb : toggleButtons) {
+                        if (tb != toggleButton) {
+                            tb.setSelected(false);
+                        }
+                    }
+                }
+            });
+
+            imagePanel.add(toggleButton);
+            imagePanel.revalidate(); // Re-layout the panel
+            imagePanel.repaint(); // Repaint the panel
+
+            toggleButtons.add(toggleButton); // Add the toggle button to the image panel
+        }
+}
+        avatar.add(imagePanel); // Add the image panel to the avatar panel
+        textAreaPanel.add(avatar); //
+        parentPanel.add(textAreaPanel, label);
+        avatar.add(imagePanel);
+        textAreaPanel.add(avatar);
+        
+        
         parentPanel.add(textAreaPanel, label);
     }
     private <K, V> void createTextAreasM(String label, JPanel parentPanel, Map<K, V> m, String[] l) {
@@ -220,6 +278,7 @@ public class ParametresPanel extends JPanel {
             textAreas[i] = new JTextField(m.get(l[i]) + "");
             textAreas[i].setName(l[i]);
             textAreas[i].addFocusListener(new java.awt.event.FocusAdapter() {
+                @Override
                 public void focusGained(java.awt.event.FocusEvent evt) {
                     if (textAreas[i].getText().equals(m.get(l[i]) +"")) {
                         labels[i].setText(l[i]);
@@ -227,7 +286,7 @@ public class ParametresPanel extends JPanel {
                         textAreas[i].setForeground(Color.black);
                     }
                 }
-
+                @Override
                 public void focusLost(java.awt.event.FocusEvent evt) {
                     if (textAreas[i].getText().equals("")) {
                         textAreas[i].setText(m.get(l[i]) + "");
