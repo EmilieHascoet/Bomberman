@@ -19,7 +19,6 @@ public class PartiePanel extends JPanel {
     MainFrame mainFrame;
     Bomberman gameBomberman;
     public Color backgroundColor = new Color(203, 239, 195);
-
     
     JPanel infoPanel = new JPanel();
     JPanel north = new JPanel();

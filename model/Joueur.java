@@ -35,7 +35,7 @@ public class Joueur {
         this.score = 0;
         this.positionX = positionX;
         this.positionY = positionY;
-
+        this.avatar = avatar;
     }
 
     // Déclarations des méthodes
@@ -173,6 +173,7 @@ public class Joueur {
         sb.append("\n  positionX: ").append(positionX);
         sb.append("\n  positionY: ").append(positionY);
         sb.append("\n  vitesse: ").append(vitesse);
+        sb.append("\n  avatar: ").append(avatar);
         sb.append("\n}");
         return sb.toString();
     }

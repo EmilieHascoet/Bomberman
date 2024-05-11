@@ -3,11 +3,11 @@ package controller;
 import java.awt.Component;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
 import model.Bomberman;
 import view.ChangerToucheJDialog;
 import view.MainFrame;
@@ -73,6 +73,7 @@ public class AccueilControleur implements ActionListener {
      */
     public void boutonOptions() {
         setTouches();
+        bomberman.setParametres(new HashSet<String>(Arrays.asList("Bombe", "Vie", "Vitesse", "Portée")), 3, 1, 1, 1, 15, 15, new String[] { "Images/Personnage/perso1.png", "Images/Personnage/perso2.png" });
         mainFrame.changePanel(new ParametresPanel(this.mainFrame, this.bomberman));
     }
 

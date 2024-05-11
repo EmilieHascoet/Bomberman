@@ -11,10 +11,11 @@ public class Parametres {
     private int porteeBombe;
     private int boardWidth;
     private int boardHeight;
+    private String[] avatar;
 
     // Déclaration du constructeur Parametres
     public Parametres(Set<String> listBonus, int nbVie, int vitesse, int nbBombeInit, int porteeBombe, int boardWidth,
-            int boardHeight) {
+            int boardHeight, String[] avatar) {
         this.listBonus = listBonus;
         this.nbVie = nbVie;
         this.vitesse = vitesse;
@@ -22,6 +23,7 @@ public class Parametres {
         this.porteeBombe = porteeBombe;
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
+        this.avatar = avatar;
     }
 
     // Déclarations des méthodes getters
@@ -51,6 +53,9 @@ public class Parametres {
 
     public int getBoardHeight() {
         return boardHeight;
+    }
+    public String getAvatar(int i) {
+        return avatar[i];
     }
 
     // Déclarations des méthodes setters
@@ -82,6 +87,10 @@ public class Parametres {
         this.boardHeight = boardHeight;
     }
 
+    public void setAvatar(String[] avatar) {
+        this.avatar = avatar;
+    }
+    
     // on overide la méthode toString pour afficher tous les paramètres
     @Override
     public String toString() {

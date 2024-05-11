@@ -1,11 +1,10 @@
 package model;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Set;
-
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 
@@ -26,7 +25,7 @@ public class Bomberman {
     public Bomberman() {
         setTouche(1, "Fleche du haut", "Fleche du bas", "Fleche de droite", "Fleche de gauche", "Shift");
         setTouche(2, "Z", "S", "D", "Q", "Espace");
-        setParametres(new HashSet<String>(Arrays.asList("Bombe", "Vie", "Vitesse", "Portée")), 3, 1, 1, 1, 15, 15);
+        setParametres(new HashSet<String>(Arrays.asList("Bombe", "Vie", "Vitesse", "Portée")), 3, 1, 1, 1, 15, 15, new String[] { "Images/Personnage/perso1.png", "Images/Personnage/perso2.png"});
         setNomJoueurs(0, "Joueur 1");
         setNomJoueurs(1, "Joueur 2");
     }
@@ -45,17 +44,18 @@ public class Bomberman {
     }
 
     public void setParametres(Set<String> listBonus, int nbVie, int vitesse, int nbBombeInit, int porteeBombe,
-            int boardWidth, int boardHeight) {
+            int boardWidth, int boardHeight, String[] avatar) {
         // Ajout des paramètres pour la partie (définis par l'utilisateur dans l'écran)
         // new
         if (parametres == null) {
-            parametres = new Parametres(listBonus, nbVie, vitesse, nbBombeInit, porteeBombe, boardWidth, boardHeight);
+            parametres = new Parametres(listBonus, nbVie, vitesse, nbBombeInit, porteeBombe, boardWidth, boardHeight, avatar);
         } else {
             parametres.setListBonus(listBonus);
             parametres.setNbVie(nbVie);
             parametres.setNbBombeInit(nbBombeInit);
             parametres.setBoardWidth(boardWidth);
             parametres.setBoardHeight(boardHeight);
+            parametres.setAvatar(avatar);
         }
     }
 

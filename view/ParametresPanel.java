@@ -219,6 +219,7 @@ public class ParametresPanel extends JPanel {
         avatar.setBorder(BorderFactory.createLineBorder(Color.black, 2));
 
         JPanel imagePanel = new JPanel(); // Image panel
+        imagePanel.setName(list[0]);
         imagePanel.setLayout(new FlowLayout());
         // Paths to your image files
 
@@ -236,7 +237,8 @@ public class ParametresPanel extends JPanel {
             JToggleButton toggleButton = new JToggleButton();
             toggleButton.setIcon(icon);
             toggleButton.setSelectedIcon(icon);
-            toggleButton.setName(file.getName());
+            toggleButton.setName(file.getPath().substring(9, file.getPath().length()));
+            toggleButton.setText(file.getName().substring(0, file.getName().length() - 4));
 
             toggleButton.addItemListener((ItemEvent e) -> {
                 if (e.getStateChange() == ItemEvent.SELECTED) {

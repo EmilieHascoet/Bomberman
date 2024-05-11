@@ -34,11 +34,11 @@ public class Partie {
         Partie.paramPartie = parametres;
         this.joueurs = new ArrayList<>();
 
-        Joueur j1 = new Joueur(nomJoueur.get(0), 1, 1, "../Personnages/perso1.png");
+        Joueur j1 = new Joueur(nomJoueur.get(0), 1, 1, parametres.getAvatar(0));
         j1.touche = listTouche.get(0);
         joueurs.add(j1);
         
-        Joueur j2 = new Joueur(nomJoueur.get(1), parametres.getBoardWidth(), parametres.getBoardHeight(), "../Personnages/perso2.png");
+        Joueur j2 = new Joueur(nomJoueur.get(1), parametres.getBoardWidth(), parametres.getBoardHeight(), parametres.getAvatar(1));
         j2.touche = listTouche.get(1);
         joueurs.add(j2);
 

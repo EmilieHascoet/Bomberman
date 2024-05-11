@@ -1,17 +1,14 @@
 package view;
-import javax.swing.JPanel;
-
-import model.Bonus;
-import model.Case;
-import model.Partie;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.net.URL;
-
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import model.Bonus;
+import model.Case;
+import model.Partie;
 
 public class CasePanel extends JPanel {
     public Case caseModel;
@@ -41,7 +38,11 @@ public class CasePanel extends JPanel {
         ClassLoader classLoader = getClass().getClassLoader();
     
         if(caseModel.joueur != null) {
-            this.path = "Images/Personnage/perso1.png"; // TODO chemin vers l'image du personnage dans la classe Joueur
+            if(caseModel.joueur.nom == frame.bomberman.partie.joueurs.get(0).nom) {
+                this.path = frame.bomberman.partie.joueurs.get(0).avatar;
+            } else {
+                this.path = frame.bomberman.partie.joueurs.get(1).avatar;
+            }
         } else {
             if(typeImage != "Bonus") {
                 this.path = "Images/" + typeImage + ".png";

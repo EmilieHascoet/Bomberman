@@ -3,6 +3,7 @@ package controller;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -48,32 +49,39 @@ public class ParametreController implements ActionListener {
     }
 
     public void boutonValider() {
+        File folder = new File("Bomberman/Images/Personnage");
+        File[] listOfFiles = folder.listFiles();
+        String first = listOfFiles[0].getPath().substring(9, listOfFiles[0].getPath().length());
         Set<String> listBonus = new HashSet<>();
         List<String> errors = new ArrayList<>();
         Map<String, String> list = new java.util.HashMap<>(); // Parametres du joueur 1
+        Map<String, String> image = new java.util.HashMap<>(); // Selection des images
 
         for (Component c : p.getComponents()) { // Jpanel
             for (Component c2 : ((JPanel) c).getComponents()) { // Jpanel et JButton
                 if (c2 instanceof JPanel) {
                     for (Component c3 : ((JPanel) c2).getComponents()) {
                         for (Component c4 : ((JPanel) c3).getComponents()) {
-                            if(c4 instanceof JPanel){
-                                for(Component c5 : ((JPanel) c4).getComponents()){
-                                    for(Component c6 : ((JPanel) c5).getComponents()){
-                                        if(c6 instanceof JToggleButton){
-                                            if(((JToggleButton) c6).isSelected()){
-                                                listBonus.add(((JToggleButton) c6).getName());
+                            if (c4 instanceof JPanel) {
+                                for (Component c5 : ((JPanel) c4).getComponents()) {
+                                    for (Component c6 : ((JPanel) c5).getComponents()) {
+                                        if (c6 instanceof JToggleButton) {
+                                            String value = first; //Image par défaut
+                                            
+                                            if (((JToggleButton) c6).isSelected()) {
+                                                value = ((JToggleButton) c6).getName(); //Image selectionnée
                                             }
+                                            image.put(((JPanel) c5).getName(),
+                                            value);                                            
+                                            
                                         }
                                     }
                                 }
-                            }
-                            else if (c4 instanceof JCheckBox) {
+                            } else if (c4 instanceof JCheckBox) {
                                 if (((JCheckBox) c4).isSelected()) {
                                     listBonus.add(((JCheckBox) c4).getText());
                                 }
-                            }
-                            else if (c4 instanceof JTextField) {
+                            } else if (c4 instanceof JTextField) {
                                 String name = ((JTextField) c4).getName();
                                 String value = ((JTextField) c4).getText();
                                 if (name != null) {
@@ -137,7 +145,7 @@ public class ParametreController implements ActionListener {
                                     }
                                     list.put(((JTextField) c4).getName(), value);
                                 }
-                            }                                                            
+                            }
                         }
                     }
                 }
@@ -154,7 +162,7 @@ public class ParametreController implements ActionListener {
             b.setParametres(listBonus, Integer.parseInt(list.get("Nombres de vies")),
                     Integer.parseInt(list.get("Vitesse")), Integer.parseInt(list.get("Nombre de bombes initiales")),
                     Integer.parseInt(list.get("Portée de la bombe")), Integer.parseInt(list.get("Largeur du plateau")),
-                    Integer.parseInt(list.get("Hauteur du plateau")) );
+                    Integer.parseInt(list.get("Hauteur du plateau")), new String[] { image.get("Joueur 1"), image.get("Joueur 2")});
             b.setNomJoueurs(0, list.get("Joueur 1"));
             b.setNomJoueurs(1, list.get("Joueur 2"));
             fenetre.changePanel(new AccueilPanel(fenetre, b));
