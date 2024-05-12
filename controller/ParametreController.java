@@ -80,7 +80,6 @@ public class ParametreController implements ActionListener {
                                             
                                             if (((JToggleButton) c6).isSelected()) {
                                                 value = ((JToggleButton) c6).getName(); //Image selectionnée
-                                                System.out.println("JToggleButton : "+value);
                                             }
                                             image.put(((JPanel) c5).getName(),
                                             value);                                            

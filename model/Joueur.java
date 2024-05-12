@@ -71,7 +71,7 @@ public class Joueur {
                 if (currentTime - lastActionTime > vitesse * 100) {
                     lastActionTime = currentTime;
                     casesModifiees = seDeplacer(action);
-                } else System.out.println("Trop rapide");
+                }
             }
         }
         return casesModifiees;

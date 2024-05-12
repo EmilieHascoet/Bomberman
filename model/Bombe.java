@@ -72,7 +72,6 @@ public class Bombe extends Case {
             caseModifiees.add(thisCase);
             this.joueurPoseBombe.stockBombe++;
             Thread.sleep(tempsPropagation);
-            Partie.afficherCarte();
     
             // Calculate the cross shape
             boolean[] stopDirections = new boolean[4]; // North, South, East, West

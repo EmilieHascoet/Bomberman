@@ -10,11 +10,11 @@ public class Case {
     public Integer positionX;
     public Integer positionY;
     public Boolean isFire;
-    /**
-     * Définit le type de case pour savoir quelle image afficher dans la vue
-     * Valeurs possibles : Bombe, BlocDestructible, BlocIndestructible, Bonus,
-     * CaseVide
-     */
+
+    // TODO type enum
+    /*public enum TypeCase {
+        Bombe, BlocDestructible, BlocIndestructible, Bonus, CaseVide
+    }*/
     public String typeImage;
     public boolean estDestructible;
     /**
