@@ -88,14 +88,8 @@ public class Partie {
         for (Joueur joueur : getJoueurs()) {
             joueur.initJoueur();
         }
-        System.out.println("Liste des joueurs: " + getJoueurs());
         genererNouvelleCarte();
-        System.out.println("Carte générée");
-        afficherCarte();
         placerJoueursDepartCarte();
-        System.out.println("Joueurs placés sur la carte");
-        afficherCarte();
-        System.out.println("Liste des joueurs: " + getJoueurs());
     }
 
     private static List<List<Integer>> getPosDepart() {
