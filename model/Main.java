@@ -1,9 +1,7 @@
 package model;
 
-import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.util.List;
-
 import javax.swing.JFrame;
 
 public class Main {
@@ -165,7 +163,7 @@ public class Main {
 
         // Pose une bombe
         Bombe bombe1 = j1.poseBombe();
-        bombe1.explose();
+        bombe1.explosion();
         System.out.println("Après que le joueur ait pose une bombe :\n" + j1);
         Carte.afficherCarte();
     }

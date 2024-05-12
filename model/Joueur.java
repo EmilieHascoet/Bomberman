@@ -42,6 +42,8 @@ public class Joueur {
         this.score = 0;
     }
 
+    // Déclarations des méthodes
+
         /**
      * Place le joueur sur la carte à la position spécifiée.
      */
@@ -49,8 +51,6 @@ public class Joueur {
         this.positionX = posX;
         this.positionY = posY;
     }
-
-    // Déclarations des méthodes
 
     /**
      * Joue une touche du joueur, 
@@ -161,6 +161,10 @@ public class Joueur {
         return caseArrivee.estTraversable && caseArrivee.joueur == null;
     }
 
+    public void setAvatar(avatar avatar) {
+        this.avatar = avatar;
+    }
+
     // on fait un override de la méthode toString pour afficher tous les
     // informations current du joueur
     @Override
@@ -176,6 +180,7 @@ public class Joueur {
         sb.append("\n  positionX: ").append(positionX);
         sb.append("\n  positionY: ").append(positionY);
         sb.append("\n  vitesse: ").append(vitesse);
+        sb.append("\n  avatar: ").append(avatar);
         sb.append("\n}");
         return sb.toString();
     }

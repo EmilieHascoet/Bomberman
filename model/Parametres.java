@@ -1,8 +1,5 @@
 package model;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import model.Partie.bonusEnum;
@@ -85,7 +82,7 @@ public class Parametres {
     public void setBoardHeight(int boardHeight) {
         this.boardHeight = boardHeight;
     }
-
+    
     // on overide la méthode toString pour afficher tous les paramètres
     @Override
     public String toString() {
