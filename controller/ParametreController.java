@@ -22,9 +22,6 @@ import model.Parametres;
 import model.Partie;
 import model.Partie.bonusEnum;
 import javax.swing.JToggleButton;
-import model.Bomberman;
-import view.AccueilPanel;
-import view.MainFrame;
 
 public class ParametreController implements ActionListener {
     private MainFrame fenetre;
@@ -54,7 +51,7 @@ public class ParametreController implements ActionListener {
     }
 
     public void boutonValider() {
-        File folder = new File("Bomberman/Images/Personnage");
+        File folder = new File("Images/Personnage");
         File[] listOfFiles = folder.listFiles();
         String first = listOfFiles[0].getPath().substring(9, listOfFiles[0].getPath().length());
         Set<bonusEnum> listBonus = new HashSet<>();
@@ -169,7 +166,9 @@ public class ParametreController implements ActionListener {
             Partie.paramPartie = new Parametres(listBonus, Integer.parseInt(list.get("Nombre de vies")),
                     Integer.parseInt(list.get("Vitesse")), Integer.parseInt(list.get("Nombre de bombes initiales")),
                     Integer.parseInt(list.get("Portée de la bombe")), Integer.parseInt(list.get("Largeur du plateau")),
-                    Integer.parseInt(list.get("Hauteur du plateau")), new String[] { image.get("Joueur 1"), image.get("Joueur 2")});
+                    Integer.parseInt(list.get("Hauteur du plateau")));
+            Partie.getJoueurs().get(0).avatar = Partie.avatar.valueOf(image.get("Joueur 1"));
+            Partie.getJoueurs().get(1).avatar = Partie.avatar.valueOf(image.get("Joueur 2"));
             Partie.getJoueurs().get(0).nom = list.get("Joueur 1");
             Partie.getJoueurs().get(1).nom = list.get("Joueur 2");
 

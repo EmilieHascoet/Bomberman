@@ -25,10 +25,10 @@ public class Main {
         Partie.paramPartie.setPorteeBombe(3);
 
         // Cree une partie a 2 joueurs
-        Partie.lancerNouvellePartie(2);
-        Joueur j1 = Partie.joueurs.get(0);
-        Joueur j2 = Partie.joueurs.get(1);
-
+        Partie.lancerNouvellePartie();
+        Joueur j1 = Partie.getJoueurs().get(0);
+        Joueur j2 = Partie.getJoueurs().get(1);
+        
         // Place les joueurs
         j1.placerJoueur(3, 5);
         j2.placerJoueur(3, 4);

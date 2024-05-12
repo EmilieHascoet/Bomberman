@@ -23,7 +23,7 @@ public class FinPartieController {
     }
 
     private void replayGame() {
-        Partie.rejouer();
+        Partie.lancerNouvellePartie();
 
     }
 

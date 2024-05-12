@@ -17,7 +17,7 @@ public class Partie {
     private static List<List<Integer>> posDepart;
     public static int nbJoueurs;
 
-    enum avatar {
+    public enum avatar {
         J1, J2, J3, J4
     }
 

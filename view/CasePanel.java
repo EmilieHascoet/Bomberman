@@ -12,17 +12,15 @@ import model.Partie;
 public class CasePanel extends JPanel {
     public Case caseModel;
     private String path;
-    private MainFrame frame;
     int width = Partie.paramPartie.getBoardWidth()+2;
     int height = Partie.paramPartie.getBoardHeight()+2;
     int size;
     Image imageCase;
     String typeImage;
 
-    public CasePanel(Case caseModel, MainFrame frame) {
+    public CasePanel(Case caseModel) {
         this.caseModel = caseModel;
         this.typeImage = caseModel.typeImage;
-        this.frame = frame;
         loadImage();
     }
 
@@ -35,11 +33,7 @@ public class CasePanel extends JPanel {
         ClassLoader classLoader = getClass().getClassLoader();
 
         if(caseModel.joueur != null) {
-            if(caseModel.joueur.avatar  == frame.bomberman.partie.joueurs.get(0).nom) {
-                this.path = frame.bomberman.partie.joueurs.get(0).avatar;
-            } else {
-                this.path = frame.bomberman.partie.joueurs.get(1).avatar;
-            }
+                this.path = "Images/Personnage/" + caseModel.joueur.avatar + ".png";
         } else if(typeImage != "Bonus") {
                 this.path = "Images/" + typeImage + ".png";
         } else {
