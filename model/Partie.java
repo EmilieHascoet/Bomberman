@@ -14,7 +14,6 @@ public class Partie {
 
     // Déclarations des attributs
     public static Case[][] carte;
-    private static List<List<Integer>> posDepart;
     public static int nbJoueurs;
 
     public enum avatar {
@@ -32,17 +31,7 @@ public class Partie {
     public Partie() {
         // Créer les paramètres par défaut
         Set<bonusEnum> setBonus = new HashSet<>(Arrays.asList(Partie.bonusEnum.values()));
-        Partie.paramPartie = new Parametres(setBonus, 3, 1, 1, 2, 15, 15);
-
-        // Position de départ des joueurs sur la carte
-        int largeur = paramPartie.getBoardWidth();
-        int hauteur = paramPartie.getBoardHeight();
-
-        posDepart = new ArrayList<>();
-        posDepart.add(Arrays.asList(hauteur, largeur));
-        posDepart.add(Arrays.asList(1, 1));
-        posDepart.add(Arrays.asList(hauteur, 1));
-        posDepart.add(Arrays.asList(1, largeur));
+        Partie.paramPartie = new Parametres(setBonus, 3, 1, 1, 2, 20, 15);
 
         // Créer les touches par défaut
         List<Touche> touchesDefaut = new ArrayList<>();
@@ -77,6 +66,8 @@ public class Partie {
      * Place les joueurs sur la carte et les cases de départ.
      */
     private static void placerJoueursDepartCarte() {
+        List<List<Integer>> posDepart = getPosDepart();
+
         // Place les joueurs sur la carte
         for (int i = 0; i < nbJoueurs; i++) {
             joueurs.get(i).placerJoueur(posDepart.get(i).get(0), posDepart.get(i).get(1));
@@ -97,6 +88,21 @@ public class Partie {
         }
         genererNouvelleCarte();
         placerJoueursDepartCarte();
+    }
+
+    private static List<List<Integer>> getPosDepart() {
+        // Position de départ des joueurs sur la carte
+        int largeur = paramPartie.getBoardWidth();
+        int hauteur = paramPartie.getBoardHeight();
+
+        List<List<Integer>> posDepart;posDepart = new ArrayList<>();
+        // Position Y, Position X
+        posDepart.add(Arrays.asList(hauteur, largeur));
+        posDepart.add(Arrays.asList(1, 1));
+        posDepart.add(Arrays.asList(hauteur, 1));
+        posDepart.add(Arrays.asList(1, largeur));
+
+        return posDepart;
     }
 
     /**

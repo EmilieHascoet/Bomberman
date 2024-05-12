@@ -47,9 +47,9 @@ public class Joueur {
         /**
      * Place le joueur sur la carte à la position spécifiée.
      */
-    public void placerJoueur(int posX, int posY) {
-        this.positionX = posX;
+    public void placerJoueur(int posY, int posX) {
         this.positionY = posY;
+        this.positionX = posX;
     }
 
     /**

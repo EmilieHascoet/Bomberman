@@ -222,7 +222,7 @@ public class ParametresPanel extends JPanel {
         imagePanel.setLayout(new FlowLayout());
         // Paths to your image files
 
-        File folder = new File("Bomberman/Images/Personnage");
+        File folder = new File("Images/Personnage");
         File[] listOfFiles = folder.listFiles();
 
         List<JToggleButton> toggleButtons = new java.util.ArrayList<>();
@@ -236,8 +236,11 @@ public class ParametresPanel extends JPanel {
             JToggleButton toggleButton = new JToggleButton();
             toggleButton.setIcon(icon);
             toggleButton.setSelectedIcon(icon);
-            toggleButton.setName(file.getPath().substring(9, file.getPath().length()));
-            toggleButton.setText(file.getName().substring(0, file.getName().length() - 4));
+            File f = new File(file.getPath());
+            // Récupérer le nom du fichier sans l'extension
+            String fileName = f.getName().substring(0, f.getName().lastIndexOf("."));
+            toggleButton.setName(fileName);
+            toggleButton.setText(fileName);
 
             toggleButton.addItemListener((ItemEvent e) -> {
                 if (e.getStateChange() == ItemEvent.SELECTED) {

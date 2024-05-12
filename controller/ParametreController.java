@@ -22,6 +22,7 @@ import model.Parametres;
 import model.Partie;
 import model.Partie.bonusEnum;
 import javax.swing.JToggleButton;
+import javax.swing.text.Style;
 
 public class ParametreController implements ActionListener {
     private MainFrame fenetre;
@@ -53,7 +54,14 @@ public class ParametreController implements ActionListener {
     public void boutonValider() {
         File folder = new File("Images/Personnage");
         File[] listOfFiles = folder.listFiles();
-        String first = listOfFiles[0].getPath().substring(9, listOfFiles[0].getPath().length());
+        // Récupérer le nom du fichier sans l'extension
+        File file = new File(listOfFiles[0].getPath());
+        String fileName = file.getName();
+        int pos = fileName.lastIndexOf(".");
+        if (pos > 0) {
+            fileName = fileName.substring(0, pos);
+        }
+        String first = fileName;
         Set<bonusEnum> listBonus = new HashSet<>();
         List<String> errors = new ArrayList<>();
         Map<String, String> list = new java.util.HashMap<>(); // Parametres du joueur 1
@@ -72,6 +80,7 @@ public class ParametreController implements ActionListener {
                                             
                                             if (((JToggleButton) c6).isSelected()) {
                                                 value = ((JToggleButton) c6).getName(); //Image selectionnée
+                                                System.out.println("JToggleButton : "+value);
                                             }
                                             image.put(((JPanel) c5).getName(),
                                             value);                                            
@@ -90,7 +99,7 @@ public class ParametreController implements ActionListener {
                                 String value = ((JTextField) c4).getText();
                                 if (name != null) {
                                     switch (name) {
-                                        case "Nombre de vies":
+                                        case "Nombres de vies":
                                             try {
                                                 Integer.parseInt(value);
                                             } catch (NumberFormatException ex) {
@@ -163,7 +172,7 @@ public class ParametreController implements ActionListener {
             JOptionPane.showMessageDialog(null, errorMessage, "Erreur", JOptionPane.ERROR_MESSAGE);
             return;
         } else {
-            Partie.paramPartie = new Parametres(listBonus, Integer.parseInt(list.get("Nombre de vies")),
+            Partie.paramPartie = new Parametres(listBonus, Integer.parseInt(list.get("Nombres de vies")),
                     Integer.parseInt(list.get("Vitesse")), Integer.parseInt(list.get("Nombre de bombes initiales")),
                     Integer.parseInt(list.get("Portée de la bombe")), Integer.parseInt(list.get("Largeur du plateau")),
                     Integer.parseInt(list.get("Hauteur du plateau")));
