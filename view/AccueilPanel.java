@@ -205,7 +205,7 @@ public class AccueilPanel extends JPanel {
                 panel.add(boutonTouche);
 
                 // Crée le controleur pour le bouton de la touche
-                AccueilControleur controleur = new AccueilControleur(i+1, actionTouche, nomTouche , boutonTouche);
+                AccueilControleur controleur = new AccueilControleur(i, actionTouche, nomTouche , boutonTouche);
                 boutonTouche.addActionListener(controleur);
             }
         }

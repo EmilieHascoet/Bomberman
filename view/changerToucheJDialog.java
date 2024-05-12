@@ -39,14 +39,6 @@ public class ChangerToucheJDialog extends JDialog {
 
         // Désactive les actions par défaut des touches (exemple tabulation)
         this.setFocusTraversalKeysEnabled(false);
-        
-        this.add(contentPanel);
-        this.setModal(true); // Bloque l'interaction avec le JFrame principal
-        this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        this.setTitle("Changer la touche pour le joueur " + joueur + " : " + actionTouche);
-        this.setSize(500, 140);
-        this.setLocationRelativeTo(null); // Centre la fenêtre sur l'écran
-        this.setVisible(true);  
 
         // Ajoutez un écouteur d'événements pour intercepter les touches
         Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
@@ -59,39 +51,63 @@ public class ChangerToucheJDialog extends JDialog {
                     if (chosenKey == null) {
                         chosenKey = KeyEvent.getKeyText(keyCode);
                     }
-                    boutonChooseTouche.setText(chosenKey); // Change le texte du bouton
-
-                    // Remove all action listeners from the button
-                    for (ActionListener al : boutonChooseTouche.getActionListeners()) {
-                        boutonChooseTouche.removeActionListener(al);
+                    System.out.println(chosenKey);
+                    // Controle que la touche choisie n'est pas déjà utilisée par un autre joueur
+                    boolean toucheDejaUtilisee = false;
+                    for (int i = 0; i < Partie.nbJoueurs; i++) {
+                        Touche touche = Partie.getJoueurs().get(i).touche;
+                        if (touche.getHaut().equals(chosenKey) || touche.getBas().equals(chosenKey) || touche.getDroite().equals(chosenKey) || touche.getGauche().equals(chosenKey) || touche.getBombe().equals(chosenKey)) {
+                            toucheDejaUtilisee = true;
+                            break;
+                        }
                     }
+                    if(toucheDejaUtilisee) {
+                        JOptionPane.showMessageDialog(ChangerToucheJDialog.this, "La touche '" + chosenKey + "' est déjà utilisée par un autre joueur", "Erreur", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    } else {
+                        // Change le texte du bouton
+                        boutonChooseTouche.setText(chosenKey);
 
-                    // Ajout du nouveau controller
-                    AccueilControleur ctr = new AccueilControleur(joueur, chosenKey, "Haut", boutonChooseTouche);
-                    boutonChooseTouche.addActionListener(ctr);
+                        // Supprime toutes les action listeners du bouton
+                        for (ActionListener al : boutonChooseTouche.getActionListeners()) {
+                            boutonChooseTouche.removeActionListener(al);
+                        }
 
-                    // Mettre à jour le modèle Touche du Joueur
-                    System.out.println("Joueur: " + joueur + " Action: " + actionTouche + " Touche: " + chosenKey);
-                    switch (actionTouche) {
-                        case "Aller en haut":
-                            Partie.getJoueurs().get(joueur).touche.setHaut(chosenKey);
-                            break;
-                        case "Aller en bas":
-                            Partie.getJoueurs().get(joueur).touche.setBas(chosenKey);
-                            break;
-                        case "Aller à droite":
-                            Partie.getJoueurs().get(joueur).touche.setDroite(chosenKey);
-                            break;
-                        case "Aller à gauche":
-                            Partie.getJoueurs().get(joueur).touche.setGauche(chosenKey);
-                            break;
-                        case "Placer une fleur":
-                            Partie.getJoueurs().get(joueur).touche.setBombe(chosenKey);
-                            break;
+                        // Ajout du nouveau controller
+                        AccueilControleur ctr = new AccueilControleur(joueur, chosenKey, actionTouche, boutonChooseTouche);
+                        boutonChooseTouche.addActionListener(ctr);
+
+                        // Mettre à jour le modèle Touche du Joueur
+                        switch (actionTouche) {
+                            case "Aller en haut":
+                                Partie.getJoueurs().get(joueur).touche.setHaut(chosenKey);
+                                break;
+                            case "Aller en bas":
+                                Partie.getJoueurs().get(joueur).touche.setBas(chosenKey);
+                                break;
+                            case "Aller à droite":
+                                Partie.getJoueurs().get(joueur).touche.setDroite(chosenKey);
+                                break;
+                            case "Aller à gauche":
+                                Partie.getJoueurs().get(joueur).touche.setGauche(chosenKey);
+                                break;
+                            case "Placer une fleur":
+                                Partie.getJoueurs().get(joueur).touche.setBombe(chosenKey);
+                                break;
+                        }
+                        dispose(); // Ferme la fenetre (JDialog)
                     }
-                    dispose(); // Ferme la fenetre (JDialog)
                 }
             }
         }, AWTEvent.KEY_EVENT_MASK);
+
+        // Paramètres de la fenetre
+        this.add(contentPanel);
+        this.setModal(true); // Bloque l'interaction avec le JFrame principal
+        this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        this.setTitle("Changer la touche pour le joueur " + joueur+1 + " : " + actionTouche);
+        this.setSize(500, 140);
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);  
     }
 }
