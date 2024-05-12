@@ -6,7 +6,6 @@ import view.AccueilPanel;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Parameter;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -168,8 +167,8 @@ public class ParametreController implements ActionListener {
                     Integer.parseInt(list.get("Vitesse")), Integer.parseInt(list.get("Nombre de bombes initiales")),
                     Integer.parseInt(list.get("Portée de la bombe")), Integer.parseInt(list.get("Largeur du plateau")),
                     Integer.parseInt(list.get("Hauteur du plateau")));
-            Partie.joueurs.get(0).nom = list2.get("Nom du joueur 1");
-            Partie.joueurs.get(1).nom = list2.get("Nom du joueur 2");
+            Partie.getJoueurs().get(0).nom = list2.get("Nom du joueur 1");
+            Partie.getJoueurs().get(1).nom = list2.get("Nom du joueur 2");
 
             fenetre.changePanel(new AccueilPanel(fenetre));
         }

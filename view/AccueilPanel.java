@@ -170,12 +170,12 @@ public class AccueilPanel extends JPanel {
      */
     private void createPanelControles() {
         // Liste des noms des touches
-        ArrayList<String> listeNomsTouches = new ArrayList<String>(Arrays.asList("Aller en haut", "Aller en bas", "Aller à gauche", "Aller à droite", "Placer une fleur"));
+        ArrayList<String> listeNomsTouches = new ArrayList<String>(Arrays.asList("Aller en haut", "Aller en bas", "Aller à droite", "Aller à gauche", "Placer une fleur"));
 
-        // Boucle sur les deux joueurs
-        for (int i = 0; i < 2; i++) {
+        // Boucle sur les joueurs
+        for (int i = 0; i < Partie.nbJoueurs; i++) {
             // Récupère les touches du joueur
-            Touche touche = Partie.joueurs.get(i).touche;
+            Touche touche = Partie.getJoueurs().get(i).touche;
             // Liste des actions associées aux touches
             List<Supplier<String>> actions = Arrays.asList(touche::getHaut, touche::getBas, touche::getDroite, touche::getGauche, touche::getBombe);
 
@@ -186,9 +186,9 @@ public class AccueilPanel extends JPanel {
             listePanelControles.add(panel);
             
             // Crée les labels pour les controles du joueur
-            JLabel labelParametres = new JLabel("Contrôles de " + Partie.joueurs.get(i).nom);
+            JLabel labelParametres = new JLabel("Contrôles de " + Partie.getJoueurs().get(i).nom);
             // TODO : Ajouter l'icone du joueur
-            JLabel iconeJoueur = new JLabel("Icône du joueur " + Partie.joueurs.get(i).nom);
+            JLabel iconeJoueur = new JLabel("Icône de " + Partie.getJoueurs().get(i).nom);
             panel.add(labelParametres);
             panel.add(iconeJoueur);
 

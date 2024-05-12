@@ -151,17 +151,17 @@ public class PartiePanel extends JPanel {
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.setPreferredSize(new Dimension(mainFrame.getWidth(), infoPanelHeight));
         north.setLayout(new BoxLayout(north, BoxLayout.X_AXIS));
-        south.setLayout(new GridLayout(2, Partie.joueurs.size() + 1));
+        south.setLayout(new GridLayout(2, Partie.nbJoueurs + 1));
 
         infoPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         north.add(chrono);
 
-        for(int i = 0; i < Partie.joueurs.size(); i++){
+        for(int i = 0; i < Partie.nbJoueurs; i++){
             // Create a label to display the number of lives
-            labelName.add(new JLabel("Joueur: " + Partie.joueurs.get(i).nom + " "));
-            labelBombs.add(new JLabel("Stock de bombes: " + Partie.joueurs.get(i).stockBombe + " "));
-            labelScore.add(new JLabel("Score: " + Partie.joueurs.get(i).score + " "));
+            labelName.add(new JLabel("Joueur: " + Partie.getJoueurs().get(i).nom + " "));
+            labelBombs.add(new JLabel("Stock de bombes: " + Partie.getJoueurs().get(i).stockBombe + " "));
+            labelScore.add(new JLabel("Score: " + Partie.getJoueurs().get(i).score + " "));
 
             // Create a panel to hold the life squares
             JPanel lifePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
@@ -171,7 +171,7 @@ public class PartiePanel extends JPanel {
             lifePanel.add(lifeLabel);
 
             // Add the life squares to the panel
-            for(int j = 0; j < Partie.joueurs.get(i).vie; j++){
+            for(int j = 0; j < Partie.getJoueurs().get(i).vie; j++){
                 JPanel lifeSquare = new JPanel();
                 lifeSquare.setPreferredSize(new Dimension(10, 20));
                 lifeSquare.setBackground(Color.GREEN);
@@ -212,8 +212,8 @@ public class PartiePanel extends JPanel {
         infoPanel.remove(this.south);
         north.add(chrono);
 
-        for(int i = 0; i < Partie.joueurs.size(); i++){
-            south.add(new JLabel("Joueur: " + Partie.joueurs.get(i).nom + " "));
+        for(int i = 0; i < Partie.nbJoueurs; i++){
+            south.add(new JLabel("Joueur: " + Partie.getJoueurs().get(i).nom + " "));
             
             // Update the life squares
             JPanel lifePanel = lifePanels.get(i);
@@ -226,7 +226,7 @@ public class PartiePanel extends JPanel {
                 lifeSquare.setPreferredSize(new Dimension(10, 20));
                 lifeSquare.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,10,0,10));
 
-                if(j < Partie.joueurs.get(i).vie){
+                if(j < Partie.getJoueurs().get(i).vie){
                     lifeSquare.setBackground(Color.GREEN);
                 } else {
                     lifeSquare.setBackground(Color.RED);
@@ -236,8 +236,8 @@ public class PartiePanel extends JPanel {
             }
             south.add(lifePanel);
 
-            south.add(new JLabel("Stock de bombes: " + Partie.joueurs.get(i).stockBombe + " "));
-            south.add(new JLabel("Score: " + Partie.joueurs.get(i).score + " "));
+            south.add(new JLabel("Stock de bombes: " + Partie.getJoueurs().get(i).stockBombe + " "));
+            south.add(new JLabel("Score: " + Partie.getJoueurs().get(i).score + " "));
         }
         infoPanel.add(south);
     }

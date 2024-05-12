@@ -1,15 +1,12 @@
 package controller;
 
-import java.awt.Component;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import model.Partie;
-import model.Touche;
 import view.ChangerToucheJDialog;
 import view.MainFrame;
 import view.ParametresPanel;
@@ -57,38 +54,19 @@ public class AccueilControleur implements ActionListener {
     }
 
     /**
-     *  Récupère les touches des joueurs et change les touches de bomberman
-     *  Puis affiche l'écran pour jouer
+     *  Lance une nouvelle partie dans le model et affiche l'écran de jeu
      */
     public void boutonPlay() {
         Partie.lancerNouvellePartie();
-        setTouches();
         PartiePanel partiePanel = new PartiePanel(mainFrame);
         mainFrame.changePanel(partiePanel);
         partiePanel.requestFocusInWindow();
     }
 
     /**
-     *  Récupère les touches des joueurs et change les touches de bomberman
-     *  Puis Affiche l'écran pour choisir les paramètres de la partie
+     *  Affiche l'écran pour choisir les paramètres de la partie
      */
     public void boutonOptions() {
-        setTouches();
         mainFrame.changePanel(new ParametresPanel(this.mainFrame));
-    }
-
-    public void setTouches() {
-        for(int i = 0; i < touchesJoueursPanels.size(); i++) {
-            List<String> touches = new ArrayList<>();
-            JPanel panel = touchesJoueursPanels.get(i);
-            for(Component c : panel.getComponents()) {
-                if(c instanceof JButton) {
-                    JButton bouton = (JButton) c;
-                    String touche = bouton.getText();
-                    touches.add(touche);
-                }
-            }
-            Partie.joueurs.get(i).touche = new Touche(touches.get(0), touches.get(1), touches.get(2), touches.get(3), touches.get(4));
-        }
     }
 }

@@ -8,13 +8,14 @@ import java.util.*;
 public class Partie {
 
     // Déclarations des associations
-    public static List<Joueur> joueurs;
+    // utiliser la méthode getJoueurs pour avoir la liste des joueurs actifs
+    private static List<Joueur> joueurs;
     public static Parametres paramPartie;
-    public static int nbJoueurs;
 
     // Déclarations des attributs
     public static Case[][] carte;
-    public static List<List<Integer>> posDepart;
+    private static List<List<Integer>> posDepart;
+    public static int nbJoueurs;
 
     enum avatar {
         J1, J2, J3, J4
@@ -62,10 +63,15 @@ public class Partie {
         }
 
         // Nombre de joueurs par défaut
-        nbJoueurs = 3;
+        nbJoueurs = 2;
     }
 
     // Déclaration des méthodes
+
+    public static List<Joueur> getJoueurs() {
+        // retourne la liste des joueurs selon nbJoueurs
+        return joueurs.subList(0, nbJoueurs);
+    }
 
     /**
      * Place les joueurs sur la carte et les cases de départ.
@@ -76,27 +82,19 @@ public class Partie {
             joueurs.get(i).placerJoueur(posDepart.get(i).get(0), posDepart.get(i).get(1));
         }
         // Place les joueurs sur les cases
-        for (int i = 0; i < nbJoueurs; i++) {
-            carte[joueurs.get(i).positionY][joueurs.get(i).positionX].setJoueur(joueurs.get(i));
+        for (Joueur joueur : getJoueurs()) {
+            carte[joueur.positionY][joueur.positionX].setJoueur(joueur);
         }
     }
 
     /**
      * Rejouer / Garde les joueurs et génère une nouvelle carte
      */
-    public static void rejouer() {
-        // Réinitialise les attributs des joueurs
-        for (int i = 0; i < nbJoueurs; i++) {
-            joueurs.get(i).initJoueur();
-        }
-        genererNouvelleCarte();
-        placerJoueursDepartCarte();
-    }
-
-    /**
-     * Lance une nouvelle partie.
-     */
     public static void lancerNouvellePartie() {
+        // Réinitialise les attributs des joueurs selon les paramètres de partie
+        for (Joueur joueur : getJoueurs()) {
+            joueur.initJoueur();
+        }
         genererNouvelleCarte();
         placerJoueursDepartCarte();
     }
