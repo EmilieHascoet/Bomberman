@@ -21,7 +21,7 @@ public class Partie {
     }
 
     public enum bonusEnum {
-        BOMBE, PORTEE, VIE
+        Bombe, Portee, Vie, Vitesse
     }
 
     /**
@@ -82,12 +82,20 @@ public class Partie {
      * Rejouer / Garde les joueurs et génère une nouvelle carte
      */
     public static void lancerNouvellePartie() {
+        System.out.println("Lancement d'une nouvelle partie");
+        System.out.println("Paramètres de la partie: " + paramPartie);
         // Réinitialise les attributs des joueurs selon les paramètres de partie
         for (Joueur joueur : getJoueurs()) {
             joueur.initJoueur();
         }
+        System.out.println("Liste des joueurs: " + getJoueurs());
         genererNouvelleCarte();
+        System.out.println("Carte générée");
+        afficherCarte();
         placerJoueursDepartCarte();
+        System.out.println("Joueurs placés sur la carte");
+        afficherCarte();
+        System.out.println("Liste des joueurs: " + getJoueurs());
     }
 
     private static List<List<Integer>> getPosDepart() {

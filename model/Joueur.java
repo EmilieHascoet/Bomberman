@@ -167,10 +167,6 @@ public class Joueur {
         return caseArrivee.estTraversable && caseArrivee.joueur == null;
     }
 
-    public void setAvatar(avatar avatar) {
-        this.avatar = avatar;
-    }
-
     // on fait un override de la méthode toString pour afficher tous les
     // informations current du joueur
     @Override

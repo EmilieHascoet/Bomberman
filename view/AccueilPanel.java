@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.net.URL;
 import java.util.*;
 import java.util.List;
@@ -42,13 +44,19 @@ public class AccueilPanel extends JPanel {
         setBackground(backgroundColor);
 
         // Création des panels
-        createTopPanel();
+        //createTopPanel();
         createCenterPanel();
+        // Jpanel West et East
+        for(int i = 0; i < 2; i++) {
+            JPanel panelBord = new JPanel();
+            panelBord.setLayout(new BoxLayout(panelBord, BoxLayout.Y_AXIS));
+            listePanelControles.add(panelBord);
+        }
         createPanelControles();
         createBottomPanel();
 
         // Ajout des panels au panel principal
-        add(topPanel, BorderLayout.NORTH);
+        //add(topPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
         add(listePanelControles.get(0), BorderLayout.WEST);
         add(listePanelControles.get(1), BorderLayout.EAST);
@@ -56,7 +64,7 @@ public class AccueilPanel extends JPanel {
 
         // Ajout de la couleur de fond pour tous les panels
         this.setBackground(backgroundColor);
-        topPanel.setBackground(backgroundColor);
+        //topPanel.setBackground(backgroundColor);
         centerPanel.setBackground(backgroundColor);
         listePanelControles.get(0).setBackground(backgroundColor);
         listePanelControles.get(1).setBackground(backgroundColor);
@@ -146,17 +154,40 @@ public class AccueilPanel extends JPanel {
      * @return the created JPanel
      */
     private void createCenterPanel() {
-        centerPanel  = new JPanel(new BorderLayout());
-        centerPanel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createEmptyBorder(50, 0, 50, 0),
-            BorderFactory.createLineBorder(Color.BLACK, 3)
-        ));
+        centerPanel = new JPanel();
+        centerPanel.setLayout(new BorderLayout());
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+
+        JPanel panelSlider = new JPanel();
+        panelSlider.setBackground(backgroundColor);
+        // Label pour le slider
+        JLabel labelSlider = new JLabel("Nombre de joueurs : ");
+        panelSlider.add(labelSlider);
+
+        // Créer un slider pour choisir le nombre de joueur dans la partie
+        JSlider slider = new JSlider(JSlider.HORIZONTAL, 2, 4, 2);
+        slider.setMajorTickSpacing(1);
+        slider.setPaintTicks(true);
+        slider.setPaintLabels(true);
+        slider.setSnapToTicks(true);
+        slider.setLabelTable(slider.createStandardLabels(1));
+        slider.addChangeListener(e -> {
+            Partie.nbJoueurs = slider.getValue();
+            listePanelControles.get(0).removeAll();
+            listePanelControles.get(1).removeAll();
+            createPanelControles();
+            add(listePanelControles.get(0), BorderLayout.WEST);
+            add(listePanelControles.get(1), BorderLayout.EAST);
+            revalidate();
+            repaint();
+        });
+        panelSlider.add(slider);
+        centerPanel.add(panelSlider, BorderLayout.NORTH);
 
         if (imageLabyUrl != null) {
             ImageIcon icon = new ImageIcon(imageLabyUrl);
             JButton button = new JButton(icon);
-            button.setHorizontalTextPosition(JButton.CENTER);
-            button.setVerticalTextPosition(JButton.CENTER);
+            button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
             centerPanel.add(button, BorderLayout.CENTER);
         } else {
             System.err.println("Image not found Labyrinthe");
@@ -181,19 +212,50 @@ public class AccueilPanel extends JPanel {
 
             // Crée un nouveau panel pour les controles du joueur
             JPanel panel = new JPanel();
-            panel.setLayout(new GridLayout(6,2, 50, 20));
-            panel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
-            listePanelControles.add(panel);
+            panel.setPreferredSize(new Dimension(500, 300));
+            panel.setBorder(BorderFactory.createEmptyBorder(10, 50, 50, 50));
+            panel.setLayout(new GridLayout(6,2, 40, 10));
+            panel.setBackground(backgroundColor);
             
             // Crée les labels pour les controles du joueur
             JLabel labelParametres = new JLabel("Contrôles de " + Partie.getJoueurs().get(i).nom);
-            // TODO : Ajouter l'icone du joueur
-            JLabel iconeJoueur = new JLabel("Icône de " + Partie.getJoueurs().get(i).nom);
+            
+            // Crée l'icone du joueur
+            String imagePath = "Images/Personnage/" + Partie.getJoueurs().get(i).avatar + ".png";
+            ImageIcon icon = new ImageIcon(imagePath);
+            JLabel iconeJoueur = new JLabel(icon);
+
+            iconeJoueur.addComponentListener(new ComponentAdapter() {
+                @Override
+                public void componentResized(ComponentEvent e) {
+                    ImageIcon originalIcon = (ImageIcon) iconeJoueur.getIcon();
+                    Image originalImage = originalIcon.getImage();
+            
+                    // Calculer le rapport d'aspect de l'image
+                    double aspectRatio = (double) originalImage.getWidth(null) / originalImage.getHeight(null);
+            
+                    // Calculer la nouvelle largeur et hauteur tout en conservant le rapport d'aspect
+                    int newHeight = iconeJoueur.getHeight();
+                    int newWidth = (int) (newHeight * aspectRatio);
+
+                    // Redimensionner l'image
+                    Image resizedImage = originalImage.getScaledInstance(newWidth, newHeight, java.awt.Image.SCALE_SMOOTH);
+                    ImageIcon resizedIcon = new ImageIcon(resizedImage);
+                    iconeJoueur.setIcon(resizedIcon);
+                }
+            });
+
+            // Redimensionne l'image
+            /*Image image = icon.getImage();
+            Image resizedImage = image.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+            icon = new ImageIcon(resizedImage);*/
+
+
             panel.add(labelParametres);
             panel.add(iconeJoueur);
 
             // Boucle sur les touches du joueur
-            for (int j = 0; j < 5; j++) {
+            for (int j = 0; j < listeNomsTouches.size(); j++) {
                 String nomTouche = listeNomsTouches.get(j);
                 String actionTouche = actions.get(j).get();
 
@@ -208,7 +270,15 @@ public class AccueilPanel extends JPanel {
                 AccueilControleur controleur = new AccueilControleur(i, actionTouche, nomTouche , boutonTouche);
                 boutonTouche.addActionListener(controleur);
             }
+
+            // Ajoute le panel à gauche si pair sinon à droite
+            if(i%2 == 0) {
+                listePanelControles.get(0).add(panel);
+            } else {
+                listePanelControles.get(1).add(panel);
+            }
         }
+
     }
 
     /**

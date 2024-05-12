@@ -34,22 +34,22 @@ public class Bonus extends Case {
      */
     public void estRamassee(Joueur joueur) {
         switch (effet) {
-            case VIE:
+            case Vie:
                 if (this.isMalus) { joueur.vie--; }
                 else { joueur.vie++; }
                 break;
-            case BOMBE:
+            case Bombe:
                 if (this.isMalus) { if(joueur.stockBombe>1) joueur.stockBombe--; }
                 else { joueur.stockBombe++; }
                 break;
-            case PORTEE:
+            case Portee:
                 if (this.isMalus) { if(joueur.porteeBombe>1) joueur.porteeBombe--; }
                 else { joueur.porteeBombe++; }
                 break;
-            /*case VITESSE:
+            case Vitesse:
                 if (this.isMalus) { joueur.vitesse--; }
                 else { joueur.vitesse++; }
-                break;*/
+                break;
             default:
                 break;
         }
