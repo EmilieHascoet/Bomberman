@@ -20,6 +20,7 @@ public class Joueur {
     public int positionX;
     public int positionY;
     public int vitesse;
+    private long lastActionTime = 0;
     public avatar avatar;
 
     // Déclarations des associations
@@ -62,10 +63,15 @@ public class Joueur {
         List<Case> casesModifiees = new ArrayList<Case>();
         String action = touche.determinerActionJoueur(keyString);
         if(action != null) {
-            if(action == "bombe") {
+            if(action.equals("bombe")) {
                 casesModifiees.add(poseBombe());
             } else {
-                casesModifiees = seDeplacer(action);
+                // Vérifie si le joueur a déjà joué une action dans le délai de sa vitesse
+                long currentTime = System.currentTimeMillis();
+                if (currentTime - lastActionTime > vitesse * 100) {
+                    lastActionTime = currentTime;
+                    casesModifiees = seDeplacer(action);
+                } else System.out.println("Trop rapide");
             }
         }
         return casesModifiees;
