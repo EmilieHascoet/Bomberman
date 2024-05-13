@@ -50,7 +50,7 @@ public class Stream {
         return partie;
     }
 
-    public static boolean sauvegardeExist() {
+    public static boolean sauvegardePartieExist() {
         File file = new File("sauvegarde.txt");
         return file.exists();
     }

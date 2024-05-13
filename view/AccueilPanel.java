@@ -165,6 +165,8 @@ public class AccueilPanel extends JPanel {
                 label.append("\n" + nom + " : " + score);
             }
         });
+
+        centerPanel.add(label, BorderLayout.NORTH);
     }
 
     private void createBottomPanel() {
@@ -183,7 +185,7 @@ public class AccueilPanel extends JPanel {
         reprendrePartieButton.addActionListener(reprendrePartieControleur);
         reprendrePartieButton.setPreferredSize(new Dimension(reprendrePartieButton.getPreferredSize().width, 40));
 
-        if(!Stream.sauvegardeExist()) {
+        if(!Stream.sauvegardePartieExist()) {
             reprendrePartieButton.setEnabled(false);
         }
 

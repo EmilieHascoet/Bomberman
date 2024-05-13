@@ -35,7 +35,7 @@ public class Bonus extends Case {
     public void estRamassee(Joueur joueur) {
         switch (effet) {
             case Vie:
-                if (this.isMalus) { joueur.vie--; }
+                if (this.isMalus) { joueur.perdreVie(); }
                 else { joueur.vie++; }
                 break;
             case Bombe:

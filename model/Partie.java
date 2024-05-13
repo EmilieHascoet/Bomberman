@@ -239,18 +239,25 @@ public class Partie implements Serializable {
         // Sauvegarde les scores si la partie est terminée
         boolean partieTerminee = nbJoueursEnVie <= 1;
         if(partieTerminee) {
-            System.out.println("Partie terminée");
-            System.out.println("Scores: ");
-            for (Joueur joueur : getJoueurs()) {
-                if(leaderBoard.containsKey(joueur.score)) {
-                    leaderBoard.get(joueur.score).add(joueur.nom);
-                } else {
-                    leaderBoard.put(joueur.score, new ArrayList<>(Arrays.asList(joueur.nom)));
-                }
-            }
-            Stream.sauvegarderScores(leaderBoard);
+            sauvegarderScores();
         }
         return partieTerminee;
+    }
+
+    /**
+     * Sauvegarde les scores des joueurs dans un fichier.
+     */
+    public void sauvegarderScores() {
+        System.out.println("Partie terminée");
+        System.out.println("Scores: ");
+        for (Joueur joueur : getJoueurs()) {
+            if(leaderBoard.containsKey(joueur.score)) {
+                leaderBoard.get(joueur.score).add(joueur.nom);
+            } else {
+                leaderBoard.put(joueur.score, new ArrayList<>(Arrays.asList(joueur.nom)));
+            }
+        }
+        Stream.sauvegarderScores(leaderBoard);
     }
 
     /* pour test */

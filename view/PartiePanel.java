@@ -246,6 +246,10 @@ public class PartiePanel extends JPanel {
 
     public void decrementerTemps() {
         compteur++;
+        if(partieEnCours.estTerminee()){
+            this.timer.stop();
+            
+        }
         updateInfosPanel();
         updatePlateauPanel();
         // Décrémentez le temps seulement lorsque le compteur atteint 10 (c'est-à-dire toutes les secondes)

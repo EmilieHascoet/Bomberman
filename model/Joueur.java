@@ -14,7 +14,7 @@ public class Joueur implements Serializable {
 
     // Déclarations des attributs
     public String nom;
-    public int vie;
+    private int vie;
     public int stockBombe;
     public int porteeBombe;
     public int score;
