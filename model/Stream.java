@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.List;
+import java.util.TreeMap;
 
 public class Stream {
     
@@ -53,4 +55,35 @@ public class Stream {
         return file.exists();
     }
 
+    public static TreeMap<Integer, List<String>> recupereScores() {
+        TreeMap<Integer, List<String>> scores = new TreeMap<>();
+        File file = new File("scores.txt");
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            scores = (TreeMap<Integer, List<String>>) ois.readObject();
+            ois.close();
+            fis.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return scores;
+    }
+
+    public static void sauvegarderScores(TreeMap<Integer, List<String>> Newscores) {
+        // Récupérer les scores déjà existants
+        TreeMap<Integer, List<String>> allScore = recupereScores();
+        // Ajouter les nouveaux scores
+        allScore.putAll(Newscores);
+        File file = new File("scores.txt");
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(allScore);
+            oos.close();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

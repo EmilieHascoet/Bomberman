@@ -16,6 +16,7 @@ public class Partie implements Serializable {
     // utiliser la méthode getJoueurs pour avoir la liste des joueurs actifs
     private List<Joueur> joueurs;
     public Parametres paramPartie;
+    public TreeMap<Integer, List<String>> scores;
 
     // Déclarations des attributs
     public Case[][] carte;
@@ -117,7 +118,9 @@ public class Partie implements Serializable {
         }
 
         // Nombre de joueurs par défaut
-        nbJoueurs = 2;
+        nbJoueurs = 2; 
+
+        scores = new TreeMap<>();
     }
 
     // Déclaration des méthodes
@@ -224,41 +227,6 @@ public class Partie implements Serializable {
             if (casesModifieesJoueur != null) casesModifiees.addAll(casesModifieesJoueur);
         }
         return casesModifiees;
-    }
-
-    /**
-     * Sauvegarde la partie dans un fichier
-     */
-    public void sauvegarderPartie() {
-        // Sauvegarde la partie dans un fichier
-        System.out.println("Sauvegarde de la partie");
-        try {
-            FileOutputStream fos = new FileOutputStream("tmp");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(this.toString());
-            oos.close();
-            fos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Charge une partie depuis un fichier
-     */
-    public static void chargerPartie() {
-        // Charge la partie depuis un fichier
-        System.out.println("Chargement de la partie");
-        try {
-            FileInputStream fis = new FileInputStream("tmp");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            String aujourdHui = (String)ois.readObject();
-            Date date = (Date)ois.readObject();
-            ois.close();
-            fis.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /* pour test */
