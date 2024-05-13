@@ -2,17 +2,12 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Insets;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -130,7 +125,6 @@ public class AccueilPanel extends JPanel {
 
                 // Création d'un label avec image pour le nom de l'élément
                 ImageIcon image = new ImageIcon("Images/" + type + "/" + element.toString() + ".png");
-                System.out.println("Images/" + type + "/" + element.toString() + ".png");
 
                 // redimensionner l'image
                 Image img = image.getImage();
@@ -165,13 +159,12 @@ public class AccueilPanel extends JPanel {
         centerPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // Affichage d'un leader board
-        JTextArea labelLeaderBoard = new JTextArea("Leaderboard");
-        labelLeaderBoard.setFont(new Font("Arial", Font.BOLD, 20));
-        labelLeaderBoard.setLineWrap(true);
-        labelLeaderBoard.setWrapStyleWord(true);
-        labelLeaderBoard.setEditable(false);
-        labelLeaderBoard.setBackground(backgroundColor);
-        centerPanel.add(labelLeaderBoard, BorderLayout.NORTH);
+        JTextArea label = new JTextArea("Meilleurs scores :");
+        Stream.recupereScores().forEach((score, noms) -> {
+            for(String nom : noms) {
+                label.append("\n" + nom + " : " + score);
+            }
+        });
     }
 
     private void createBottomPanel() {

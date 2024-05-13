@@ -1,9 +1,4 @@
 package model;
-
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.*;
 
@@ -16,7 +11,7 @@ public class Partie implements Serializable {
     // utiliser la méthode getJoueurs pour avoir la liste des joueurs actifs
     private List<Joueur> joueurs;
     public Parametres paramPartie;
-    public TreeMap<Integer, List<String>> scores;
+    public TreeMap<Integer, List<String>> leaderBoard;
 
     // Déclarations des attributs
     public Case[][] carte;
@@ -120,7 +115,7 @@ public class Partie implements Serializable {
         // Nombre de joueurs par défaut
         nbJoueurs = 2; 
 
-        scores = new TreeMap<>();
+        leaderBoard = new TreeMap<>();
     }
 
     // Déclaration des méthodes
@@ -227,6 +222,35 @@ public class Partie implements Serializable {
             if (casesModifieesJoueur != null) casesModifiees.addAll(casesModifieesJoueur);
         }
         return casesModifiees;
+    }
+
+    /**
+     * Vérifie si la partie est terminée.
+     *
+     * @return true si la partie est terminée, false sinon.
+     */
+    public boolean estTerminee() {
+        // La partie est terminée si il reste un seul joueur en vie
+        int nbJoueursEnVie = 0;
+        for (Joueur joueur : getJoueurs()) {
+            if (joueur.isAlive) nbJoueursEnVie++;
+        }
+        
+        // Sauvegarde les scores si la partie est terminée
+        boolean partieTerminee = nbJoueursEnVie <= 1;
+        if(partieTerminee) {
+            System.out.println("Partie terminée");
+            System.out.println("Scores: ");
+            for (Joueur joueur : getJoueurs()) {
+                if(leaderBoard.containsKey(joueur.score)) {
+                    leaderBoard.get(joueur.score).add(joueur.nom);
+                } else {
+                    leaderBoard.put(joueur.score, new ArrayList<>(Arrays.asList(joueur.nom)));
+                }
+            }
+            Stream.sauvegarderScores(leaderBoard);
+        }
+        return partieTerminee;
     }
 
     /* pour test */

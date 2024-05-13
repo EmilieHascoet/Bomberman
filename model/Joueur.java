@@ -23,6 +23,7 @@ public class Joueur implements Serializable {
     public int vitesse;
     private long lastActionTime = 0;
     public avatar avatar;
+    public boolean isAlive = true;
 
     // Déclarations des associations
     public Touche touche;
@@ -199,13 +200,18 @@ public class Joueur implements Serializable {
         this.score += valeur;
     }
 
-    /**
-     * Diminue la vie du joueur de 1.
+    /*
+     * Le joueur perd une vie. 
+     * Si le joueur n'a plus de vie, il est marqué comme mort.
      */
-
     public void perdreVie() {
         if (this.vie > 0) {
             this.vie--;
+            if (this.vie == 0) {
+                this.isAlive = false;
+                // Supprime le joueur de la carte
+                partie.carte[this.positionY][this.positionX].joueur = null;
+            }
         }
     }
 
