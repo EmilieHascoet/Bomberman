@@ -26,7 +26,67 @@ public class Partie implements Serializable {
     }
 
     public enum bonusEnum {
-        Bombe, Portee, Vie, Vitesse
+        Bombe, Portee, Vie, Vitesse;
+
+        public String getDescription() {
+            switch (this) {
+                case Bombe:
+                    return "Ajoute ou retire une bombe au stock de bombe du joueur";
+                case Portee:
+                    return "Ajoute ou retire un de portée à la bombe du joueur";
+                case Vie:
+                    return "Ajoute ou retire une vie au joueur";
+                case Vitesse:
+                    return "Augmente ou diminie la vitesse du joueur";
+                default:
+                    return "Bonus";
+            }
+        }
+
+        public String getImage() {
+            switch (this) {
+                case Bombe:
+                    return "Images/Bonus/Bombe.png";
+                case Portee:
+                    return "Images/Bonus/Portee.png";
+                case Vie:
+                    return "Images/Bonus/Vie.png";
+                case Vitesse:
+                    return "Images/Bonus/Vitesse.png";
+                default:
+                    return null;
+            }
+        }
+    }
+
+    public enum typeCaseEnum {
+        BlocDestructible, BlocIndestructible, CaseVide, Bombe, Bonus;
+
+        public String getDescription() {
+            switch (this) {
+                case BlocDestructible:
+                    return "Haie à fleurs : destructible";
+                case BlocIndestructible:
+                    return "Haie sans fleurs : indestructible";
+                case Bombe:
+                    return "Fleur explosive : indestructible";
+                default:
+                    return null;
+            }
+        }
+
+        public String getImage() {
+            switch (this) {
+                case BlocDestructible:
+                    return "Images/Blocs/BlocDestructible.png";
+                case BlocIndestructible:
+                    return "Images/Blocs/BlocIndestructible.png";
+                case Bombe:
+                    return "Images/Blocs/Bombe.png";
+                default:
+                    return null;
+            }
+        }
     }
 
     /**
