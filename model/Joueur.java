@@ -68,7 +68,7 @@ public class Joueur {
             } else {
                 // Vérifie si le joueur a déjà joué une action dans le délai de sa vitesse
                 long currentTime = System.currentTimeMillis();
-                if (currentTime - lastActionTime > vitesse * 100) {
+                if (currentTime - lastActionTime > vitesse * 50) {
                     lastActionTime = currentTime;
                     casesModifiees = seDeplacer(action);
                 }

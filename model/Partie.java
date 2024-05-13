@@ -31,7 +31,7 @@ public class Partie {
     public Partie() {
         // Créer les paramètres par défaut
         Set<bonusEnum> setBonus = new HashSet<>(Arrays.asList(Partie.bonusEnum.values()));
-        Partie.paramPartie = new Parametres(setBonus, 3, 1, 1, 2, 20, 15);
+        Partie.paramPartie = new Parametres(setBonus, 3, 3, 1, 2, 20, 15);
 
         // Créer les touches par défaut
         List<Touche> touchesDefaut = new ArrayList<>();
