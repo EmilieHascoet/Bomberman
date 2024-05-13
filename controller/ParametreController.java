@@ -49,6 +49,7 @@ public class ParametreController implements ActionListener {
     }
 
     public void boutonValider() {
+        //File folder = new File("Images/Personnage");
         File folder = new File((getClass().getResource("/Images/Personnage").getPath()));
         File[] listOfFiles = folder.listFiles();
         // Récupérer le nom du fichier sans l'extension

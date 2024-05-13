@@ -224,7 +224,7 @@ public class ParametresPanel extends JPanel {
         imagePanel.setName(list[0]);
         imagePanel.setLayout(new FlowLayout());
         // Paths to your image files
-
+        //File folder = new File("Images/Personnage");
         File folder = new File((getClass().getResource("/Images/Personnage").getPath()));
         File[] listOfFiles = folder.listFiles();
 

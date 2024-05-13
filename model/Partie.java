@@ -31,7 +31,7 @@ public class Partie {
     public Partie() {
         // Créer les paramètres par défaut
         Set<bonusEnum> setBonus = new HashSet<>(Arrays.asList(Partie.bonusEnum.values()));
-        Partie.paramPartie = new Parametres(setBonus, 3, 3, 1, 2, 20, 15);
+        Partie.paramPartie = new Parametres(setBonus, 3, 3, 1, 2, 21, 15);
 
         // Créer les touches par défaut
         List<Touche> touchesDefaut = new ArrayList<>();
@@ -121,10 +121,13 @@ public class Partie {
                 if (i == 0 || j == 0 || i == n - 1 || j == m - 1) {
                     carte[i][j] = new Case(false, j, i, "BlocIndestructible", false);
                 }
-                // Les 2 coins opposés sont vides pour laisser la place aux joueurs
-                else if ((i == 1 && j == 1) || (i == 1 && j == 2) || (i == 2 && j == 1) || (i == n - 2 && j == m - 2)
-                        || (i == n - 2 && j == m - 3) || (i == n - 3 && j == m - 2)) {
-                    carte[i][j] = new Case(true, j, i, "CaseVide", false);
+                // Les 4 coins opposés sont vides pour laisser la place aux joueurs
+                else if ((i == 1 && (j == 1 || j == 2 || j == m-3 || j == m-2)) || (i == n-2 && (j == 1 || j == 2 || j == m-3 || j == m-2))
+                        || (i == 2 && (j == 1 || j == m-2)) || (i == n-3 && (j == 1 || j == m-2))) {
+                    Case caseVide = new Case(true, j, i, "CaseVide", false);
+                    caseVide.isFire = true;
+                    carte[i][j] = caseVide;
+
                 }
                 // Les blocs indesctructibles sont placés sur les cases pairs
                 else if (i == 0 || j == 0 || i == n - 1 || j == m - 1 || (i % 2 == 0 && j % 2 == 0)) {
