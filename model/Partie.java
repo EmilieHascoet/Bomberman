@@ -1,20 +1,25 @@
 package model;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * 
  */
-public class Partie {
+public class Partie implements Serializable{
 
     // Déclarations des associations
     // utiliser la méthode getJoueurs pour avoir la liste des joueurs actifs
-    private static List<Joueur> joueurs;
-    public static Parametres paramPartie;
+    private List<Joueur> joueurs;
+    public Parametres paramPartie;
 
     // Déclarations des attributs
-    public static Case[][] carte;
-    public static int nbJoueurs;
+    public Case[][] carte;
+    public int nbJoueurs;
 
     public enum avatar {
         J1, J2, J3, J4
@@ -31,7 +36,7 @@ public class Partie {
     public Partie() {
         // Créer les paramètres par défaut
         Set<bonusEnum> setBonus = new HashSet<>(Arrays.asList(Partie.bonusEnum.values()));
-        Partie.paramPartie = new Parametres(setBonus, 3, 1, 1, 2, 20, 15);
+        this.paramPartie = new Parametres(setBonus, 3, 1, 1, 2, 20, 15);
 
         // Créer les touches par défaut
         List<Touche> touchesDefaut = new ArrayList<>();
@@ -41,14 +46,14 @@ public class Partie {
         touchesDefaut.add(new Touche("8", "5", "6", "4", "0"));
 
         // Créer 4 joueurs
-        Partie.joueurs = new ArrayList<>();
+        this.joueurs = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            Partie.joueurs.add(new Joueur("Joueur " + (i + 1), avatar.values()[i]));
+            this.joueurs.add(new Joueur("Joueur " + (i + 1), avatar.values()[i]));
         }
 
         // Associe les touches par défaut aux joueurs
         for (int i = 0; i < 4; i++) {
-            Partie.joueurs.get(i).touche = (touchesDefaut.get(i));
+            this.joueurs.get(i).touche = (touchesDefaut.get(i));
         }
 
         // Nombre de joueurs par défaut
@@ -57,7 +62,7 @@ public class Partie {
 
     // Déclaration des méthodes
 
-    public static List<Joueur> getJoueurs() {
+    public List<Joueur> getJoueurs() {
         // retourne la liste des joueurs selon nbJoueurs
         return joueurs.subList(0, nbJoueurs);
     }
@@ -65,7 +70,7 @@ public class Partie {
     /**
      * Place les joueurs sur la carte et les cases de départ.
      */
-    private static void placerJoueursDepartCarte() {
+    private void placerJoueursDepartCarte() {
         List<List<Integer>> posDepart = getPosDepart();
 
         // Place les joueurs sur la carte
@@ -81,7 +86,7 @@ public class Partie {
     /**
      * Rejouer / Garde les joueurs et génère une nouvelle carte
      */
-    public static void lancerNouvellePartie() {
+    public void lancerNouvellePartie() {
         System.out.println("Lancement d'une nouvelle partie");
         System.out.println("Paramètres de la partie: " + paramPartie);
         // Réinitialise les attributs des joueurs selon les paramètres de partie
@@ -92,7 +97,7 @@ public class Partie {
         placerJoueursDepartCarte();
     }
 
-    private static List<List<Integer>> getPosDepart() {
+    private List<List<Integer>> getPosDepart() {
         // Position de départ des joueurs sur la carte
         int largeur = paramPartie.getBoardWidth();
         int hauteur = paramPartie.getBoardHeight();
@@ -110,7 +115,7 @@ public class Partie {
     /**
      * Génère une nouvelle carte avec la taille
      */
-    private static void genererNouvelleCarte() {
+    private void genererNouvelleCarte() {
         // Genere la carte avec la hauteur et longueur entree en parametres
         int m = paramPartie.getBoardWidth() + 2;
         int n = paramPartie.getBoardHeight() + 2;
@@ -146,17 +151,52 @@ public class Partie {
      * @param KeyString La touche à jouer.
      * @return La liste des cases modifiées par le joueur.
      */
-    public static List<Case> jouerTouche(String KeyString) {
+    public List<Case> jouerTouche(String KeyString) {
         List<Case> casesModifiees = new ArrayList<Case>();
-        for (Joueur joueur : joueurs) {
+        for (Joueur joueur : getJoueurs()) {
             List<Case> casesModifieesJoueur = joueur.jouer(KeyString);
             if (casesModifieesJoueur != null) casesModifiees.addAll(casesModifieesJoueur);
         }
         return casesModifiees;
     }
 
+    /**
+     * Sauvegarde la partie dans un fichier
+     */
+    public void sauvegarderPartie() {
+        // Sauvegarde la partie dans un fichier
+        System.out.println("Sauvegarde de la partie");
+        try {
+            FileOutputStream fos = new FileOutputStream("tmp");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(this.toString());
+            oos.close();
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Charge une partie depuis un fichier
+     */
+    public static void chargerPartie() {
+        // Charge la partie depuis un fichier
+        System.out.println("Chargement de la partie");
+        try {
+            FileInputStream fis = new FileInputStream("tmp");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            String aujourdHui = (String)ois.readObject();
+            Date date = (Date)ois.readObject();
+            ois.close();
+            fis.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /* pour test */
-    public static void afficherCarte() {
+    public void afficherCarte() {
         System.out.print("   ");
         for (int i = 0; i < carte.length; i++)
             System.out.print(i + "\t");
