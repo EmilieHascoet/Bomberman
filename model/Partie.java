@@ -124,9 +124,7 @@ public class Partie {
                 // Les 4 coins opposés sont vides pour laisser la place aux joueurs
                 else if ((i == 1 && (j == 1 || j == 2 || j == m-3 || j == m-2)) || (i == n-2 && (j == 1 || j == 2 || j == m-3 || j == m-2))
                         || (i == 2 && (j == 1 || j == m-2)) || (i == n-3 && (j == 1 || j == m-2))) {
-                    Case caseVide = new Case(true, j, i, "CaseVide", false);
-                    caseVide.isFire = true;
-                    carte[i][j] = caseVide;
+                    carte[i][j] = new Case(true, j, i, "CaseVide", false);;
 
                 }
                 // Les blocs indesctructibles sont placés sur les cases pairs
