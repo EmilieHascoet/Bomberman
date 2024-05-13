@@ -3,8 +3,6 @@ package view;
 import controller.ParametreController;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import javax.swing.JPanel;
-import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -14,6 +12,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ItemEvent;
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,16 +20,17 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import model.Partie;
-import java.util.Arrays;
 
 public class ParametresPanel extends JPanel {
     private final MainFrame frame;
@@ -222,7 +222,7 @@ public class ParametresPanel extends JPanel {
         imagePanel.setLayout(new FlowLayout());
         // Paths to your image files
 
-        File folder = new File("Images/Personnage");
+        File folder = new File((getClass().getResource("/Images/Personnage").getPath()));
         File[] listOfFiles = folder.listFiles();
 
         List<JToggleButton> toggleButtons = new java.util.ArrayList<>();
