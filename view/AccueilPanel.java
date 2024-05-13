@@ -23,6 +23,7 @@ import javax.swing.UIManager;
 
 import controller.AccueilControleur;
 import model.Partie;
+import model.Stream;
 
 public class AccueilPanel extends JPanel {
     private MainFrame mainFrame;
@@ -120,31 +121,38 @@ public class AccueilPanel extends JPanel {
 
         // Affiche chaque élément du model présent dans le jeu + description
         for (Enum<?> element : type.equals("Bonus") ? Partie.bonusEnum.values() : Partie.typeCaseEnum.values()) {
-            // Création d'un panel pour chaque élément
-            JPanel subPanel = new JPanel();
-            subPanel.setLayout(new BoxLayout(subPanel, BoxLayout.X_AXIS));
-            subPanel.setBackground(backgroundColor);
+            String description = element instanceof Partie.bonusEnum ? ((Partie.bonusEnum) element).getDescription() : ((Partie.typeCaseEnum) element).getDescription();
+            if(description != null) {
+                // Création d'un panel pour chaque élément
+                JPanel subPanel = new JPanel();
+                subPanel.setLayout(new BoxLayout(subPanel, BoxLayout.X_AXIS));
+                subPanel.setBackground(backgroundColor);
 
-            // Création d'un label avec image pour le nom de l'élément
-            ImageIcon image = new ImageIcon("Images/" + type + "/" + element.toString() + ".png");
-            System.out.println("Images/" + type + "/" + element.toString() + ".png");
+                // Création d'un label avec image pour le nom de l'élément
+                ImageIcon image = new ImageIcon("Images/" + type + "/" + element.toString() + ".png");
+                System.out.println("Images/" + type + "/" + element.toString() + ".png");
 
-            // redimensionner l'image
-            Image img = image.getImage();
-            Image newimg = img.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH);
-            image = new ImageIcon(newimg);
+                // redimensionner l'image
+                Image img = image.getImage();
+                Image newimg = img.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH);
+                image = new ImageIcon(newimg);
 
-            JLabel labelImage = new JLabel(image);
-            subPanel.add(labelImage);
+                JLabel labelImage = new JLabel(image);
+                // Espace entre l'image et le texte
+                labelImage.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
+                subPanel.add(labelImage);
 
-            // Création du label pour la description de l'élément
-            JTextArea textArea = new JTextArea(element instanceof Partie.bonusEnum ? ((Partie.bonusEnum) element).getDescription() : ((Partie.typeCaseEnum) element).getDescription());
-            textArea.setLineWrap(true);
-            textArea.setWrapStyleWord(true);
-            textArea.setEditable(false);
-            textArea.setBackground(backgroundColor);
-            subPanel.add(textArea);
-            panel.add(subPanel);
+                // Création du label pour la description de l'élément
+                JTextArea textArea = new JTextArea(description);
+                textArea.setLineWrap(true);
+                textArea.setWrapStyleWord(true);
+                textArea.setEditable(false);
+                textArea.setBackground(backgroundColor);
+
+                textArea.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
+                subPanel.add(textArea);
+                panel.add(subPanel);
+            }
         }
 
         return panel;
@@ -176,11 +184,15 @@ public class AccueilPanel extends JPanel {
         nouvellePartieButton.addActionListener(nouvellePartieController);
         nouvellePartieButton.setPreferredSize(new Dimension(nouvellePartieButton.getPreferredSize().width, 40));
 
-        // Création du bouton pour accéder aux options
+        // Création du bouton pour reprendre une partie
         JButton reprendrePartieButton = new JButton("Reprendre la partie");
         AccueilControleur reprendrePartieControleur = new AccueilControleur(reprendrePartieButton, mainFrame);
         reprendrePartieButton.addActionListener(reprendrePartieControleur);
         reprendrePartieButton.setPreferredSize(new Dimension(reprendrePartieButton.getPreferredSize().width, 40));
+
+        if(!Stream.sauvegardeExist()) {
+            reprendrePartieButton.setEnabled(false);
+        }
 
         // Ajout des boutons au panel
         bottomPanel.add(nouvellePartieButton);

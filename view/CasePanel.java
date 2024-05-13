@@ -32,7 +32,7 @@ public class CasePanel extends JPanel {
         if(caseModel.joueur != null) {
                 this.path = "Images/Personnage/" + caseModel.joueur.avatar + ".png";
         } else if(typeImage != "Bonus") {
-                this.path = "Images/" + typeImage + ".png";
+                this.path = "Images/Bloc/" + typeImage + ".png";
         } else {
             this.path = "Images/bonus/" + ((Bonus)this.caseModel).effet + ".png";
         }

@@ -20,6 +20,7 @@ public class Stream {
             // Écrire la partie dans le fichier
             oos.writeObject(partie);
             oos.close();
+            fos.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -38,10 +39,18 @@ public class Stream {
             // Lire la partie à partir du fichier
             partie = (Partie) ois.readObject();
             ois.close();
+            fis.close();
+            // Supprimer le fichier de sauvegarde une fois la partie récupérée
+            file.delete();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return partie;
+    }
+
+    public static boolean sauvegardeExist() {
+        File file = new File("sauvegarde.txt");
+        return file.exists();
     }
 
 }
