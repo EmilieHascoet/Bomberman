@@ -1,71 +1,49 @@
 package controller;
 
-import java.awt.event.*;
-import java.util.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
-import javax.swing.JPanel;
 
 import model.Partie;
-import view.ChangerToucheJDialog;
+import model.Stream;
+import view.ChoixTouchePanel;
 import view.MainFrame;
-import view.ParametresPanel;
 import view.PartiePanel;
 
 public class AccueilControleur implements ActionListener {
-    int joueur;
-    String ancienneTouche, actionTouche, typeAction;
-    JButton boutonChooseTouche;
-    MainFrame mainFrame;
-    List<JPanel> touchesJoueursPanels;
+    private MainFrame mainFrame;
+    private String typeAction;
     
-    // Constructeur pour le changement de touche
-    public AccueilControleur(int joueur, String ancienneTouche, String actionTouche, JButton boutonChooseTouche) {
-        this.joueur = joueur;
-        this.ancienneTouche = ancienneTouche;
-        this.actionTouche = actionTouche;
-        this.boutonChooseTouche = boutonChooseTouche;
-        this.typeAction = "boutonTouchePressed";
-    }
-
-    // Constructeur pour les boutons Play et Options
-    public AccueilControleur(String typeAction, MainFrame mainFrame, List<JPanel> touchesJoueursPanels) {
-        this.typeAction = typeAction;
+    public AccueilControleur(JButton button, MainFrame mainFrame) {
         this.mainFrame = mainFrame;
-        this.touchesJoueursPanels = touchesJoueursPanels;
+        this.typeAction = button.getText();
     }
 
     // Méthode pour gérer les actions des boutons
+    @Override
     public void actionPerformed(ActionEvent e) {
-        if(typeAction == "boutonTouchePressed") {
-            boutonTouche();
-        } else if(typeAction == "boutonPlayPressed") {
-            boutonPlay();
-        } else if(typeAction == "boutonOptionsPressed") {
-            boutonOptions();
+        if(typeAction.equals("Nouvelle Partie")) {
+            lancerNouvellePartie();
+        } else {
+            reprendrePartie();
         }
     }
 
-    /**
-     *  Ouvre une fenêtre pour changer la touche du joueur
-     */
-    public void boutonTouche() {
-        new ChangerToucheJDialog(joueur, ancienneTouche, actionTouche, boutonChooseTouche);
+    private void lancerNouvellePartie() {
+        // Lancer une nouvelle partie
+        Partie partie = new Partie();
+        partie.lancerNouvellePartie();
+        ChoixTouchePanel choixTouchePanel = new ChoixTouchePanel(mainFrame, partie);
+        mainFrame.changePanel(choixTouchePanel);
     }
 
-    /**
-     *  Lance une nouvelle partie dans le model et affiche l'écran de jeu
-     */
-    public void boutonPlay() {
-        Partie.lancerNouvellePartie();
-        PartiePanel partiePanel = new PartiePanel(mainFrame);
+    private void reprendrePartie() {
+        // Lire un fichier de sauvegarde
+        Partie partie = Stream.lirePartie() ;
+        // Reprendre la partie en cours
+        PartiePanel partiePanel = new PartiePanel(mainFrame, partie);
         mainFrame.changePanel(partiePanel);
         partiePanel.requestFocusInWindow();
-    }
-
-    /**
-     *  Affiche l'écran pour choisir les paramètres de la partie
-     */
-    public void boutonOptions() {
-        mainFrame.changePanel(new ParametresPanel(this.mainFrame));
     }
 }

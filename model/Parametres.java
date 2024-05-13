@@ -1,10 +1,11 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import model.Partie.bonusEnum;
 
-public class Parametres {
+public class Parametres implements Serializable {
     // Déclarations des attributs
     private Set<bonusEnum> listBonus;
     private int nbVie;

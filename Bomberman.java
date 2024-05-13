@@ -18,8 +18,6 @@ public class Bomberman {
                 // Chargez toutes les images au démarrage de l'application
 
                 // Crée une nouvelle instance de MainFrame
-                new Partie();
-
                 MainFrame frame = new MainFrame();
                 frame.setVisible(true);
             }

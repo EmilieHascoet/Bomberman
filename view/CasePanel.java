@@ -12,9 +12,6 @@ import model.Partie;
 public class CasePanel extends JPanel {
     public Case caseModel;
     private String path;
-    int width = Partie.paramPartie.getBoardWidth()+2;
-    int height = Partie.paramPartie.getBoardHeight()+2;
-    int size;
     Image imageCase;
     String typeImage;
 

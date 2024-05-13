@@ -3,7 +3,7 @@ package view;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import controller.AccueilControleur;
+import controller.ChoixToucheControleur;
 import model.Partie;
 import model.Touche;
 
@@ -15,7 +15,7 @@ public class ChangerToucheJDialog extends JDialog {
     private JTextField textField;
     Color backgrounfColor = new Color(231, 195, 239);
 
-    public ChangerToucheJDialog(int joueur, String ancienneTouche, String actionTouche, JButton boutonChooseTouche) {
+    public ChangerToucheJDialog(int joueur, String ancienneTouche, String actionTouche, JButton boutonChooseTouche, Partie partieEnCours) {
         // Create a panel to add padding
         JPanel contentPanel = new JPanel(new BorderLayout());
         contentPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -54,8 +54,8 @@ public class ChangerToucheJDialog extends JDialog {
                     System.out.println(chosenKey);
                     // Controle que la touche choisie n'est pas déjà utilisée par un autre joueur
                     boolean toucheDejaUtilisee = false;
-                    for (int i = 0; i < Partie.nbJoueurs; i++) {
-                        Touche touche = Partie.getJoueurs().get(i).touche;
+                    for (int i = 0; i < partieEnCours.nbJoueurs; i++) {
+                        Touche touche = partieEnCours.getJoueurs().get(i).touche;
                         if (touche.getHaut().equals(chosenKey) || touche.getBas().equals(chosenKey) || touche.getDroite().equals(chosenKey) || touche.getGauche().equals(chosenKey) || touche.getBombe().equals(chosenKey)) {
                             toucheDejaUtilisee = true;
                             break;
@@ -74,25 +74,25 @@ public class ChangerToucheJDialog extends JDialog {
                         }
 
                         // Ajout du nouveau controller
-                        AccueilControleur ctr = new AccueilControleur(joueur, chosenKey, actionTouche, boutonChooseTouche);
+                        ChoixToucheControleur ctr = new ChoixToucheControleur(joueur, chosenKey, actionTouche, boutonChooseTouche, partieEnCours);
                         boutonChooseTouche.addActionListener(ctr);
 
                         // Mettre à jour le modèle Touche du Joueur
                         switch (actionTouche) {
                             case "Aller en haut":
-                                Partie.getJoueurs().get(joueur).touche.setHaut(chosenKey);
+                                partieEnCours.getJoueurs().get(joueur).touche.setHaut(chosenKey);
                                 break;
                             case "Aller en bas":
-                                Partie.getJoueurs().get(joueur).touche.setBas(chosenKey);
+                                partieEnCours.getJoueurs().get(joueur).touche.setBas(chosenKey);
                                 break;
                             case "Aller à droite":
-                                Partie.getJoueurs().get(joueur).touche.setDroite(chosenKey);
+                                partieEnCours.getJoueurs().get(joueur).touche.setDroite(chosenKey);
                                 break;
                             case "Aller à gauche":
-                                Partie.getJoueurs().get(joueur).touche.setGauche(chosenKey);
+                                partieEnCours.getJoueurs().get(joueur).touche.setGauche(chosenKey);
                                 break;
                             case "Placer une fleur":
-                                Partie.getJoueurs().get(joueur).touche.setBombe(chosenKey);
+                                partieEnCours.getJoueurs().get(joueur).touche.setBombe(chosenKey);
                                 break;
                         }
                         dispose(); // Ferme la fenetre (JDialog)

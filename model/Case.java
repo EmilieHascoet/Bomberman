@@ -1,15 +1,20 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * 
  */
-public class Case {
+public class Case implements Serializable {
 
     // Déclarations des attributs
     public Boolean estTraversable;
     public Integer positionX;
     public Integer positionY;
     public Boolean isFire;
+
+    // Déclarations des relations
+    public Partie partie;
 
     // TODO type enum
     /*public enum TypeCase {
@@ -29,7 +34,7 @@ public class Case {
      * Default constructor
      */
     public Case(Boolean estTraversable, Integer positionX, Integer positionY, String typeImage,
-            boolean estDestructible) {
+            boolean estDestructible, Partie partie) {
         this.estTraversable = estTraversable;
         this.positionX = positionX;
         this.positionY = positionY;
@@ -42,6 +47,7 @@ public class Case {
         } else if (typeImage.equals("Bonus")) {
             this.Points = (int) (Math.random() * 50);
         }
+        this.partie = partie;
     }
 
     // Déclarations des méthodes

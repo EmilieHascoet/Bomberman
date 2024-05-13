@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Arrays;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import model.Partie.avatar;;
 /**
  * 
  */
-public class Joueur {
+public class Joueur implements Serializable {
 
     // Déclarations des attributs
     public String nom;
@@ -25,21 +26,23 @@ public class Joueur {
 
     // Déclarations des associations
     public Touche touche;
+    public Partie partie;
 
     /**
      * Default constructor
      */
-    public Joueur(String nom, avatar avatar) {
+    public Joueur(String nom, avatar avatar, Partie partie) {
         this.nom = nom;
-        initJoueur();
         this.avatar = avatar;
+        this.partie = partie;
+        initJoueur();
     }
 
     public void initJoueur() {
-        this.vie = Partie.paramPartie.getNbVie();
-        this.stockBombe = Partie.paramPartie.getNbBombeInit();
-        this.porteeBombe = Partie.paramPartie.getPorteeBombe();
-        this.vitesse = Partie.paramPartie.getVitesse();
+        this.vie = partie.paramPartie.getNbVie();
+        this.stockBombe = partie.paramPartie.getNbBombeInit();
+        this.porteeBombe = partie.paramPartie.getPorteeBombe();
+        this.vitesse = partie.paramPartie.getVitesse();
         this.score = 0;
     }
 
@@ -84,10 +87,10 @@ public class Joueur {
         // Vérifie s'il reste des bombes en stock.
         if (stockBombe > 0) {
             // Crée une nouvelle bombe à la position actuelle du joueur.
-            Bombe newBombe = new Bombe(this.positionX, this.positionY, 3, porteeBombe, this);
+            Bombe newBombe = new Bombe(this.positionX, this.positionY, 3, porteeBombe, this, partie);
 
             // Place la bombe sur la carte à la position actuelle du joueur.
-            Partie.carte[this.positionY][this.positionX] = newBombe;
+            partie.carte[this.positionY][this.positionX] = newBombe;
 
             // Cast la nouvelle bombe en type Case et l'associe au joueur.
             Case caseBombe = (Case) newBombe;
@@ -111,22 +114,22 @@ public class Joueur {
      */
     public List<Case> seDeplacer(String direction) {
         // Récupère la case de départ du joueur
-        Case caseDepart = (Case) Partie.carte[this.positionY][this.positionX];
+        Case caseDepart = (Case) partie.carte[this.positionY][this.positionX];
         Case caseArrivee;
 
         // Selon la direction choisie, détermine la case d'arrivée
         switch (direction) {
             case "haut":
-                caseArrivee = (Case) Partie.carte[this.positionY - 1][this.positionX];
+                caseArrivee = (Case) partie.carte[this.positionY - 1][this.positionX];
                 break;
             case "bas":
-                caseArrivee = (Case) Partie.carte[this.positionY + 1][this.positionX];
+                caseArrivee = (Case) partie.carte[this.positionY + 1][this.positionX];
                 break;
             case "gauche":
-                caseArrivee = (Case) Partie.carte[this.positionY][this.positionX - 1];
+                caseArrivee = (Case) partie.carte[this.positionY][this.positionX - 1];
                 break;
             case "droite":
-                caseArrivee = (Case) Partie.carte[this.positionY][this.positionX + 1];
+                caseArrivee = (Case) partie.carte[this.positionY][this.positionX + 1];
                 break;
             default:
                 // Si la direction n'est pas reconnue, le joueur reste sur place

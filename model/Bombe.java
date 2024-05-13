@@ -19,8 +19,8 @@ public class Bombe extends Case {
     /**
      * Default constructor
      */
-    public Bombe(Integer positionX, Integer positionY, Integer tempsExplosion, Integer portee, Joueur joueur) {
-        super(false, positionX, positionY, "Bombe", false);
+    public Bombe(Integer positionX, Integer positionY, Integer tempsExplosion, Integer portee, Joueur joueur, Partie partie) {
+        super(false, positionX, positionY, "Bombe", false, partie);
         this.tempsExplosion = tempsExplosion;
         this.portee = portee;
         this.joueurPoseBombe = joueur;
@@ -65,7 +65,7 @@ public class Bombe extends Case {
     private void propagateExplosion(List<Case> caseModifiees) {
         try {
             // Propagate explosion from the bomb's position
-            Case thisCase = Partie.carte[this.positionY][this.positionX] = new Case(true, this.positionX, this.positionY, "CaseVide", false);
+            Case thisCase = partie.carte[this.positionY][this.positionX] = new Case(true, this.positionX, this.positionY, "CaseVide", false, partie);
             thisCase.joueur = this.joueur;
             if (thisCase.joueur != null) thisCase.joueur.vie--;
             thisCase.isFire = true;
@@ -103,7 +103,7 @@ public class Bombe extends Case {
      * @return True si la propagation doit s'arrêter dans cette direction, false sinon.
      */
     private boolean propagateInDirection(int startX, int startY, List<Case> caseModifiees) {    
-        Case currentCase = Partie.carte[startY][startX];
+        Case currentCase = partie.carte[startY][startX];
     
         if (currentCase.typeImage.equals("BlocDestructible") || currentCase.estTraversable) {
             caseModifiees.add(currentCase);

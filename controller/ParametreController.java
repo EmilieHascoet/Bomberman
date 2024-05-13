@@ -1,7 +1,7 @@
 package controller;
 
 import view.MainFrame;
-import view.AccueilPanel;
+import view.ChoixTouchePanel;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -22,20 +22,21 @@ import model.Parametres;
 import model.Partie;
 import model.Partie.bonusEnum;
 import javax.swing.JToggleButton;
-import javax.swing.text.Style;
 
 public class ParametreController implements ActionListener {
     private MainFrame fenetre;
     private JPanel p;
     private String typeAction;
+    private Partie partieEnCours;
 
-    public ParametreController(JButton bouton, MainFrame frame, JPanel pan) {
+    public ParametreController(JButton bouton, MainFrame frame, JPanel pan, Partie partie) {
         for (ActionListener al : bouton.getActionListeners()) {
             bouton.removeActionListener(al);
         }
         fenetre = frame;
         typeAction = bouton.getText();
         p = pan;
+        partieEnCours = partie;
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -48,7 +49,7 @@ public class ParametreController implements ActionListener {
 
     public void boutonRetour() {
         // Retourner au menu principal
-        fenetre.changePanel(new AccueilPanel(fenetre));
+        fenetre.changePanel(new ChoixTouchePanel(fenetre, partieEnCours));
     }
 
     public void boutonValider() {
@@ -171,17 +172,16 @@ public class ParametreController implements ActionListener {
             JOptionPane.showMessageDialog(null, errorMessage, "Erreur", JOptionPane.ERROR_MESSAGE);
             return;
         } else {
-            Partie.paramPartie = new Parametres(listBonus, Integer.parseInt(list.get("Nombres de vies")),
+            partieEnCours.paramPartie = new Parametres(listBonus, Integer.parseInt(list.get("Nombres de vies")),
                     Integer.parseInt(list.get("Vitesse")), Integer.parseInt(list.get("Nombre de bombes initiales")),
                     Integer.parseInt(list.get("Portée de la bombe")), Integer.parseInt(list.get("Largeur du plateau")),
                     Integer.parseInt(list.get("Hauteur du plateau")));
-            Partie.getJoueurs().get(0).avatar = Partie.avatar.valueOf(image.get("Joueur 1"));
-            Partie.getJoueurs().get(1).avatar = Partie.avatar.valueOf(image.get("Joueur 2"));
-            Partie.getJoueurs().get(0).nom = list.get("Joueur 1");
-            Partie.getJoueurs().get(1).nom = list.get("Joueur 2");
+            partieEnCours.getJoueurs().get(0).avatar = Partie.avatar.valueOf(image.get("Joueur 1"));
+            partieEnCours.getJoueurs().get(1).avatar = Partie.avatar.valueOf(image.get("Joueur 2"));
+            partieEnCours.getJoueurs().get(0).nom = list.get("Joueur 1");
+            partieEnCours.getJoueurs().get(1).nom = list.get("Joueur 2");
 
-            fenetre.changePanel(new AccueilPanel(fenetre));
+            fenetre.changePanel(new ChoixTouchePanel(fenetre, partieEnCours));
         }
     }
-
 }

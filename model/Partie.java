@@ -10,7 +10,7 @@ import java.util.*;
 /**
  * 
  */
-public class Partie implements Serializable{
+public class Partie implements Serializable {
 
     // Déclarations des associations
     // utiliser la méthode getJoueurs pour avoir la liste des joueurs actifs
@@ -48,7 +48,7 @@ public class Partie implements Serializable{
         // Créer 4 joueurs
         this.joueurs = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            this.joueurs.add(new Joueur("Joueur " + (i + 1), avatar.values()[i]));
+            this.joueurs.add(new Joueur("Joueur " + (i + 1), avatar.values()[i], this));
         }
 
         // Associe les touches par défaut aux joueurs
@@ -80,6 +80,12 @@ public class Partie implements Serializable{
         // Place les joueurs sur les cases
         for (Joueur joueur : getJoueurs()) {
             carte[joueur.positionY][joueur.positionX].setJoueur(joueur);
+        }
+    }
+
+    public void initJoueur() {
+        for (Joueur joueur : getJoueurs()) {
+            joueur.initJoueur();
         }
     }
 
@@ -124,22 +130,22 @@ public class Partie implements Serializable{
             for (int j = 0; j < m; j++) {
                 // La carte est entourée de blocs indestructibles
                 if (i == 0 || j == 0 || i == n - 1 || j == m - 1) {
-                    carte[i][j] = new Case(false, j, i, "BlocIndestructible", false);
+                    carte[i][j] = new Case(false, j, i, "BlocIndestructible", false, this);
                 }
                 // Les 2 coins opposés sont vides pour laisser la place aux joueurs
                 else if ((i == 1 && j == 1) || (i == 1 && j == 2) || (i == 2 && j == 1) || (i == n - 2 && j == m - 2)
                         || (i == n - 2 && j == m - 3) || (i == n - 3 && j == m - 2)) {
-                    carte[i][j] = new Case(true, j, i, "CaseVide", false);
+                    carte[i][j] = new Case(true, j, i, "CaseVide", false, this);
                 }
                 // Les blocs indesctructibles sont placés sur les cases pairs
                 else if (i == 0 || j == 0 || i == n - 1 || j == m - 1 || (i % 2 == 0 && j % 2 == 0)) {
-                    carte[i][j] = new Case(false, j, i, "BlocIndestructible", false);
+                    carte[i][j] = new Case(false, j, i, "BlocIndestructible", false, this);
                 }
                 // Les blocs destructibles sont placés aléatoirement
                 else if (Math.random() < 0.5) {
-                    carte[i][j] = new BlocDestructible(j, i);
+                    carte[i][j] = new BlocDestructible(j, i, this);
                 } else {
-                    carte[i][j] = new Case(true, j, i, "CaseVide", false);
+                    carte[i][j] = new Case(true, j, i, "CaseVide", false, this);
                 }
             }
         }
