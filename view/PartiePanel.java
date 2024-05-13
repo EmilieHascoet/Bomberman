@@ -85,6 +85,7 @@ public class PartiePanel extends JPanel {
 
         // Load the background image
         try {
+            // BUG EMILIE : backgroundImage = ImageIO.read(getClass().getResource("/Images/background.png"));
             backgroundImage = ImageIO.read(new File((getClass().getResource("/Images/background.png").getPath())));
         } catch (IOException e) {
             e.printStackTrace();
@@ -169,7 +170,7 @@ public class PartiePanel extends JPanel {
             lifePanel.add(lifeLabel);
 
             // Add the life squares to the panel
-            for(int j = 0; j < Partie.getJoueurs().get(i).vie; j++){
+            for(int j = 0; j < Partie.getJoueurs().get(i).getVie(); j++){
                 JPanel lifeSquare = new JPanel();
                 lifeSquare.setPreferredSize(new Dimension(10, 20));
                 lifeSquare.setBackground(Color.GREEN);
@@ -224,7 +225,7 @@ public class PartiePanel extends JPanel {
                 lifeSquare.setPreferredSize(new Dimension(10, 20));
                 lifeSquare.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,10,0,10));
 
-                if(j < Partie.getJoueurs().get(i).vie){
+                if(j < Partie.getJoueurs().get(i).getVie()){
                     lifeSquare.setBackground(Color.GREEN);
                 } else {
                     lifeSquare.setBackground(Color.RED);
@@ -242,6 +243,10 @@ public class PartiePanel extends JPanel {
 
     public void decrementerTemps() {
         compteur++;
+        if(Partie.estTerminee()) {
+            this.timer.stop();
+            // TODO : Afficher le JDialog de fin de partie
+        }
         updateInfosPanel();
         updatePlateauPanel();
         // Décrémentez le temps seulement lorsque le compteur atteint 10 (c'est-à-dire toutes les secondes)
@@ -252,6 +257,7 @@ public class PartiePanel extends JPanel {
             } else {
                 // Arrêtez le timer lorsque le temps est écoulé
                 this.timer.stop();
+                // TODO : Afficher le JDialog de fin de partie
             }
         }
     }

@@ -155,6 +155,20 @@ public class Partie {
         return casesModifiees;
     }
 
+    /**
+     * Vérifie si la partie est terminée.
+     *
+     * @return true si la partie est terminée, false sinon.
+     */
+    public static boolean estTerminee() {
+        // La partie est terminée si il reste un seul joueur en vie
+        int nbJoueursEnVie = 0;
+        for (Joueur joueur : getJoueurs()) {
+            if (joueur.isAlive) nbJoueursEnVie++;
+        }
+        return nbJoueursEnVie <= 1;
+    }
+
     /* pour test */
     public static void afficherCarte() {
         System.out.print("   ");

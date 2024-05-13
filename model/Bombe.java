@@ -67,7 +67,7 @@ public class Bombe extends Case {
             // Propagate explosion from the bomb's position
             Case thisCase = Partie.carte[this.positionY][this.positionX] = new Case(true, this.positionX, this.positionY, "CaseVide", false);
             thisCase.joueur = this.joueur;
-            if (thisCase.joueur != null) thisCase.joueur.vie--;
+            if (thisCase.joueur != null) thisCase.joueur.perdreVie();;
             thisCase.isFire = true;
             caseModifiees.add(thisCase);
             this.joueurPoseBombe.stockBombe++;
@@ -109,7 +109,7 @@ public class Bombe extends Case {
             caseModifiees.add(currentCase);
             currentCase.isFire = true;
         }
-        if (currentCase.joueur != null) currentCase.joueur.vie--;
+        if (currentCase.joueur != null) currentCase.joueur.perdreVie();;
         if (!currentCase.estTraversable) {
             return true;
         }
