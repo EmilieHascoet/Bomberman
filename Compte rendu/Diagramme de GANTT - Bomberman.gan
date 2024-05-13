@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Diagramme de Gantt - Bomberman" company="" webLink="http://" view-date="2024-04-29" view-index="0" gantt-divider-location="374" resource-divider-location="325" version="3.3.3305" locale="fr_FR">
+<?xml version="1.0" encoding="UTF-8"?><project name="Diagramme de Gantt - Bomberman" company="" webLink="http://" view-date="2024-03-18" view-index="0" gantt-divider-location="360" resource-divider-location="325" version="3.3.3305" locale="fr_FR">
     <description/>
-    <view zooming-state="default:5" id="gantt-chart">
-        <field id="tpd3" name="Nom" width="202" order="0"/>
-        <field id="tpd4" name="Date de début" width="77" order="1"/>
-        <field id="tpd5" name="Date de fin" width="79" order="2"/>
+    <view zooming-state="default:7" id="gantt-chart">
+        <field id="tpd3" name="Nom" width="194" order="0"/>
+        <field id="tpd4" name="Date de début" width="74" order="1"/>
+        <field id="tpd5" name="Date de fin" width="76" order="2"/>
         <field id="tpd15" name="Notes" width="20" order="3"/>
         <option id="filter.completedTasks" value="false"/>
         <option id="filter.dueTodayTasks" value="false"/>
@@ -41,18 +41,18 @@
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
         <task id="14" uid="fd36040722bc4f52810bdb779f1335eb" name="Définition des règles de jeu" meeting="false" start="2024-02-20" duration="1" complete="0" expand="true"/>
-        <task id="0" uid="55148acb3f404119b46805d6ff84e180" name="UML" meeting="false" start="2024-02-19" duration="28" complete="75" expand="true">
+        <task id="0" uid="55148acb3f404119b46805d6ff84e180" name="UML" meeting="false" start="2024-02-19" duration="28" complete="100" expand="true">
             <task id="2" uid="b6b26ad81dfd4bcc9cb74750cdc95a4c" name="Diagramme de classe" meeting="false" start="2024-02-20" duration="8" complete="100" expand="true">
                 <notes><![CDATA[Classe, méthode, attribut]]></notes>
             </task>
             <task id="5" uid="46f3e8efbc0849b39855ccbfaf4952b7" name="Diagramme d'activité" meeting="false" start="2024-03-01" duration="8" complete="100" expand="true"/>
             <task id="4" uid="510e87d2f905444f81887906b52d2f72" name="Relecture" color="#ff9900" meeting="false" start="2024-03-12" duration="12" complete="100" expand="true"/>
             <task id="38" uid="804bc7247d544748a78ef255fe2cfb47" name="Recherche assets" meeting="false" start="2024-03-12" duration="6" complete="100" expand="true"/>
-            <task id="7" uid="bdf375a39550419282726912e60c25f0" name="Relecture Global" meeting="false" start="2024-02-19" duration="11" complete="0" expand="true"/>
+            <task id="7" uid="bdf375a39550419282726912e60c25f0" name="Relecture Global" meeting="false" start="2024-02-19" duration="11" complete="100" expand="true"/>
         </task>
-        <task id="8" uid="7893c0561e6044169bb0c66c20cfa1bf" name="Développement" meeting="false" start="2024-02-26" duration="55" complete="91" expand="true">
-            <task id="39" uid="4a9dd2a86b4c4bfd8fd4e5140ba18d0c" name="Model" meeting="false" start="2024-03-04" duration="45" complete="98" expand="true">
-                <task id="53" uid="a177c84f527547038132bd875e2c6d8b" name="Classe BlocDestructible" meeting="false" start="2024-04-05" duration="5" complete="100" expand="true">
+        <task id="8" uid="7893c0561e6044169bb0c66c20cfa1bf" name="Développement" meeting="false" start="2024-02-26" duration="55" complete="100" expand="true">
+            <task id="39" uid="4a9dd2a86b4c4bfd8fd4e5140ba18d0c" name="Model" meeting="false" start="2024-03-04" duration="45" complete="100" expand="true">
+                <task id="53" uid="a177c84f527547038132bd875e2c6d8b" name="Classe BlocDestructible" meeting="false" start="2024-04-05" duration="5" complete="100" expand="false">
                     <task id="95" uid="c5438661bb984fee99a06f4fe90fdab3" name="destruction()" meeting="false" start="2024-04-05" duration="1" complete="100" expand="true"/>
                     <task id="56" uid="c7d1ecbdad4646f49c4349ad569ea899" name="viderCase()" meeting="false" start="2024-04-05" duration="5" complete="100" expand="true"/>
                 </task>
@@ -76,10 +76,10 @@
                 <task id="40" uid="aff72a12e9a94f77a7c9a7af320e878c" name="Classe Paramètre" meeting="false" start="2024-03-04" duration="23" complete="100" expand="false">
                     <task id="74" uid="ecf80d73ab684b1aa485fd22b3e19a26" name="getter et setter" meeting="false" start="2024-03-04" duration="23" complete="100" expand="true"/>
                 </task>
-                <task id="41" uid="238e75ff995c43bb83ad33a675a440d4" name="Classe Partie" meeting="false" start="2024-03-04" duration="45" complete="90" expand="true">
+                <task id="41" uid="238e75ff995c43bb83ad33a675a440d4" name="Classe Partie" meeting="false" start="2024-03-04" duration="45" complete="100" expand="true">
                     <task id="75" uid="aadc089c875547de8bb4890975a8fbc5" name="jouerTouche()" meeting="false" start="2024-03-04" duration="40" complete="100" expand="true"/>
                     <task id="76" uid="6bc03ce88bcd47fe94ce1630a4113559" name="rejouer()" color="#8cb6ce" meeting="false" start="2024-03-04" duration="23" complete="100" expand="true"/>
-                    <task id="77" uid="0a6bace1dae743f2a154a9766552aa46" name="genererNouvelleCarte()" color="#8cb6ce" meeting="false" start="2024-03-04" duration="7" complete="0" expand="true"/>
+                    <task id="77" uid="0a6bace1dae743f2a154a9766552aa46" name="genererNouvelleCarte()" color="#8cb6ce" meeting="false" start="2024-03-04" duration="7" complete="100" expand="true"/>
                     <task id="78" uid="a1c2318368f6467197e6d0f13ccb3c8e" name="getTemps()" color="#8cb6ce" meeting="false" start="2024-05-03" duration="1" complete="100" expand="true"/>
                     <task id="79" uid="94c1cadc80c34a8b894c01dcdecb3d2f" name="demarrerTemps()" color="#8cb6ce" meeting="false" start="2024-05-03" duration="1" complete="100" expand="true"/>
                     <task id="80" uid="b9327a49ce714776ba207d4b130f2972" name="arreterTemps()" color="#8cb6ce" meeting="false" start="2024-05-03" duration="1" complete="100" expand="true"/>
@@ -99,21 +99,21 @@
                 </task>
                 <task id="55" uid="a309c2cbd36c4791a138ffca8e4efc40" name="Phase de test du model" meeting="false" start="2024-03-04" duration="45" complete="100" expand="true"/>
             </task>
-            <task id="6" uid="d2835b0bfda84a1185fccb7790558ed8" name="Vue" meeting="false" start="2024-02-26" duration="55" complete="78" priority="3" expand="true">
-                <task id="18" uid="f6c6f748182b417f8d7e1bf4db8c09c7" name="Controller" color="#99ff99" meeting="false" start="2024-02-26" duration="55" complete="0" expand="false">
-                    <task id="71" uid="cbe3c1b7a40242e1aa4879ece5b1e3af" name="Accueil" meeting="false" start="2024-05-01" duration="3" complete="0" expand="false">
-                        <task id="64" uid="3e84c462bba8489f869970c314bb79e1" name="Controlleur accueil" meeting="false" start="2024-05-01" duration="3" complete="0" expand="true"/>
+            <task id="6" uid="d2835b0bfda84a1185fccb7790558ed8" name="Vue" meeting="false" start="2024-02-26" duration="55" complete="100" priority="3" expand="true">
+                <task id="18" uid="f6c6f748182b417f8d7e1bf4db8c09c7" name="Controller" color="#99ff99" meeting="false" start="2024-02-26" duration="55" complete="100" expand="false">
+                    <task id="71" uid="cbe3c1b7a40242e1aa4879ece5b1e3af" name="Accueil" meeting="false" start="2024-05-01" duration="3" complete="100" expand="true">
+                        <task id="64" uid="3e84c462bba8489f869970c314bb79e1" name="Controlleur accueil" meeting="false" start="2024-05-01" duration="3" complete="100" expand="true"/>
                     </task>
-                    <task id="66" uid="a9b6b43c06724612969be8578ee57f98" name="Parametres" meeting="false" start="2024-02-26" duration="1" complete="0" expand="false">
-                        <task id="72" uid="0f88470fa0fd4a91bd3ad49ec4e03a09" name="Controller" meeting="false" start="2024-02-26" duration="1" complete="0" expand="true"/>
+                    <task id="66" uid="a9b6b43c06724612969be8578ee57f98" name="Parametres" meeting="false" start="2024-02-26" duration="1" complete="100" expand="true">
+                        <task id="72" uid="0f88470fa0fd4a91bd3ad49ec4e03a09" name="Controller" meeting="false" start="2024-02-26" duration="1" complete="100" expand="true"/>
                     </task>
-                    <task id="67" uid="2c81f9e8753048118f4ae6278504ac93" name="Partie" meeting="false" start="2024-04-08" duration="25" complete="0" expand="false">
-                        <task id="31" uid="7ebc5b443fc34b659a2b4cf27ef1719f" name="Controller" meeting="false" start="2024-04-08" duration="25" complete="0" expand="true"/>
-                        <task id="69" uid="bd27eae28f9645aea6eee661473de99b" name="poserBombe" meeting="false" start="2024-05-06" duration="3" complete="0" expand="true"/>
-                        <task id="68" uid="25e963ccecf04aa686b5a68ca84038a0" name="deplacerJoueur" meeting="false" start="2024-05-06" duration="3" complete="0" expand="true"/>
+                    <task id="67" uid="2c81f9e8753048118f4ae6278504ac93" name="Partie" meeting="false" start="2024-04-08" duration="25" complete="100" expand="true">
+                        <task id="31" uid="7ebc5b443fc34b659a2b4cf27ef1719f" name="Controller" meeting="false" start="2024-04-08" duration="25" complete="100" expand="true"/>
+                        <task id="69" uid="bd27eae28f9645aea6eee661473de99b" name="poserBombe" meeting="false" start="2024-05-06" duration="3" complete="100" expand="true"/>
+                        <task id="68" uid="25e963ccecf04aa686b5a68ca84038a0" name="deplacerJoueur" meeting="false" start="2024-05-06" duration="3" complete="100" expand="true"/>
                     </task>
-                    <task id="65" uid="d92abfe9716747ed8d000bd3e00de18d" name="Fin de partie" meeting="false" start="2024-02-26" duration="1" complete="0" expand="false">
-                        <task id="70" uid="0d24924ac0514afaaaf09fbcb6d7e0c5" name="Controller" meeting="false" start="2024-02-26" duration="1" complete="0" expand="true"/>
+                    <task id="65" uid="d92abfe9716747ed8d000bd3e00de18d" name="Fin de partie" meeting="false" start="2024-02-26" duration="1" complete="100" expand="true">
+                        <task id="70" uid="0d24924ac0514afaaaf09fbcb6d7e0c5" name="Controller" meeting="false" start="2024-02-26" duration="1" complete="100" expand="true"/>
                     </task>
                 </task>
                 <task id="19" uid="aabf7a4dba59465c9eca863714853964" name="Ecran 1: Accueil" meeting="false" start="2024-03-12" duration="6" complete="100" expand="true">
@@ -138,11 +138,13 @@
                 </task>
             </task>
         </task>
-        <task id="13" uid="e2814c5717414bf6bcd5323a10a4c9cd" name="Peaufinage/Amélioration" meeting="false" start="2024-04-29" duration="10" complete="5" expand="true">
-            <task id="96" uid="85286eea52ae48658c268fdbcaf05695" name="Animation explosion" meeting="false" start="2024-04-29" duration="6" complete="10" expand="true"/>
-            <task id="97" uid="edc6796f411e4598a3aeca3bf9f381a6" name="Modification affichage paramètre + ajout d'avatar" meeting="false" start="2024-05-06" duration="5" complete="0" expand="true"/>
+        <task id="13" uid="e2814c5717414bf6bcd5323a10a4c9cd" name="Peaufinage/Amélioration" meeting="false" start="2024-04-29" duration="10" complete="100" expand="true">
+            <task id="96" uid="85286eea52ae48658c268fdbcaf05695" name="Animation explosion" meeting="false" start="2024-04-29" duration="6" complete="100" expand="true"/>
+            <task id="97" uid="edc6796f411e4598a3aeca3bf9f381a6" name="Modification affichage paramètre + ajout d'avatar" meeting="false" start="2024-05-06" duration="5" complete="100" expand="true"/>
         </task>
-        <task id="63" uid="783636da83594f82a98430fb73d9ea45" name="Ajout éléments graphque" meeting="false" start="2024-03-04" duration="1" complete="0" expand="true"/>
+        <task id="63" uid="783636da83594f82a98430fb73d9ea45" name="Ajout éléments graphque" meeting="false" start="2024-03-04" duration="1" complete="100" expand="true"/>
+        <task id="98" uid="64c22654ca994fd0834e6d7a31800b4f" name="Ajout de controle pour manettes" meeting="false" start="2024-05-13" duration="6" complete="0" expand="true"/>
+        <task id="99" uid="d7f8e269200b4f5aa0c52ec4c7546fca" name="Correction alignement panel Info" meeting="false" start="2024-05-15" duration="3" complete="0" expand="true"/>
         <task id="12" uid="f9ef373ca12d4f23b419926de35fa3ca" name="Préparation orale" meeting="false" start="2024-05-14" duration="5" complete="0" expand="true"/>
         <task id="1" uid="21742d6b40f946e5830a9e80d1744b7a" name="Fin de projet" color="#ff3300" meeting="true" start="2024-05-21" duration="0" complete="0" expand="true"/>
     </tasks>
@@ -154,7 +156,7 @@
     <allocations>
         <allocation task-id="2" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="5" resource-id="0" function="Default:0" responsible="false" load="40.0"/>
-        <allocation task-id="18" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="18" resource-id="0" function="Default:0" responsible="true" load="30.0"/>
         <allocation task-id="4" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="7" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="22" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
@@ -175,6 +177,10 @@
         <allocation task-id="39" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="74" resource-id="0" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="97" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="63" resource-id="0" function="Default:0" responsible="false" load="10.0"/>
+        <allocation task-id="98" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="99" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="72" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="2" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="5" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="4" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
@@ -208,6 +214,11 @@
         <allocation task-id="57" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="74" resource-id="1" function="Default:0" responsible="true" load="50.0"/>
         <allocation task-id="96" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="63" resource-id="1" function="Default:0" responsible="true" load="90.0"/>
+        <allocation task-id="98" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="64" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="68" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="18" resource-id="1" function="Default:0" responsible="false" load="60.0"/>
         <allocation task-id="2" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="5" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="4" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
@@ -216,6 +227,8 @@
         <allocation task-id="55" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="56" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="39" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="70" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="18" resource-id="2" function="Default:0" responsible="false" load="20.0"/>
     </allocations>
     <vacations/>
     <previous/>

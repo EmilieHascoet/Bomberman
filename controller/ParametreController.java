@@ -49,7 +49,7 @@ public class ParametreController implements ActionListener {
     }
 
     public void boutonValider() {
-        //File folder = new File("Images/Personnage");
+        // File folder = new File("Images/Personnage");
         File folder = new File((getClass().getResource("/Images/Personnage").getPath()));
         File[] listOfFiles = folder.listFiles();
         // Récupérer le nom du fichier sans l'extension
@@ -72,17 +72,17 @@ public class ParametreController implements ActionListener {
                         for (Component c4 : ((JPanel) c3).getComponents()) {
                             if (c4 instanceof JPanel) {
                                 for (Component c5 : ((JPanel) c4).getComponents()) {
+                                    String value = first; // Image par défaut
                                     for (Component c6 : ((JPanel) c5).getComponents()) {
                                         if (c6 instanceof JToggleButton) {
-                                            String value = first; //Image par défaut
                                             if (((JToggleButton) c6).isSelected()) {
-                                                value = ((JToggleButton) c6).getName(); //Image selectionnée
-                                                image.put(((JPanel) c5).getName(),
-                                                value);                                            
+                                                value = ((JToggleButton) c6).getName(); // Image selectionnée
                                             }
-                                            
                                         }
                                     }
+                                    System.out.println(((JPanel) c5).getName() + " : " + value);
+                                    image.put(((JPanel) c5).getName(),
+                                            value);
                                 }
                             } else if (c4 instanceof JCheckBox) {
                                 if (((JCheckBox) c4).isSelected()) {

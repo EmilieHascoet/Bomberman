@@ -13,13 +13,16 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import model.Joueur;
 import model.Partie;
 
 public class PartiePanel extends JPanel {
@@ -41,6 +44,7 @@ public class PartiePanel extends JPanel {
     JPanel north = new JPanel();
     JPanel south = new JPanel();
     JPanel plateauPanel;
+    Map<String, Integer> vieJoueurs;
 
     private List<JPanel> lifePanels = new ArrayList<>();
     JLabel chrono;
@@ -92,6 +96,14 @@ public class PartiePanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        vieJoueurs = new HashMap<>() {
+            {
+                for (Joueur joueur : Partie.getJoueurs()) {
+                    put(joueur.nom, joueur.getVie());
+                }
+            }
+        };
     }
 
     private JPanel createPlateauPanel() {
