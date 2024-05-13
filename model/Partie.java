@@ -148,7 +148,7 @@ public class Partie {
      */
     public static List<Case> jouerTouche(String KeyString) {
         List<Case> casesModifiees = new ArrayList<Case>();
-        for (Joueur joueur : joueurs) {
+        for (Joueur joueur : getJoueurs()) {
             List<Case> casesModifieesJoueur = joueur.jouer(KeyString);
             if (casesModifieesJoueur != null) casesModifiees.addAll(casesModifieesJoueur);
         }
