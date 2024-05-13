@@ -47,7 +47,7 @@ public class Bonus extends Case {
                 else { joueur.porteeBombe++; }
                 break;
             case Vitesse:
-                if (this.isMalus) { joueur.vitesse--; }
+                if (this.isMalus) { if(joueur.vitesse>1) joueur.vitesse--; }
                 else { joueur.vitesse++; }
                 break;
             default:
