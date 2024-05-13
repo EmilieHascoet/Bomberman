@@ -15,16 +15,6 @@ public class Main {
         // testRejouer();
         // testExplose();
         // testJoueur1KeyPressed();
-
-        testSauvegarderPartie();
-    }
-
-    public static void testSauvegarderPartie() {
-        Partie partie = new Partie();
-        partie.lancerNouvellePartie();
-        partie.getJoueurs().get(0).placerJoueur(10, 10);
-        partie.jouerTouche("espace");
-        Stream.sauvegarderPartie(partie);
     }
 
     public static void testExplose() {        

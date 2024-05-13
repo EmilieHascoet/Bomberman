@@ -40,7 +40,7 @@ public class AccueilControleur implements ActionListener {
 
     private void reprendrePartie() {
         // Lire un fichier de sauvegarde
-        Partie partie = Stream.lirePartie() ;
+        Partie partie = Stream.recuperePartie() ;
         // Reprendre la partie en cours
         PartiePanel partiePanel = new PartiePanel(mainFrame, partie);
         mainFrame.changePanel(partiePanel);

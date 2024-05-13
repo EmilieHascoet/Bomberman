@@ -9,8 +9,8 @@ import java.io.ObjectOutputStream;
 
 public class Stream {
     
+    // Sauvegarder la partie dans un fichier (objet partie sérialisé)
     public static void sauvegarderPartie(Partie partie) {
-        // Sauvegarder la partie dans un fichier
         // Créer un fichier de sauvegarde
         File file = new File("sauvegarde.txt");
         try {
@@ -25,7 +25,8 @@ public class Stream {
         }
     }
 
-    public static Partie lirePartie() {
+    // Récupérer une partie à partir d'un fichier
+    public static Partie recuperePartie() {
         // Lire une partie à partir d'un fichier
         Partie partie = null;
         // Ouvrir le fichier de sauvegarde

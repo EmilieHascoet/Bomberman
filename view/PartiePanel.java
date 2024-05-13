@@ -25,7 +25,7 @@ import model.Partie;
 
 public class PartiePanel extends JPanel {
     MainFrame mainFrame;
-    Partie partieEnCours;
+    public Partie partieEnCours;
     public Color backgroundColor = new Color(203, 239, 195);
 
     // Timer du jeu pour le taux de rafraichissement
