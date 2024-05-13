@@ -13,14 +13,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-
 import model.Partie;
 
 public class PartiePanel extends JPanel {
@@ -87,7 +85,7 @@ public class PartiePanel extends JPanel {
 
         // Load the background image
         try {
-            backgroundImage = ImageIO.read(new File("Images/background.png"));
+            backgroundImage = ImageIO.read(new File((getClass().getResource("/Images/background.png").getPath())));
         } catch (IOException e) {
             e.printStackTrace();
         }

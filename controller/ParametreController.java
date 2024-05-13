@@ -1,8 +1,5 @@
 package controller;
 
-import view.MainFrame;
-import view.AccueilPanel;
-
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,12 +14,12 @@ import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
+import javax.swing.JToggleButton;
 import model.Parametres;
 import model.Partie;
 import model.Partie.bonusEnum;
-import javax.swing.JToggleButton;
-import javax.swing.text.Style;
+import view.AccueilPanel;
+import view.MainFrame;
 
 public class ParametreController implements ActionListener {
     private MainFrame fenetre;
@@ -52,10 +49,10 @@ public class ParametreController implements ActionListener {
     }
 
     public void boutonValider() {
-        File folder = new File("Images/Personnage");
+        File folder = new File((getClass().getResource("/Images/Personnage").getPath()));
         File[] listOfFiles = folder.listFiles();
         // Récupérer le nom du fichier sans l'extension
-        File file = new File(listOfFiles[0].getPath());
+        File file = new File(listOfFiles[1].getPath());
         String fileName = file.getName();
         int pos = fileName.lastIndexOf(".");
         if (pos > 0) {
@@ -77,12 +74,11 @@ public class ParametreController implements ActionListener {
                                     for (Component c6 : ((JPanel) c5).getComponents()) {
                                         if (c6 instanceof JToggleButton) {
                                             String value = first; //Image par défaut
-                                            
                                             if (((JToggleButton) c6).isSelected()) {
                                                 value = ((JToggleButton) c6).getName(); //Image selectionnée
+                                                image.put(((JPanel) c5).getName(),
+                                                value);                                            
                                             }
-                                            image.put(((JPanel) c5).getName(),
-                                            value);                                            
                                             
                                         }
                                     }

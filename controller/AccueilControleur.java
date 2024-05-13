@@ -4,12 +4,11 @@ import java.awt.event.*;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
 import model.Partie;
-import view.ChangerToucheJDialog;
 import view.MainFrame;
 import view.ParametresPanel;
 import view.PartiePanel;
+import view.changerToucheJDialog;
 
 public class AccueilControleur implements ActionListener {
     int joueur;
@@ -49,7 +48,7 @@ public class AccueilControleur implements ActionListener {
      *  Ouvre une fenêtre pour changer la touche du joueur
      */
     public void boutonTouche() {
-        new ChangerToucheJDialog(joueur, ancienneTouche, actionTouche, boutonChooseTouche);
+        new changerToucheJDialog(joueur, ancienneTouche, actionTouche, boutonChooseTouche);
     }
 
     /**
