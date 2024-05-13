@@ -12,13 +12,16 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import model.Joueur;
 import model.Partie;
 
 public class PartiePanel extends JPanel {
@@ -40,6 +43,7 @@ public class PartiePanel extends JPanel {
     JPanel north = new JPanel();
     JPanel south = new JPanel();
     JPanel plateauPanel;
+    Map<String, Integer> vieJoueurs;
 
     private List<JPanel> lifePanels = new ArrayList<>();
     JLabel chrono;
@@ -90,6 +94,12 @@ public class PartiePanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        vieJoueurs = new HashMap<>(){{
+            for(Joueur joueur : Partie.getJoueurs()){
+                put(joueur.nom, joueur.getVie());
+            }
+        }};
     }
 
     private JPanel createPlateauPanel() {
@@ -139,7 +149,7 @@ public class PartiePanel extends JPanel {
         JPanel infoPanel = new JPanel();
 
         //JLabel to display
-        chrono = new JLabel("Temps: " + temps / 60 + " : " + temps % 60);;
+        chrono = new JLabel("Temps: " + temps / 60 + " : " + temps % 60);
         labelName = new ArrayList<>();
         labelLives = new ArrayList<>();
         labelBombs = new ArrayList<>();
@@ -212,6 +222,11 @@ public class PartiePanel extends JPanel {
         north.add(chrono);
 
         for(int i = 0; i < Partie.nbJoueurs; i++){
+            System.out.println("Joueur: " + Partie.getJoueurs().get(i).nom + " Vies: " + Partie.getJoueurs().get(i).getVie() + "\n"
+            + "vieJoueur: " + vieJoueurs.get(Partie.getJoueurs().get(i).nom)); 
+            if(Partie.getJoueurs().get(i).getVie() > vieJoueurs.get(Partie.getJoueurs().get(i).nom)){
+                vieJoueurs.put(Partie.getJoueurs().get(i).nom, Partie.getJoueurs().get(i).getVie() + 1);       
+            }
             south.add(new JLabel("Joueur: " + Partie.getJoueurs().get(i).nom + " "));
             
             // Update the life squares
@@ -220,7 +235,24 @@ public class PartiePanel extends JPanel {
 
             JLabel lifeLabel = new JLabel("Vies:");
             lifePanel.add(lifeLabel);
-            for(int j = 0; j < Partie.paramPartie.getNbVie(); j++){
+
+            /* for(Joueur joueur : Partie.getJoueurs()){
+                for(int j = 0; j < vieJoueurs.get(joueur.nom); j++){
+                    JPanel lifeSquare = new JPanel();
+                    lifeSquare.setPreferredSize(new Dimension(10, 20));
+                    lifeSquare.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,10,0,10));
+
+                    if(j < joueur.getVie()){
+                        lifeSquare.setBackground(Color.GREEN);
+                    } else {
+                        lifeSquare.setBackground(Color.RED);
+                    }
+
+                    lifePanel.add(lifeSquare);
+                }
+                System.out.println("Joueur: " + joueur.nom + " Vies: " + joueur.getVie() + " Stock de bombes: " + joueur.stockBombe + " Score: " + joueur.score + " ");
+            } */
+            for(int j = 0; j < vieJoueurs.get(Partie.getJoueurs().get(i).nom); j++){
                 JPanel lifeSquare = new JPanel();
                 lifeSquare.setPreferredSize(new Dimension(10, 20));
                 lifeSquare.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,10,0,10));
