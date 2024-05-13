@@ -115,7 +115,7 @@ public class Partie implements Serializable {
         // Nombre de joueurs par défaut
         nbJoueurs = 2; 
 
-        leaderBoard = new TreeMap<>();
+        leaderBoard = new TreeMap<>(Collections.reverseOrder());
     }
 
     // Déclaration des méthodes

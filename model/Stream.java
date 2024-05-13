@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Collections;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -71,8 +72,9 @@ public class Stream {
     }
 
     public static void sauvegarderScores(TreeMap<Integer, List<String>> Newscores) {
+        TreeMap<Integer, List<String>> allScore = new TreeMap<>(Collections.reverseOrder());
         // Récupérer les scores déjà existants
-        TreeMap<Integer, List<String>> allScore = recupereScores();
+        allScore.putAll(recupereScores());
         // Ajouter les nouveaux scores
         allScore.putAll(Newscores);
         File file = new File("scores.txt");
