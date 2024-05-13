@@ -171,10 +171,10 @@ public class ParametreController implements ActionListener {
                     Integer.parseInt(list.get("Vitesse")), Integer.parseInt(list.get("Nombre de bombes initiales")),
                     Integer.parseInt(list.get("Portée de la bombe")), Integer.parseInt(list.get("Largeur du plateau")),
                     Integer.parseInt(list.get("Hauteur du plateau")));
-            Partie.getJoueurs().get(0).avatar = Partie.avatar.valueOf(image.get("Joueur 1"));
-            Partie.getJoueurs().get(1).avatar = Partie.avatar.valueOf(image.get("Joueur 2"));
-            Partie.getJoueurs().get(0).nom = list.get("Joueur 1");
-            Partie.getJoueurs().get(1).nom = list.get("Joueur 2");
+            for (int i = 0; i < Partie.nbJoueurs; i++) {
+                Partie.getJoueurs().get(i).avatar = Partie.avatar.valueOf(image.get("Joueur " + (i + 1)));
+                Partie.getJoueurs().get(i).nom = list.get("Joueur " + (i + 1));
+            }
 
             fenetre.changePanel(new AccueilPanel(fenetre));
         }

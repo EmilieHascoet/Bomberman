@@ -61,8 +61,9 @@ public class ParametresPanel extends JPanel {
         JList<String> list = new JList<>(listModel);
         listModel.addElement("Liste de bonus");
         listModel.addElement("Partie");
-        listModel.addElement("Joueur 1");
-        listModel.addElement("Joueur 2");
+        for (int i = 1; i <= Partie.nbJoueurs; i++) {
+            listModel.addElement("Joueur " + i);
+        }
 
         list.setFont(new Font("Arial", Font.PLAIN, 16));
         list.setForeground(Color.black);
@@ -109,8 +110,10 @@ public class ParametresPanel extends JPanel {
             Arrays.stream(Partie.bonusEnum.values()).map(Enum::toString).toArray(String[]::new));
         createTextAreasM(listModel.get(1), rightPanel, mapP, lab);
 
-        createTextAreas(listModel.get(2), rightPanel, new String[] { "Joueur 1"});
-        createTextAreas(listModel.get(3), rightPanel, new String[] { "Joueur 2"});
+        // Create text areas for each player
+        for (int i = 1; i <= Partie.nbJoueurs; i++) {
+            createTextAreas(listModel.get(i+1), rightPanel, new String[] {"Joueur " + i});
+        }
 
         squarePanel.add(rightPanel);
 
