@@ -12,6 +12,7 @@ public class Bombe extends Case {
     public Integer tempsExplosion;
     public Integer portee;
     public Integer tempsPropagation = 50;
+    private Thread timerThread;
 
     // Déclarations des associations
     public Joueur joueurPoseBombe;
@@ -20,7 +21,7 @@ public class Bombe extends Case {
      * Default constructor
      */
     public Bombe(Integer positionX, Integer positionY, Integer tempsExplosion, Integer portee, Joueur joueur, Partie partie) {
-        super(false, positionX, positionY, typeCaseEnum.Bombe, false, partie);
+        super(false, positionX, positionY, typeCaseEnum.Bombe, true, partie);
         this.tempsExplosion = tempsExplosion;
         this.portee = portee;
         this.joueurPoseBombe = joueur;
@@ -31,7 +32,7 @@ public class Bombe extends Case {
 
     // Méthode pour lancer le timer de l'explosion
     private void lancerTimer() {
-        Thread timerThread = new Thread(() -> {
+        timerThread = new Thread(() -> {
             try {
                 Thread.sleep(this.tempsExplosion * 1000);
                 this.explosion();
@@ -71,7 +72,6 @@ public class Bombe extends Case {
             thisCase.isFire = true;
             caseModifiees.add(thisCase);
             this.joueurPoseBombe.stockBombe++;
-            Thread.sleep(tempsPropagation);
     
             // Calculate the cross shape
             boolean[] stopDirections = new boolean[4]; // North, South, East, West
@@ -105,12 +105,12 @@ public class Bombe extends Case {
     private boolean propagateInDirection(int startX, int startY, List<Case> caseModifiees) {    
         Case currentCase = partie.carte[startY][startX];
     
-        if (currentCase.typeCase == typeCaseEnum.BlocDestructible || currentCase.estTraversable) {
+        if (currentCase.typeCase != typeCaseEnum.BlocIndestructible) {
             caseModifiees.add(currentCase);
             currentCase.isFire = true;
         }
         if (currentCase.joueur != null) currentCase.joueur.perdreVie();
-        if (!currentCase.estTraversable) {
+        if (!currentCase.estTraversable || currentCase.estDestructible) {
             return true;
         }
         return false;
@@ -125,9 +125,22 @@ public class Bombe extends Case {
      */
     private void destroyBlocks(List<Case> caseModifiees) {
         for (Case c : caseModifiees) {
-            if (c instanceof BlocDestructible) ((BlocDestructible) c).destruction(this.joueurPoseBombe);
+            if (c.estDestructible) {
+                System.out.println(c.typeCase);
+                System.out.println("destroying");
+                if (c instanceof BlocDestructible) ((BlocDestructible) c).destroy(this.joueurPoseBombe);
+                else ((Bombe) c).destroy();
+            }
             else c.isFire = false;
         }
+    }
+
+    /**
+     * Destroys the bomb by triggering an explosion and interrupting the timer thread.
+     */
+    public void destroy() {
+        this.explosion();
+        timerThread.interrupt();
     }
     
 

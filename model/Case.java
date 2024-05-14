@@ -79,6 +79,7 @@ public class Case implements Serializable {
         this.joueur = joueur;
     }
 
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

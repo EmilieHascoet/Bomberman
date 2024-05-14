@@ -21,7 +21,7 @@ public class BlocDestructible extends Case {
     /**
      * 
      */
-    public Case destruction(Joueur joueur) {
+    public Case destroy(Joueur joueur) {
         Random rand = new Random();
         double random = rand.nextDouble();
         List<bonusEnum> listeBonus = new ArrayList<>(partie.paramPartie.getListBonus());
@@ -36,22 +36,6 @@ public class BlocDestructible extends Case {
             joueur.score += super.Points;
             return caseVide;
         }
-    }
-
-    /*
-     * méthode viderCase va destruir une blocDestructible (si le block n'est pas
-     * type destructible il renvois false) else
-     * il renvois true et le block est destruit remplacé par une case vide sans
-     * mettre de bonus
-     * cette éthode plutôt sert à debug
-     */
-    public boolean viderCase() {
-        if (this.estDestructible) {
-            Case caseVide = new Case(true, this.positionX, this.positionY, typeCaseEnum.CaseVide, false, partie);
-            partie.carte[this.positionY][this.positionX] = caseVide;
-            return true;
-        }
-        return false;
     }
 
     @Override
