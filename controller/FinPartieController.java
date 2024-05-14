@@ -1,7 +1,6 @@
 package controller;
 
 import view.*;
-import model.Main;
 import model.Partie;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,8 +34,8 @@ public class FinPartieController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 view.dispose();
-                MainFrame.main(null);
                 // retourner à l'accueil
+                mainFrame.changePanel(new AccueilPanel(mainFrame));
             }
         });
 
