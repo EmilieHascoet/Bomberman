@@ -33,18 +33,4 @@ public class MainFrame extends JFrame {
         setContentPane(panel);
         validate(); // Valide le conteneur après l'ajout du composant
     }
-
-    public static void main(String[] args) {
-        // Exécution de l'interface graphique dans le thread de distribution des événements
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                // Chargez toutes les images au démarrage de l'application
-                new Partie();
-
-                MainFrame frame2 = new MainFrame();
-                frame2.setVisible(true);
-            }
-        });
-    }
 }
