@@ -1,7 +1,6 @@
 package model;
 
 import model.Partie.bonusEnum;
-import model.Partie.typeCaseEnum;
 
 /**
  * 

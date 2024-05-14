@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import model.Bonus;
 import model.Case;
-import model.Partie.typeCaseEnum;
+import model.Case.typeCaseEnum;
 
 public class CasePanel extends JPanel {
     public Case caseModel;

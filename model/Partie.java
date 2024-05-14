@@ -2,6 +2,8 @@ package model;
 import java.io.Serializable;
 import java.util.*;
 
+import model.Case.typeCaseEnum;
+
 /**
  * 
  */
@@ -64,36 +66,6 @@ public class Partie implements Serializable {
                     return "Images/Bonus/Vie.png";
                 case Vitesse:
                     return "Images/Bonus/Vitesse.png";
-                default:
-                    return null;
-            }
-        }
-    }
-
-    public enum typeCaseEnum {
-        BlocDestructible, BlocIndestructible, CaseVide, Bombe, Bonus;
-
-        public String getDescription() {
-            switch (this) {
-                case BlocDestructible:
-                    return "Haie à fleurs : destructible";
-                case BlocIndestructible:
-                    return "Haie sans fleurs : indestructible";
-                case Bombe:
-                    return "Fleur explosive : indestructible";
-                default:
-                    return null;
-            }
-        }
-
-        public String getPathImage() {
-            switch (this) {
-                case BlocDestructible:
-                    return "Images/Bloc/BlocDestructible.png";
-                case BlocIndestructible:
-                    return "Images/Bloc/BlocIndestructible.png";
-                case Bombe:
-                    return "Images/Bloc/Bombe.png";
                 default:
                     return null;
             }
@@ -203,22 +175,22 @@ public class Partie implements Serializable {
             for (int j = 0; j < m; j++) {
                 // La carte est entourée de blocs indestructibles
                 if (i == 0 || j == 0 || i == n - 1 || j == m - 1) {
-                    carte[i][j] = new Case(false, j, i, Partie.typeCaseEnum.BlocIndestructible, false, this);
+                    carte[i][j] = new Case(false, j, i, typeCaseEnum.BlocIndestructible, false, this);
                 }
                 // Les 2 coins opposés sont vides pour laisser la place aux joueurs
                 else if ((i == 1 && j == 1) || (i == 1 && j == 2) || (i == 2 && j == 1) || (i == n - 2 && j == m - 2)
                         || (i == n - 2 && j == m - 3) || (i == n - 3 && j == m - 2)) {
-                    carte[i][j] = new Case(true, j, i, Partie.typeCaseEnum.CaseVide, false, this);
+                    carte[i][j] = new Case(true, j, i, typeCaseEnum.CaseVide, false, this);
                 }
                 // Les blocs indesctructibles sont placés sur les cases pairs
                 else if (i == 0 || j == 0 || i == n - 1 || j == m - 1 || (i % 2 == 0 && j % 2 == 0)) {
-                    carte[i][j] = new Case(false, j, i, Partie.typeCaseEnum.BlocIndestructible, false, this);
+                    carte[i][j] = new Case(false, j, i, typeCaseEnum.BlocIndestructible, false, this);
                 }
                 // Les blocs destructibles sont placés aléatoirement
                 else if (Math.random() < 0.5) {
                     carte[i][j] = new BlocDestructible(j, i, this);
                 } else {
-                    carte[i][j] = new Case(true, j, i, Partie.typeCaseEnum.CaseVide, false, this);
+                    carte[i][j] = new Case(true, j, i, typeCaseEnum.CaseVide, false, this);
                 }
             }
         }

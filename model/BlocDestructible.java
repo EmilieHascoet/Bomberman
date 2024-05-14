@@ -2,7 +2,6 @@ package model;
 
 import java.util.Random;
 import model.Partie.bonusEnum;
-import model.Partie.typeCaseEnum;
 
 import java.util.List;
 import java.util.ArrayList;

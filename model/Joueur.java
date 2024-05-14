@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Partie.avatar;
-import model.Partie.typeCaseEnum;;
+import model.Case.typeCaseEnum;;
 
 /**
  * 
@@ -89,7 +89,7 @@ public class Joueur implements Serializable {
         // Vérifie s'il reste des bombes en stock.
         if (stockBombe > 0) {
             // Crée une nouvelle bombe à la position actuelle du joueur.
-            Bombe newBombe = new Bombe(this.positionX, this.positionY, 3, porteeBombe, this, partie);
+            Bombe newBombe = new Bombe(this.positionX, this.positionY, 2, porteeBombe, this, partie);
 
             // Place la bombe sur la carte à la position actuelle du joueur.
             partie.carte[this.positionY][this.positionX] = newBombe;

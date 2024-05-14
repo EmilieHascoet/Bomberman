@@ -2,12 +2,40 @@ package model;
 
 import java.io.Serializable;
 
-import model.Partie.typeCaseEnum;
-
 /**
  * 
  */
 public class Case implements Serializable {
+
+    public enum typeCaseEnum {
+        BlocDestructible, BlocIndestructible, CaseVide, Bombe, Bonus;
+
+        public String getDescription() {
+            switch (this) {
+                case BlocDestructible:
+                    return "Haie à fleurs : destructible";
+                case BlocIndestructible:
+                    return "Haie sans fleurs : indestructible";
+                case Bombe:
+                    return "Fleur explosive : indestructible";
+                default:
+                    return null;
+            }
+        }
+
+        public String getPathImage() {
+            switch (this) {
+                case BlocDestructible:
+                    return "Images/Bloc/BlocDestructible.png";
+                case BlocIndestructible:
+                    return "Images/Bloc/BlocIndestructible.png";
+                case Bombe:
+                    return "Images/Bloc/Bombe.png";
+                default:
+                    return null;
+            }
+        }
+    }
 
     // Déclarations des attributs
     public Boolean estTraversable;
