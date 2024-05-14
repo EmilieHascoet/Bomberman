@@ -37,7 +37,7 @@ public class Bombe extends Case {
                 Thread.sleep(this.tempsExplosion * 1000);
                 this.explosion();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                this.explosion();
             }
         });
         timerThread.start();
@@ -104,12 +104,22 @@ public class Bombe extends Case {
      */
     private boolean propagateInDirection(int startX, int startY, List<Case> caseModifiees) {    
         Case currentCase = partie.carte[startY][startX];
-    
+        
+        // Don't fire on indestructible blocks
         if (currentCase.typeCase != typeCaseEnum.BlocIndestructible) {
-            caseModifiees.add(currentCase);
-            currentCase.isFire = true;
+            // Update the cell to be on fire
+            // Destroy the bomb if it's on the cell
+            if(currentCase.typeCase == typeCaseEnum.Bombe) {
+                ((Bombe) currentCase).destroy();
+            }
+            //  If the cell is already on fire, update the cell
+            else {
+                currentCase.isFire = true;
+                caseModifiees.add(currentCase);
+            }
         }
         if (currentCase.joueur != null) currentCase.joueur.perdreVie();
+        // Stop if the cell is not traversable or destructible
         if (!currentCase.estTraversable || currentCase.estDestructible) {
             return true;
         }
@@ -125,12 +135,7 @@ public class Bombe extends Case {
      */
     private void destroyBlocks(List<Case> caseModifiees) {
         for (Case c : caseModifiees) {
-            if (c.estDestructible) {
-                System.out.println(c.typeCase);
-                System.out.println("destroying");
-                if (c instanceof BlocDestructible) ((BlocDestructible) c).destroy(this.joueurPoseBombe);
-                else ((Bombe) c).destroy();
-            }
+            if (c instanceof BlocDestructible) ((BlocDestructible) c).destroy(this.joueurPoseBombe);
             else c.isFire = false;
         }
     }
@@ -139,7 +144,6 @@ public class Bombe extends Case {
      * Destroys the bomb by triggering an explosion and interrupting the timer thread.
      */
     public void destroy() {
-        this.explosion();
         timerThread.interrupt();
     }
     

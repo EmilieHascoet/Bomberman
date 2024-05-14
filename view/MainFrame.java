@@ -36,8 +36,8 @@ public class MainFrame extends JFrame {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                // Vérifier si le panneau actif est une partie en cours
-                if (panelActif instanceof PartiePanel) {
+                // Vérifier si le panneau actif est une partie en cours non terminée
+                if (panelActif instanceof PartiePanel && ((PartiePanel) panelActif).partieEnCours.estTerminee() == false){
                     // Récupère la partie en cours
                     Partie partie = ((PartiePanel) panelActif).partieEnCours;
                     int response = JOptionPane.showConfirmDialog(MainFrame.this, "Voulez-vous sauvegarder la partie en cours ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
