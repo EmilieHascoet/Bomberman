@@ -37,7 +37,8 @@ public class Bombe extends Case {
                 Thread.sleep(this.tempsExplosion * 1000);
                 this.explosion();
             } catch (InterruptedException e) {
-                this.explosion();
+                System.out.println("Bombe désamorcée");
+                e.printStackTrace();
             }
         });
         timerThread.start();
@@ -111,6 +112,7 @@ public class Bombe extends Case {
             // Destroy the bomb if it's on the cell
             if(currentCase.typeCase == typeCaseEnum.Bombe) {
                 ((Bombe) currentCase).destroy();
+                System.out.println("Bombe détruite");
             }
             //  If the cell is already on fire, update the cell
             else {
@@ -145,6 +147,10 @@ public class Bombe extends Case {
      */
     public void destroy() {
         timerThread.interrupt();
+        timerThread = new Thread(() -> {
+            explosion();
+        });
+        timerThread.start();
     }
     
 
