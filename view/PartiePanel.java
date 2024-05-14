@@ -8,15 +8,14 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImage;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
-import javax.imageio.ImageIO;
-import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +23,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -51,6 +51,7 @@ public class PartiePanel extends JPanel {
     GridBagConstraints gbc = new GridBagConstraints();
     JPanel plateauPanel;
     Map<String, Integer> vieJoueurs;
+    ClassLoader classLoader = getClass().getClassLoader();
 
     private List<JPanel> lifePanels = new ArrayList<>();
     JLabel chrono;
@@ -115,6 +116,16 @@ public class PartiePanel extends JPanel {
         
             // Appliquer l'opération de flou à l'image
             backgroundImage = blurOp.filter(backgroundImage, null);
+
+            
+        vieJoueurs = new HashMap<>() {
+            {
+                for (Joueur joueur : Partie.getJoueurs()) {
+                    put(joueur.nom, joueur.getVie());
+                }
+            }
+        };
+
         
         } catch (IOException e) {
             e.printStackTrace();
@@ -215,6 +226,7 @@ public class PartiePanel extends JPanel {
             }
 
             // Add the life panel to the list of life panels
+
             lifePanels.add(lifePanel);
             abc.gridx = 0; abc.gridy = 0;
             panel.add(labelName.get(i), abc);
@@ -224,6 +236,8 @@ public class PartiePanel extends JPanel {
             panel.add(labelBombs.get(i));
             abc.gridx = 3; abc.gridy = 0;
             panel.add(labelScore.get(i));
+            abc.gridx = 4; abc.gridy = 0;
+            abc.gridheight = 2;
             south.add(panel, gbc);
         }
 
@@ -255,7 +269,7 @@ public class PartiePanel extends JPanel {
         for(int i = 0; i < Partie.nbJoueurs; i++){
             JPanel panel = new JPanel(new GridBagLayout());
             GridBagConstraints abc = new GridBagConstraints();
-            abc.insets = new java.awt.Insets(0, 20, 0, 20);
+            abc.insets = new java.awt.Insets(0, 10, 0, 10);
             gbc.gridx = i % 2;
             gbc.gridy = i / 2;
             // Update the life squares
@@ -280,14 +294,31 @@ public class PartiePanel extends JPanel {
             if(Partie.getJoueurs().get(i).getVie() > vieJoueurs.get(Partie.getJoueurs().get(i).nom)){
                 vieJoueurs.put(Partie.getJoueurs().get(i).nom, Partie.getJoueurs().get(i).getVie());       
             }
+
+            URL url = null;
+            try{
+                url = classLoader.getResource("Images/Personnage/" + Partie.getJoueurs().get(i).avatar + ".png");
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
             abc.gridx = 0; abc.gridy = 0;
-            panel.add(new JLabel("Joueur: " + Partie.getJoueurs().get(i).nom + " "), abc);
+            abc.gridheight = 2;
+            ImageIcon icon = new ImageIcon(url);
+            Image img = icon.getImage();
+            Image newimg = img.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
+            JLabel avatar = new JLabel(new ImageIcon(newimg));
+            panel.add(avatar, abc);
+            abc.gridheight = 1;
             abc.gridx = 1; abc.gridy = 0;
-            panel.add(lifePanel);        
-            abc.gridx = 0; abc.gridy = 1;    
-            panel.add(new JLabel("Stock de bombes: " + Partie.getJoueurs().get(i).stockBombe + " "), abc);
+            panel.add(labelName.get(i), abc);
+            abc.gridx = 2; abc.gridy = 0;
+            panel.add(lifePanel, abc);
             abc.gridx = 1; abc.gridy = 1;
-            panel.add(new JLabel("Score: " + Partie.getJoueurs().get(i).score + " "), abc);
+            panel.add(labelBombs.get(i), abc);
+            abc.gridx = 2; abc.gridy = 1;
+            panel.add(labelScore.get(i), abc);
+
             south.add(panel, gbc);
         }
         infoPanel.add(south);
