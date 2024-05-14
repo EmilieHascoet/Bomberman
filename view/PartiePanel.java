@@ -10,6 +10,10 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImage;
+import java.awt.image.ConvolveOp;
+import java.awt.image.Kernel;
+import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -90,20 +94,39 @@ public class PartiePanel extends JPanel {
 
         // Load the background image
         try {
-            // BUG EMILIE : backgroundImage =
-            // ImageIO.read(getClass().getResource("/Images/background.png"));
-            backgroundImage = ImageIO.read(new File((getClass().getResource("/Images/background.png").getPath())));
+            backgroundImage = ImageIO.read(getClass().getResource("/Images/background.png"));
+            //backgroundImage = ImageIO.read(new File((getClass().getResource("/Images/background.png").getPath())));
+        
+            // Créer un noyau de flou
+            float[] matrix = {
+                1/25f, 1/25f, 1/25f, 1/25f, 1/25f,
+                1/25f, 1/25f, 1/25f, 1/25f, 1/25f,
+                1/25f, 1/25f, 1/25f, 1/25f, 1/25f,
+                1/25f, 1/25f, 1/25f, 1/25f, 1/25f,
+                1/25f, 1/25f, 1/25f, 1/25f, 1/25f,
+            };
+            Kernel blurKernel = new Kernel(4, 4, matrix);
+        
+            // Créer un ConvolveOp avec le noyau de flou
+            ConvolveOp blurOp = new ConvolveOp(blurKernel);
+        
+            // Appliquer l'opération de flou à l'image
+            backgroundImage = blurOp.filter(backgroundImage, null);
+        
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-        vieJoueurs = new HashMap<>() {
-            {
-                for (Joueur joueur : Partie.getJoueurs()) {
-                    put(joueur.nom, joueur.getVie());
-                }
-            }
-        };
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        // Dessiner l'image de fond
+        if (backgroundImage != null) {
+            g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
+        }
     }
 
     private JPanel createPlateauPanel() {
@@ -139,16 +162,6 @@ public class PartiePanel extends JPanel {
         // Add a black border around the plateau panel
         plateauPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), sizeBorderPlateau));
         return plateauPanel;
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        // Dessiner l'image de fond
-        if (backgroundImage != null) {
-            g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
-        }
     }
 
     private JPanel createInfosPanel() {
