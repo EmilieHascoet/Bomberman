@@ -6,7 +6,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -43,6 +44,7 @@ public class PartiePanel extends JPanel {
     static int infoPanelHeight = 150;
     JPanel north = new JPanel();
     JPanel south = new JPanel();
+    GridBagConstraints gbc = new GridBagConstraints();
     JPanel plateauPanel;
     Map<String, Integer> vieJoueurs;
 
@@ -64,6 +66,7 @@ public class PartiePanel extends JPanel {
 
         infoPanel = createInfosPanel();
         plateauPanel = createPlateauPanel();
+        gbc.insets = new java.awt.Insets(5, 100, 5, 100);
         plateauPanel.setAlignmentX(CENTER_ALIGNMENT);
 
         // Add the panel to the center of the frame
@@ -156,7 +159,7 @@ public class PartiePanel extends JPanel {
 
         // JLabel to display
         chrono = new JLabel("Temps: " + temps / 60 + " : " + temps % 60);
-        ;
+        
         labelName = new ArrayList<>();
         labelLives = new ArrayList<>();
         labelBombs = new ArrayList<>();
@@ -167,18 +170,22 @@ public class PartiePanel extends JPanel {
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.setPreferredSize(new Dimension(mainFrame.getWidth(), infoPanelHeight));
         north.setLayout(new BoxLayout(north, BoxLayout.X_AXIS));
-        south.setLayout(new GridLayout(2, Partie.nbJoueurs + 1));
-        
+        south.setLayout(new GridBagLayout());
+        gbc.insets = new java.awt.Insets(5, 50, 5, 50);
         infoPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         north.add(chrono);
 
         for (int i = 0; i < Partie.nbJoueurs; i++) {
+            JPanel panel = new JPanel(new GridBagLayout());
+            GridBagConstraints abc = new GridBagConstraints();
+            abc.insets = new java.awt.Insets(0, 20, 0, 20);
             // Create a label to display the number of lives
             labelName.add(new JLabel("Joueur: " + Partie.getJoueurs().get(i).nom + " "));
             labelBombs.add(new JLabel("Stock de bombes: " + Partie.getJoueurs().get(i).stockBombe + " "));
             labelScore.add(new JLabel("Score: " + Partie.getJoueurs().get(i).score + " "));
-
+            gbc.gridx = i % 2;
+            gbc.gridy = i / 2;
             // Create a panel to hold the life squares
             JPanel lifePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
 
@@ -195,13 +202,18 @@ public class PartiePanel extends JPanel {
             }
 
             // Add the life panel to the list of life panels
-            lifePanels.add(lifePanel); // This line is new
-
-            south.add(labelName.get(i));
-            south.add(lifePanels.get(i)); // This line has changed
-            south.add(labelBombs.get(i));
-            south.add(labelScore.get(i));
+            lifePanels.add(lifePanel);
+            abc.gridx = 0; abc.gridy = 0;
+            panel.add(labelName.get(i), abc);
+            abc.gridx = 1; abc.gridy = 0;
+            panel.add(lifePanels.get(i), abc);
+            abc.gridx = 2; abc.gridy = 0;
+            panel.add(labelBombs.get(i));
+            abc.gridx = 3; abc.gridy = 0;
+            panel.add(labelScore.get(i));
+            south.add(panel, gbc);
         }
+
 
         infoPanel.add(north);
         infoPanel.add(south);
@@ -228,8 +240,11 @@ public class PartiePanel extends JPanel {
         north.add(chrono);
 
         for(int i = 0; i < Partie.nbJoueurs; i++){
-             
-            
+            JPanel panel = new JPanel(new GridBagLayout());
+            GridBagConstraints abc = new GridBagConstraints();
+            abc.insets = new java.awt.Insets(0, 20, 0, 20);
+            gbc.gridx = i % 2;
+            gbc.gridy = i / 2;
             // Update the life squares
             JPanel lifePanel = lifePanels.get(i);
             lifePanel.removeAll();
@@ -252,12 +267,15 @@ public class PartiePanel extends JPanel {
             if(Partie.getJoueurs().get(i).getVie() > vieJoueurs.get(Partie.getJoueurs().get(i).nom)){
                 vieJoueurs.put(Partie.getJoueurs().get(i).nom, Partie.getJoueurs().get(i).getVie());       
             }
-            south.add(new JLabel("Joueur: " + Partie.getJoueurs().get(i).nom + " "));
-            
-            south.add(lifePanel);
-
-            south.add(new JLabel("Stock de bombes: " + Partie.getJoueurs().get(i).stockBombe + " "));
-            south.add(new JLabel("Score: " + Partie.getJoueurs().get(i).score + " "));
+            abc.gridx = 0; abc.gridy = 0;
+            panel.add(new JLabel("Joueur: " + Partie.getJoueurs().get(i).nom + " "), abc);
+            abc.gridx = 1; abc.gridy = 0;
+            panel.add(lifePanel);        
+            abc.gridx = 0; abc.gridy = 1;    
+            panel.add(new JLabel("Stock de bombes: " + Partie.getJoueurs().get(i).stockBombe + " "), abc);
+            abc.gridx = 1; abc.gridy = 1;
+            panel.add(new JLabel("Score: " + Partie.getJoueurs().get(i).score + " "), abc);
+            south.add(panel, gbc);
         }
         infoPanel.add(south);
     }
