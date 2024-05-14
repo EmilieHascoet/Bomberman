@@ -6,6 +6,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -87,16 +93,15 @@ public class AccueilPanel extends JPanel {
 
     private void createTopPanel() {
         // Création du panel
-        topPanel = new JPanel();
+        topPanel = new RoundedPanel(20, backgroundColorGreen, 5);
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
         topPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        topPanel.setBackground(backgroundColorGreen);
-
+    
         // Création du label
         JLabel label = new JLabel("Bienvenue dans Bomberman");
         label.setFont(new Font("Arial", Font.BOLD, 40));
         label.setAlignmentX(CENTER_ALIGNMENT);
-
+    
         // Ajout du label au panel
         topPanel.add(label);
     }
@@ -158,20 +163,42 @@ public class AccueilPanel extends JPanel {
     }
 
     private void createCenterPanel() {
-        // Création du panel
-        centerPanel = new JPanel();
-        centerPanel.setLayout(new BorderLayout());
+        // Création du panel extérieur
+        centerPanel = new JPanel(new BorderLayout());
         centerPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
+        // Création du panel
+        JPanel innerPanel = new RoundedPanel(30, backgroundColorGreen, 10, Color.YELLOW);
+        innerPanel.setLayout(new BorderLayout());
+        innerPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        JLabel label = new JLabel("Meilleurs scores :");
+        label.setFont(new Font("Courier New", Font.BOLD, 20));
+        label.setAlignmentX(CENTER_ALIGNMENT);
+        innerPanel.add(label, BorderLayout.NORTH);
+
         // Affichage d'un leader board
-        JTextArea label = new JTextArea("Meilleurs scores :");
-        Stream.recupereScores().forEach((score, noms) -> {
+        JTextArea textArea = new JTextArea();
+        textArea.setEditable(false);
+        textArea.setOpaque(false);
+        innerPanel.add(textArea, BorderLayout.CENTER);
+
+        // Récupération des scores
+        Map<Integer, List<String>> topScores = new TreeMap<>(Collections.reverseOrder());
+        topScores.putAll(Stream.recupereScores());
+
+        topScores = topScores.entrySet()
+            .stream()
+            .limit(10)
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> a, LinkedHashMap::new));
+
+        topScores.forEach((score, noms) -> {
             for(String nom : noms) {
-                label.append("\n" + nom + " : " + score);
+                textArea.append("\n" + nom + " : " + score);
             }
         });
 
-        centerPanel.add(label, BorderLayout.NORTH);
+        centerPanel.add(innerPanel);
     }
 
     private void createBottomPanel() {
