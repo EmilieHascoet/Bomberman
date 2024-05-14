@@ -4,15 +4,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+import model.Main;
 import model.Partie;
 
 public class FinPartieView extends JDialog {
     private JButton buttonRejouer;
     private JButton buttonMenu;
     private JButton buttonExit;
+    private MainFrame frame;
 
-    public FinPartieView(Frame owner) {
-        super(owner, "Fin de Partie", true);
+    public FinPartieView(MainFrame frame) {
+        super(frame, "Fin de Partie", true);
+        this.frame = frame;
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setSize(400, 220);
         setLocationRelativeTo(null);
@@ -25,7 +28,15 @@ public class FinPartieView extends JDialog {
         boolean isPlayer1Winner = scorePlayer1 > scorePlayer2;
 
         setupComponents(gbc, scorePlayer1, scorePlayer2, isPlayer1Winner);
+
+    }
+
+    public void display() {
         setVisible(true);
+    }
+
+    public MainFrame getMainFrame() {
+        return frame;
     }
 
     private void setupComponents(GridBagConstraints gbc, int scorePlayer1, int scorePlayer2, boolean isPlayer1Winner) {

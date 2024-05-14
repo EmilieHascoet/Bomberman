@@ -1,5 +1,6 @@
 package view;
 
+import controller.FinPartieController;
 import controller.PartieKeyListener;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -52,7 +53,7 @@ public class PartiePanel extends JPanel {
     List<JLabel> labelBombs;
     List<JLabel> labelScore;
     List<JLabel> labelBonus;
-    
+
     public static CasePanel[][] casesPlateauPanel;
 
     public PartiePanel(MainFrame frame) {
@@ -89,32 +90,37 @@ public class PartiePanel extends JPanel {
 
         // Load the background image
         try {
-            // BUG EMILIE : backgroundImage = ImageIO.read(getClass().getResource("/Images/background.png"));
+            // BUG EMILIE : backgroundImage =
+            // ImageIO.read(getClass().getResource("/Images/background.png"));
             backgroundImage = ImageIO.read(new File((getClass().getResource("/Images/background.png").getPath())));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        vieJoueurs = new HashMap<>(){{
-            for(Joueur joueur : Partie.getJoueurs()){
-                put(joueur.nom, joueur.getVie());
+        vieJoueurs = new HashMap<>() {
+            {
+                for (Joueur joueur : Partie.getJoueurs()) {
+                    put(joueur.nom, joueur.getVie());
+                }
             }
-        }};
+        };
     }
 
     private JPanel createPlateauPanel() {
         // panel de type grille
-        int width = Partie.paramPartie.getBoardWidth()+2;
-        int height = Partie.paramPartie.getBoardHeight()+2;
+        int width = Partie.paramPartie.getBoardWidth() + 2;
+        int height = Partie.paramPartie.getBoardHeight() + 2;
 
         casesPlateauPanel = new CasePanel[height][width];
-        
-        int sizeCase = Math.min(mainFrame.getWidth()-sizeBorderPlateau*2 / width, (mainFrame.getHeight() - infoPanelHeight) / height);
+
+        int sizeCase = Math.min(mainFrame.getWidth() - sizeBorderPlateau * 2 / width,
+                (mainFrame.getHeight() - infoPanelHeight) / height);
         JPanel plateauPanel = new JPanel();
         plateauPanel.setOpaque(false);
-        plateauPanel.setPreferredSize(new Dimension(sizeCase*width+sizeBorderPlateau*2, sizeCase*height+sizeBorderPlateau*2));
+        plateauPanel.setPreferredSize(
+                new Dimension(sizeCase * width + sizeBorderPlateau * 2, sizeCase * height + sizeBorderPlateau * 2));
         plateauPanel.setMaximumSize(plateauPanel.getPreferredSize());
-        //plateauPanel.setBackground(new Color(0, 0, 0));
+        // plateauPanel.setBackground(new Color(0, 0, 0));
         plateauPanel.setLayout(new BoxLayout(plateauPanel, BoxLayout.Y_AXIS));
 
         for (int i = 0; i < height; i++) {
@@ -129,7 +135,7 @@ public class PartiePanel extends JPanel {
             }
             plateauPanel.add(panel);
         }
-        
+
         // Add a black border around the plateau panel
         plateauPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), sizeBorderPlateau));
         return plateauPanel;
@@ -148,8 +154,9 @@ public class PartiePanel extends JPanel {
     private JPanel createInfosPanel() {
         JPanel infoPanel = new JPanel();
 
-        //JLabel to display
+        // JLabel to display
         chrono = new JLabel("Temps: " + temps / 60 + " : " + temps % 60);
+        ;
         labelName = new ArrayList<>();
         labelLives = new ArrayList<>();
         labelBombs = new ArrayList<>();
@@ -166,7 +173,7 @@ public class PartiePanel extends JPanel {
 
         north.add(chrono);
 
-        for(int i = 0; i < Partie.nbJoueurs; i++){
+        for (int i = 0; i < Partie.nbJoueurs; i++) {
             // Create a label to display the number of lives
             labelName.add(new JLabel("Joueur: " + Partie.getJoueurs().get(i).nom + " "));
             labelBombs.add(new JLabel("Stock de bombes: " + Partie.getJoueurs().get(i).stockBombe + " "));
@@ -175,16 +182,15 @@ public class PartiePanel extends JPanel {
             // Create a panel to hold the life squares
             JPanel lifePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
 
-
             JLabel lifeLabel = new JLabel("Vies:");
             lifePanel.add(lifeLabel);
 
             // Add the life squares to the panel
-            for(int j = 0; j < Partie.getJoueurs().get(i).getVie(); j++){
+            for (int j = 0; j < Partie.getJoueurs().get(i).getVie(); j++) {
                 JPanel lifeSquare = new JPanel();
                 lifeSquare.setPreferredSize(new Dimension(10, 20));
                 lifeSquare.setBackground(Color.GREEN);
-                lifeSquare.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,10,0,10));
+                lifeSquare.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10));
                 lifePanel.add(lifeSquare);
             }
 
@@ -205,8 +211,8 @@ public class PartiePanel extends JPanel {
 
     public void updatePlateauPanel() {
         // Update the plateau panel
-        for (int i = 0; i < Partie.paramPartie.getBoardHeight()+2; i++) {
-            for (int j = 0; j < Partie.paramPartie.getBoardWidth()+2; j++) {
+        for (int i = 0; i < Partie.paramPartie.getBoardHeight() + 2; i++) {
+            for (int j = 0; j < Partie.paramPartie.getBoardWidth() + 2; j++) {
                 casesPlateauPanel[i][j].setCaseModel(Partie.carte[i][j]);
                 casesPlateauPanel[i][j].loadImage();
             }
@@ -230,29 +236,12 @@ public class PartiePanel extends JPanel {
 
             JLabel lifeLabel = new JLabel("Vies:");
             lifePanel.add(lifeLabel);
-
-            /* for(Joueur joueur : Partie.getJoueurs()){
-                for(int j = 0; j < vieJoueurs.get(joueur.nom); j++){
-                    JPanel lifeSquare = new JPanel();
-                    lifeSquare.setPreferredSize(new Dimension(10, 20));
-                    lifeSquare.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,10,0,10));
-
-                    if(j < joueur.getVie()){
-                        lifeSquare.setBackground(Color.GREEN);
-                    } else {
-                        lifeSquare.setBackground(Color.RED);
-                    }
-
-                    lifePanel.add(lifeSquare);
-                }
-                System.out.println("Joueur: " + joueur.nom + " Vies: " + joueur.getVie() + " Stock de bombes: " + joueur.stockBombe + " Score: " + joueur.score + " ");
-            } */
-            for(int j = 0; j < vieJoueurs.get(Partie.getJoueurs().get(i).nom); j++){
+            for (int j = 0; j < Partie.paramPartie.getNbVie(); j++) {
                 JPanel lifeSquare = new JPanel();
                 lifeSquare.setPreferredSize(new Dimension(10, 20));
-                lifeSquare.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,10,0,10));
+                lifeSquare.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10));
 
-                if(j < Partie.getJoueurs().get(i).getVie()){
+                if (j < Partie.getJoueurs().get(i).getVie()) {
                     lifeSquare.setBackground(Color.GREEN);
                 } else {
                     lifeSquare.setBackground(Color.RED);
@@ -275,20 +264,24 @@ public class PartiePanel extends JPanel {
 
     public void decrementerTemps() {
         compteur++;
-        if(Partie.estTerminee()) {
+        if (Partie.estTerminee()) {
             this.timer.stop();
+            new FinPartieController(new FinPartieView(mainFrame));
+
             // TODO : Afficher le JDialog de fin de partie
         }
         updateInfosPanel();
         updatePlateauPanel();
-        // Décrémentez le temps seulement lorsque le compteur atteint 10 (c'est-à-dire toutes les secondes)
-        if (compteur % (1000/this.tauxRafraichissement) == 0) {
+        // Décrémentez le temps seulement lorsque le compteur atteint 10 (c'est-à-dire
+        // toutes les secondes)
+        if (compteur % (1000 / this.tauxRafraichissement) == 0) {
             if (temps > 0) {
                 temps--;
                 chrono.setText("Temps: " + temps / 60 + " : " + temps % 60);
             } else {
                 // Arrêtez le timer lorsque le temps est écoulé
                 this.timer.stop();
+                new FinPartieController(new FinPartieView(mainFrame));
                 // TODO : Afficher le JDialog de fin de partie
             }
         }
