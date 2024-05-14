@@ -68,7 +68,6 @@ public class Bombe extends Case {
             Case thisCase = partie.carte[this.positionY][this.positionX] = new Case(true, this.positionX, this.positionY, typeCaseEnum.CaseVide, false, partie);
             thisCase.joueur = this.joueur;
             if (thisCase.joueur != null) thisCase.joueur.perdreVie();
-            System.out.println(joueurPoseBombe.isAlive);
             thisCase.isFire = true;
             caseModifiees.add(thisCase);
             this.joueurPoseBombe.stockBombe++;
@@ -106,7 +105,7 @@ public class Bombe extends Case {
     private boolean propagateInDirection(int startX, int startY, List<Case> caseModifiees) {    
         Case currentCase = partie.carte[startY][startX];
     
-        if (currentCase.typeCase.equals("BlocDestructible") || currentCase.estTraversable) {
+        if (currentCase.typeCase == typeCaseEnum.BlocDestructible || currentCase.estTraversable) {
             caseModifiees.add(currentCase);
             currentCase.isFire = true;
         }

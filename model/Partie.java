@@ -262,15 +262,15 @@ public class Partie implements Serializable {
             for (int j = 0; j < carte[i].length; j++) {
                 if (carte[i][j].joueur != null) {
                     System.out.print("\u001B[35m" + "J" + "\t" + "\u001B[0m"); // Violet pour le joueur
-                } else if (carte[i][j].typeCase.equals("CaseVide")) {
+                } else if (carte[i][j].typeCase == typeCaseEnum.CaseVide) {
                     System.out.print("\u001B[34m" + "T" + "\t" + "\u001B[0m"); // Bleu pour le terrain
-                } else if (carte[i][j].typeCase.equals("BlocDestructible")) {
+                } else if (carte[i][j].typeCase == typeCaseEnum.BlocDestructible) {
                     System.out.print("\u001B[32m" + "D" + "\t" + "\u001B[0m"); // Vert pour les blocs destructibles
-                } else if (carte[i][j].typeCase.equals("BlocIndestructible")) {
+                } else if (carte[i][j].typeCase == typeCaseEnum.BlocIndestructible) {
                     System.out.print("\u001B[31m" + "M" + "\t" + "\u001B[0m"); // Rouge pour les blocs indestructibles
-                } else if (carte[i][j].typeCase.equals("Bombe")) {
+                } else if (carte[i][j].typeCase == typeCaseEnum.Bombe) {
                     System.out.print("\u001B[33m" + "B" + "\t" + "\u001B[0m"); // Jaune pour les bombes
-                } else if (carte[i][j].typeCase.equals("Bonus")) {
+                } else if (carte[i][j].typeCase == typeCaseEnum.Bonus) {
                     System.out.print("\u001B[36m" + "B" + "\t" + "\u001B[0m"); // Cyan pour les bonus
                 }
             }
