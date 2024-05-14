@@ -173,6 +173,7 @@ public class ChoixTouchePanel extends JPanel {
         slider.setPaintLabels(true);
         slider.setSnapToTicks(true);
         slider.setLabelTable(slider.createStandardLabels(1));
+        slider.setOpaque(false);
         slider.addChangeListener(e -> {
             partieEnCours.nbJoueurs = slider.getValue();
             listePanelControles.get(0).removeAll();
