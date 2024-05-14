@@ -18,7 +18,22 @@ public class Partie implements Serializable {
     public int nbJoueurs;
 
     public enum avatar {
-        J1, J2, J3, J4
+        J1, J2, J3, J4;
+
+        public String getPathImage() {
+            switch (this) {
+                case J1:
+                    return "Images/Personnage/J1.png";
+                case J2:
+                    return "Images/Personnage/J2.png";
+                case J3:
+                    return "Images/Personnage/J3.png";
+                case J4:
+                    return "Images/Personnage/J4.png";
+                default:
+                    return null;
+            }
+        }
     }
 
     public enum bonusEnum {
@@ -39,7 +54,7 @@ public class Partie implements Serializable {
             }
         }
 
-        public String getImage() {
+        public String getPathImage() {
             switch (this) {
                 case Bombe:
                     return "Images/Bonus/Bombe.png";
@@ -71,14 +86,14 @@ public class Partie implements Serializable {
             }
         }
 
-        public String getImage() {
+        public String getPathImage() {
             switch (this) {
                 case BlocDestructible:
-                    return "Images/Blocs/BlocDestructible.png";
+                    return "Images/Bloc/BlocDestructible.png";
                 case BlocIndestructible:
-                    return "Images/Blocs/BlocIndestructible.png";
+                    return "Images/Bloc/BlocIndestructible.png";
                 case Bombe:
-                    return "Images/Blocs/Bombe.png";
+                    return "Images/Bloc/Bombe.png";
                 default:
                     return null;
             }
@@ -92,7 +107,7 @@ public class Partie implements Serializable {
     public Partie() {
         // Créer les paramètres par défaut
         Set<bonusEnum> setBonus = new HashSet<>(Arrays.asList(Partie.bonusEnum.values()));
-        this.paramPartie = new Parametres(setBonus, 3, 1, 1, 2, 20, 15);
+        this.paramPartie = new Parametres(setBonus, 3, 1, 1, 2, 5, 5);
 
         // Créer les touches par défaut
         List<Touche> touchesDefaut = new ArrayList<>();
@@ -188,22 +203,22 @@ public class Partie implements Serializable {
             for (int j = 0; j < m; j++) {
                 // La carte est entourée de blocs indestructibles
                 if (i == 0 || j == 0 || i == n - 1 || j == m - 1) {
-                    carte[i][j] = new Case(false, j, i, "BlocIndestructible", false, this);
+                    carte[i][j] = new Case(false, j, i, Partie.typeCaseEnum.BlocIndestructible, false, this);
                 }
                 // Les 2 coins opposés sont vides pour laisser la place aux joueurs
                 else if ((i == 1 && j == 1) || (i == 1 && j == 2) || (i == 2 && j == 1) || (i == n - 2 && j == m - 2)
                         || (i == n - 2 && j == m - 3) || (i == n - 3 && j == m - 2)) {
-                    carte[i][j] = new Case(true, j, i, "CaseVide", false, this);
+                    carte[i][j] = new Case(true, j, i, Partie.typeCaseEnum.CaseVide, false, this);
                 }
                 // Les blocs indesctructibles sont placés sur les cases pairs
                 else if (i == 0 || j == 0 || i == n - 1 || j == m - 1 || (i % 2 == 0 && j % 2 == 0)) {
-                    carte[i][j] = new Case(false, j, i, "BlocIndestructible", false, this);
+                    carte[i][j] = new Case(false, j, i, Partie.typeCaseEnum.BlocIndestructible, false, this);
                 }
                 // Les blocs destructibles sont placés aléatoirement
                 else if (Math.random() < 0.5) {
                     carte[i][j] = new BlocDestructible(j, i, this);
                 } else {
-                    carte[i][j] = new Case(true, j, i, "CaseVide", false, this);
+                    carte[i][j] = new Case(true, j, i, Partie.typeCaseEnum.CaseVide, false, this);
                 }
             }
         }
@@ -275,15 +290,15 @@ public class Partie implements Serializable {
             for (int j = 0; j < carte[i].length; j++) {
                 if (carte[i][j].joueur != null) {
                     System.out.print("\u001B[35m" + "J" + "\t" + "\u001B[0m"); // Violet pour le joueur
-                } else if (carte[i][j].typeImage.equals("CaseVide")) {
+                } else if (carte[i][j].typeCase.equals("CaseVide")) {
                     System.out.print("\u001B[34m" + "T" + "\t" + "\u001B[0m"); // Bleu pour le terrain
-                } else if (carte[i][j].typeImage.equals("BlocDestructible")) {
+                } else if (carte[i][j].typeCase.equals("BlocDestructible")) {
                     System.out.print("\u001B[32m" + "D" + "\t" + "\u001B[0m"); // Vert pour les blocs destructibles
-                } else if (carte[i][j].typeImage.equals("BlocIndestructible")) {
+                } else if (carte[i][j].typeCase.equals("BlocIndestructible")) {
                     System.out.print("\u001B[31m" + "M" + "\t" + "\u001B[0m"); // Rouge pour les blocs indestructibles
-                } else if (carte[i][j].typeImage.equals("Bombe")) {
+                } else if (carte[i][j].typeCase.equals("Bombe")) {
                     System.out.print("\u001B[33m" + "B" + "\t" + "\u001B[0m"); // Jaune pour les bombes
-                } else if (carte[i][j].typeImage.equals("Bonus")) {
+                } else if (carte[i][j].typeCase.equals("Bonus")) {
                     System.out.print("\u001B[36m" + "B" + "\t" + "\u001B[0m"); // Cyan pour les bonus
                 }
             }

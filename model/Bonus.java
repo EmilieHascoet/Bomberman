@@ -1,6 +1,7 @@
 package model;
 
 import model.Partie.bonusEnum;
+import model.Partie.typeCaseEnum;
 
 /**
  * 
@@ -15,7 +16,7 @@ public class Bonus extends Case {
      * Default constructor
      */
     public Bonus(Integer positionX, Integer positionY, bonusEnum effet, Partie partie) {
-        super(true, positionX, positionY, "Bonus", false, partie);
+        super(true, positionX, positionY, typeCaseEnum.Bonus, false, partie);
         // 30% de chance que ce soit un malus
         if (Math.random() < 0.3) {
             this.isMalus = true;
@@ -56,7 +57,7 @@ public class Bonus extends Case {
         joueur.score += super.Points;
         int posX = super.positionX;
         int posY = super.positionY;
-        Case caseVide = partie.carte[posY][posX] = new Case(true, posX, posY, "CaseVide", false, partie);
+        Case caseVide = partie.carte[posY][posX] = new Case(true, posX, posY, typeCaseEnum.CaseVide, false, partie);
         caseVide.setJoueur(joueur);
     }
 

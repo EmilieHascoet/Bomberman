@@ -18,6 +18,7 @@ import javax.swing.UIManager;
 
 import controller.AccueilControleur;
 import model.Partie;
+import model.Partie.bonusEnum;
 import model.Stream;
 
 public class AccueilPanel extends JPanel {
@@ -118,13 +119,16 @@ public class AccueilPanel extends JPanel {
         for (Enum<?> element : type.equals("Bonus") ? Partie.bonusEnum.values() : Partie.typeCaseEnum.values()) {
             String description = element instanceof Partie.bonusEnum ? ((Partie.bonusEnum) element).getDescription() : ((Partie.typeCaseEnum) element).getDescription();
             if(description != null) {
+                // Récupération du chemin de l'image
+                String pathImage = element instanceof Partie.bonusEnum ? ((Partie.bonusEnum) element).getPathImage() : ((Partie.typeCaseEnum) element).getPathImage();
+
                 // Création d'un panel pour chaque élément
                 JPanel subPanel = new JPanel();
                 subPanel.setLayout(new BoxLayout(subPanel, BoxLayout.X_AXIS));
                 subPanel.setBackground(backgroundColor);
 
                 // Création d'un label avec image pour le nom de l'élément
-                ImageIcon image = new ImageIcon("Images/" + type + "/" + element.toString() + ".png");
+                ImageIcon image = new ImageIcon(pathImage);
 
                 // redimensionner l'image
                 Image img = image.getImage();

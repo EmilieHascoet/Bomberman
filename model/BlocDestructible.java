@@ -2,6 +2,7 @@ package model;
 
 import java.util.Random;
 import model.Partie.bonusEnum;
+import model.Partie.typeCaseEnum;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class BlocDestructible extends Case {
      * Default constructor
      */
     public BlocDestructible(Integer positionX, Integer positionY, Partie partie) {
-        super(false, positionX, positionY, "BlocDestructible", true, partie);
+        super(false, positionX, positionY, typeCaseEnum.BlocDestructible, true, partie);
     }
 
     /**
@@ -31,7 +32,7 @@ public class BlocDestructible extends Case {
             joueur.score += super.Points;
             return bonus;
         } else {
-            Case caseVide = new Case(true, this.positionX, this.positionY, "CaseVide", false, partie);
+            Case caseVide = new Case(true, this.positionX, this.positionY, typeCaseEnum.CaseVide, false, partie);
             partie.carte[this.positionY][this.positionX] = caseVide;
             joueur.score += super.Points;
             return caseVide;
@@ -47,7 +48,7 @@ public class BlocDestructible extends Case {
      */
     public boolean viderCase() {
         if (this.estDestructible) {
-            Case caseVide = new Case(true, this.positionX, this.positionY, "CaseVide", false, partie);
+            Case caseVide = new Case(true, this.positionX, this.positionY, typeCaseEnum.CaseVide, false, partie);
             partie.carte[this.positionY][this.positionX] = caseVide;
             return true;
         }
@@ -62,7 +63,7 @@ public class BlocDestructible extends Case {
         sb.append("\n  positionY: ").append(positionY);
         sb.append("\n  estTraversable: ").append(estTraversable);
         sb.append("\n  estDestructible: ").append(estDestructible);
-        sb.append("\n  typeImage: ").append(typeImage);
+        sb.append("\n  typeCase: ").append(typeCase);
         sb.append("\n}");
         return sb.toString();
     }

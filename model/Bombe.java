@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Partie.typeCaseEnum;
+
 /**
  * 
  */
@@ -20,7 +22,7 @@ public class Bombe extends Case {
      * Default constructor
      */
     public Bombe(Integer positionX, Integer positionY, Integer tempsExplosion, Integer portee, Joueur joueur, Partie partie) {
-        super(false, positionX, positionY, "Bombe", false, partie);
+        super(false, positionX, positionY, typeCaseEnum.Bombe, false, partie);
         this.tempsExplosion = tempsExplosion;
         this.portee = portee;
         this.joueurPoseBombe = joueur;
@@ -65,7 +67,7 @@ public class Bombe extends Case {
     private void propagateExplosion(List<Case> caseModifiees) {
         try {
             // Propagate explosion from the bomb's position
-            Case thisCase = partie.carte[this.positionY][this.positionX] = new Case(true, this.positionX, this.positionY, "CaseVide", false, partie);
+            Case thisCase = partie.carte[this.positionY][this.positionX] = new Case(true, this.positionX, this.positionY, typeCaseEnum.CaseVide, false, partie);
             thisCase.joueur = this.joueur;
             if (thisCase.joueur != null) thisCase.joueur.perdreVie();
             System.out.println(joueurPoseBombe.isAlive);
@@ -106,7 +108,7 @@ public class Bombe extends Case {
     private boolean propagateInDirection(int startX, int startY, List<Case> caseModifiees) {    
         Case currentCase = partie.carte[startY][startX];
     
-        if (currentCase.typeImage.equals("BlocDestructible") || currentCase.estTraversable) {
+        if (currentCase.typeCase.equals("BlocDestructible") || currentCase.estTraversable) {
             caseModifiees.add(currentCase);
             currentCase.isFire = true;
         }

@@ -5,7 +5,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Partie.avatar;;
+import model.Partie.avatar;
+import model.Partie.typeCaseEnum;;
 
 /**
  * 
@@ -145,7 +146,7 @@ public class Joueur implements Serializable {
             this.positionY = caseArrivee.positionY;
 
             // Si la case d'arrivée est un bonus, applique l'effet du bonus
-            if (caseArrivee.typeImage == "Bonus") {
+            if (caseArrivee.typeCase == typeCaseEnum.Bonus) {
                 Bonus bonus = (Bonus) caseArrivee;
                 bonus.estRamassee(this);
             }

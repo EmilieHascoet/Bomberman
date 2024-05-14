@@ -138,7 +138,7 @@ public class ChoixTouchePanel extends JPanel {
         // Logo
         /*if (imageLogoUrl != null) {
 
-            Image image = (new ImageIcon(imageLogoUrl)).getImage();
+            Image image = (new ImageIcon(imageLogoUrl)).getPathImage();
             Image resizedImage = image.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH); // Ajustez la largeur et la hauteur comme vous le souhaitez
             ImageIcon icon = new ImageIcon(resizedImage);
 
@@ -248,7 +248,7 @@ public class ChoixTouchePanel extends JPanel {
             });
 
             // Redimensionne l'image
-            /*Image image = icon.getImage();
+            /*Image image = icon.getPathImage();
             Image resizedImage = image.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
             icon = new ImageIcon(resizedImage);*/
 
