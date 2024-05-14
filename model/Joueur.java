@@ -22,7 +22,7 @@ public class Joueur {
     public int vitesse;
     private long lastActionTime = 0;
     public avatar avatar;
-    public boolean isAlive = true;
+    public boolean isAlive;
 
     // Déclarations des associations
     public Touche touche;
@@ -42,6 +42,7 @@ public class Joueur {
         this.porteeBombe = Partie.paramPartie.getPorteeBombe();
         this.vitesse = Partie.paramPartie.getVitesse();
         this.score = 0;
+        this.isAlive = true;
     }
 
     // Déclarations des méthodes
