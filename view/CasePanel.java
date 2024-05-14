@@ -57,9 +57,10 @@ public class CasePanel extends JPanel {
         if (this.imageCase != null) {
             g.drawImage(imageCase, 0, 0, getWidth(), getHeight(), this);
         }
+
         // Afficher la bombe au dessus du joueur
         if(this.typeCase == typeCaseEnum.Bombe) {
-            URL imageUrl = getClass().getClassLoader().getResource("Images/bombe.png");
+            URL imageUrl = getClass().getClassLoader().getResource(typeCase.getPathImage());
             if (imageUrl != null) {
                 Image imageBombe = new ImageIcon(imageUrl).getImage();
                 g.drawImage(imageBombe, 0, 0, getWidth(), getHeight(), this);
