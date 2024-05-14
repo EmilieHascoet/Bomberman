@@ -8,8 +8,10 @@ import javax.swing.JButton;
 import model.Partie;
 import model.Stream;
 import view.ChoixTouchePanel;
+
 import view.MainFrame;
 import view.PartiePanel;
+import view.changerToucheJDialog;
 
 public class AccueilControleur implements ActionListener {
     private MainFrame mainFrame;
@@ -36,6 +38,7 @@ public class AccueilControleur implements ActionListener {
         partie.lancerNouvellePartie();
         ChoixTouchePanel choixTouchePanel = new ChoixTouchePanel(mainFrame, partie);
         mainFrame.changePanel(choixTouchePanel);
+
     }
 
     private void reprendrePartie() {

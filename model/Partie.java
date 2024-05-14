@@ -79,11 +79,12 @@ public class Partie implements Serializable {
     public Partie() {
         // Créer les paramètres par défaut
         Set<bonusEnum> setBonus = new HashSet<>(Arrays.asList(Partie.bonusEnum.values()));
-        this.paramPartie = new Parametres(setBonus, 10, 1, 1, 2, 5, 5);
+        paramPartie = new Parametres(setBonus, 3, 3, 1, 2, 21, 15);
 
         // Créer les touches par défaut
         List<Touche> touchesDefaut = new ArrayList<>();
-        touchesDefaut.add(new Touche("Fleche du haut", "Fleche du bas", "Fleche de droite", "Fleche de gauche", "Shift"));
+        touchesDefaut
+                .add(new Touche("Fleche du haut", "Fleche du bas", "Fleche de droite", "Fleche de gauche", "Shift"));
         touchesDefaut.add(new Touche("Z", "S", "D", "Q", "Espace"));
         touchesDefaut.add(new Touche("I", "K", "L", "J", "M"));
         touchesDefaut.add(new Touche("8", "5", "6", "4", "0"));
@@ -153,7 +154,8 @@ public class Partie implements Serializable {
         int largeur = paramPartie.getBoardWidth();
         int hauteur = paramPartie.getBoardHeight();
 
-        List<List<Integer>> posDepart;posDepart = new ArrayList<>();
+        List<List<Integer>> posDepart;
+        posDepart = new ArrayList<>();
         // Position Y, Position X
         posDepart.add(Arrays.asList(hauteur, largeur));
         posDepart.add(Arrays.asList(1, 1));
@@ -177,10 +179,11 @@ public class Partie implements Serializable {
                 if (i == 0 || j == 0 || i == n - 1 || j == m - 1) {
                     carte[i][j] = new Case(false, j, i, typeCaseEnum.BlocIndestructible, false, this);
                 }
-                // Les 2 coins opposés sont vides pour laisser la place aux joueurs
-                else if ((i == 1 && j == 1) || (i == 1 && j == 2) || (i == 2 && j == 1) || (i == n - 2 && j == m - 2)
-                        || (i == n - 2 && j == m - 3) || (i == n - 3 && j == m - 2)) {
-                    carte[i][j] = new Case(true, j, i, typeCaseEnum.CaseVide, false, this);
+                // Les 4 coins opposés sont vides pour laisser la place aux joueurs
+                else if ((i == 1 && (j == 1 || j == 2 || j == m - 3 || j == m - 2))
+                        || (i == n - 2 && (j == 1 || j == 2 || j == m - 3 || j == m - 2))
+                        || (i == 2 && (j == 1 || j == m - 2)) || (i == n - 3 && (j == 1 || j == m - 2))) {
+                    carte[i][j] = new Case(true, j, i, typeCaseEnum.CaseVide, false);
                 }
                 // Les blocs indesctructibles sont placés sur les cases pairs
                 else if (i == 0 || j == 0 || i == n - 1 || j == m - 1 || (i % 2 == 0 && j % 2 == 0)) {
@@ -206,7 +209,8 @@ public class Partie implements Serializable {
         List<Case> casesModifiees = new ArrayList<Case>();
         for (Joueur joueur : getJoueurs()) {
             List<Case> casesModifieesJoueur = joueur.jouer(KeyString);
-            if (casesModifieesJoueur != null) casesModifiees.addAll(casesModifieesJoueur);
+            if (casesModifieesJoueur != null)
+                casesModifiees.addAll(casesModifieesJoueur);
         }
         return casesModifiees;
     }
@@ -277,7 +281,42 @@ public class Partie implements Serializable {
             System.out.println();
         }
     }
-    
+
+    public static Joueur getGagnant() {
+        List<Integer> alive = new ArrayList<>();
+        int maxScore = -1;
+        int indexMaxScore = -1;
+
+        for (int i = 0; i < getJoueurs().size(); i++) {
+            Joueur joueur = getJoueurs().get(i);
+            if (joueur.isAlive) {
+                alive.add(i);
+            }
+            if (joueur.score > maxScore) {
+                maxScore = joueur.score;
+                indexMaxScore = i;
+            }
+        }
+
+        if (alive.size() == 0) {
+            // Aucun joueur n'est vivant, retourner celui avec le score maximum
+            return getJoueurs().get(indexMaxScore);
+        } else if (alive.size() == 1) {
+            // Un seul joueur est vivant, il est le gagnant
+            return getJoueurs().get(alive.get(0));
+        } else {
+            // Plusieurs joueurs sont en vie, trouver le score maximum parmi eux
+            Joueur gagnant = getJoueurs().get(alive.get(0));
+            for (int index : alive) {
+                Joueur current = getJoueurs().get(index);
+                if (current.score > gagnant.score) {
+                    gagnant = current;
+                }
+            }
+            return gagnant;
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

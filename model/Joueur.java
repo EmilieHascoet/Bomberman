@@ -15,7 +15,7 @@ public class Joueur implements Serializable {
 
     // Déclarations des attributs
     public String nom;
-    public int vie;
+    private int vie;
     public int stockBombe;
     public int porteeBombe;
     public int score;
@@ -24,7 +24,7 @@ public class Joueur implements Serializable {
     public int vitesse;
     private long lastActionTime = 0;
     public avatar avatar;
-    public boolean isAlive = true;
+    public boolean isAlive;
 
     // Déclarations des associations
     public Touche touche;
@@ -46,6 +46,7 @@ public class Joueur implements Serializable {
         this.porteeBombe = partie.paramPartie.getPorteeBombe();
         this.vitesse = partie.paramPartie.getVitesse();
         this.score = 0;
+        this.isAlive = true;
     }
 
     // Déclarations des méthodes
@@ -73,7 +74,7 @@ public class Joueur implements Serializable {
             } else {
                 // Vérifie si le joueur a déjà joué une action dans le délai de sa vitesse
                 long currentTime = System.currentTimeMillis();
-                if (currentTime - lastActionTime > vitesse * 100) {
+                if (currentTime - lastActionTime > vitesse * 50) {
                     lastActionTime = currentTime;
                     casesModifiees = seDeplacer(action);
                 }
@@ -212,8 +213,18 @@ public class Joueur implements Serializable {
                 this.isAlive = false;
                 // Supprime le joueur de la carte
                 partie.carte[this.positionY][this.positionX].joueur = null;
+
             }
         }
+    }
+
+    // Augmente la vie du joueur de 1.
+    public void gagnerVie() {
+        this.vie++;
+    }
+
+    public int getVie() {
+        return this.vie;
     }
 
 

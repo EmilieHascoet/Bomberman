@@ -1,34 +1,49 @@
 package controller;
 
-import model.Partie;
 import view.*;
+import model.Partie;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class FinPartieController {
     private FinPartieView view;
+    private MainFrame mainFrame;
 
     public FinPartieController(FinPartieView view) {
         this.view = view;
+        mainFrame = view.getMainFrame();
         initController();
+        view.display();
+
     }
 
     private void initController() {
-        view.addExitButtonListener(e -> exitApplication());
-        view.addReplayButtonListener(e -> replayGame());
-        view.addMenuButtonListener(e -> returnToMenu());
-    }
+        view.setRejouerAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // rejouer avec les mêmes paramêtres
+                view.dispose();
+                Partie.lancerNouvellePartie();
+                PartiePanel partiePanel = new PartiePanel(mainFrame);
+                mainFrame.changePanel(partiePanel);
+                partiePanel.requestFocusInWindow();
+            }
+        });
 
-    private void exitApplication() {
-        System.exit(0);
-        view.dispose();
-    }
+        view.setMenuAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                view.dispose();
+                // retourner à l'accueil
+                mainFrame.changePanel(new AccueilPanel(mainFrame));
+            }
+        });
 
-    private void replayGame() {
-        Partie.lancerNouvellePartie();
-
-    }
-
-    private void returnToMenu() {
-        view.dispose();
-        MainFrame.main(null);
+        view.setExitAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0); // Fermer la fenêtre
+            }
+        });
     }
 }

@@ -1,26 +1,33 @@
 package view;
 
+import controller.FinPartieController;
 import controller.PartieKeyListener;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.awt.image.ConvolveOp;
+import java.awt.image.Kernel;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-
+import model.Joueur;
 import model.Partie;
 
 public class PartiePanel extends JPanel {
@@ -42,7 +49,10 @@ public class PartiePanel extends JPanel {
     static int infoPanelHeight = 150;
     JPanel north = new JPanel();
     JPanel south = new JPanel();
+    GridBagConstraints gbc = new GridBagConstraints();
     JPanel plateauPanel;
+    Map<String, Integer> vieJoueurs;
+    ClassLoader classLoader = getClass().getClassLoader();
 
     private List<JPanel> lifePanels = new ArrayList<>();
     JLabel chrono;
@@ -51,7 +61,7 @@ public class PartiePanel extends JPanel {
     List<JLabel> labelBombs;
     List<JLabel> labelScore;
     List<JLabel> labelBonus;
-    
+
     public static CasePanel[][] casesPlateauPanel;
 
     public PartiePanel(MainFrame frame, Partie partie) {
@@ -63,6 +73,7 @@ public class PartiePanel extends JPanel {
 
         infoPanel = createInfosPanel();
         plateauPanel = createPlateauPanel();
+        gbc.insets = new java.awt.Insets(5, 100, 5, 100);
         plateauPanel.setAlignmentX(CENTER_ALIGNMENT);
 
         // Add the panel to the center of the frame
@@ -89,9 +100,48 @@ public class PartiePanel extends JPanel {
 
         // Load the background image
         try {
-            backgroundImage = ImageIO.read(new File("Images/background.png"));
+            backgroundImage = ImageIO.read(getClass().getResource("/Images/background.png"));
+            //backgroundImage = ImageIO.read(new File((getClass().getResource("/Images/background.png").getPath())));
+        
+            // Créer un noyau de flou
+            float[] matrix = {
+                1/25f, 1/25f, 1/25f, 1/25f, 1/25f,
+                1/25f, 1/25f, 1/25f, 1/25f, 1/25f,
+                1/25f, 1/25f, 1/25f, 1/25f, 1/25f,
+                1/25f, 1/25f, 1/25f, 1/25f, 1/25f,
+                1/25f, 1/25f, 1/25f, 1/25f, 1/25f,
+            };
+            Kernel blurKernel = new Kernel(4, 4, matrix);
+        
+            // Créer un ConvolveOp avec le noyau de flou
+            ConvolveOp blurOp = new ConvolveOp(blurKernel);
+        
+            // Appliquer l'opération de flou à l'image
+            backgroundImage = blurOp.filter(backgroundImage, null);
+
+            
+        vieJoueurs = new HashMap<>() {
+            {
+                for (Joueur joueur : Partie.getJoueurs()) {
+                    put(joueur.nom, joueur.getVie());
+                }
+            }
+        };
+
+        
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        // Dessiner l'image de fond
+        if (backgroundImage != null) {
+            g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
         }
     }
 
@@ -101,13 +151,15 @@ public class PartiePanel extends JPanel {
         int height = partieEnCours.paramPartie.getBoardHeight()+2;
 
         casesPlateauPanel = new CasePanel[height][width];
-        
-        int sizeCase = Math.min(mainFrame.getWidth()-sizeBorderPlateau*2 / width, (mainFrame.getHeight() - infoPanelHeight) / height);
+
+        int sizeCase = Math.min(mainFrame.getWidth() - sizeBorderPlateau * 2 / width,
+                (mainFrame.getHeight() - infoPanelHeight) / height);
         JPanel plateauPanel = new JPanel();
         plateauPanel.setOpaque(false);
-        plateauPanel.setPreferredSize(new Dimension(sizeCase*width+sizeBorderPlateau*2, sizeCase*height+sizeBorderPlateau*2));
+        plateauPanel.setPreferredSize(
+                new Dimension(sizeCase * width + sizeBorderPlateau * 2, sizeCase * height + sizeBorderPlateau * 2));
         plateauPanel.setMaximumSize(plateauPanel.getPreferredSize());
-        //plateauPanel.setBackground(new Color(0, 0, 0));
+        // plateauPanel.setBackground(new Color(0, 0, 0));
         plateauPanel.setLayout(new BoxLayout(plateauPanel, BoxLayout.Y_AXIS));
 
         for (int i = 0; i < height; i++) {
@@ -122,27 +174,18 @@ public class PartiePanel extends JPanel {
             }
             plateauPanel.add(panel);
         }
-        
+
         // Add a black border around the plateau panel
         plateauPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), sizeBorderPlateau));
         return plateauPanel;
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        // Dessiner l'image de fond
-        if (backgroundImage != null) {
-            g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
-        }
-    }
-
     private JPanel createInfosPanel() {
         JPanel infoPanel = new JPanel();
 
-        //JLabel to display
-        chrono = new JLabel("Temps: " + temps / 60 + " : " + temps % 60);;
+        // JLabel to display
+        chrono = new JLabel("Temps: " + temps / 60 + " : " + temps % 60);
+        
         labelName = new ArrayList<>();
         labelLives = new ArrayList<>();
         labelBombs = new ArrayList<>();
@@ -153,42 +196,53 @@ public class PartiePanel extends JPanel {
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.setPreferredSize(new Dimension(mainFrame.getWidth(), infoPanelHeight));
         north.setLayout(new BoxLayout(north, BoxLayout.X_AXIS));
-        south.setLayout(new GridLayout(2, partieEnCours.nbJoueurs + 1));
-
+        south.setLayout(new GridBagLayout());
+        gbc.insets = new java.awt.Insets(5, 50, 5, 50);
         infoPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         north.add(chrono);
 
-        for(int i = 0; i < partieEnCours.nbJoueurs; i++){
+        for (int i = 0; i < partieEnCours.nbJoueurs; i++) {
+            JPanel panel = new JPanel(new GridBagLayout());
+            GridBagConstraints abc = new GridBagConstraints();
+            abc.insets = new java.awt.Insets(0, 20, 0, 20);
             // Create a label to display the number of lives
             labelName.add(new JLabel("Joueur: " + partieEnCours.getJoueurs().get(i).nom + " "));
             labelBombs.add(new JLabel("Stock de bombes: " + partieEnCours.getJoueurs().get(i).stockBombe + " "));
             labelScore.add(new JLabel("Score: " + partieEnCours.getJoueurs().get(i).score + " "));
-
+            gbc.gridx = i % 2;
+            gbc.gridy = i / 2;
             // Create a panel to hold the life squares
             JPanel lifePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
-
 
             JLabel lifeLabel = new JLabel("Vies:");
             lifePanel.add(lifeLabel);
 
             // Add the life squares to the panel
-            for(int j = 0; j < partieEnCours.getJoueurs().get(i).vie; j++){
+            for (int j = 0; j < partieEnCours.getJoueurs().get(i).getVie(); j++) {
                 JPanel lifeSquare = new JPanel();
                 lifeSquare.setPreferredSize(new Dimension(10, 20));
                 lifeSquare.setBackground(Color.GREEN);
-                lifeSquare.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,10,0,10));
+                lifeSquare.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10));
                 lifePanel.add(lifeSquare);
             }
 
             // Add the life panel to the list of life panels
-            lifePanels.add(lifePanel); // This line is new
 
-            south.add(labelName.get(i));
-            south.add(lifePanels.get(i)); // This line has changed
-            south.add(labelBombs.get(i));
-            south.add(labelScore.get(i));
+            lifePanels.add(lifePanel);
+            abc.gridx = 0; abc.gridy = 0;
+            panel.add(labelName.get(i), abc);
+            abc.gridx = 1; abc.gridy = 0;
+            panel.add(lifePanels.get(i), abc);
+            abc.gridx = 2; abc.gridy = 0;
+            panel.add(labelBombs.get(i));
+            abc.gridx = 3; abc.gridy = 0;
+            panel.add(labelScore.get(i));
+            abc.gridx = 4; abc.gridy = 0;
+            abc.gridheight = 2;
+            south.add(panel, gbc);
         }
+
 
         infoPanel.add(north);
         infoPanel.add(south);
@@ -198,8 +252,8 @@ public class PartiePanel extends JPanel {
 
     public void updatePlateauPanel() {
         // Update the plateau panel
-        for (int i = 0; i < partieEnCours.paramPartie.getBoardHeight()+2; i++) {
-            for (int j = 0; j < partieEnCours.paramPartie.getBoardWidth()+2; j++) {
+        for (int i = 0; i < partieEnCours.paramPartie.getBoardHeight() + 2; i++) {
+            for (int j = 0; j < partieEnCours.paramPartie.getBoardWidth() + 2; j++) {
                 casesPlateauPanel[i][j].setCaseModel(partieEnCours.carte[i][j]);
                 casesPlateauPanel[i][j].loadImage();
             }
@@ -215,20 +269,25 @@ public class PartiePanel extends JPanel {
         north.add(chrono);
 
         for(int i = 0; i < partieEnCours.nbJoueurs; i++){
-            south.add(new JLabel("Joueur: " + partieEnCours.getJoueurs().get(i).nom + " "));
-            
+            JPanel panel = new JPanel(new GridBagLayout());
+            GridBagConstraints abc = new GridBagConstraints();
+            abc.insets = new java.awt.Insets(0, 10, 0, 10);
+            gbc.gridx = i % 2;
+            gbc.gridy = i / 2;
+
             // Update the life squares
             JPanel lifePanel = lifePanels.get(i);
             lifePanel.removeAll();
 
             JLabel lifeLabel = new JLabel("Vies:");
             lifePanel.add(lifeLabel);
-            for(int j = 0; j < partieEnCours.paramPartie.getNbVie(); j++){
+          
+            for (int j = 0; j < partieEnCours.paramPartie.getNbVie(); j++) {
                 JPanel lifeSquare = new JPanel();
                 lifeSquare.setPreferredSize(new Dimension(10, 20));
-                lifeSquare.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,10,0,10));
+                lifeSquare.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10));
 
-                if(j < partieEnCours.getJoueurs().get(i).vie){
+                if (j < partieEnCours.getJoueurs().get(i).getVie()) {
                     lifeSquare.setBackground(Color.GREEN);
                 } else {
                     lifeSquare.setBackground(Color.RED);
@@ -236,30 +295,57 @@ public class PartiePanel extends JPanel {
 
                 lifePanel.add(lifeSquare);
             }
-            south.add(lifePanel);
+            if(partieEnCours.getJoueurs().get(i).getVie() > vieJoueurs.get(partieEnCours.getJoueurs().get(i).nom)){
+                vieJoueurs.put(partieEnCours.getJoueurs().get(i).nom, partieEnCours.getJoueurs().get(i).getVie());       
+            }
 
-            south.add(new JLabel("Stock de bombes: " + partieEnCours.getJoueurs().get(i).stockBombe + " "));
-            south.add(new JLabel("Score: " + partieEnCours.getJoueurs().get(i).score + " "));
+            URL url = null;
+            try{
+                url = classLoader.getResource("Images/Personnage/" + partieEnCours.getJoueurs().get(i).avatar + ".png");
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+            abc.gridx = 0; abc.gridy = 0;
+            abc.gridheight = 2;
+            ImageIcon icon = new ImageIcon(url);
+            Image img = icon.getImage();
+            Image newimg = img.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
+            JLabel avatar = new JLabel(new ImageIcon(newimg));
+            panel.add(avatar, abc);
+            abc.gridheight = 1;
+            abc.gridx = 1; abc.gridy = 0;
+            panel.add(labelName.get(i), abc);
+            abc.gridx = 2; abc.gridy = 0;
+            panel.add(lifePanel, abc);
+            abc.gridx = 1; abc.gridy = 1;
+            panel.add(labelBombs.get(i), abc);
+            abc.gridx = 2; abc.gridy = 1;
+            panel.add(labelScore.get(i), abc);
+
+            south.add(panel, gbc);
         }
         infoPanel.add(south);
     }
 
     public void decrementerTemps() {
         compteur++;
-        if(partieEnCours.estTerminee()){
+        if (partieEnCours.estTerminee()) {
             this.timer.stop();
-            
+            new FinPartieController(new FinPartieView(mainFrame, partieEnCours));
         }
         updateInfosPanel();
         updatePlateauPanel();
-        // Décrémentez le temps seulement lorsque le compteur atteint 10 (c'est-à-dire toutes les secondes)
-        if (compteur % (1000/this.tauxRafraichissement) == 0) {
+        // Décrémentez le temps seulement lorsque le compteur atteint 10 (c'est-à-dire
+        // toutes les secondes)
+        if (compteur % (1000 / this.tauxRafraichissement) == 0) {
             if (temps > 0) {
                 temps--;
                 chrono.setText("Temps: " + temps / 60 + " : " + temps % 60);
             } else {
                 // Arrêtez le timer lorsque le temps est écoulé
                 this.timer.stop();
+                new FinPartieController(new FinPartieView(mainFrame, partieEnCours));
             }
         }
     }

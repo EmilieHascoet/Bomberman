@@ -1,53 +1,89 @@
 package view;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
-import controller.FinPartieController;
+import model.Main;
+import model.Partie;
 
-public class FinPartieView extends JFrame {
-
-    private JButton buttonExit;
+public class FinPartieView extends JDialog {
     private JButton buttonRejouer;
     private JButton buttonMenu;
+    private JButton buttonExit;
+    private MainFrame frame;
 
-    public FinPartieView(int scorePlayer1, int scorePlayer2, int nbBombesUtilisees, boolean isPlayer1Winner) {
-        // Configuration initiale...
-        super("Fin de Partie");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 220);
+    public FinPartieView(MainFrame frame) {
+        super(frame, "Fin de Partie", true);
+        this.frame = frame;
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        setSize(500, 460);
         setLocationRelativeTo(null);
-        setLayout(new GridBagLayout());
+
+        // Configuration du panneau de fond avec l'image
+        setContentPane(new JPanel(new GridBagLayout()) {
+            private Image backgroundImage = new ImageIcon(getClass().getResource("/Images/finpartie.png")).getImage();
+
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
+            }
+        });
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        // Ajout des composants...
-        setupComponents(gbc, scorePlayer1, scorePlayer2, nbBombesUtilisees, isPlayer1Winner);
+        setupComponents(gbc);
+    }
 
+    public void display() {
         setVisible(true);
     }
 
-    private void setupComponents(GridBagConstraints gbc, int scorePlayer1, int scorePlayer2, int nbBombesUtilisees,
-            boolean isPlayer1Winner) {
-        JLabel labelGagnant = new JLabel(isPlayer1Winner ? "Player 1 gagne !" : "Player 2 gagne !");
-        labelGagnant.setForeground(isPlayer1Winner ? Color.BLUE : Color.RED);
+    public MainFrame getMainFrame() {
+        return frame;
+    }
+
+    private void setupComponents(GridBagConstraints gbc) {
+        // Déterminez le joueur avec le score le plus élevé
+        int maxScore = Partie.getGagnant().score;
+        int winningIndex = Partie.getJoueurs().indexOf(Partie.getGagnant());
+
+        // Gagnant en haut
+        JLabel labelGagnant = new JLabel("Player " + (winningIndex + 1) + " gagne avec " + maxScore + " points!");
+        labelGagnant.setForeground(Color.BLUE);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = GridBagConstraints.REMAINDER; // S'étend sur toute la largeur
+        gbc.anchor = GridBagConstraints.CENTER;
         add(labelGagnant, gbc);
 
+        // Scores des joueurs, deux lignes avec positionnement à gauche et à droite
         gbc.gridwidth = 1;
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        add(new JLabel("Score Player 1: " + scorePlayer1), gbc);
-        gbc.gridy = 2;
-        add(new JLabel("Score Player 2: " + scorePlayer2), gbc);
-        gbc.gridy = 3;
-        add(new JLabel("Nb. bombes utilisées: " + nbBombesUtilisees), gbc);
-
-        gbc.gridy = 4;
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.NORTH;
+        int numPlayers = Partie.getJoueurs().size();
+        for (int i = 0; i < numPlayers; i++) {
+            JLabel scoreLabel = new JLabel("Player " + (i + 1) + ": " + Partie.getJoueurs().get(i).score);
+            if (i < 2) { // Joueurs 1 et 2 à gauche
+                gbc.gridx = i;
+                gbc.gridy = 1;
+            } else { // Joueurs 3 et 4 à droite
+                gbc.gridx = 2 + i - 2;
+                gbc.gridy = 1;
+            }
+            add(scoreLabel, gbc);
+        }
+
+        // Boutons en bas
+        gbc.gridx = 0;
+        gbc.gridy = 2; // Ajustez cette valeur si nécessaire pour l'espace
+        gbc.gridwidth = 1;
+        gbc.weighty = 1; // Pousse les boutons en bas
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.SOUTH;
 
         buttonExit = new JButton("Sortir");
-        gbc.gridx = 0;
         add(buttonExit, gbc);
 
         buttonRejouer = new JButton("Rejouer");
@@ -59,21 +95,15 @@ public class FinPartieView extends JFrame {
         add(buttonMenu, gbc);
     }
 
-    public void addExitButtonListener(ActionListener listener) {
-        buttonExit.addActionListener(listener);
-    }
-
-    public void addReplayButtonListener(ActionListener listener) {
+    public void setRejouerAction(ActionListener listener) {
         buttonRejouer.addActionListener(listener);
     }
 
-    public void addMenuButtonListener(ActionListener listener) {
+    public void setMenuAction(ActionListener listener) {
         buttonMenu.addActionListener(listener);
     }
 
-    public static void main(String[] args) {
-        // Création de la fenêtre de fin de partie avec des valeurs de test.
-        SwingUtilities.invokeLater(() -> new FinPartieController(new FinPartieView(3, 5, 10, true)));
-
+    public void setExitAction(ActionListener listener) {
+        buttonExit.addActionListener(listener);
     }
 }

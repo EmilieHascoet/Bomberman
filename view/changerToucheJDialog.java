@@ -1,16 +1,15 @@
 package view;
 
+import controller.AccueilControleur;
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
 import controller.ChoixToucheControleur;
 import model.Partie;
 import model.Touche;
 
-import java.awt.*;
-import java.awt.event.*;
-
-public class ChangerToucheJDialog extends JDialog {
+public class changerToucheJDialog extends JDialog {
 
     private JTextField textField;
     Color backgrounfColor = new Color(231, 195, 239);
@@ -62,7 +61,7 @@ public class ChangerToucheJDialog extends JDialog {
                         }
                     }
                     if(toucheDejaUtilisee) {
-                        JOptionPane.showMessageDialog(ChangerToucheJDialog.this, "La touche '" + chosenKey + "' est déjà utilisée par un autre joueur", "Erreur", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(changerToucheJDialog.this, "La touche '" + chosenKey + "' est déjà utilisée par un autre joueur", "Erreur", JOptionPane.ERROR_MESSAGE);
                         return;
                     } else {
                         // Change le texte du bouton

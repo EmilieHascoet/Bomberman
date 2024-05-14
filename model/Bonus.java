@@ -36,7 +36,7 @@ public class Bonus extends Case {
         switch (effet) {
             case Vie:
                 if (this.isMalus) { joueur.perdreVie(); }
-                else { joueur.vie++; }
+                else { joueur.gagnerVie();; }
                 break;
             case Bombe:
                 if (this.isMalus) { if(joueur.stockBombe>1) joueur.stockBombe--; }
@@ -47,7 +47,7 @@ public class Bonus extends Case {
                 else { joueur.porteeBombe++; }
                 break;
             case Vitesse:
-                if (this.isMalus) { joueur.vitesse--; }
+                if (this.isMalus) { if(joueur.vitesse>1) joueur.vitesse--; }
                 else { joueur.vitesse++; }
                 break;
             default:

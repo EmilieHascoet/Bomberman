@@ -1,6 +1,4 @@
 package controller;
-
-import view.MainFrame;
 import view.ChoixTouchePanel;
 
 import java.awt.Component;
@@ -17,11 +15,13 @@ import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
+import javax.swing.JToggleButton;
 import model.Parametres;
 import model.Partie;
 import model.Partie.bonusEnum;
 import javax.swing.JToggleButton;
+import view.AccueilPanel;
+import view.MainFrame;
 
 public class ParametreController implements ActionListener {
     private MainFrame fenetre;
@@ -53,10 +53,11 @@ public class ParametreController implements ActionListener {
     }
 
     public void boutonValider() {
-        File folder = new File("Images/Personnage");
+        // File folder = new File("Images/Personnage");
+        File folder = new File((getClass().getResource("/Images/Personnage").getPath()));
         File[] listOfFiles = folder.listFiles();
         // Récupérer le nom du fichier sans l'extension
-        File file = new File(listOfFiles[0].getPath());
+        File file = new File(listOfFiles[1].getPath());
         String fileName = file.getName();
         int pos = fileName.lastIndexOf(".");
         if (pos > 0) {
@@ -75,18 +76,17 @@ public class ParametreController implements ActionListener {
                         for (Component c4 : ((JPanel) c3).getComponents()) {
                             if (c4 instanceof JPanel) {
                                 for (Component c5 : ((JPanel) c4).getComponents()) {
+                                    String value = first; // Image par défaut
                                     for (Component c6 : ((JPanel) c5).getComponents()) {
                                         if (c6 instanceof JToggleButton) {
-                                            String value = first; //Image par défaut
-                                            
                                             if (((JToggleButton) c6).isSelected()) {
-                                                value = ((JToggleButton) c6).getName(); //Image selectionnée
+                                                value = ((JToggleButton) c6).getName(); // Image selectionnée
                                             }
-                                            image.put(((JPanel) c5).getName(),
-                                            value);                                            
-                                            
                                         }
                                     }
+                                    System.out.println(((JPanel) c5).getName() + " : " + value);
+                                    image.put(((JPanel) c5).getName(),
+                                            value);
                                 }
                             } else if (c4 instanceof JCheckBox) {
                                 if (((JCheckBox) c4).isSelected()) {
@@ -176,10 +176,11 @@ public class ParametreController implements ActionListener {
                     Integer.parseInt(list.get("Vitesse")), Integer.parseInt(list.get("Nombre de bombes initiales")),
                     Integer.parseInt(list.get("Portée de la bombe")), Integer.parseInt(list.get("Largeur du plateau")),
                     Integer.parseInt(list.get("Hauteur du plateau")));
-            partieEnCours.getJoueurs().get(0).avatar = Partie.avatar.valueOf(image.get("Joueur 1"));
-            partieEnCours.getJoueurs().get(1).avatar = Partie.avatar.valueOf(image.get("Joueur 2"));
-            partieEnCours.getJoueurs().get(0).nom = list.get("Joueur 1");
-            partieEnCours.getJoueurs().get(1).nom = list.get("Joueur 2");
+
+            for (int i = 0; i < Partie.nbJoueurs; i++) {
+                Partie.getJoueurs().get(i).avatar = Partie.avatar.valueOf(image.get("Joueur " + (i + 1)));
+                Partie.getJoueurs().get(i).nom = list.get("Joueur " + (i + 1));
+            }
 
             fenetre.changePanel(new ChoixTouchePanel(fenetre, partieEnCours));
         }
