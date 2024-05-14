@@ -36,9 +36,11 @@ public class ParametresPanel extends JPanel {
     private final MainFrame frame;
     private JPanel rightPanel;
     private CardLayout cardLayout;
+    private Partie partieEnCours;
 
-    public ParametresPanel(MainFrame frame) {
+    public ParametresPanel(MainFrame frame, Partie partie) {
         this.frame = frame; 
+        this.partieEnCours = partie;
         setLayout(new GridBagLayout());
         setBackground(Color.white);
 
@@ -97,12 +99,12 @@ public class ParametresPanel extends JPanel {
         Map<String, Integer> mapP = new HashMap<>();
         String[] lab = new String[] { "Nombres de vies", "Vitesse",
         "Nombre de bombes initiales", "Portée de la bombe", "Largeur du plateau", "Hauteur du plateau" };
-        mapP.put("Nombres de vies", Partie.paramPartie.getNbVie());
-        mapP.put("Vitesse", Partie.paramPartie.getVitesse());
-        mapP.put("Nombre de bombes initiales", Partie.paramPartie.getNbBombeInit());
-        mapP.put("Portée de la bombe", Partie.paramPartie.getPorteeBombe());
-        mapP.put("Largeur du plateau", Partie.paramPartie.getBoardWidth());
-        mapP.put("Hauteur du plateau", Partie.paramPartie.getBoardHeight()); 
+        mapP.put("Nombres de vies", partieEnCours.paramPartie.getNbVie());
+        mapP.put("Vitesse", partieEnCours.paramPartie.getVitesse());
+        mapP.put("Nombre de bombes initiales", partieEnCours.paramPartie.getNbBombeInit());
+        mapP.put("Portée de la bombe", partieEnCours.paramPartie.getPorteeBombe());
+        mapP.put("Largeur du plateau", partieEnCours.paramPartie.getBoardWidth());
+        mapP.put("Hauteur du plateau", partieEnCours.paramPartie.getBoardHeight()); 
 
 
         // Create checkboxes for each label
@@ -119,13 +121,13 @@ public class ParametresPanel extends JPanel {
 
         // Bottom panel with a button
         JButton retour = new JButton("Retour");
-        retour.addActionListener(new ParametreController(retour, this.frame, this));
+        retour.addActionListener(new ParametreController(retour, this.frame, this, partieEnCours));
         retour.setFont(new Font("Arial", Font.BOLD, 16));
         retour.setForeground(Color.white);
         retour.setBackground(new Color(51, 153, 255));
 
         JButton valider = new JButton("Valider");           
-        valider.addActionListener(new ParametreController(valider, this.frame, this));
+        valider.addActionListener(new ParametreController(valider, this.frame, this, partieEnCours));
         valider.setFont(new Font("Arial", Font.BOLD, 16));
         valider.setForeground(Color.white);
         valider.setBackground(new Color(51, 153, 255));

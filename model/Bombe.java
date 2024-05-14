@@ -12,6 +12,7 @@ public class Bombe extends Case {
     public Integer tempsExplosion;
     public Integer portee;
     public Integer tempsPropagation = 50;
+    private Thread timerThread;
 
     // Déclarations des associations
     public Joueur joueurPoseBombe;
@@ -19,8 +20,8 @@ public class Bombe extends Case {
     /**
      * Default constructor
      */
-    public Bombe(Integer positionX, Integer positionY, Integer tempsExplosion, Integer portee, Joueur joueur) {
-        super(false, positionX, positionY, "Bombe", false);
+    public Bombe(Integer positionX, Integer positionY, Integer tempsExplosion, Integer portee, Joueur joueur, Partie partie) {
+        super(false, positionX, positionY, typeCaseEnum.Bombe, true, partie);
         this.tempsExplosion = tempsExplosion;
         this.portee = portee;
         this.joueurPoseBombe = joueur;
@@ -31,11 +32,12 @@ public class Bombe extends Case {
 
     // Méthode pour lancer le timer de l'explosion
     private void lancerTimer() {
-        Thread timerThread = new Thread(() -> {
+        timerThread = new Thread(() -> {
             try {
                 Thread.sleep(this.tempsExplosion * 1000);
                 this.explosion();
             } catch (InterruptedException e) {
+                System.out.println("Bombe désamorcée");
                 e.printStackTrace();
             }
         });
@@ -65,13 +67,12 @@ public class Bombe extends Case {
     private void propagateExplosion(List<Case> caseModifiees) {
         try {
             // Propagate explosion from the bomb's position
-            Case thisCase = Partie.carte[this.positionY][this.positionX] = new Case(true, this.positionX, this.positionY, "CaseVide", false);
+            Case thisCase = partie.carte[this.positionY][this.positionX] = new Case(true, this.positionX, this.positionY, typeCaseEnum.CaseVide, false, partie);
             thisCase.joueur = this.joueur;
-            if (thisCase.joueur != null) thisCase.joueur.perdreVie();;
+            if (thisCase.joueur != null) thisCase.joueur.perdreVie();
             thisCase.isFire = true;
             caseModifiees.add(thisCase);
             this.joueurPoseBombe.stockBombe++;
-            Thread.sleep(tempsPropagation);
     
             // Calculate the cross shape
             boolean[] stopDirections = new boolean[4]; // North, South, East, West
@@ -103,14 +104,25 @@ public class Bombe extends Case {
      * @return True si la propagation doit s'arrêter dans cette direction, false sinon.
      */
     private boolean propagateInDirection(int startX, int startY, List<Case> caseModifiees) {    
-        Case currentCase = Partie.carte[startY][startX];
-    
-        if (currentCase.typeImage.equals("BlocDestructible") || currentCase.estTraversable) {
-            caseModifiees.add(currentCase);
-            currentCase.isFire = true;
+        Case currentCase = partie.carte[startY][startX];
+        
+        // Don't fire on indestructible blocks
+        if (currentCase.typeCase != typeCaseEnum.BlocIndestructible) {
+            // Update the cell to be on fire
+            // Destroy the bomb if it's on the cell
+            if(currentCase.typeCase == typeCaseEnum.Bombe) {
+                ((Bombe) currentCase).destroy();
+                System.out.println("Bombe détruite");
+            }
+            //  If the cell is already on fire, update the cell
+            else {
+                currentCase.isFire = true;
+                caseModifiees.add(currentCase);
+            }
         }
-        if (currentCase.joueur != null) currentCase.joueur.perdreVie();;
-        if (!currentCase.estTraversable) {
+        if (currentCase.joueur != null) currentCase.joueur.perdreVie();
+        // Stop if the cell is not traversable or destructible
+        if (!currentCase.estTraversable || currentCase.estDestructible) {
             return true;
         }
         return false;
@@ -125,9 +137,20 @@ public class Bombe extends Case {
      */
     private void destroyBlocks(List<Case> caseModifiees) {
         for (Case c : caseModifiees) {
-            if (c instanceof BlocDestructible) ((BlocDestructible) c).destruction(this.joueurPoseBombe);
+            if (c instanceof BlocDestructible) ((BlocDestructible) c).destroy(this.joueurPoseBombe);
             else c.isFire = false;
         }
+    }
+
+    /**
+     * Destroys the bomb by triggering an explosion and interrupting the timer thread.
+     */
+    public void destroy() {
+        timerThread.interrupt();
+        timerThread = new Thread(() -> {
+            explosion();
+        });
+        timerThread.start();
     }
     
 

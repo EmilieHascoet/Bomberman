@@ -1,38 +1,45 @@
 package view;
 
-import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.net.URL;
-import java.util.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
 
 import controller.AccueilControleur;
+import model.Case.typeCaseEnum;
 import model.Partie;
-import model.Touche;
+import model.Partie.bonusEnum;
+import model.Stream;
 
 public class AccueilPanel extends JPanel {
-    ClassLoader classLoader = getClass().getClassLoader();
-    URL imageLabyUrl = classLoader.getResource("Images/labyrinthe.png");
-    URL imageLogoUrl = classLoader.getResource("Images/Blossom-Battles.jpg");
-
     private MainFrame mainFrame;
-    public Color backgroundColor = new Color(203, 239, 195);
-    int borderSize = 20;
+    Color backgroundColor = new Color(231, 195, 239);
+    Color backgroundColorGreen = new Color(203, 239, 195);
 
-    JPanel topPanel, centerPanel, bottomPanel;
-    List<JPanel> listePanelControles = new ArrayList<JPanel>();
-    
-    /**
-     * Constructs a new AccueilPanel with the specified MainFrame and Bomberman objects.
-     * 
-     * @param frame the MainFrame object that represents the main frame of the application
-     * @param bomberman the Bomberman object that represents the game instance
-     */
-    public AccueilPanel(MainFrame frame) {
+    private JPanel topPanel;
+    private JPanel centerPanel;
+    private JPanel bonusPanel;
+    private JPanel blocsPanel;
+    private JPanel bottomPanel;
+
+     public AccueilPanel(MainFrame frame) {
         this.mainFrame = frame;
 
         // Configuration de l'interface utilisateur
@@ -44,40 +51,29 @@ public class AccueilPanel extends JPanel {
         setBackground(backgroundColor);
 
         // Création des panels
-        //createTopPanel();
+        createTopPanel();
+        blocsPanel = createPanelBord("Bloc");
         createCenterPanel();
-        // Jpanel West et East
-        for(int i = 0; i < 2; i++) {
-            JPanel panelBord = new JPanel();
-            panelBord.setLayout(new BoxLayout(panelBord, BoxLayout.Y_AXIS));
-            listePanelControles.add(panelBord);
-        }
-        createPanelControles();
+        bonusPanel = createPanelBord("Bonus");
         createBottomPanel();
 
         // Ajout des panels au panel principal
-        //add(topPanel, BorderLayout.NORTH);
+        add(topPanel, BorderLayout.NORTH);
+        add(blocsPanel, BorderLayout.WEST);
         add(centerPanel, BorderLayout.CENTER);
-        add(listePanelControles.get(0), BorderLayout.WEST);
-        add(listePanelControles.get(1), BorderLayout.EAST);
+        add(bonusPanel, BorderLayout.EAST);
         add(bottomPanel, BorderLayout.SOUTH);
 
         // Ajout de la couleur de fond pour tous les panels
         this.setBackground(backgroundColor);
         //topPanel.setBackground(backgroundColor);
         centerPanel.setBackground(backgroundColor);
-        listePanelControles.get(0).setBackground(backgroundColor);
-        listePanelControles.get(1).setBackground(backgroundColor);
         bottomPanel.setBackground(backgroundColor);
 
         // Affichage du panel
         setVisible(true);
     }
 
-    /**
-     * Configures the user interface by setting a new font size for all components.
-     * The new font size is applied to labels, buttons, text fields, and text areas.
-     */
     private void configureUI() {
         // Définir la nouvelle taille de police
         int newFontSize = 16;
@@ -95,215 +91,138 @@ public class AccueilPanel extends JPanel {
         UIManager.put("TextArea.font", newFont);
     }
 
-    /**
-     * Crée un JPanel contenant le titre et les règles du jeu.
-     * @return JPanel : le panel contenant le titre et les règles du jeu
-     */
     private void createTopPanel() {
-        topPanel = new JPanel();
+        // Création du panel
+        topPanel = new RoundedPanel(20, backgroundColorGreen, 5);
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
-
-        // Titre
-        JLabel label = new JLabel("Bomberman Labyrinth");
-        label.setFont(new Font("Serif", Font.BOLD, 30));
-        label.setAlignmentX(Component.CENTER_ALIGNMENT);
-        label.setForeground(Color.RED);
-        topPanel.add(label);
-
-        // Ajout d'un espace entre les deux labels
-        topPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-
-        // texte explicatif du jeu
-        String rules = "<html>Le jeu de Bomberman est une bataille stratégique entre deux joueurs. Chaque joueur contrôle un personnage dans un labyrinthe.<br>"
-        + "Le but ? Éliminer l'adversaire à l'aide de fleurs explosives.<br>"
-        + "Voici comment cela fonctionne :<br>"
-        + "<ul>"
-        + "<li> Explorez le labyrinthe : Le terrain de jeu est un labyrinthe rempli de haies. Votre mission est de naviguer à travers ce labyrinthe pour trouver votre adversaire.</li>"
-        + "<li> Utilisez des fleurs explosives : Vous avez la capacité de placer des fleurs explosives. Ces fleurs peuvent détruire les haies, créant ainsi de nouveaux chemins à travers le labyrinthe.</li>"
-        + "<li> Éliminez votre adversaire : Votre objectif ultime est d'utiliser vos fleurs explosives pour éliminer l'adversaire. Soyez stratégique et rapide pour gagner la partie !</li>"
-        + "</ul>"
-        + "Le premier joueur à éliminer son adversaire remporte la partie. Bonne chance et amusez-vous bien !</html>";
-        JLabel label2 = new JLabel(rules);
-        label2.setFont(new Font("Serif", Font.BOLD, 17));
-
-        // Créer un nouveau JPanel avec FlowLayout aligné à gauche
-        JPanel textPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        textPanel.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
-        textPanel.setBackground(backgroundColor);
-        textPanel.add(label2);
-
-        topPanel.add(textPanel);
-        // Logo
-        /*if (imageLogoUrl != null) {
-
-            Image image = (new ImageIcon(imageLogoUrl)).getImage();
-            Image resizedImage = image.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH); // Ajustez la largeur et la hauteur comme vous le souhaitez
-            ImageIcon icon = new ImageIcon(resizedImage);
-
-            JLabel logo = new JLabel(icon);
-            panel.add(logo);
-        } else {
-            System.err.println("Image not found Blossom-Battles");
-        }*/
-    }
-
+        topPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
     
-    /**
-     * Creates a JPanel that displays a labyrinth.
-     * 
-     * @return the created JPanel
-     */
+        // Création du label
+        JLabel label = new JLabel("Bienvenue dans Bomberman");
+        label.setFont(new Font("Arial", Font.BOLD, 40));
+        label.setAlignmentX(CENTER_ALIGNMENT);
+    
+        // Ajout du label au panel
+        topPanel.add(label);
+    }
+
+    private JPanel createPanelBord(String type) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setPreferredSize(new Dimension(450, 1000));
+        panel.setBackground(backgroundColor);
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        // Label explication
+        JTextArea label = new JTextArea(type.equals("Bonus") ? "Les bonus permettent de gagner ou perdre des compétences.\nVoici les bonus disponibles dans le jeu :" : "Les blocs sont des éléments du jeu qui peuvent être détruits ou non et non traversables.\nVoici les blocs disponibles dans le jeu :");
+        label.setLineWrap(true);
+        label.setWrapStyleWord(true);
+        label.setEditable(false);
+        label.setBackground(backgroundColor);
+        panel.add(label);
+
+        // Affiche chaque élément du model présent dans le jeu + description
+        for (Enum<?> element : type.equals("Bonus") ? Partie.bonusEnum.values() : typeCaseEnum.values()) {
+            String description = element instanceof Partie.bonusEnum ? ((Partie.bonusEnum) element).getDescription() : ((typeCaseEnum) element).getDescription();
+            if(description != null) {
+                // Récupération du chemin de l'image
+                String pathImage = element instanceof Partie.bonusEnum ? ((Partie.bonusEnum) element).getPathImage() : ((typeCaseEnum) element).getPathImage();
+
+                // Création d'un panel pour chaque élément
+                JPanel subPanel = new JPanel();
+                subPanel.setLayout(new BoxLayout(subPanel, BoxLayout.X_AXIS));
+                subPanel.setBackground(backgroundColor);
+
+                // Création d'un label avec image pour le nom de l'élément
+                ImageIcon image = new ImageIcon(pathImage);
+
+                // redimensionner l'image
+                Image img = image.getImage();
+                Image newimg = img.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH);
+                image = new ImageIcon(newimg);
+
+                JLabel labelImage = new JLabel(image);
+                // Espace entre l'image et le texte
+                labelImage.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
+                subPanel.add(labelImage);
+
+                // Création du label pour la description de l'élément
+                JTextArea textArea = new JTextArea(description);
+                textArea.setLineWrap(true);
+                textArea.setWrapStyleWord(true);
+                textArea.setEditable(false);
+                textArea.setBackground(backgroundColor);
+
+                textArea.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
+                subPanel.add(textArea);
+                panel.add(subPanel);
+            }
+        }
+
+        return panel;
+    }
+
     private void createCenterPanel() {
-        centerPanel = new JPanel();
-        centerPanel.setLayout(new BorderLayout());
-        centerPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+        // Création du panel extérieur
+        centerPanel = new JPanel(new BorderLayout());
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        JPanel panelSlider = new JPanel();
-        panelSlider.setBackground(backgroundColor);
-        // Label pour le slider
-        JLabel labelSlider = new JLabel("Nombre de joueurs : ");
-        panelSlider.add(labelSlider);
+        // Création du panel
+        JPanel innerPanel = new RoundedPanel(30, backgroundColorGreen, 10, Color.YELLOW);
+        innerPanel.setLayout(new BorderLayout());
+        innerPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Créer un slider pour choisir le nombre de joueur dans la partie
-        JSlider slider = new JSlider(JSlider.HORIZONTAL, 2, 4, 2);
-        slider.setMajorTickSpacing(1);
-        slider.setPaintTicks(true);
-        slider.setPaintLabels(true);
-        slider.setSnapToTicks(true);
-        slider.setLabelTable(slider.createStandardLabels(1));
-        slider.addChangeListener(e -> {
-            Partie.nbJoueurs = slider.getValue();
-            listePanelControles.get(0).removeAll();
-            listePanelControles.get(1).removeAll();
-            createPanelControles();
-            add(listePanelControles.get(0), BorderLayout.WEST);
-            add(listePanelControles.get(1), BorderLayout.EAST);
-            revalidate();
-            repaint();
+        JLabel label = new JLabel("Meilleurs scores :");
+        label.setFont(new Font("Courier New", Font.BOLD, 20));
+        label.setAlignmentX(CENTER_ALIGNMENT);
+        innerPanel.add(label, BorderLayout.NORTH);
+
+        // Affichage d'un leader board
+        JTextArea textArea = new JTextArea();
+        textArea.setEditable(false);
+        textArea.setOpaque(false);
+        innerPanel.add(textArea, BorderLayout.CENTER);
+
+        // Récupération des scores
+        Map<Integer, List<String>> topScores = new TreeMap<>(Collections.reverseOrder());
+        topScores.putAll(Stream.recupereScores());
+
+        topScores = topScores.entrySet()
+            .stream()
+            .limit(10)
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> a, LinkedHashMap::new));
+
+        topScores.forEach((score, noms) -> {
+            for(String nom : noms) {
+                textArea.append("\n" + nom + " : " + score);
+            }
         });
-        panelSlider.add(slider);
-        centerPanel.add(panelSlider, BorderLayout.NORTH);
 
-        if (imageLabyUrl != null) {
-            ImageIcon icon = new ImageIcon(imageLabyUrl);
-            JButton button = new JButton(icon);
-            button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
-            centerPanel.add(button, BorderLayout.CENTER);
-        } else {
-            System.err.println("Image not found Labyrinthe");
-        }
+        centerPanel.add(innerPanel);
     }
 
-    /**
-     * Creates a JPanel that contains buttons for changing the controls of the players.
-     * 
-     * @return the created JPanel
-     */
-    private void createPanelControles() {
-        // Liste des noms des touches
-        ArrayList<String> listeNomsTouches = new ArrayList<String>(Arrays.asList("Aller en haut", "Aller en bas", "Aller à droite", "Aller à gauche", "Placer une fleur"));
-
-        // Boucle sur les joueurs
-        for (int i = 0; i < Partie.nbJoueurs; i++) {
-            // Récupère les touches du joueur
-            Touche touche = Partie.getJoueurs().get(i).touche;
-            // Liste des actions associées aux touches
-            List<Supplier<String>> actions = Arrays.asList(touche::getHaut, touche::getBas, touche::getDroite, touche::getGauche, touche::getBombe);
-
-            // Crée un nouveau panel pour les controles du joueur
-            JPanel panel = new JPanel();
-            panel.setPreferredSize(new Dimension(500, 300));
-            panel.setBorder(BorderFactory.createEmptyBorder(10, 50, 50, 50));
-            panel.setLayout(new GridLayout(6,2, 40, 10));
-            panel.setBackground(backgroundColor);
-            
-            // Crée les labels pour les controles du joueur
-            JLabel labelParametres = new JLabel("Contrôles de " + Partie.getJoueurs().get(i).nom);
-            
-            // Crée l'icone du joueur
-            String imagePath = "Images/Personnage/" + Partie.getJoueurs().get(i).avatar + ".png";
-            ImageIcon icon = new ImageIcon(imagePath);
-            JLabel iconeJoueur = new JLabel(icon);
-
-            iconeJoueur.addComponentListener(new ComponentAdapter() {
-                @Override
-                public void componentResized(ComponentEvent e) {
-                    ImageIcon originalIcon = (ImageIcon) iconeJoueur.getIcon();
-                    Image originalImage = originalIcon.getImage();
-            
-                    // Calculer le rapport d'aspect de l'image
-                    double aspectRatio = (double) originalImage.getWidth(null) / originalImage.getHeight(null);
-            
-                    // Calculer la nouvelle largeur et hauteur tout en conservant le rapport d'aspect
-                    int newHeight = iconeJoueur.getHeight();
-                    int newWidth = (int) (newHeight * aspectRatio);
-
-                    // Redimensionner l'image
-                    Image resizedImage = originalImage.getScaledInstance(newWidth, newHeight, java.awt.Image.SCALE_SMOOTH);
-                    ImageIcon resizedIcon = new ImageIcon(resizedImage);
-                    iconeJoueur.setIcon(resizedIcon);
-                }
-            });
-
-            // Redimensionne l'image
-            /*Image image = icon.getImage();
-            Image resizedImage = image.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-            icon = new ImageIcon(resizedImage);*/
-
-
-            panel.add(labelParametres);
-            panel.add(iconeJoueur);
-
-            // Boucle sur les touches du joueur
-            for (int j = 0; j < listeNomsTouches.size(); j++) {
-                String nomTouche = listeNomsTouches.get(j);
-                String actionTouche = actions.get(j).get();
-
-                // Crée les labels et les boutons pour les touches
-                JLabel labelTouche = new JLabel(nomTouche);
-                JButton boutonTouche = new JButton(actionTouche);
-
-                panel.add(labelTouche);
-                panel.add(boutonTouche);
-
-                // Crée le controleur pour le bouton de la touche
-                AccueilControleur controleur = new AccueilControleur(i, actionTouche, nomTouche , boutonTouche);
-                boutonTouche.addActionListener(controleur);
-            }
-
-            // Ajoute le panel à gauche si pair sinon à droite
-            if(i%2 == 0) {
-                listePanelControles.get(0).add(panel);
-            } else {
-                listePanelControles.get(1).add(panel);
-            }
-        }
-
-    }
-
-    /**
-     * Creates a JPanel that contains buttons for starting a new game and accessing options.
-     * 
-     * @return the created JPanel
-     */
     private void createBottomPanel() {
         bottomPanel = new JPanel();
-        bottomPanel.setLayout(new GridLayout(1, 2, borderSize, 0));
+        bottomPanel.setLayout(new GridLayout(1, 2, 20, 0));
 
         // Création du bouton pour démarrer une nouvelle partie
         JButton nouvellePartieButton = new JButton("Nouvelle Partie");
-        AccueilControleur nouvellePartieController = new AccueilControleur("boutonPlayPressed", mainFrame, listePanelControles);
+        AccueilControleur nouvellePartieController = new AccueilControleur(nouvellePartieButton, mainFrame);
         nouvellePartieButton.addActionListener(nouvellePartieController);
         nouvellePartieButton.setPreferredSize(new Dimension(nouvellePartieButton.getPreferredSize().width, 40));
 
-        // Création du bouton pour accéder aux options
-        JButton optionsButton = new JButton("Options");
-        AccueilControleur optionsController = new AccueilControleur("boutonOptionsPressed", mainFrame, listePanelControles);
-        optionsButton.addActionListener(optionsController);
-        optionsButton.setPreferredSize(new Dimension(optionsButton.getPreferredSize().width, 40));
+        // Création du bouton pour reprendre une partie
+        JButton reprendrePartieButton = new JButton("Reprendre la partie");
+        AccueilControleur reprendrePartieControleur = new AccueilControleur(reprendrePartieButton, mainFrame);
+        reprendrePartieButton.addActionListener(reprendrePartieControleur);
+        reprendrePartieButton.setPreferredSize(new Dimension(reprendrePartieButton.getPreferredSize().width, 40));
+
+        if(!Stream.sauvegardePartieExist()) {
+            reprendrePartieButton.setEnabled(false);
+        }
 
         // Ajout des boutons au panel
         bottomPanel.add(nouvellePartieButton);
-        bottomPanel.add(optionsButton);
+        bottomPanel.add(reprendrePartieButton);
     }
 }

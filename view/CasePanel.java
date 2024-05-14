@@ -7,37 +7,34 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import model.Bonus;
 import model.Case;
-import model.Partie;
+import model.Case.typeCaseEnum;
 
 public class CasePanel extends JPanel {
     public Case caseModel;
     private String path;
-    int width = Partie.paramPartie.getBoardWidth()+2;
-    int height = Partie.paramPartie.getBoardHeight()+2;
-    int size;
     Image imageCase;
-    String typeImage;
+    typeCaseEnum typeCase;
 
     public CasePanel(Case caseModel) {
         this.caseModel = caseModel;
-        this.typeImage = caseModel.typeImage;
+        this.typeCase = caseModel.typeCase;
         loadImage();
     }
 
     public void setCaseModel(Case caseModel) {
         this.caseModel = caseModel;
-        this.typeImage = caseModel.typeImage;
+        this.typeCase = caseModel.typeCase;
     }
     
     public void loadImage() {
         ClassLoader classLoader = getClass().getClassLoader();
 
         if(caseModel.joueur != null) {
-                this.path = "Images/Personnage/" + caseModel.joueur.avatar + ".png";
-        } else if(typeImage != "Bonus") {
-                this.path = "Images/" + typeImage + ".png";
+                this.path = caseModel.joueur.avatar.getPathImage();
+        } else if (caseModel.typeCase == typeCaseEnum.Bonus){
+            this.path = ((Bonus)caseModel).effet.getPathImage();
         } else {
-            this.path = "Images/bonus/" + ((Bonus)this.caseModel).effet + ".png";
+            this.path = caseModel.typeCase.getPathImage() == null ? "" : caseModel.typeCase.getPathImage();
         }
         
         URL imageUrl = classLoader.getResource(this.path);
@@ -45,10 +42,6 @@ public class CasePanel extends JPanel {
         if (imageUrl != null) {
             this.imageCase = new ImageIcon(imageUrl).getImage();
         }
-        /* Test path
-        else if (typeImage != "CaseVide") {
-            System.err.println("Image not found + " + this.path);
-        } */
         else {
             this.imageCase = null;
         }
@@ -64,13 +57,16 @@ public class CasePanel extends JPanel {
         if (this.imageCase != null) {
             g.drawImage(imageCase, 0, 0, getWidth(), getHeight(), this);
         }
-        if(this.typeImage.equals("Bombe")) {
-            URL imageUrl = getClass().getClassLoader().getResource("Images/bombe.png");
+
+        // Afficher la bombe au dessus du joueur
+        if(this.typeCase == typeCaseEnum.Bombe) {
+            URL imageUrl = getClass().getClassLoader().getResource(typeCase.getPathImage());
             if (imageUrl != null) {
                 Image imageBombe = new ImageIcon(imageUrl).getImage();
                 g.drawImage(imageBombe, 0, 0, getWidth(), getHeight(), this);
             }
         }
+        // Afficher l'explosion au dessus de tout
         if (caseModel.isFire) {
             URL imageUrl = getClass().getClassLoader().getResource("Images/Explosion/cote.png");
             if (imageUrl != null) {

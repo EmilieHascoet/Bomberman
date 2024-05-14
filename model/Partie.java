@@ -1,27 +1,75 @@
 package model;
-
+import java.io.Serializable;
 import java.util.*;
+
+import model.Case.typeCaseEnum;
 
 /**
  * 
  */
-public class Partie {
+public class Partie implements Serializable {
 
     // Déclarations des associations
     // utiliser la méthode getJoueurs pour avoir la liste des joueurs actifs
-    private static List<Joueur> joueurs;
-    public static Parametres paramPartie;
+    private List<Joueur> joueurs;
+    public Parametres paramPartie;
+    public TreeMap<Integer, List<String>> leaderBoard;
 
     // Déclarations des attributs
-    public static Case[][] carte;
-    public static int nbJoueurs;
+    public Case[][] carte;
+    public int nbJoueurs;
 
     public enum avatar {
-        J1, J2, J3, J4
+        J1, J2, J3, J4;
+
+        public String getPathImage() {
+            switch (this) {
+                case J1:
+                    return "Images/Personnage/J1.png";
+                case J2:
+                    return "Images/Personnage/J2.png";
+                case J3:
+                    return "Images/Personnage/J3.png";
+                case J4:
+                    return "Images/Personnage/J4.png";
+                default:
+                    return null;
+            }
+        }
     }
 
     public enum bonusEnum {
-        Bombe, Portee, Vie, Vitesse
+        Bombe, Portee, Vie, Vitesse;
+
+        public String getDescription() {
+            switch (this) {
+                case Bombe:
+                    return "Ajoute ou retire une bombe au stock de bombe du joueur";
+                case Portee:
+                    return "Ajoute ou retire un de portée à la bombe du joueur";
+                case Vie:
+                    return "Ajoute ou retire une vie au joueur";
+                case Vitesse:
+                    return "Augmente ou diminie la vitesse du joueur";
+                default:
+                    return "Bonus";
+            }
+        }
+
+        public String getPathImage() {
+            switch (this) {
+                case Bombe:
+                    return "Images/Bonus/Bombe.png";
+                case Portee:
+                    return "Images/Bonus/Portee.png";
+                case Vie:
+                    return "Images/Bonus/Vie.png";
+                case Vitesse:
+                    return "Images/Bonus/Vitesse.png";
+                default:
+                    return null;
+            }
+        }
     }
 
     /**
@@ -31,7 +79,7 @@ public class Partie {
     public Partie() {
         // Créer les paramètres par défaut
         Set<bonusEnum> setBonus = new HashSet<>(Arrays.asList(Partie.bonusEnum.values()));
-        Partie.paramPartie = new Parametres(setBonus, 3, 3, 1, 2, 21, 15);
+        paramPartie = new Parametres(setBonus, 3, 3, 1, 2, 21, 15);
 
         // Créer les touches par défaut
         List<Touche> touchesDefaut = new ArrayList<>();
@@ -42,23 +90,25 @@ public class Partie {
         touchesDefaut.add(new Touche("8", "5", "6", "4", "0"));
 
         // Créer 4 joueurs
-        Partie.joueurs = new ArrayList<>();
+        this.joueurs = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            Partie.joueurs.add(new Joueur("Joueur " + (i + 1), avatar.values()[i]));
+            this.joueurs.add(new Joueur("Joueur " + (i + 1), avatar.values()[i], this));
         }
 
         // Associe les touches par défaut aux joueurs
         for (int i = 0; i < 4; i++) {
-            Partie.joueurs.get(i).touche = (touchesDefaut.get(i));
+            this.joueurs.get(i).touche = (touchesDefaut.get(i));
         }
 
         // Nombre de joueurs par défaut
-        nbJoueurs = 2;
+        nbJoueurs = 2; 
+
+        leaderBoard = new TreeMap<>(Collections.reverseOrder());
     }
 
     // Déclaration des méthodes
 
-    public static List<Joueur> getJoueurs() {
+    public List<Joueur> getJoueurs() {
         // retourne la liste des joueurs selon nbJoueurs
         return joueurs.subList(0, nbJoueurs);
     }
@@ -66,7 +116,7 @@ public class Partie {
     /**
      * Place les joueurs sur la carte et les cases de départ.
      */
-    private static void placerJoueursDepartCarte() {
+    private void placerJoueursDepartCarte() {
         List<List<Integer>> posDepart = getPosDepart();
 
         // Place les joueurs sur la carte
@@ -79,10 +129,16 @@ public class Partie {
         }
     }
 
+    public void initJoueur() {
+        for (Joueur joueur : getJoueurs()) {
+            joueur.initJoueur();
+        }
+    }
+
     /**
      * Rejouer / Garde les joueurs et génère une nouvelle carte
      */
-    public static void lancerNouvellePartie() {
+    public void lancerNouvellePartie() {
         System.out.println("Lancement d'une nouvelle partie");
         System.out.println("Paramètres de la partie: " + paramPartie);
         // Réinitialise les attributs des joueurs selon les paramètres de partie
@@ -93,7 +149,7 @@ public class Partie {
         placerJoueursDepartCarte();
     }
 
-    private static List<List<Integer>> getPosDepart() {
+    private List<List<Integer>> getPosDepart() {
         // Position de départ des joueurs sur la carte
         int largeur = paramPartie.getBoardWidth();
         int hauteur = paramPartie.getBoardHeight();
@@ -112,7 +168,7 @@ public class Partie {
     /**
      * Génère une nouvelle carte avec la taille
      */
-    private static void genererNouvelleCarte() {
+    private void genererNouvelleCarte() {
         // Genere la carte avec la hauteur et longueur entree en parametres
         int m = paramPartie.getBoardWidth() + 2;
         int n = paramPartie.getBoardHeight() + 2;
@@ -121,25 +177,23 @@ public class Partie {
             for (int j = 0; j < m; j++) {
                 // La carte est entourée de blocs indestructibles
                 if (i == 0 || j == 0 || i == n - 1 || j == m - 1) {
-                    carte[i][j] = new Case(false, j, i, "BlocIndestructible", false);
+                    carte[i][j] = new Case(false, j, i, typeCaseEnum.BlocIndestructible, false, this);
                 }
                 // Les 4 coins opposés sont vides pour laisser la place aux joueurs
                 else if ((i == 1 && (j == 1 || j == 2 || j == m - 3 || j == m - 2))
                         || (i == n - 2 && (j == 1 || j == 2 || j == m - 3 || j == m - 2))
                         || (i == 2 && (j == 1 || j == m - 2)) || (i == n - 3 && (j == 1 || j == m - 2))) {
-                    carte[i][j] = new Case(true, j, i, "CaseVide", false);
-                    ;
-
+                    carte[i][j] = new Case(true, j, i, typeCaseEnum.CaseVide, false);
                 }
                 // Les blocs indesctructibles sont placés sur les cases pairs
                 else if (i == 0 || j == 0 || i == n - 1 || j == m - 1 || (i % 2 == 0 && j % 2 == 0)) {
-                    carte[i][j] = new Case(false, j, i, "BlocIndestructible", false);
+                    carte[i][j] = new Case(false, j, i, typeCaseEnum.BlocIndestructible, false, this);
                 }
                 // Les blocs destructibles sont placés aléatoirement
                 else if (Math.random() < 0.5) {
-                    carte[i][j] = new BlocDestructible(j, i);
+                    carte[i][j] = new BlocDestructible(j, i, this);
                 } else {
-                    carte[i][j] = new Case(true, j, i, "CaseVide", false);
+                    carte[i][j] = new Case(true, j, i, typeCaseEnum.CaseVide, false, this);
                 }
             }
         }
@@ -151,7 +205,7 @@ public class Partie {
      * @param KeyString La touche à jouer.
      * @return La liste des cases modifiées par le joueur.
      */
-    public static List<Case> jouerTouche(String KeyString) {
+    public List<Case> jouerTouche(String KeyString) {
         List<Case> casesModifiees = new ArrayList<Case>();
         for (Joueur joueur : getJoueurs()) {
             List<Case> casesModifieesJoueur = joueur.jouer(KeyString);
@@ -166,18 +220,39 @@ public class Partie {
      *
      * @return true si la partie est terminée, false sinon.
      */
-    public static boolean estTerminee() {
+    public boolean estTerminee() {
         // La partie est terminée si il reste un seul joueur en vie
         int nbJoueursEnVie = 0;
         for (Joueur joueur : getJoueurs()) {
-            if (joueur.isAlive)
-                nbJoueursEnVie++;
+            if (joueur.isAlive) nbJoueursEnVie++;
         }
-        return nbJoueursEnVie <= 1;
+        
+        // Sauvegarde les scores si la partie est terminée
+        boolean partieTerminee = nbJoueursEnVie <= 1;
+        if(partieTerminee) {
+            sauvegarderScores();
+        }
+        return partieTerminee;
+    }
+
+    /**
+     * Sauvegarde les scores des joueurs dans un fichier.
+     */
+    public void sauvegarderScores() {
+        System.out.println("Partie terminée");
+        System.out.println("Scores: ");
+        for (Joueur joueur : getJoueurs()) {
+            if(leaderBoard.containsKey(joueur.score)) {
+                leaderBoard.get(joueur.score).add(joueur.nom);
+            } else {
+                leaderBoard.put(joueur.score, new ArrayList<>(Arrays.asList(joueur.nom)));
+            }
+        }
+        Stream.sauvegarderScores(leaderBoard);
     }
 
     /* pour test */
-    public static void afficherCarte() {
+    public void afficherCarte() {
         System.out.print("   ");
         for (int i = 0; i < carte.length; i++)
             System.out.print(i + "\t");
@@ -191,15 +266,15 @@ public class Partie {
             for (int j = 0; j < carte[i].length; j++) {
                 if (carte[i][j].joueur != null) {
                     System.out.print("\u001B[35m" + "J" + "\t" + "\u001B[0m"); // Violet pour le joueur
-                } else if (carte[i][j].typeImage.equals("CaseVide")) {
+                } else if (carte[i][j].typeCase == typeCaseEnum.CaseVide) {
                     System.out.print("\u001B[34m" + "T" + "\t" + "\u001B[0m"); // Bleu pour le terrain
-                } else if (carte[i][j].typeImage.equals("BlocDestructible")) {
+                } else if (carte[i][j].typeCase == typeCaseEnum.BlocDestructible) {
                     System.out.print("\u001B[32m" + "D" + "\t" + "\u001B[0m"); // Vert pour les blocs destructibles
-                } else if (carte[i][j].typeImage.equals("BlocIndestructible")) {
+                } else if (carte[i][j].typeCase == typeCaseEnum.BlocIndestructible) {
                     System.out.print("\u001B[31m" + "M" + "\t" + "\u001B[0m"); // Rouge pour les blocs indestructibles
-                } else if (carte[i][j].typeImage.equals("Bombe")) {
+                } else if (carte[i][j].typeCase == typeCaseEnum.Bombe) {
                     System.out.print("\u001B[33m" + "B" + "\t" + "\u001B[0m"); // Jaune pour les bombes
-                } else if (carte[i][j].typeImage.equals("Bonus")) {
+                } else if (carte[i][j].typeCase == typeCaseEnum.Bonus) {
                     System.out.print("\u001B[36m" + "B" + "\t" + "\u001B[0m"); // Cyan pour les bonus
                 }
             }

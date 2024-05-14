@@ -32,6 +32,7 @@ import model.Partie;
 
 public class PartiePanel extends JPanel {
     MainFrame mainFrame;
+    public Partie partieEnCours;
     public Color backgroundColor = new Color(203, 239, 195);
 
     // Timer du jeu pour le taux de rafraichissement
@@ -63,8 +64,9 @@ public class PartiePanel extends JPanel {
 
     public static CasePanel[][] casesPlateauPanel;
 
-    public PartiePanel(MainFrame frame) {
+    public PartiePanel(MainFrame frame, Partie partie) {
         this.mainFrame = frame;
+        this.partieEnCours = partie;
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBackground(backgroundColor);
@@ -79,7 +81,7 @@ public class PartiePanel extends JPanel {
         this.add(plateauPanel);
 
         // Add a key listener to the panel
-        PartieKeyListener keyListener = new PartieKeyListener();
+        PartieKeyListener keyListener = new PartieKeyListener(partieEnCours);
         this.addKeyListener(keyListener);
 
         // Make sure the panel can receive keyboard input
@@ -145,8 +147,8 @@ public class PartiePanel extends JPanel {
 
     private JPanel createPlateauPanel() {
         // panel de type grille
-        int width = Partie.paramPartie.getBoardWidth() + 2;
-        int height = Partie.paramPartie.getBoardHeight() + 2;
+        int width = partieEnCours.paramPartie.getBoardWidth()+2;
+        int height = partieEnCours.paramPartie.getBoardHeight()+2;
 
         casesPlateauPanel = new CasePanel[height][width];
 
@@ -165,7 +167,7 @@ public class PartiePanel extends JPanel {
             panel.setOpaque(false);
             panel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
             for (int j = 0; j < width; j++) {
-                CasePanel casePlateauPanel = new CasePanel(Partie.carte[i][j]);
+                CasePanel casePlateauPanel = new CasePanel(partieEnCours.carte[i][j]);
                 casePlateauPanel.setPreferredSize(new Dimension(sizeCase, sizeCase));
                 panel.add(casePlateauPanel);
                 casesPlateauPanel[i][j] = casePlateauPanel;
@@ -200,14 +202,14 @@ public class PartiePanel extends JPanel {
 
         north.add(chrono);
 
-        for (int i = 0; i < Partie.nbJoueurs; i++) {
+        for (int i = 0; i < partieEnCours.nbJoueurs; i++) {
             JPanel panel = new JPanel(new GridBagLayout());
             GridBagConstraints abc = new GridBagConstraints();
             abc.insets = new java.awt.Insets(0, 20, 0, 20);
             // Create a label to display the number of lives
-            labelName.add(new JLabel("Joueur: " + Partie.getJoueurs().get(i).nom + " "));
-            labelBombs.add(new JLabel("Stock de bombes: " + Partie.getJoueurs().get(i).stockBombe + " "));
-            labelScore.add(new JLabel("Score: " + Partie.getJoueurs().get(i).score + " "));
+            labelName.add(new JLabel("Joueur: " + partieEnCours.getJoueurs().get(i).nom + " "));
+            labelBombs.add(new JLabel("Stock de bombes: " + partieEnCours.getJoueurs().get(i).stockBombe + " "));
+            labelScore.add(new JLabel("Score: " + partieEnCours.getJoueurs().get(i).score + " "));
             gbc.gridx = i % 2;
             gbc.gridy = i / 2;
             // Create a panel to hold the life squares
@@ -217,7 +219,7 @@ public class PartiePanel extends JPanel {
             lifePanel.add(lifeLabel);
 
             // Add the life squares to the panel
-            for (int j = 0; j < Partie.getJoueurs().get(i).getVie(); j++) {
+            for (int j = 0; j < partieEnCours.getJoueurs().get(i).getVie(); j++) {
                 JPanel lifeSquare = new JPanel();
                 lifeSquare.setPreferredSize(new Dimension(10, 20));
                 lifeSquare.setBackground(Color.GREEN);
@@ -250,9 +252,9 @@ public class PartiePanel extends JPanel {
 
     public void updatePlateauPanel() {
         // Update the plateau panel
-        for (int i = 0; i < Partie.paramPartie.getBoardHeight() + 2; i++) {
-            for (int j = 0; j < Partie.paramPartie.getBoardWidth() + 2; j++) {
-                casesPlateauPanel[i][j].setCaseModel(Partie.carte[i][j]);
+        for (int i = 0; i < partieEnCours.paramPartie.getBoardHeight() + 2; i++) {
+            for (int j = 0; j < partieEnCours.paramPartie.getBoardWidth() + 2; j++) {
+                casesPlateauPanel[i][j].setCaseModel(partieEnCours.carte[i][j]);
                 casesPlateauPanel[i][j].loadImage();
             }
         }
@@ -266,24 +268,26 @@ public class PartiePanel extends JPanel {
         infoPanel.remove(this.south);
         north.add(chrono);
 
-        for(int i = 0; i < Partie.nbJoueurs; i++){
+        for(int i = 0; i < partieEnCours.nbJoueurs; i++){
             JPanel panel = new JPanel(new GridBagLayout());
             GridBagConstraints abc = new GridBagConstraints();
             abc.insets = new java.awt.Insets(0, 10, 0, 10);
             gbc.gridx = i % 2;
             gbc.gridy = i / 2;
+
             // Update the life squares
             JPanel lifePanel = lifePanels.get(i);
             lifePanel.removeAll();
 
             JLabel lifeLabel = new JLabel("Vies:");
             lifePanel.add(lifeLabel);
-            for (int j = 0; j < Partie.paramPartie.getNbVie(); j++) {
+          
+            for (int j = 0; j < partieEnCours.paramPartie.getNbVie(); j++) {
                 JPanel lifeSquare = new JPanel();
                 lifeSquare.setPreferredSize(new Dimension(10, 20));
                 lifeSquare.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 10));
 
-                if (j < Partie.getJoueurs().get(i).getVie()) {
+                if (j < partieEnCours.getJoueurs().get(i).getVie()) {
                     lifeSquare.setBackground(Color.GREEN);
                 } else {
                     lifeSquare.setBackground(Color.RED);
@@ -291,13 +295,13 @@ public class PartiePanel extends JPanel {
 
                 lifePanel.add(lifeSquare);
             }
-            if(Partie.getJoueurs().get(i).getVie() > vieJoueurs.get(Partie.getJoueurs().get(i).nom)){
-                vieJoueurs.put(Partie.getJoueurs().get(i).nom, Partie.getJoueurs().get(i).getVie());       
+            if(partieEnCours.getJoueurs().get(i).getVie() > vieJoueurs.get(partieEnCours.getJoueurs().get(i).nom)){
+                vieJoueurs.put(partieEnCours.getJoueurs().get(i).nom, partieEnCours.getJoueurs().get(i).getVie());       
             }
 
             URL url = null;
             try{
-                url = classLoader.getResource("Images/Personnage/" + Partie.getJoueurs().get(i).avatar + ".png");
+                url = classLoader.getResource("Images/Personnage/" + partieEnCours.getJoueurs().get(i).avatar + ".png");
             }
             catch(Exception e){
                 e.printStackTrace();
@@ -326,11 +330,9 @@ public class PartiePanel extends JPanel {
 
     public void decrementerTemps() {
         compteur++;
-        if (Partie.estTerminee()) {
+        if (partieEnCours.estTerminee()) {
             this.timer.stop();
-            new FinPartieController(new FinPartieView(mainFrame));
-
-            // TODO : Afficher le JDialog de fin de partie
+            new FinPartieController(new FinPartieView(mainFrame, partieEnCours));
         }
         updateInfosPanel();
         updatePlateauPanel();
@@ -343,8 +345,7 @@ public class PartiePanel extends JPanel {
             } else {
                 // Arrêtez le timer lorsque le temps est écoulé
                 this.timer.stop();
-                new FinPartieController(new FinPartieView(mainFrame));
-                // TODO : Afficher le JDialog de fin de partie
+                new FinPartieController(new FinPartieView(mainFrame, partieEnCours));
             }
         }
     }

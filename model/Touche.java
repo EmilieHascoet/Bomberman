@@ -1,13 +1,14 @@
 package model;
 
 import java.awt.event.KeyEvent;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * 
  */
-public class Touche {
+public class Touche implements Serializable {
 
     // Déclarations des attributs
     private String haut;
