@@ -161,7 +161,7 @@ public class PartiePanel extends JPanel {
         infoPanel.setPreferredSize(new Dimension(mainFrame.getWidth(), infoPanelHeight));
         north.setLayout(new BoxLayout(north, BoxLayout.X_AXIS));
         south.setLayout(new GridLayout(2, Partie.nbJoueurs + 1));
-
+        
         infoPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         north.add(chrono);
@@ -222,12 +222,7 @@ public class PartiePanel extends JPanel {
         north.add(chrono);
 
         for(int i = 0; i < Partie.nbJoueurs; i++){
-            System.out.println("Joueur: " + Partie.getJoueurs().get(i).nom + " Vies: " + Partie.getJoueurs().get(i).getVie() + "\n"
-            + "vieJoueur: " + vieJoueurs.get(Partie.getJoueurs().get(i).nom)); 
-            if(Partie.getJoueurs().get(i).getVie() > vieJoueurs.get(Partie.getJoueurs().get(i).nom)){
-                vieJoueurs.put(Partie.getJoueurs().get(i).nom, Partie.getJoueurs().get(i).getVie() + 1);       
-            }
-            south.add(new JLabel("Joueur: " + Partie.getJoueurs().get(i).nom + " "));
+             
             
             // Update the life squares
             JPanel lifePanel = lifePanels.get(i);
@@ -265,6 +260,11 @@ public class PartiePanel extends JPanel {
 
                 lifePanel.add(lifeSquare);
             }
+            if(Partie.getJoueurs().get(i).getVie() > vieJoueurs.get(Partie.getJoueurs().get(i).nom)){
+                vieJoueurs.put(Partie.getJoueurs().get(i).nom, Partie.getJoueurs().get(i).getVie());       
+            }
+            south.add(new JLabel("Joueur: " + Partie.getJoueurs().get(i).nom + " "));
+            
             south.add(lifePanel);
 
             south.add(new JLabel("Stock de bombes: " + Partie.getJoueurs().get(i).stockBombe + " "));
