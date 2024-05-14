@@ -19,7 +19,6 @@ import javax.swing.JToggleButton;
 import model.Parametres;
 import model.Partie;
 import model.Partie.bonusEnum;
-import javax.swing.JToggleButton;
 import view.AccueilPanel;
 import view.MainFrame;
 
@@ -177,9 +176,9 @@ public class ParametreController implements ActionListener {
                     Integer.parseInt(list.get("Portée de la bombe")), Integer.parseInt(list.get("Largeur du plateau")),
                     Integer.parseInt(list.get("Hauteur du plateau")));
 
-            for (int i = 0; i < Partie.nbJoueurs; i++) {
-                Partie.getJoueurs().get(i).avatar = Partie.avatar.valueOf(image.get("Joueur " + (i + 1)));
-                Partie.getJoueurs().get(i).nom = list.get("Joueur " + (i + 1));
+            for (int i = 0; i < partieEnCours.nbJoueurs; i++) {
+                partieEnCours.getJoueurs().get(i).avatar = Partie.avatar.valueOf(image.get("Joueur " + (i + 1)));
+                partieEnCours.getJoueurs().get(i).nom = list.get("Joueur " + (i + 1));
             }
 
             fenetre.changePanel(new ChoixTouchePanel(fenetre, partieEnCours));

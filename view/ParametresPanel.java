@@ -63,7 +63,7 @@ public class ParametresPanel extends JPanel {
         JList<String> list = new JList<>(listModel);
         listModel.addElement("Liste de bonus");
         listModel.addElement("Partie");
-        for (int i = 1; i <= Partie.nbJoueurs; i++) {
+        for (int i = 1; i <= partieEnCours.nbJoueurs; i++) {
             listModel.addElement("Joueur " + i);
         }
 
@@ -113,7 +113,7 @@ public class ParametresPanel extends JPanel {
         createTextAreasM(listModel.get(1), rightPanel, mapP, lab);
 
         // Create text areas for each player
-        for (int i = 1; i <= Partie.nbJoueurs; i++) {
+        for (int i = 1; i <= partieEnCours.nbJoueurs; i++) {
             createTextAreas(listModel.get(i+1), rightPanel, new String[] {"Joueur " + i});
         }
 

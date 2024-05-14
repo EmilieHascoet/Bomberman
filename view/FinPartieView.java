@@ -3,7 +3,6 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import model.Main;
 import model.Partie;
 
 public class FinPartieView extends JDialog {
@@ -11,10 +10,12 @@ public class FinPartieView extends JDialog {
     private JButton buttonMenu;
     private JButton buttonExit;
     private MainFrame frame;
+    private Partie partie;
 
-    public FinPartieView(MainFrame frame) {
+    public FinPartieView(MainFrame frame, Partie partie) {
         super(frame, "Fin de Partie", true);
         this.frame = frame;
+        this.partie = partie;
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setSize(500, 460);
         setLocationRelativeTo(null);
@@ -44,10 +45,14 @@ public class FinPartieView extends JDialog {
         return frame;
     }
 
+    public Partie gePartie() {
+        return partie;
+    }
+
     private void setupComponents(GridBagConstraints gbc) {
         // Déterminez le joueur avec le score le plus élevé
-        int maxScore = Partie.getGagnant().score;
-        int winningIndex = Partie.getJoueurs().indexOf(Partie.getGagnant());
+        int maxScore = partie.getGagnant().score;
+        int winningIndex = partie.getJoueurs().indexOf(partie.getGagnant());
 
         // Gagnant en haut
         JLabel labelGagnant = new JLabel("Player " + (winningIndex + 1) + " gagne avec " + maxScore + " points!");
@@ -62,9 +67,9 @@ public class FinPartieView extends JDialog {
         gbc.gridwidth = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.NORTH;
-        int numPlayers = Partie.getJoueurs().size();
+        int numPlayers = partie.getJoueurs().size();
         for (int i = 0; i < numPlayers; i++) {
-            JLabel scoreLabel = new JLabel("Player " + (i + 1) + ": " + Partie.getJoueurs().get(i).score);
+            JLabel scoreLabel = new JLabel("Player " + (i + 1) + ": " + partie.getJoueurs().get(i).score);
             if (i < 2) { // Joueurs 1 et 2 à gauche
                 gbc.gridx = i;
                 gbc.gridy = 1;

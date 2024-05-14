@@ -122,7 +122,7 @@ public class PartiePanel extends JPanel {
             
         vieJoueurs = new HashMap<>() {
             {
-                for (Joueur joueur : Partie.getJoueurs()) {
+                for (Joueur joueur : partieEnCours.getJoueurs()) {
                     put(joueur.nom, joueur.getVie());
                 }
             }

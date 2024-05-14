@@ -11,7 +11,6 @@ import view.ChoixTouchePanel;
 
 import view.MainFrame;
 import view.PartiePanel;
-import view.changerToucheJDialog;
 
 public class AccueilControleur implements ActionListener {
     private MainFrame mainFrame;

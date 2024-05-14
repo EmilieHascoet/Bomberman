@@ -8,9 +8,11 @@ import java.awt.event.ActionListener;
 public class FinPartieController {
     private FinPartieView view;
     private MainFrame mainFrame;
+    private Partie partie;
 
     public FinPartieController(FinPartieView view) {
         this.view = view;
+        this.partie = view.gePartie();
         mainFrame = view.getMainFrame();
         initController();
         view.display();
@@ -23,8 +25,8 @@ public class FinPartieController {
             public void actionPerformed(ActionEvent e) {
                 // rejouer avec les mêmes paramêtres
                 view.dispose();
-                Partie.lancerNouvellePartie();
-                PartiePanel partiePanel = new PartiePanel(mainFrame);
+                partie.lancerNouvellePartie();
+                PartiePanel partiePanel = new PartiePanel(mainFrame, partie);
                 mainFrame.changePanel(partiePanel);
                 partiePanel.requestFocusInWindow();
             }
