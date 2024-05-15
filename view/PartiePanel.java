@@ -39,7 +39,7 @@ public class PartiePanel extends JPanel {
     private Timer timer;
     private ActionListener timerAction;
     private int temps = 300;
-    private int tauxRafraichissement = 50;
+    private int tauxRafraichissement = 100;
     private int compteur = 0;
 
     private BufferedImage backgroundImage;

@@ -66,6 +66,10 @@ public class Joueur implements Serializable {
      * @param keyString La touche à jouer.
      */
     public List<Case> jouer(String keyString) {
+        // Si le joueur est mort, il ne peut pas jouer
+        if (!isAlive) {
+            return null;
+        }
         List<Case> casesModifiees = new ArrayList<Case>();
         String action = touche.determinerActionJoueur(keyString);
         if(action != null) {
@@ -86,8 +90,8 @@ public class Joueur implements Serializable {
     /**
      * Pose une bombe à l'emplacement du joueur si il lui en reste
      */
-    public Bombe poseBombe() {
-        // Vérifie s'il reste des bombes en stock.
+    private Bombe poseBombe() {
+        // Vérifie s'il reste des bombes en stock et si le joueur est en vie
         if (stockBombe > 0) {
             // Crée une nouvelle bombe à la position actuelle du joueur.
             Bombe newBombe = new Bombe(this.positionX, this.positionY, 2, porteeBombe, this, partie);
@@ -115,7 +119,7 @@ public class Joueur implements Serializable {
      * @param direction the direction in which the player wants to move ("haut", "bas", "gauche", "droite")
      * @return a list of modified cases if the player moved, null otherwise
      */
-    public List<Case> seDeplacer(String direction) {
+    private List<Case> seDeplacer(String direction) {
         // Récupère la case de départ du joueur
         Case caseDepart = (Case) partie.carte[this.positionY][this.positionX];
         Case caseArrivee;
@@ -169,7 +173,7 @@ public class Joueur implements Serializable {
      * @return true if the destination case is traversable and does not contain
      *         another player, false otherwise.
      */
-    public boolean peutSeDeplacer(Case caseArrivee) {
+    private boolean peutSeDeplacer(Case caseArrivee) {
         return caseArrivee.estTraversable && caseArrivee.joueur == null;
     }
 

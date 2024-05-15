@@ -200,7 +200,7 @@ public class Partie implements Serializable {
     }
 
     /**
-     * Joue la touche spécifiée par le joueur.
+     * Joue la touche spécifiée par le joueur si il est vivant.
      *
      * @param KeyString La touche à jouer.
      * @return La liste des cases modifiées par le joueur.

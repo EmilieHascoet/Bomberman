@@ -1,6 +1,5 @@
 import javax.swing.SwingUtilities;
 
-import model.Partie;
 import view.MainFrame;
 
 /**
