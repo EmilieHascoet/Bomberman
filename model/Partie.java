@@ -14,6 +14,7 @@ public class Partie implements Serializable {
     private List<Joueur> joueurs;
     public Parametres paramPartie;
     public TreeMap<Integer, List<String>> leaderBoard;
+    public int time;
 
     // Déclarations des attributs
     public Case[][] carte;
@@ -104,6 +105,7 @@ public class Partie implements Serializable {
         nbJoueurs = 2; 
 
         leaderBoard = new TreeMap<>(Collections.reverseOrder());
+        time = 300;
     }
 
     // Déclaration des méthodes

@@ -38,7 +38,7 @@ public class PartiePanel extends JPanel {
     // Timer du jeu pour le taux de rafraichissement
     private Timer timer;
     private ActionListener timerAction;
-    private int temps = 300;
+    private int temps;
     private int tauxRafraichissement = 100;
     private int compteur = 0;
 
@@ -67,6 +67,7 @@ public class PartiePanel extends JPanel {
     public PartiePanel(MainFrame frame, Partie partie) {
         this.mainFrame = frame;
         this.partieEnCours = partie;
+        this.temps = partie.time;
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBackground(backgroundColor);
@@ -330,17 +331,18 @@ public class PartiePanel extends JPanel {
 
     public void decrementerTemps() {
         compteur++;
+        updateInfosPanel();
+        updatePlateauPanel();
         if (partieEnCours.estTerminee()) {
             this.timer.stop();
             new FinPartieController(new FinPartieView(mainFrame, partieEnCours));
         }
-        updateInfosPanel();
-        updatePlateauPanel();
         // Décrémentez le temps seulement lorsque le compteur atteint 10 (c'est-à-dire
         // toutes les secondes)
         if (compteur % (1000 / this.tauxRafraichissement) == 0) {
             if (temps > 0) {
                 temps--;
+                partieEnCours.time = temps;
                 chrono.setText("Temps: " + temps / 60 + " : " + temps % 60);
             } else {
                 // Arrêtez le timer lorsque le temps est écoulé
