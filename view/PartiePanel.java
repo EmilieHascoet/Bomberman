@@ -43,6 +43,7 @@ public class PartiePanel extends JPanel {
     private int compteur = 0;
 
     private BufferedImage backgroundImage;
+    private ImageLoader imageLoader = new ImageLoader();
     private int sizeBorderPlateau = 5;
 
     JPanel infoPanel = new JPanel();
@@ -76,8 +77,6 @@ public class PartiePanel extends JPanel {
 
         infoPanel = createInfosPanel();
         plateauPanel = createPlateauPanel();
-        gbc.insets = new java.awt.Insets(5, 100, 5, 100);
-        plateauPanel.setAlignmentX(CENTER_ALIGNMENT);
 
         // Add the panel to the center of the frame
         this.add(infoPanel);
@@ -104,7 +103,6 @@ public class PartiePanel extends JPanel {
         // Load the background image
         try {
             backgroundImage = ImageIO.read(getClass().getResource("/Images/background.png"));
-            //backgroundImage = ImageIO.read(new File((getClass().getResource("/Images/background.png").getPath())));
         
             // Créer un noyau de flou
             float[] matrix = {
@@ -170,7 +168,7 @@ public class PartiePanel extends JPanel {
             panel.setOpaque(false);
             panel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
             for (int j = 0; j < width; j++) {
-                CasePanel casePlateauPanel = new CasePanel(partieEnCours.carte[i][j]);
+                CasePanel casePlateauPanel = new CasePanel(partieEnCours.carte[i][j], imageLoader);
                 casePlateauPanel.setPreferredSize(new Dimension(sizeCase, sizeCase));
                 panel.add(casePlateauPanel);
                 casesPlateauPanel[i][j] = casePlateauPanel;
@@ -259,9 +257,9 @@ public class PartiePanel extends JPanel {
             south.add(panel, gbc);
         }
 
-
         infoPanel.add(north);
         infoPanel.add(south);
+        gbc.insets = new java.awt.Insets(5, 100, 5, 100);
 
         return infoPanel;
     }
@@ -334,20 +332,13 @@ public class PartiePanel extends JPanel {
                 vieJoueurs.put(partieEnCours.getJoueurs().get(i).nom, partieEnCours.getJoueurs().get(i).getVie());
             }
 
-            URL url = null;
-            try{
-                url = classLoader.getResource("Images/Personnage/" + partieEnCours.getJoueurs().get(i).avatar + ".png");
-            }
-            catch(Exception e){
-                e.printStackTrace();
-            }
             labelName.get(i).setText("Joueur: " + partieEnCours.getJoueurs().get(i).nom + " ");
             labelBombs.get(i).setText("Stock de bombes: " + partieEnCours.getJoueurs().get(i).stockBombe + " ");
             labelScore.get(i).setText("Score: " + partieEnCours.getJoueurs().get(i).score + " ");
             abc.gridx = 0; abc.gridy = 0;
             abc.gridheight = 2;
-            ImageIcon icon = new ImageIcon(url);
-            Image img = icon.getImage();
+            String avatarPath = partieEnCours.getJoueurs().get(i).avatar.getPathImage();
+            Image img = imageLoader.getImage(avatarPath);
             Image newimg = img.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
             JLabel avatar = new JLabel(new ImageIcon(newimg));
             panel.add(avatar, abc);

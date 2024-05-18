@@ -38,9 +38,11 @@ public class AccueilPanel extends JPanel {
     private JPanel bonusPanel;
     private JPanel blocsPanel;
     private JPanel bottomPanel;
+    private ImageLoader imageLoader;
 
      public AccueilPanel(MainFrame frame) {
         this.mainFrame = frame;
+        imageLoader = new ImageLoader();
 
         // Configuration de l'interface utilisateur
         configureUI();
@@ -133,14 +135,12 @@ public class AccueilPanel extends JPanel {
                 subPanel.setLayout(new BoxLayout(subPanel, BoxLayout.X_AXIS));
                 subPanel.setBackground(backgroundColor);
 
-                // Création d'un label avec image pour le nom de l'élément
-                ImageIcon image = new ImageIcon(pathImage);
-
                 // redimensionner l'image
-                Image img = image.getImage();
+                Image img = imageLoader.getImage(pathImage);
                 Image newimg = img.getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH);
-                image = new ImageIcon(newimg);
+                ImageIcon image = new ImageIcon(newimg);
 
+                // Création d'un label avec image pour le nom de l'élément
                 JLabel labelImage = new JLabel(image);
                 // Espace entre l'image et le texte
                 labelImage.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));

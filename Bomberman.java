@@ -14,8 +14,6 @@ public class Bomberman {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                // Chargez toutes les images au démarrage de l'application
-
                 // Crée une nouvelle instance de MainFrame
                 MainFrame frame = new MainFrame();
                 frame.setVisible(true);

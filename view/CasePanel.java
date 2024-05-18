@@ -12,12 +12,14 @@ import model.Case.typeCaseEnum;
 public class CasePanel extends JPanel {
     public Case caseModel;
     private String path;
-    Image imageCase;
-    typeCaseEnum typeCase;
+    private ImageLoader imageLoader;
+    private Image imageCase;
+    private typeCaseEnum typeCase;
 
-    public CasePanel(Case caseModel) {
+    public CasePanel(Case caseModel, ImageLoader imageLoader) {
         this.caseModel = caseModel;
         this.typeCase = caseModel.typeCase;
+        this.imageLoader = imageLoader;
         loadImage();
     }
 
@@ -27,24 +29,16 @@ public class CasePanel extends JPanel {
     }
     
     public void loadImage() {
-        ClassLoader classLoader = getClass().getClassLoader();
-
         if(caseModel.joueur != null) {
                 this.path = caseModel.joueur.avatar.getPathImage();
         } else if (caseModel.typeCase == typeCaseEnum.Bonus){
             this.path = ((Bonus)caseModel).effet.getPathImage();
         } else {
-            this.path = caseModel.typeCase.getPathImage() == null ? "" : caseModel.typeCase.getPathImage();
+            this.path = caseModel.typeCase.getPathImage();
         }
-        
-        URL imageUrl = classLoader.getResource(this.path);
-    
-        if (imageUrl != null) {
-            this.imageCase = new ImageIcon(imageUrl).getImage();
-        }
-        else {
+        if (this.path == null) {
             this.imageCase = null;
-        }
+        } else this.imageCase = imageLoader.getImage(this.path);
     }
 
     @Override
@@ -54,25 +48,21 @@ public class CasePanel extends JPanel {
         g.setColor(new Color(203, 239, 195));
         g.fillRect(0, 0, getWidth(), getHeight());
 
+        // Afficher l'image de la case
         if (this.imageCase != null) {
             g.drawImage(imageCase, 0, 0, getWidth(), getHeight(), this);
         }
 
         // Afficher la bombe au dessus du joueur
         if(this.typeCase == typeCaseEnum.Bombe) {
-            URL imageUrl = getClass().getClassLoader().getResource(typeCase.getPathImage());
-            if (imageUrl != null) {
-                Image imageBombe = new ImageIcon(imageUrl).getImage();
-                g.drawImage(imageBombe, 0, 0, getWidth(), getHeight(), this);
-            }
+            Image imageBombe = imageLoader.getImage("Images/Bloc/Bombe.png");
+            g.drawImage(imageBombe, 0, 0, getWidth(), getHeight(), this);
         }
+
         // Afficher l'explosion au dessus de tout
         if (caseModel.isFire) {
-            URL imageUrl = getClass().getClassLoader().getResource("Images/Explosion/cote.png");
-            if (imageUrl != null) {
-                Image imageFire = new ImageIcon(imageUrl).getImage();
-                g.drawImage(imageFire, 0, 0, getWidth(), getHeight(), this);
-            }
+            Image imageFire = imageLoader.getImage("Images/Explosion/cote.png");
+            g.drawImage(imageFire, 0, 0, getWidth(), getHeight(), this);
         }
     }
 }
