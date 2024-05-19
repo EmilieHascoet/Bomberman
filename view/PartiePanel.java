@@ -15,7 +15,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +42,7 @@ public class PartiePanel extends JPanel {
     private int compteur = 0;
 
     private BufferedImage backgroundImage;
+    private BufferedImage infoPanelBackground;
     private ImageLoader imageLoader = new ImageLoader();
     private int sizeBorderPlateau = 5;
 
@@ -119,8 +119,17 @@ public class PartiePanel extends JPanel {
         
             // Appliquer l'opération de flou à l'image
             backgroundImage = blurOp.filter(backgroundImage, null);
+        
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-            
+        try {
+            infoPanelBackground = ImageIO.read(getClass().getResource("/Images/iPanelBackground.png/"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         vieJoueurs = new HashMap<>() {
             {
                 for (Joueur joueur : partieEnCours.getJoueurs()) {
@@ -129,10 +138,6 @@ public class PartiePanel extends JPanel {
             }
         };
 
-        
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 
@@ -182,7 +187,17 @@ public class PartiePanel extends JPanel {
     }
 
     private JPanel createInfosPanel() {
-        JPanel infoPanel = new JPanel();
+        JPanel infoPanel = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Image scaledImage = infoPanelBackground.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH);
+                if (infoPanelBackground != null) {
+                    g.drawImage(infoPanelBackground, 0, 0, this.getWidth(), this.getHeight(), this);
+                }
+            }
+        };
+        // Create a panel to display the information
 
         // JLabel to display
         chrono = new JLabel("Temps: " + temps / 60 + " : " + temps % 60);
@@ -198,6 +213,7 @@ public class PartiePanel extends JPanel {
         infoPanel.setPreferredSize(new Dimension(mainFrame.getWidth(), infoPanelHeight));
         north.setLayout(new BoxLayout(north, BoxLayout.X_AXIS));
         south.setLayout(new GridBagLayout());
+        south.setOpaque(false);
         gbc.insets = new java.awt.Insets(5, 50, 5, 50);
         infoPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -205,6 +221,7 @@ public class PartiePanel extends JPanel {
 
         for (int i = 0; i < partieEnCours.nbJoueurs; i++) {
             JPanel panel = new JPanel(new GridBagLayout());
+            panel.setOpaque(false);
             GridBagConstraints abc = new GridBagConstraints();
             abc.insets = new java.awt.Insets(0, 20, 0, 20);
             // Create a label to display the number of lives
@@ -215,6 +232,7 @@ public class PartiePanel extends JPanel {
             gbc.gridy = i / 2;
             // Create a panel to hold the life squares
             JPanel lifePanel = new JPanel(new FlowLayout());
+            lifePanel.setOpaque(false);
             int sizeLifeSquare = partieEnCours.getJoueurs().get(i).getVie() / 5 + 1;
             int niveau = 0; 
             squarePan.insets = new java.awt.Insets(1, 1, 1, 1);
@@ -280,9 +298,11 @@ public class PartiePanel extends JPanel {
         // Update the information panel
         south.removeAll();
         north.add(chrono);
+        north.setOpaque(false);
 
         for(int i = 0; i < partieEnCours.nbJoueurs; i++){
             JPanel panel = new JPanel(new GridBagLayout());
+            panel.setOpaque(false);
             GridBagConstraints abc = new GridBagConstraints();
             abc.insets = new java.awt.Insets(0, 10, 0, 10);
             gbc.gridx = i % 2;
@@ -291,6 +311,7 @@ public class PartiePanel extends JPanel {
             // Update the life squares
             
             JPanel lifePanel = lifePanels.get(i);
+            lifePanel.setOpaque(false);
             lifePanel.setLayout(new GridBagLayout());
             lifePanel.removeAll();
             squarePan.gridx = 0;
