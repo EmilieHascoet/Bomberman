@@ -80,7 +80,7 @@ public class Partie implements Serializable {
     public Partie() {
         // Créer les paramètres par défaut
         Set<bonusEnum> setBonus = new HashSet<>(Arrays.asList(Partie.bonusEnum.values()));
-        paramPartie = new Parametres(setBonus, 3, 3, 1, 2, 21, 15);
+        paramPartie = new Parametres(setBonus, 3, 3, 1, 1, 15, 10);
 
         // Créer les touches par défaut
         List<Touche> touchesDefaut = new ArrayList<>();
