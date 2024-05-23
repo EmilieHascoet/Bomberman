@@ -229,7 +229,7 @@ public class Partie implements Serializable {
             if (joueur.isAlive) nbJoueursEnVie++;
         }
         
-        // Sauvegarde les scores si la partie est terminée
+        // Sauvegarde le score du gagnant si la partie est terminée
         boolean partieTerminee = nbJoueursEnVie <= 1;
         if(partieTerminee) {
             sauvegarderScores();
@@ -238,19 +238,20 @@ public class Partie implements Serializable {
     }
 
     /**
-     * Sauvegarde les scores des joueurs dans un fichier.
+     * Sauvegarde le score du winner dans un fichier.
      */
     public void sauvegarderScores() {
         System.out.println("Partie terminée");
         System.out.println("Scores: ");
-        for (Joueur joueur : getJoueurs()) {
-            if(leaderBoard.containsKey(joueur.score)) {
-                leaderBoard.get(joueur.score).add(joueur.nom);
+        Joueur winner = getGagnant();
+        if(winner.score != 0) {
+            if(leaderBoard.containsKey(winner.score)) {
+                leaderBoard.get(winner.score).add(winner.nom);
             } else {
-                leaderBoard.put(joueur.score, new ArrayList<>(Arrays.asList(joueur.nom)));
+                leaderBoard.put(winner.score, new ArrayList<>(Arrays.asList(winner.nom)));
             }
+            Stream.sauvegarderScores(leaderBoard);
         }
-        Stream.sauvegarderScores(leaderBoard);
     }
 
     public Joueur getGagnant() {

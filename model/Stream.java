@@ -11,11 +11,19 @@ import java.util.List;
 import java.util.TreeMap;
 
 public class Stream {
+    public static final String DATA_DIR = "./data";
+    public static final String SAVE_GAME_FILE = DATA_DIR + "/saveGame.txt";
+    public static final String LEADERBOARD_FILE = DATA_DIR + "/leaderboard.txt";
+
+    static {
+        // Créer le répertoire de données s'il n'existe pas déjà
+        new File(DATA_DIR).mkdirs();
+    }
     
     // Sauvegarder la partie dans un fichier (objet partie sérialisé)
     public static void sauvegarderPartie(Partie partie) {
         // Créer un fichier de sauvegarde
-        File file = new File("sauvegarde.txt");
+        File file = new File(SAVE_GAME_FILE);
         try {
             // Créer un flux de sortie pour écrire dans le fichier
             FileOutputStream fos = new FileOutputStream(file);
@@ -34,7 +42,7 @@ public class Stream {
         // Lire une partie à partir d'un fichier
         Partie partie = null;
         // Ouvrir le fichier de sauvegarde
-        File file = new File("sauvegarde.txt");
+        File file = new File(SAVE_GAME_FILE);
         try {
             // Créer un flux d'entrée pour lire le fichier
             FileInputStream fis = new FileInputStream(file);
@@ -52,13 +60,13 @@ public class Stream {
     }
 
     public static boolean sauvegardePartieExist() {
-        File file = new File("sauvegarde.txt");
+        File file = new File(SAVE_GAME_FILE);
         return file.exists();
     }
 
     public static TreeMap<Integer, List<String>> recupereScores() {
         TreeMap<Integer, List<String>> scores = new TreeMap<>();
-        File file = new File("scores.txt");
+        File file = new File(LEADERBOARD_FILE);
         try {
             FileInputStream fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
@@ -77,7 +85,7 @@ public class Stream {
         allScore.putAll(recupereScores());
         // Ajouter les nouveaux scores
         allScore.putAll(Newscores);
-        File file = new File("scores.txt");
+        File file = new File(LEADERBOARD_FILE);
         try {
             FileOutputStream fos = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
