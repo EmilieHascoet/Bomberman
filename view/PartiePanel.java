@@ -5,6 +5,7 @@ import controller.PartieKeyListener;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -26,6 +27,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.border.Border;
+
 import model.Joueur;
 import model.Partie;
 
@@ -46,7 +49,8 @@ public class PartiePanel extends JPanel {
     private int sizeBorderPlateau = 5;
 
     JPanel infoPanel = new JPanel();
-    static int infoPanelHeight = 170;
+    static int infoPanelHeight = 140;
+    int footerHeight = 35;
     JPanel north = new JPanel();
     JPanel south = new JPanel();
     GridBagConstraints gbc = new GridBagConstraints();
@@ -151,11 +155,11 @@ public class PartiePanel extends JPanel {
         casesPlateauPanel = new CasePanel[height][width];
 
         int sizeCase = Math.min(mainFrame.getWidth() - sizeBorderPlateau * 2 / width,
-                (mainFrame.getHeight() - infoPanelHeight) / height);
+                (mainFrame.getHeight() - infoPanelHeight - footerHeight) / height);
         JPanel plateauPanel = new JPanel();
         plateauPanel.setOpaque(false);
         plateauPanel.setPreferredSize(
-                new Dimension(sizeCase * width + sizeBorderPlateau * 2, sizeCase * height + sizeBorderPlateau * 2));
+                new Dimension(sizeCase * width + sizeBorderPlateau * 2, sizeCase * height + sizeBorderPlateau*2 + footerHeight));
         plateauPanel.setMaximumSize(plateauPanel.getPreferredSize());
         // plateauPanel.setBackground(new Color(0, 0, 0));
         plateauPanel.setLayout(new BoxLayout(plateauPanel, BoxLayout.Y_AXIS));
@@ -173,8 +177,14 @@ public class PartiePanel extends JPanel {
             plateauPanel.add(panel);
         }
 
-        // Add a black border around the plateau panel
-        plateauPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), sizeBorderPlateau));
+        // Add a black border around the plateau panel and a empty border outside the black border
+       // Create the outer border
+        Border outerBorder = BorderFactory.createEmptyBorder(0, 0, footerHeight, 0);
+        // Create the inner border
+        Border innerBorder = BorderFactory.createLineBorder(new Color(0, 0, 0), sizeBorderPlateau);
+        Border compoundBorder = BorderFactory.createCompoundBorder(outerBorder, innerBorder);
+        plateauPanel.setBorder(compoundBorder);
+
         return plateauPanel;
     }
 
@@ -186,15 +196,16 @@ public class PartiePanel extends JPanel {
         infoPanel.setPreferredSize(new Dimension(mainFrame.getWidth(), infoPanelHeight));
 
         north.setOpaque(false);
-        north.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        north.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
         // JLabel to display the time
         chrono = new JLabel("Temps: " + temps / 60 + " : " + temps % 60);
+        chrono.setFont(new Font("Arial", Font.BOLD, 20));
         chrono.setForeground(Color.WHITE);
         north.add(chrono);
 
         south.setLayout(new GridBagLayout());
         south.setOpaque(false);
-        gbc.insets = new java.awt.Insets(5, 50, 5, 50);
+        gbc.insets = new java.awt.Insets(0, 20, 0, 20);
         
         labelNames = new ArrayList<>();
         labelLives = new ArrayList<>();
@@ -208,8 +219,8 @@ public class PartiePanel extends JPanel {
             panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
             GridBagConstraints abc = new GridBagConstraints();
             abc.insets = new java.awt.Insets(0, 10, 0, 10);
-            gbc.gridx = i % 2;
-            gbc.gridy = i / 2;
+            gbc.gridx = i;
+            gbc.gridy = 0;
 
             // Create labels to display the player's name, number of bombs, and score
             JLabel labelName = new JLabel(partieEnCours.getJoueurs().get(i).nom + " ");
@@ -288,7 +299,6 @@ public class PartiePanel extends JPanel {
 
         infoPanel.add(north);
         infoPanel.add(south);
-        gbc.insets = new java.awt.Insets(5, 100, 5, 100);
 
         return infoPanel;
     }
