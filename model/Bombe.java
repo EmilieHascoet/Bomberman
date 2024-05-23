@@ -9,13 +9,13 @@ import java.util.List;
 public class Bombe extends Case {
 
     // Déclarations des attributs
-    public Integer tempsExplosion;
-    public Integer portee;
-    public Integer tempsPropagation = 50;
+    private Integer tempsExplosion;
+    private Integer portee;
+    private Integer tempsPropagation = 50;
     private Thread timerThread;
 
     // Déclarations des associations
-    public Joueur joueurPoseBombe;
+    private Joueur joueurPoseBombe;
 
     /**
      * Default constructor
@@ -50,7 +50,7 @@ public class Bombe extends Case {
      * Cette méthode propage l'explosion aux cases adjacentes selon la portee de la bombe
      * et détruit tous les blocs qui se trouvent sur son chemin.
      */
-    public void explosion() {
+    private void explosion() {
         List<Case> caseModifiees = new ArrayList<>();
         propagateExplosion(caseModifiees);
         destroyBlocks(caseModifiees);
@@ -67,12 +67,12 @@ public class Bombe extends Case {
     private void propagateExplosion(List<Case> caseModifiees) {
         try {
             // Propagate explosion from the bomb's position
-            Case thisCase = partie.carte[this.positionY][this.positionX] = new Case(true, this.positionX, this.positionY, typeCaseEnum.CaseVide, false, partie);
+            Case thisCase = partie.getCarte()[this.positionY][this.positionX] = new Case(true, this.positionX, this.positionY, typeCaseEnum.CaseVide, false, partie);
             thisCase.joueur = this.joueur;
             if (thisCase.joueur != null) thisCase.joueur.perdreVie();
             thisCase.isFire = true;
             caseModifiees.add(thisCase);
-            this.joueurPoseBombe.stockBombe++;
+            this.joueurPoseBombe.gagnerStockBombe();
     
             // Calculate the cross shape
             boolean[] stopDirections = new boolean[4]; // North, South, East, West
@@ -104,7 +104,7 @@ public class Bombe extends Case {
      * @return True si la propagation doit s'arrêter dans cette direction, false sinon.
      */
     private boolean propagateInDirection(int startX, int startY, List<Case> caseModifiees) {    
-        Case currentCase = partie.carte[startY][startX];
+        Case currentCase = partie.getCarte()[startY][startX];
         
         // Don't fire on indestructible blocks
         if (currentCase.typeCase != typeCaseEnum.BlocIndestructible) {
@@ -120,7 +120,7 @@ public class Bombe extends Case {
                 caseModifiees.add(currentCase);
             }
         }
-        if (currentCase.joueur != null) currentCase.joueur.perdreVie();
+        if (currentCase.getJoueur() != null) currentCase.getJoueur().perdreVie();
         // Stop if the cell is not traversable or destructible
         if (!currentCase.estTraversable || currentCase.estDestructible) {
             return true;

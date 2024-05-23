@@ -97,57 +97,6 @@ public class ChoixTouchePanel extends JPanel {
         UIManager.put("TextArea.font", newFont);
     }
 
-    /**
-     * Crée un JPanel contenant le titre et les règles du jeu.
-     * @return JPanel : le panel contenant le titre et les règles du jeu
-     */
-    private void createTopPanel() {
-        topPanel = new JPanel();
-        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
-
-        // Titre
-        JLabel label = new JLabel("Bomberman Labyrinth");
-        label.setFont(new Font("Serif", Font.BOLD, 30));
-        label.setAlignmentX(Component.CENTER_ALIGNMENT);
-        label.setForeground(Color.RED);
-        topPanel.add(label);
-
-        // Ajout d'un espace entre les deux labels
-        topPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-
-        // texte explicatif du jeu
-        String rules = "<html>Le jeu de Bomberman est une bataille stratégique entre deux joueurs. Chaque joueur contrôle un personnage dans un labyrinthe.<br>"
-        + "Le but ? Éliminer l'adversaire à l'aide de fleurs explosives.<br>"
-        + "Voici comment cela fonctionne :<br>"
-        + "<ul>"
-        + "<li> Explorez le labyrinthe : Le terrain de jeu est un labyrinthe rempli de haies. Votre mission est de naviguer à travers ce labyrinthe pour trouver votre adversaire.</li>"
-        + "<li> Utilisez des fleurs explosives : Vous avez la capacité de placer des fleurs explosives. Ces fleurs peuvent détruire les haies, créant ainsi de nouveaux chemins à travers le labyrinthe.</li>"
-        + "<li> Éliminez votre adversaire : Votre objectif ultime est d'utiliser vos fleurs explosives pour éliminer l'adversaire. Soyez stratégique et rapide pour gagner la partie !</li>"
-        + "</ul>"
-        + "Le premier joueur à éliminer son adversaire remporte la partie. Bonne chance et amusez-vous bien !</html>";
-        JLabel label2 = new JLabel(rules);
-        label2.setFont(new Font("Serif", Font.BOLD, 17));
-
-        // Créer un nouveau JPanel avec FlowLayout aligné à gauche
-        JPanel textPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        textPanel.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
-        textPanel.setBackground(backgroundColor);
-        textPanel.add(label2);
-
-        topPanel.add(textPanel);
-        // Logo
-        /*if (imageLogoUrl != null) {
-
-            Image image = (new ImageIcon(imageLogoUrl)).getPathImage();
-            Image resizedImage = image.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH); // Ajustez la largeur et la hauteur comme vous le souhaitez
-            ImageIcon icon = new ImageIcon(resizedImage);
-
-            JLabel logo = new JLabel(icon);
-            panel.add(logo);
-        } else {
-            System.err.println("Image not found Blossom-Battles");
-        }*/
-    }
 
     
     /**

@@ -8,8 +8,8 @@ import model.Partie.bonusEnum;
 public class Bonus extends Case {
 
     // Déclarations des attributs
-    public Boolean isMalus;
-    public bonusEnum effet;
+    private Boolean isMalus;
+    private bonusEnum effet;
 
     /**
      * Default constructor
@@ -39,25 +39,29 @@ public class Bonus extends Case {
                 else { joueur.gagnerVie();; }
                 break;
             case Bombe:
-                if (this.isMalus) { if(joueur.stockBombe>1) joueur.stockBombe--; }
-                else { joueur.stockBombe++; }
+                if (this.isMalus) { if(joueur.getStockBombe()>1) joueur.perdreStockBombe(); }
+                else { joueur.gagnerStockBombe(); }
                 break;
             case Portee:
-                if (this.isMalus) { if(joueur.porteeBombe>1) joueur.porteeBombe--; }
-                else { joueur.porteeBombe++; }
+                if (this.isMalus) { if(joueur.getPorteeBombe()>1) joueur.perdrePorteeBombe();; }
+                else { joueur.gagnerPorteeBombe(); }
                 break;
             case Vitesse:
-                if (this.isMalus) { if(joueur.vitesse>1) joueur.vitesse--; }
-                else { joueur.vitesse++; }
+                if (this.isMalus) { if(joueur.getVitesse()>1) joueur.perdreVitesse(); }
+                else { joueur.gagnerVitesse(); }
                 break;
             default:
                 break;
         }
-        joueur.score += super.Points;
+        joueur.augmenterScore(Points);
         int posX = super.positionX;
         int posY = super.positionY;
-        Case caseVide = partie.carte[posY][posX] = new Case(true, posX, posY, typeCaseEnum.CaseVide, false, partie);
+        Case caseVide = partie.getCarte()[posY][posX] = new Case(true, posX, posY, typeCaseEnum.CaseVide, false, partie);
         caseVide.setJoueur(joueur);
+    }
+
+    public bonusEnum getEffet() {
+        return effet;
     }
 
     @Override

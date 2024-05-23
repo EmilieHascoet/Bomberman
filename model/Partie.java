@@ -8,17 +8,16 @@ import model.Case.typeCaseEnum;
  * 
  */
 public class Partie implements Serializable {
+    // Déclarations des attributs
+    private TreeMap<Integer, List<String>> leaderBoard;
+    public int time;
+    public int nbJoueurs;
 
     // Déclarations des associations
     // utiliser la méthode getJoueurs pour avoir la liste des joueurs actifs
     private List<Joueur> joueurs;
+    private Case[][] carte;
     public Parametres paramPartie;
-    public TreeMap<Integer, List<String>> leaderBoard;
-    public int time;
-
-    // Déclarations des attributs
-    public Case[][] carte;
-    public int nbJoueurs;
 
     public enum avatar {
         J1, J2, J3, J4;
@@ -121,19 +120,14 @@ public class Partie implements Serializable {
     private void placerJoueursDepartCarte() {
         List<List<Integer>> posDepart = getPosDepart();
 
-        // Place les joueurs sur la carte
+        // Place les joueurs sur la carte et sur les cases de départ
         for (int i = 0; i < nbJoueurs; i++) {
-            joueurs.get(i).placerJoueur(posDepart.get(i).get(0), posDepart.get(i).get(1));
-        }
-        // Place les joueurs sur les cases
-        for (Joueur joueur : getJoueurs()) {
-            carte[joueur.positionY][joueur.positionX].setJoueur(joueur);
-        }
-    }
+            int posYDepart = posDepart.get(i).get(0);
+            int posXDepart = posDepart.get(i).get(1);
+            Joueur joueur = joueurs.get(i);
 
-    public void initJoueur() {
-        for (Joueur joueur : getJoueurs()) {
-            joueur.initJoueur();
+            joueur.placerJoueur(posYDepart, posXDepart);
+            carte[posYDepart][posXDepart].setJoueur(joueur);
         }
     }
 
@@ -226,7 +220,7 @@ public class Partie implements Serializable {
         // La partie est terminée si il reste un seul joueur en vie
         int nbJoueursEnVie = 0;
         for (Joueur joueur : getJoueurs()) {
-            if (joueur.isAlive) nbJoueursEnVie++;
+            if (joueur.isAlive()) nbJoueursEnVie++;
         }
         
         // Sauvegarde le score du gagnant si la partie est terminée
@@ -240,15 +234,15 @@ public class Partie implements Serializable {
     /**
      * Sauvegarde le score du winner dans un fichier.
      */
-    public void sauvegarderScores() {
+    private void sauvegarderScores() {
         System.out.println("Partie terminée");
         System.out.println("Scores: ");
         Joueur winner = getGagnant();
-        if(winner.score != 0) {
-            if(leaderBoard.containsKey(winner.score)) {
-                leaderBoard.get(winner.score).add(winner.nom);
+        if(winner.getScore() != 0) {
+            if(leaderBoard.containsKey(winner.getScore())) {
+                leaderBoard.get(winner.getScore()).add(winner.nom);
             } else {
-                leaderBoard.put(winner.score, new ArrayList<>(Arrays.asList(winner.nom)));
+                leaderBoard.put(winner.getScore(), new ArrayList<>(Arrays.asList(winner.nom)));
             }
             Stream.sauvegarderScores(leaderBoard);
         }
@@ -261,11 +255,11 @@ public class Partie implements Serializable {
 
         for (int i = 0; i < getJoueurs().size(); i++) {
             Joueur joueur = getJoueurs().get(i);
-            if (joueur.isAlive) {
+            if (joueur.isAlive()) {
                 alive.add(i);
             }
-            if (joueur.score > maxScore) {
-                maxScore = joueur.score;
+            if (joueur.getScore() > maxScore) {
+                maxScore = joueur.getScore();
                 indexMaxScore = i;
             }
         }
@@ -281,13 +275,19 @@ public class Partie implements Serializable {
             Joueur gagnant = getJoueurs().get(alive.get(0));
             for (int index : alive) {
                 Joueur current = getJoueurs().get(index);
-                if (current.score > gagnant.score) {
+                if (current.getScore() > gagnant.getScore()) {
                     gagnant = current;
                 }
             }
             return gagnant;
         }
     }
+
+    // GETTERS
+    public Case[][] getCarte() {
+        return carte;
+    }
+    // SETTERS
 
     /* pour test */
     public void afficherCarte() {

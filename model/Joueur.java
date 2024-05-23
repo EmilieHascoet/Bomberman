@@ -16,19 +16,19 @@ public class Joueur implements Serializable {
     // Déclarations des attributs
     public String nom;
     private int vie;
-    public int stockBombe;
-    public int porteeBombe;
-    public int score;
-    public int positionX;
-    public int positionY;
-    public int vitesse;
+    private int stockBombe;
+    private int porteeBombe;
+    private int score;
+    private int positionX;
+    private int positionY;
+    private int vitesse;
     private long lastActionTime = 0;
+    private boolean alive;
     public avatar avatar;
-    public boolean isAlive;
 
     // Déclarations des associations
     public Touche touche;
-    public Partie partie;
+    private Partie partie;
 
     /**
      * Default constructor
@@ -46,12 +46,12 @@ public class Joueur implements Serializable {
         this.porteeBombe = partie.paramPartie.getPorteeBombe();
         this.vitesse = partie.paramPartie.getVitesse();
         this.score = 0;
-        this.isAlive = true;
+        this.alive = true;
     }
 
     // Déclarations des méthodes
 
-        /**
+    /**
      * Place le joueur sur la carte à la position spécifiée.
      */
     public void placerJoueur(int posY, int posX) {
@@ -67,7 +67,7 @@ public class Joueur implements Serializable {
      */
     public List<Case> jouer(String keyString) {
         // Si le joueur est mort, il ne peut pas jouer
-        if (!isAlive) {
+        if (!alive) {
             return null;
         }
         List<Case> casesModifiees = new ArrayList<Case>();
@@ -78,7 +78,7 @@ public class Joueur implements Serializable {
             } else {
                 // Vérifie si le joueur a déjà joué une action dans le délai de sa vitesse
                 long currentTime = System.currentTimeMillis();
-                if (currentTime - lastActionTime > vitesse * 50) {
+                if (currentTime - lastActionTime > vitesse * 30) {
                     lastActionTime = currentTime;
                     casesModifiees = seDeplacer(action);
                 }
@@ -97,7 +97,7 @@ public class Joueur implements Serializable {
             Bombe newBombe = new Bombe(this.positionX, this.positionY, 2, porteeBombe, this, partie);
 
             // Place la bombe sur la carte à la position actuelle du joueur.
-            partie.carte[this.positionY][this.positionX] = newBombe;
+            partie.getCarte()[this.positionY][this.positionX] = newBombe;
 
             // Cast la nouvelle bombe en type Case et l'associe au joueur.
             Case caseBombe = (Case) newBombe;
@@ -121,22 +121,22 @@ public class Joueur implements Serializable {
      */
     private List<Case> seDeplacer(String direction) {
         // Récupère la case de départ du joueur
-        Case caseDepart = (Case) partie.carte[this.positionY][this.positionX];
+        Case caseDepart = (Case) partie.getCarte()[this.positionY][this.positionX];
         Case caseArrivee;
 
         // Selon la direction choisie, détermine la case d'arrivée
         switch (direction) {
             case "haut":
-                caseArrivee = (Case) partie.carte[this.positionY - 1][this.positionX];
+                caseArrivee = (Case) partie.getCarte()[this.positionY - 1][this.positionX];
                 break;
             case "bas":
-                caseArrivee = (Case) partie.carte[this.positionY + 1][this.positionX];
+                caseArrivee = (Case) partie.getCarte()[this.positionY + 1][this.positionX];
                 break;
             case "gauche":
-                caseArrivee = (Case) partie.carte[this.positionY][this.positionX - 1];
+                caseArrivee = (Case) partie.getCarte()[this.positionY][this.positionX - 1];
                 break;
             case "droite":
-                caseArrivee = (Case) partie.carte[this.positionY][this.positionX + 1];
+                caseArrivee = (Case) partie.getCarte()[this.positionY][this.positionX + 1];
                 break;
             default:
                 // Si la direction n'est pas reconnue, le joueur reste sur place
@@ -177,6 +177,70 @@ public class Joueur implements Serializable {
         return caseArrivee.estTraversable && caseArrivee.joueur == null;
     }
 
+    // Getters
+    public boolean isAlive() {
+        return alive;
+    }
+    public int getScore() {
+        return score;
+    }
+    public int getVie() {
+        return this.vie;
+    }
+    public int getStockBombe() {
+        return this.stockBombe;
+    }
+    public int getPorteeBombe() {
+        return this.porteeBombe;
+    }
+    public int getVitesse() {
+        return this.vitesse;
+    }
+
+
+    // Setters
+    public void augmenterScore(int valeur) {
+        this.score += valeur;
+    }
+    // Augmente la vie du joueur de 1.
+    public void gagnerVie() {
+        this.vie++;
+    }
+    public void gagnerStockBombe() {
+        this.stockBombe++;
+    }
+    public void gagnerPorteeBombe() {
+        this.porteeBombe++;
+    }
+    public void gagnerVitesse() {
+        this.vitesse++;
+    }
+
+    /*
+     * Le joueur perd une vie. 
+     * Si le joueur n'a plus de vie, il est marqué comme mort.
+     */
+    public void perdreVie() {
+        if (this.vie > 0) {
+            this.vie--;
+            if (this.vie == 0) {
+                this.alive = false;
+                // Supprime le joueur de la carte
+                partie.getCarte()[this.positionY][this.positionX].joueur = null;
+
+            }
+        }
+    }
+    public void perdreStockBombe() {
+        this.stockBombe--;
+    }
+    public void perdrePorteeBombe() {
+        this.porteeBombe--;
+    }
+    public void perdreVitesse() {
+        this.vitesse--;
+    }
+
     // on fait un override de la méthode toString pour afficher tous les
     // informations current du joueur
     @Override
@@ -196,41 +260,4 @@ public class Joueur implements Serializable {
         sb.append("\n}");
         return sb.toString();
     }
-
-    /**
-     * Augmente le score du joueur de la valeur spécifiée.
-     * 
-     * @param valeur La valeur à ajouter au score du joueur.
-     */
-    public void augmenterScore(int valeur) {
-        this.score += valeur;
-    }
-
-    /*
-     * Le joueur perd une vie. 
-     * Si le joueur n'a plus de vie, il est marqué comme mort.
-     */
-    public void perdreVie() {
-        if (this.vie > 0) {
-            this.vie--;
-            if (this.vie == 0) {
-                this.isAlive = false;
-                // Supprime le joueur de la carte
-                partie.carte[this.positionY][this.positionX].joueur = null;
-
-            }
-        }
-    }
-
-    // Augmente la vie du joueur de 1.
-    public void gagnerVie() {
-        this.vie++;
-    }
-
-    public int getVie() {
-        return this.vie;
-    }
-
-
-
 }

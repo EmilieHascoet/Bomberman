@@ -27,13 +27,13 @@ public class BlocDestructible extends Case {
         List<bonusEnum> listeBonus = new ArrayList<>(partie.paramPartie.getListBonus());
         if (random < 0.3) {
             Bonus bonus = new Bonus(this.positionX, this.positionY, listeBonus.get(rand.nextInt(listeBonus.size())), partie);
-            partie.carte[this.positionY][this.positionX] = bonus;
-            joueur.score += super.Points;
+            partie.getCarte()[this.positionY][this.positionX] = bonus;
+            joueur.augmenterScore(Points);
             return bonus;
         } else {
             Case caseVide = new Case(true, this.positionX, this.positionY, typeCaseEnum.CaseVide, false, partie);
-            partie.carte[this.positionY][this.positionX] = caseVide;
-            joueur.score += super.Points;
+            partie.getCarte()[this.positionY][this.positionX] = caseVide;
+            joueur.augmenterScore(Points);
             return caseVide;
         }
     }

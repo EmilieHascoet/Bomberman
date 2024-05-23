@@ -129,8 +129,8 @@ public class Main {
         bomberman.nouvellePartie();
 
         // Ajoute un bonus à droite du joueur
-        Partie.carte[1][2] = new Bonus(2, 1, "vie");
-        System.out.println(Partie.carte[1][2]);
+        Partie.getCarte()[1][2] = new Bonus(2, 1, "vie");
+        System.out.println(Partie.getCarte()[1][2]);
 
         // Recupere le joueur 1
         Joueur j1 = bomberman.partie.joueurs.get(0);
@@ -182,7 +182,7 @@ public class Main {
 
         // Ajoute un bloc destructible à droite du joueur
         BlocDestructible blocDestructible = new BlocDestructible(2, 1);
-        Partie.carte[1][2] = blocDestructible;
+        Partie.getCarte()[1][2] = blocDestructible;
 
         System.out.println("Avant que le joueur ne detruise le bloc destructible :\n");
         Carte.afficherCarte();
@@ -190,7 +190,7 @@ public class Main {
 
         // Detruit le bloc destructible
         blocDestructible.destruction(j1);
-        System.out.println("Après destruction du bloc destructible :\n" + Partie.carte[1][2] + j1);
+        System.out.println("Après destruction du bloc destructible :\n" + Partie.getCarte()[1][2] + j1);
         Carte.afficherCarte();
     }
 
@@ -204,8 +204,8 @@ public class Main {
         bomberman.nouvellePartie();
 
         // Ajoute un bonus à droite du joueur
-        Partie.carte[1][2] = new Bonus(2, 1, "vie");
-        System.out.println(Partie.carte[1][2]);
+        Partie.getCarte()[1][2] = new Bonus(2, 1, "vie");
+        System.out.println(Partie.getCarte()[1][2]);
 
         // Recupere le joueur 1
         Joueur j1 = bomberman.partie.joueurs.get(0);

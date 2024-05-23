@@ -169,7 +169,7 @@ public class PartiePanel extends JPanel {
             panel.setOpaque(false);
             panel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
             for (int j = 0; j < width; j++) {
-                CasePanel casePlateauPanel = new CasePanel(partieEnCours.carte[i][j], imageLoader);
+                CasePanel casePlateauPanel = new CasePanel(partieEnCours.getCarte()[i][j], imageLoader);
                 casePlateauPanel.setPreferredSize(new Dimension(sizeCase, sizeCase));
                 panel.add(casePlateauPanel);
                 casesPlateauPanel[i][j] = casePlateauPanel;
@@ -223,9 +223,9 @@ public class PartiePanel extends JPanel {
             gbc.gridy = 0;
 
             // Create labels to display the player's name, number of bombs, and score
-            JLabel labelName = new JLabel(partieEnCours.getJoueurs().get(i).nom + " ");
-            JLabel labelBombe = new JLabel("Bombes: " + partieEnCours.getJoueurs().get(i).stockBombe + " ");
-            JLabel labelScore = new JLabel("Score: " + partieEnCours.getJoueurs().get(i).score + " ");
+            JLabel labelName = new JLabel(partieEnCours.getJoueurs().get(i).nom);
+            JLabel labelBombe = new JLabel("Bombes: " + partieEnCours.getJoueurs().get(i).getStockBombe());
+            JLabel labelScore = new JLabel("Score: " + partieEnCours.getJoueurs().get(i).getScore());
 
             // Set the color of the labels to white
             labelName.setForeground(Color.WHITE);
@@ -307,7 +307,7 @@ public class PartiePanel extends JPanel {
         // Update the plateau panel
         for (int i = 0; i < partieEnCours.paramPartie.getBoardHeight() + 2; i++) {
             for (int j = 0; j < partieEnCours.paramPartie.getBoardWidth() + 2; j++) {
-                casesPlateauPanel[i][j].setCaseModel(partieEnCours.carte[i][j]);
+                casesPlateauPanel[i][j].setCaseModel(partieEnCours.getCarte()[i][j]);
                 casesPlateauPanel[i][j].loadImage();
             }
         }
@@ -354,8 +354,8 @@ public class PartiePanel extends JPanel {
                 vieJoueurs.put(partieEnCours.getJoueurs().get(i).nom, partieEnCours.getJoueurs().get(i).getVie());
             }
     
-            labelBombs.get(i).setText("Bombes: " + partieEnCours.getJoueurs().get(i).stockBombe + " ");
-            labelScores.get(i).setText("Score: " + partieEnCours.getJoueurs().get(i).score + " ");
+            labelBombs.get(i).setText("Bombes: " + partieEnCours.getJoueurs().get(i).getStockBombe() + " ");
+            labelScores.get(i).setText("Score: " + partieEnCours.getJoueurs().get(i).getScore() + " ");
         }
     }
 

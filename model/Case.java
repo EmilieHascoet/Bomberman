@@ -38,20 +38,18 @@ public class Case implements Serializable {
     }
 
     // Déclarations des attributs
-    public Boolean estTraversable;
-    public Integer positionX;
-    public Integer positionY;
+    protected Boolean estTraversable;
+    protected Integer positionX;
+    protected Integer positionY;
     public Boolean isFire;
-    public typeCaseEnum typeCase;
-    public boolean estDestructible;
-        /**
-     * Définit les points que rapporte la case, si elle se détruit par un joueur
-     */
-    public int Points; 
+    protected typeCaseEnum typeCase;
+    protected boolean estDestructible;
+    // Définit les points que rapporte la case, si elle se détruit par un joueur
+    protected int Points; 
 
     // Déclarations des relations
-    public Partie partie;
-    public Joueur joueur;
+    protected Partie partie;
+    protected Joueur joueur;
 
     /**
      * Default constructor
@@ -74,9 +72,16 @@ public class Case implements Serializable {
     }
 
     // Déclarations des méthodes
-
     public void setJoueur(Joueur joueur) {
         this.joueur = joueur;
+    }
+
+    public Joueur getJoueur() {
+        return joueur;
+    }
+
+    public typeCaseEnum getTypeCase() {
+        return typeCase;
     }
 
 

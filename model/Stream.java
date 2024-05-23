@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.TreeMap;
 
 public class Stream {
-    public static final String DATA_DIR = "./data";
-    public static final String SAVE_GAME_FILE = DATA_DIR + "/saveGame.txt";
-    public static final String LEADERBOARD_FILE = DATA_DIR + "/leaderboard.txt";
+    private static final String DATA_DIR = "./data";
+    private static final String SAVE_GAME_FILE = DATA_DIR + "/saveGame.txt";
+    private static final String LEADERBOARD_FILE = DATA_DIR + "/leaderboard.txt";
 
     static {
         // Créer le répertoire de données s'il n'existe pas déjà

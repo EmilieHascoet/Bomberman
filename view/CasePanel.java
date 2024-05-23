@@ -18,23 +18,23 @@ public class CasePanel extends JPanel {
 
     public CasePanel(Case caseModel, ImageLoader imageLoader) {
         this.caseModel = caseModel;
-        this.typeCase = caseModel.typeCase;
+        this.typeCase = caseModel.getTypeCase();
         this.imageLoader = imageLoader;
         loadImage();
     }
 
     public void setCaseModel(Case caseModel) {
         this.caseModel = caseModel;
-        this.typeCase = caseModel.typeCase;
+        this.typeCase = caseModel.getTypeCase();
     }
     
     public void loadImage() {
-        if(caseModel.joueur != null) {
-                this.path = caseModel.joueur.avatar.getPathImage();
-        } else if (caseModel.typeCase == typeCaseEnum.Bonus){
-            this.path = ((Bonus)caseModel).effet.getPathImage();
+        if(caseModel.getJoueur() != null) {
+                this.path = caseModel.getJoueur().avatar.getPathImage();
+        } else if (typeCase == typeCaseEnum.Bonus){
+            this.path = ((Bonus)caseModel).getEffet().getPathImage();
         } else {
-            this.path = caseModel.typeCase.getPathImage();
+            this.path = typeCase.getPathImage();
         }
         if (this.path == null) {
             this.imageCase = null;
