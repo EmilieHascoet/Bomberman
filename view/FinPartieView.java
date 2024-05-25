@@ -3,6 +3,8 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.net.URL;
+
 import model.Partie;
 
 public class FinPartieView extends JDialog {
@@ -22,12 +24,24 @@ public class FinPartieView extends JDialog {
 
         // Configuration du panneau de fond avec l'image
         setContentPane(new JPanel(new GridBagLayout()) {
-            private Image backgroundImage = new ImageIcon(getClass().getResource("/Images/finpartie.png")).getImage();
+            private Image backgroundImage;
+
+            {
+                URL imageUrl = getClass().getResource("/Images/finpartie.png");
+                if (imageUrl != null) {
+                    backgroundImage = new ImageIcon(imageUrl).getImage();
+                } else {
+                    System.err.println("Image non trouvée");
+                    // Vous pouvez également définir backgroundImage à une image par défaut ici
+                }
+            }
 
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
+                if (backgroundImage != null) {
+                    g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
+                }
             }
         });
 

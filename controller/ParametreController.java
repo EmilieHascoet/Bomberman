@@ -19,7 +19,6 @@ import javax.swing.JToggleButton;
 import model.Parametres;
 import model.Partie;
 import model.Partie.bonusEnum;
-import view.AccueilPanel;
 import view.MainFrame;
 
 public class ParametreController implements ActionListener {
@@ -52,17 +51,6 @@ public class ParametreController implements ActionListener {
     }
 
     public void boutonValider() {
-        // File folder = new File("Images/Personnage");
-        File folder = new File((getClass().getResource("/Images/Personnage").getPath()));
-        File[] listOfFiles = folder.listFiles();
-        // Récupérer le nom du fichier sans l'extension
-        File file = new File(listOfFiles[1].getPath());
-        String fileName = file.getName();
-        int pos = fileName.lastIndexOf(".");
-        if (pos > 0) {
-            fileName = fileName.substring(0, pos);
-        }
-        String first = fileName;
         Set<bonusEnum> listBonus = new HashSet<>();
         List<String> errors = new ArrayList<>();
         Map<String, String> list = new java.util.HashMap<>(); // Parametres du joueur 1
@@ -75,17 +63,14 @@ public class ParametreController implements ActionListener {
                         for (Component c4 : ((JPanel) c3).getComponents()) {
                             if (c4 instanceof JPanel) {
                                 for (Component c5 : ((JPanel) c4).getComponents()) {
-                                    String value = first; // Image par défaut
                                     for (Component c6 : ((JPanel) c5).getComponents()) {
                                         if (c6 instanceof JToggleButton) {
                                             if (((JToggleButton) c6).isSelected()) {
-                                                value = ((JToggleButton) c6).getName(); // Image selectionnée
+                                                String value = ((JToggleButton) c6).getName(); // Image selectionnée
+                                                image.put(((JPanel) c5).getName(), value);
                                             }
                                         }
                                     }
-                                    System.out.println(((JPanel) c5).getName() + " : " + value);
-                                    image.put(((JPanel) c5).getName(),
-                                            value);
                                 }
                             } else if (c4 instanceof JCheckBox) {
                                 if (((JCheckBox) c4).isSelected()) {
@@ -177,7 +162,10 @@ public class ParametreController implements ActionListener {
                     Integer.parseInt(list.get("Hauteur du plateau")));
 
             for (int i = 0; i < partieEnCours.nbJoueurs; i++) {
-                partieEnCours.getJoueurs().get(i).avatar = Partie.avatar.valueOf(image.get("Joueur " + (i + 1)));
+                String avatar = image.get("Joueur " + (i + 1));
+                if(avatar != null) {
+                    partieEnCours.getJoueurs().get(i).avatar = Partie.avatar.valueOf(avatar);
+                }
                 partieEnCours.getJoueurs().get(i).nom = list.get("Joueur " + (i + 1));
             }
 

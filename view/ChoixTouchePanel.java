@@ -3,11 +3,13 @@ package view;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.net.URL;
+import java.awt.image.BufferedImage;
+import java.nio.Buffer;
 import java.util.*;
 import java.util.List;
 import java.util.function.Supplier;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import controller.ChoixToucheControleur;
@@ -16,16 +18,14 @@ import model.Touche;
 
 public class ChoixTouchePanel extends JPanel {
     ClassLoader classLoader = getClass().getClassLoader();
-    URL imageLabyUrl = classLoader.getResource("Images/labyrinthe.png");
-    URL imageLogoUrl = classLoader.getResource("Images/Blossom-Battles.jpg");
 
     private MainFrame mainFrame;
     private Partie partieEnCours;
     public Color backgroundColor = new Color(203, 239, 195);
-    int borderSize = 20;
+    private int borderSize = 20;
 
-    JPanel topPanel, centerPanel, bottomPanel;
-    List<JPanel> listePanelControles = new ArrayList<JPanel>();
+    private JPanel centerPanel, bottomPanel;
+    private List<JPanel> listePanelControles = new ArrayList<JPanel>();
     
     /**
      * Constructs a new AccueilPanel with the specified MainFrame and Bomberman objects.
@@ -116,7 +116,7 @@ public class ChoixTouchePanel extends JPanel {
         panelSlider.add(labelSlider);
 
         // Créer un slider pour choisir le nombre de joueur dans la partie
-        JSlider slider = new JSlider(JSlider.HORIZONTAL, 2, 4, 2);
+        JSlider slider = new JSlider(JSlider.HORIZONTAL, 2, 4, partieEnCours.nbJoueurs);
         slider.setMajorTickSpacing(1);
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
@@ -136,13 +136,14 @@ public class ChoixTouchePanel extends JPanel {
         panelSlider.add(slider);
         centerPanel.add(panelSlider, BorderLayout.NORTH);
 
-        if (imageLabyUrl != null) {
-            ImageIcon icon = new ImageIcon(imageLabyUrl);
+        try {
+            BufferedImage image = ImageIO.read(getClass().getResource("/Images/labyrinthe.png"));
+            ImageIcon icon = new ImageIcon(image);
             JButton button = new JButton(icon);
             button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
             centerPanel.add(button, BorderLayout.CENTER);
-        } else {
-            System.err.println("Image not found Labyrinthe");
+        } catch (Exception e) {
+            System.err.println("Error image labyrinthe : " + e.getMessage());
         }
     }
 
@@ -173,35 +174,37 @@ public class ChoixTouchePanel extends JPanel {
             JLabel labelParametres = new JLabel("Contrôles de " + partieEnCours.getJoueurs().get(i).nom);
             
             // Crée l'icone du joueur
-            String imagePath = "Images/Personnage/" + partieEnCours.getJoueurs().get(i).avatar + ".png";
-            ImageIcon icon = new ImageIcon(imagePath);
-            JLabel iconeJoueur = new JLabel(icon);
-
-            iconeJoueur.addComponentListener(new ComponentAdapter() {
-                @Override
-                public void componentResized(ComponentEvent e) {
-                    ImageIcon originalIcon = (ImageIcon) iconeJoueur.getIcon();
-                    Image originalImage = originalIcon.getImage();
-            
-                    // Calculer le rapport d'aspect de l'image
-                    double aspectRatio = (double) originalImage.getWidth(null) / originalImage.getHeight(null);
-            
-                    // Calculer la nouvelle largeur et hauteur tout en conservant le rapport d'aspect
-                    int newHeight = iconeJoueur.getHeight();
-                    int newWidth = (int) (newHeight * aspectRatio);
-
-                    // Redimensionner l'image
-                    Image resizedImage = originalImage.getScaledInstance(newWidth, newHeight, java.awt.Image.SCALE_SMOOTH);
-                    ImageIcon resizedIcon = new ImageIcon(resizedImage);
-                    iconeJoueur.setIcon(resizedIcon);
-                }
-            });
-
-            // Redimensionne l'image
-            /*Image image = icon.getPathImage();
-            Image resizedImage = image.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-            icon = new ImageIcon(resizedImage);*/
-
+            JLabel iconeJoueur = new JLabel();
+            try {
+                BufferedImage image = ImageIO.read(getClass().getResource("/Images/Personnage/" + partieEnCours.getJoueurs().get(i).avatar + ".png"));
+                ImageIcon icon = new ImageIcon(image);
+                iconeJoueur.setIcon(icon);
+                // Centre l'icône dans le JLabel
+                iconeJoueur.setHorizontalAlignment(JLabel.CENTER);
+                iconeJoueur.setVerticalAlignment(JLabel.CENTER);
+    
+                iconeJoueur.addComponentListener(new ComponentAdapter() {
+                    @Override
+                    public void componentResized(ComponentEvent e) {
+                        ImageIcon originalIcon = (ImageIcon) iconeJoueur.getIcon();
+                        Image originalImage = originalIcon.getImage();
+                
+                        // Calculer le rapport d'aspect de l'image
+                        double aspectRatio = (double) originalImage.getWidth(null) / originalImage.getHeight(null);
+                
+                        // Calculer la nouvelle largeur et hauteur tout en conservant le rapport d'aspect
+                        int newHeight = iconeJoueur.getHeight();
+                        int newWidth = (int) (newHeight * aspectRatio);
+    
+                        // Redimensionner l'image
+                        Image resizedImage = originalImage.getScaledInstance(newWidth, newHeight, java.awt.Image.SCALE_SMOOTH);
+                        ImageIcon resizedIcon = new ImageIcon(resizedImage);
+                        iconeJoueur.setIcon(resizedIcon);
+                    }
+                });
+            } catch (Exception e) {
+                System.err.println("Error image personnage : " + e.getMessage());
+            }
 
             panel.add(labelParametres);
             panel.add(iconeJoueur);

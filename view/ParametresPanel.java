@@ -11,11 +11,21 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ItemEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.InputStream;
+import java.net.JarURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -225,45 +235,111 @@ public class ParametresPanel extends JPanel {
         JPanel imagePanel = new JPanel(); // Image panel
         imagePanel.setName(list[0]);
         imagePanel.setLayout(new FlowLayout());
-        // Paths to your image files
-        //File folder = new File("Images/Personnage");
-        File folder = new File((getClass().getResource("/Images/Personnage").getPath()));
-        File[] listOfFiles = folder.listFiles();
 
-        List<JToggleButton> toggleButtons = new java.util.ArrayList<>();
+        // Load images from the JAR file and display them
+        try {
+            ClassLoader cl = getClass().getClassLoader();
+            Enumeration<URL> urls = cl.getResources("Images/Personnage");
 
-        for(File file : listOfFiles){
-        if(file.isFile()){
-            ImageIcon icon = new ImageIcon(file.getPath());
-            icon = new ImageIcon(icon.getImage().getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH));
+            List<JToggleButton> toggleButtons = new java.util.ArrayList<>();
 
-            // Create a toggle button with the image icon
-            JToggleButton toggleButton = new JToggleButton();
-            toggleButton.setIcon(icon);
-            toggleButton.setSelectedIcon(icon);
-            File f = new File(file.getPath());
-            // Récupérer le nom du fichier sans l'extension
-            String fileName = f.getName().substring(0, f.getName().lastIndexOf("."));
-            toggleButton.setName(fileName);
-            toggleButton.setText(fileName);
+            // Parcourir les URL
+            while (urls.hasMoreElements()) {
+                URL url = urls.nextElement();
+                URLConnection conn = url.openConnection();
 
-            toggleButton.addItemListener((ItemEvent e) -> {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    for (JToggleButton tb : toggleButtons) {
-                        if (tb != toggleButton) {
-                            tb.setSelected(false);
+                // Si la connexion est un JAR
+                if (conn instanceof JarURLConnection) {
+                    JarURLConnection jarConn = (JarURLConnection) conn;
+                    JarFile jarFile = jarConn.getJarFile();
+                    Enumeration<JarEntry> entries = jarFile.entries();
+
+                    // Parcourir les entrées
+                    while (entries.hasMoreElements()) {
+                        JarEntry entry = entries.nextElement();
+
+                        // Si l'entrée est dans le répertoire
+                        if (entry.getName().startsWith(jarConn.getEntryName())) {
+                            String filename = entry.getName();
+                            InputStream stream = cl.getResourceAsStream(filename);
+                            BufferedImage image = ImageIO.read(stream);
+                            if(image == null) {
+                                continue;
+                            }
+                            ImageIcon icon = new ImageIcon(image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH));
+
+                            // Create a toggle button with the image icon
+                            JToggleButton toggleButton = new JToggleButton();
+                            toggleButton.setIcon(icon);
+                            toggleButton.setSelectedIcon(icon);
+
+                            // Récupérer le nom du fichier sans l'extension
+                            String fileNameWithoutExt = filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf("."));
+                            toggleButton.setName(fileNameWithoutExt);
+
+                            toggleButton.addItemListener((ItemEvent e) -> {
+                                if (e.getStateChange() == ItemEvent.SELECTED) {
+                                    for (JToggleButton tb : toggleButtons) {
+                                        if (tb != toggleButton) {
+                                            tb.setSelected(false);
+                                        }
+                                    }
+                                }
+                            });
+
+                            imagePanel.add(toggleButton);
+                            imagePanel.revalidate(); // Re-layout the panel
+                            imagePanel.repaint(); // Repaint the panel
+
+                            toggleButtons.add(toggleButton); // Add the toggle button to the image panel
                         }
                     }
+                } else {
+                    // Si la connexion est un répertoire
+                    File dir = new File(url.toURI());
+
+                    // Parcourir les fichiers du répertoire
+                    for (File file : dir.listFiles()) {
+                        // Lire l'image
+                        BufferedImage image = ImageIO.read(file);
+                        if (image == null) {
+                            continue;
+                        }
+                        ImageIcon icon = new ImageIcon(image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH));
+
+                        // Create a toggle button with the image icon
+                        JToggleButton toggleButton = new JToggleButton();
+                        toggleButton.setIcon(icon);
+                        toggleButton.setSelectedIcon(icon);
+
+                        // Récupérer le nom du fichier sans l'extension
+                        String fileName = file.getName().substring(0, file.getName().lastIndexOf("."));
+                        toggleButton.setName(fileName);
+
+                        toggleButton.addItemListener((ItemEvent e) -> {
+                            if (e.getStateChange() == ItemEvent.SELECTED) {
+                                for (JToggleButton tb : toggleButtons) {
+                                    if (tb != toggleButton) {
+                                        tb.setSelected(false);
+                                    }
+                                }
+                            }
+                        });
+
+                        imagePanel.add(toggleButton);
+                        imagePanel.revalidate(); // Re-layout the panel
+                        imagePanel.repaint(); // Repaint the panel
+
+                        toggleButtons.add(toggleButton); // Add the toggle button to the image panel
+                    }
+                
                 }
-            });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
 
-            imagePanel.add(toggleButton);
-            imagePanel.revalidate(); // Re-layout the panel
-            imagePanel.repaint(); // Repaint the panel
-
-            toggleButtons.add(toggleButton); // Add the toggle button to the image panel
         }
-}
+
         avatar.add(imagePanel); // Add the image panel to the avatar panel
         textAreaPanel.add(avatar); //
         parentPanel.add(textAreaPanel, label);
