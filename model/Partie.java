@@ -274,6 +274,8 @@ public class Partie implements Serializable {
             // Un seul joueur est vivant, il est le gagnant
             return getJoueurs().get(alive.get(0));
         } else {
+            // si il aucune personne joueurs est mort et que les points sont à zero c'est
+            // bataille
             // Plusieurs joueurs sont en vie, trouver le score maximum parmi eux
             Joueur gagnant = getJoueurs().get(alive.get(0));
             for (int index : alive) {
@@ -282,6 +284,8 @@ public class Partie implements Serializable {
                     gagnant = current;
                 }
             }
+            if (gagnant.getScore() == 0) // il y a pas de gagnat
+                return null;
             return gagnant;
         }
     }

@@ -65,11 +65,16 @@ public class FinPartieView extends JDialog {
 
     private void setupComponents(GridBagConstraints gbc) {
         // Déterminez le joueur avec le score le plus élevé
-        int maxScore = partie.getGagnant().getScore();
-        int winningIndex = partie.getJoueurs().indexOf(partie.getGagnant());
-
-        // Gagnant en haut
-        JLabel labelGagnant = new JLabel("Player " + (winningIndex + 1) + " gagne avec " + maxScore + " points!");
+        int maxScore;
+        JLabel labelGagnant;
+        if (partie.getGagnant() != null) {
+            maxScore = partie.getGagnant().getScore();
+            int winningIndex = partie.getJoueurs().indexOf(partie.getGagnant());
+            labelGagnant = new JLabel("Player " + (winningIndex + 1) + " gagne avec " + maxScore + " points!");
+        } else {
+            // Gagnant en haut
+            labelGagnant = new JLabel("Pas de gagnant! ");
+        }
         labelGagnant.setForeground(Color.BLUE);
         gbc.gridx = 0;
         gbc.gridy = 0;
