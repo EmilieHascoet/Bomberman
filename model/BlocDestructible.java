@@ -25,7 +25,7 @@ public class BlocDestructible extends Case {
         Random rand = new Random();
         double random = rand.nextDouble();
         List<bonusEnum> listeBonus = new ArrayList<>(partie.paramPartie.getListBonus());
-        if (random < 0.3) {
+        if (!listeBonus.isEmpty() && random < 0.3) {
             Bonus bonus = new Bonus(this.positionX, this.positionY, listeBonus.get(rand.nextInt(listeBonus.size())), partie);
             partie.getCarte()[this.positionY][this.positionX] = bonus;
             joueur.augmenterScore(Points);
