@@ -32,7 +32,8 @@ public class Bonus extends Case {
      * Ajout ou retrait (si malus) de vie, stock de bombe, portée de bombe, vitesse
      * La case devient vide
      */
-    public void estRamassee(Joueur joueur) {
+    public void estRamassee() {
+
         switch (effet) {
             case Vie:
                 if (this.isMalus) { joueur.perdreVie(); }

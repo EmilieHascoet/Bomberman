@@ -153,7 +153,7 @@ public class Joueur implements Serializable {
             // Si la case d'arrivée est un bonus, applique l'effet du bonus
             if (caseArrivee.typeCase == typeCaseEnum.Bonus) {
                 Bonus bonus = (Bonus) caseArrivee;
-                bonus.estRamassee(this);
+                bonus.estRamassee();
             }
             // Si case d'arrivée est en feu et case de départ ne l'est pas, le joueur perd une vie
             if (caseArrivee.isFire && !caseDepart.isFire) {
