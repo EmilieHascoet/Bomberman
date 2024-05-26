@@ -2,15 +2,13 @@ package view;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.net.URL;
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import model.Bonus;
 import model.Case;
 import model.Case.typeCaseEnum;
 
 public class CasePanel extends JPanel {
-    public Case caseModel;
+    private Case caseModel;
     private String path;
     private ImageLoader imageLoader;
     private Image imageCase;
@@ -53,7 +51,7 @@ public class CasePanel extends JPanel {
             g.drawImage(imageCase, 0, 0, getWidth(), getHeight(), this);
         }
 
-        // Afficher la bombe au dessus du joueur
+        // Afficher la bombe au dessus de la case
         if(this.typeCase == typeCaseEnum.Bombe) {
             Image imageBombe = imageLoader.getImage("Images/Bloc/Bombe.png");
             g.drawImage(imageBombe, 0, 0, getWidth(), getHeight(), this);

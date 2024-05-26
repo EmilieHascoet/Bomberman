@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -12,7 +13,10 @@ import model.Stream;
 
 
 public class MainFrame extends JFrame {
-
+    public Color mainColor = new Color(203, 239, 195);
+    //public Color mainColor = new Color(231, 195, 239);
+    public Color secondColor = new Color(231, 210, 239);
+    //public Color secondColor = new Color(203, 239, 195);
     private JPanel panelActif;
 
     public MainFrame() {

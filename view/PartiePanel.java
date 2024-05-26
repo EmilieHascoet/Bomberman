@@ -161,7 +161,6 @@ public class PartiePanel extends JPanel {
         plateauPanel.setPreferredSize(
                 new Dimension(sizeCase * width + sizeBorderPlateau * 2, sizeCase * height + sizeBorderPlateau*2 + footerHeight));
         plateauPanel.setMaximumSize(plateauPanel.getPreferredSize());
-        // plateauPanel.setBackground(new Color(0, 0, 0));
         plateauPanel.setLayout(new BoxLayout(plateauPanel, BoxLayout.Y_AXIS));
 
         for (int i = 0; i < height; i++) {

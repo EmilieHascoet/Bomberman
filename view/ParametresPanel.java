@@ -52,7 +52,7 @@ public class ParametresPanel extends JPanel {
         this.frame = frame; 
         this.partieEnCours = partie;
         setLayout(new GridBagLayout());
-        setBackground(Color.white);
+        setBackground(frame.mainColor);
 
         JPanel squarePanel = new JPanel();
         squarePanel.setLayout(new GridLayout(1, 2));
@@ -60,14 +60,14 @@ public class ParametresPanel extends JPanel {
 
         // Left side containing labels
         JPanel leftPanel = new JPanel();
-        leftPanel.setBackground(Color.white);
+        leftPanel.setBackground(frame.mainColor);
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
         leftPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // Label panel with titled border
         JPanel labelPanel = new JPanel(new BorderLayout());
         labelPanel.setBorder(BorderFactory.createTitledBorder("Settings"));
-        labelPanel.setBackground(Color.white);
+        labelPanel.setBackground(frame.mainColor);
 
         DefaultListModel<String> listModel = new DefaultListModel<>();
         JList<String> list = new JList<>(listModel);
@@ -79,6 +79,7 @@ public class ParametresPanel extends JPanel {
 
         list.setFont(new Font("Arial", Font.PLAIN, 16));
         list.setForeground(Color.black);
+        list.setBackground(frame.mainColor);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Allow only single selection
 
         // Add a JScrollPane to the list
@@ -103,7 +104,7 @@ public class ParametresPanel extends JPanel {
         rightPanel = new JPanel();
         cardLayout = new CardLayout();
         rightPanel.setLayout(cardLayout);
-        rightPanel.setBackground(Color.white);
+        rightPanel.setBackground(frame.mainColor);
 
 
         Map<String, Integer> mapP = new HashMap<>();
@@ -143,7 +144,7 @@ public class ParametresPanel extends JPanel {
         valider.setBackground(new Color(51, 153, 255));
 
         JPanel bottomPanel = new JPanel();
-        bottomPanel.setBackground(Color.white);
+        bottomPanel.setBackground(frame.mainColor);
         bottomPanel.add(retour);
         bottomPanel.add(valider);
 
@@ -169,7 +170,7 @@ public class ParametresPanel extends JPanel {
     // Method to create checkboxes for a specific label
     private void createCheckBoxes(String label, JPanel parentPanel, String[] list) {
         JPanel checkBoxPanel = new JPanel(new GridLayout(0, 2)); // 2 colonnes
-        checkBoxPanel.setBackground(Color.white);
+        checkBoxPanel.setBackground(frame.mainColor);
 
         for (String item : list) {
             JCheckBox checkBox = new JCheckBox(item);
@@ -183,7 +184,7 @@ public class ParametresPanel extends JPanel {
 
     private void createTextAreas(String label, JPanel parentPanel, String[] list) {
         JPanel textAreaPanel = new JPanel();
-        textAreaPanel.setBackground(Color.white);
+        textAreaPanel.setBackground(frame.mainColor);
         textAreaPanel.setLayout(new BoxLayout(textAreaPanel, BoxLayout.Y_AXIS));
 
         JTextField[] textAreas = new JTextField[list.length];
@@ -351,7 +352,7 @@ public class ParametresPanel extends JPanel {
     }
     private <K, V> void createTextAreasM(String label, JPanel parentPanel, Map<K, V> m, String[] l) {
         JPanel textAreaPanel = new JPanel();
-        textAreaPanel.setBackground(Color.white);
+        textAreaPanel.setBackground(frame.mainColor);
         textAreaPanel.setLayout(new BoxLayout(textAreaPanel, BoxLayout.Y_AXIS));
 
         JTextField[] textAreas = new JTextField[m.size()];

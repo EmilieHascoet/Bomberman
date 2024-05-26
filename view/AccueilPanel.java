@@ -25,13 +25,10 @@ import javax.swing.UIManager;
 import controller.AccueilControleur;
 import model.Case.typeCaseEnum;
 import model.Partie;
-import model.Partie.bonusEnum;
 import model.Stream;
 
 public class AccueilPanel extends JPanel {
     private MainFrame mainFrame;
-    Color backgroundColor = new Color(231, 195, 239);
-    Color backgroundColorGreen = new Color(203, 239, 195);
 
     private JPanel topPanel;
     private JPanel centerPanel;
@@ -40,7 +37,7 @@ public class AccueilPanel extends JPanel {
     private JPanel bottomPanel;
     private ImageLoader imageLoader;
 
-     public AccueilPanel(MainFrame frame) {
+    public AccueilPanel(MainFrame frame) {
         this.mainFrame = frame;
         imageLoader = new ImageLoader();
 
@@ -50,7 +47,7 @@ public class AccueilPanel extends JPanel {
         // Configuration du panel principal
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        setBackground(backgroundColor);
+        setBackground(mainFrame.mainColor);
 
         // Création des panels
         createTopPanel();
@@ -65,12 +62,6 @@ public class AccueilPanel extends JPanel {
         add(centerPanel, BorderLayout.CENTER);
         add(bonusPanel, BorderLayout.EAST);
         add(bottomPanel, BorderLayout.SOUTH);
-
-        // Ajout de la couleur de fond pour tous les panels
-        this.setBackground(backgroundColor);
-        //topPanel.setBackground(backgroundColor);
-        centerPanel.setBackground(backgroundColor);
-        bottomPanel.setBackground(backgroundColor);
 
         // Affichage du panel
         setVisible(true);
@@ -95,7 +86,7 @@ public class AccueilPanel extends JPanel {
 
     private void createTopPanel() {
         // Création du panel
-        topPanel = new RoundedPanel(20, backgroundColorGreen, 5);
+        topPanel = new RoundedPanel(20, mainFrame.secondColor, 5);
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
         topPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
     
@@ -112,7 +103,7 @@ public class AccueilPanel extends JPanel {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setPreferredSize(new Dimension(450, 1000));
-        panel.setBackground(backgroundColor);
+        panel.setOpaque(false);
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // Label explication
@@ -120,7 +111,7 @@ public class AccueilPanel extends JPanel {
         label.setLineWrap(true);
         label.setWrapStyleWord(true);
         label.setEditable(false);
-        label.setBackground(backgroundColor);
+        label.setOpaque(false);
         panel.add(label);
 
         // Affiche chaque élément du model présent dans le jeu + description
@@ -133,7 +124,7 @@ public class AccueilPanel extends JPanel {
                 // Création d'un panel pour chaque élément
                 JPanel subPanel = new JPanel();
                 subPanel.setLayout(new BoxLayout(subPanel, BoxLayout.X_AXIS));
-                subPanel.setBackground(backgroundColor);
+                subPanel.setOpaque(false);
 
                 // redimensionner l'image
                 Image img = imageLoader.getImage(pathImage);
@@ -151,7 +142,7 @@ public class AccueilPanel extends JPanel {
                 textArea.setLineWrap(true);
                 textArea.setWrapStyleWord(true);
                 textArea.setEditable(false);
-                textArea.setBackground(backgroundColor);
+                textArea.setOpaque(false);
 
                 textArea.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
                 subPanel.add(textArea);
@@ -166,9 +157,10 @@ public class AccueilPanel extends JPanel {
         // Création du panel extérieur
         centerPanel = new JPanel(new BorderLayout());
         centerPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        centerPanel.setOpaque(false);
 
         // Création du panel
-        JPanel innerPanel = new RoundedPanel(30, backgroundColorGreen, 10, Color.YELLOW);
+        JPanel innerPanel = new RoundedPanel(30, mainFrame.secondColor, 10, Color.BLACK);
         innerPanel.setLayout(new BorderLayout());
         innerPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
@@ -204,6 +196,7 @@ public class AccueilPanel extends JPanel {
     private void createBottomPanel() {
         bottomPanel = new JPanel();
         bottomPanel.setLayout(new GridLayout(1, 2, 20, 0));
+        bottomPanel.setOpaque(false);
 
         // Création du bouton pour démarrer une nouvelle partie
         JButton nouvellePartieButton = new JButton("Nouvelle Partie");
