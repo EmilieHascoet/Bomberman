@@ -17,7 +17,7 @@ public class Case implements Serializable {
                 case BlocIndestructible:
                     return "Haie sans fleurs : indestructible";
                 case Bombe:
-                    return "Fleur explosive : indestructible";
+                    return "Fleur explosive : destructible";
                 default:
                     return null;
             }
