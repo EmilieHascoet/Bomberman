@@ -1,9 +1,14 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -64,6 +69,17 @@ public class MainFrame extends JFrame {
     private void initUI() {
         // Initialise avec le panneau de démarrage
         setContentPane(new AccueilPanel(this));
+
+        try {
+            // Charger l'image
+            BufferedImage image = ImageIO.read(getClass().getResource("/Images/logo.png"));
+            Image icon = new ImageIcon(image).getImage();
+
+            // Définir l'image comme icône de l'application
+            setIconImage(icon);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void changePanel(JPanel panel) {
