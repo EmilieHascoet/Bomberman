@@ -1,4 +1,5 @@
 package model;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -101,7 +102,7 @@ public class Partie implements Serializable {
         }
 
         // Nombre de joueurs par défaut
-        nbJoueurs = 2; 
+        nbJoueurs = 2;
 
         leaderBoard = new TreeMap<>(Collections.reverseOrder());
         time = 300;
@@ -135,12 +136,13 @@ public class Partie implements Serializable {
      * Rejouer / Garde les joueurs et génère une nouvelle carte
      */
     public void lancerNouvellePartie() {
-        System.out.println("Lancement d'une nouvelle partie");
-        System.out.println("Paramètres de la partie: " + paramPartie);
+        // System.out.println("Lancement d'une nouvelle partie");
+        // System.out.println("Paramètres de la partie: " + paramPartie);
         // Réinitialise les attributs des joueurs selon les paramètres de partie
         for (Joueur joueur : getJoueurs()) {
             joueur.initJoueur();
         }
+        time = 300;
         genererNouvelleCarte();
         placerJoueursDepartCarte();
     }
@@ -220,12 +222,13 @@ public class Partie implements Serializable {
         // La partie est terminée si il reste un seul joueur en vie
         int nbJoueursEnVie = 0;
         for (Joueur joueur : getJoueurs()) {
-            if (joueur.isAlive()) nbJoueursEnVie++;
+            if (joueur.isAlive())
+                nbJoueursEnVie++;
         }
-        
+
         // Sauvegarde le score du gagnant si la partie est terminée
         boolean partieTerminee = nbJoueursEnVie <= 1;
-        if(partieTerminee) {
+        if (partieTerminee) {
             sauvegarderScores();
         }
         return partieTerminee;
@@ -238,8 +241,8 @@ public class Partie implements Serializable {
         System.out.println("Partie terminée");
         System.out.println("Scores: ");
         Joueur winner = getGagnant();
-        if(winner.getScore() != 0) {
-            if(leaderBoard.containsKey(winner.getScore())) {
+        if (winner.getScore() != 0) {
+            if (leaderBoard.containsKey(winner.getScore())) {
                 leaderBoard.get(winner.getScore()).add(winner.nom);
             } else {
                 leaderBoard.put(winner.getScore(), new ArrayList<>(Arrays.asList(winner.nom)));
@@ -303,7 +306,8 @@ public class Partie implements Serializable {
 
             for (int j = 0; j < carte[i].length; j++) {
                 if (carte[i][j].joueur != null) {
-                    System.out.print("\u001B[35m" + carte[i][j].joueur.avatar + "\t" + "\u001B[0m"); // Violet pour le joueur
+                    System.out.print("\u001B[35m" + carte[i][j].joueur.avatar + "\t" + "\u001B[0m"); // Violet pour le
+                                                                                                     // joueur
                 } else if (carte[i][j].typeCase == typeCaseEnum.CaseVide) {
                     System.out.print("\u001B[34m" + "T" + "\t" + "\u001B[0m"); // Bleu pour le terrain
                 } else if (carte[i][j].typeCase == typeCaseEnum.BlocDestructible) {
