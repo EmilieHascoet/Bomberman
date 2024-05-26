@@ -303,7 +303,7 @@ public class Partie implements Serializable {
 
             for (int j = 0; j < carte[i].length; j++) {
                 if (carte[i][j].joueur != null) {
-                    System.out.print("\u001B[35m" + "J" + "\t" + "\u001B[0m"); // Violet pour le joueur
+                    System.out.print("\u001B[35m" + carte[i][j].joueur.avatar + "\t" + "\u001B[0m"); // Violet pour le joueur
                 } else if (carte[i][j].typeCase == typeCaseEnum.CaseVide) {
                     System.out.print("\u001B[34m" + "T" + "\t" + "\u001B[0m"); // Bleu pour le terrain
                 } else if (carte[i][j].typeCase == typeCaseEnum.BlocDestructible) {
