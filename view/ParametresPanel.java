@@ -49,7 +49,7 @@ public class ParametresPanel extends JPanel {
     private Partie partieEnCours;
 
     public ParametresPanel(MainFrame frame, Partie partie) {
-        this.frame = frame; 
+        this.frame = frame;
         this.partieEnCours = partie;
         setLayout(new GridBagLayout());
         setBackground(frame.mainColor);
@@ -73,7 +73,7 @@ public class ParametresPanel extends JPanel {
         JList<String> list = new JList<>(listModel);
         listModel.addElement("Liste de bonus");
         listModel.addElement("Partie");
-        for (int i = 1; i <= partieEnCours.nbJoueurs; i++) {
+        for (int i = 1; i <= partieEnCours.getNbJoueurs(); i++) {
             listModel.addElement("Joueur " + i);
         }
 
@@ -106,26 +106,24 @@ public class ParametresPanel extends JPanel {
         rightPanel.setLayout(cardLayout);
         rightPanel.setBackground(frame.mainColor);
 
-
         Map<String, Integer> mapP = new HashMap<>();
         String[] lab = new String[] { "Nombres de vies", "Vitesse",
-        "Nombre de bombes initiales", "Portée de la bombe", "Largeur du plateau", "Hauteur du plateau" };
+                "Nombre de bombes initiales", "Portée de la bombe", "Largeur du plateau", "Hauteur du plateau" };
         mapP.put("Nombres de vies", partieEnCours.paramPartie.getNbVie());
         mapP.put("Vitesse", partieEnCours.paramPartie.getVitesse());
         mapP.put("Nombre de bombes initiales", partieEnCours.paramPartie.getNbBombeInit());
         mapP.put("Portée de la bombe", partieEnCours.paramPartie.getPorteeBombe());
         mapP.put("Largeur du plateau", partieEnCours.paramPartie.getBoardWidth());
-        mapP.put("Hauteur du plateau", partieEnCours.paramPartie.getBoardHeight()); 
-
+        mapP.put("Hauteur du plateau", partieEnCours.paramPartie.getBoardHeight());
 
         // Create checkboxes for each label
         createCheckBoxes(listModel.get(0), rightPanel,
-            Arrays.stream(Partie.bonusEnum.values()).map(Enum::toString).toArray(String[]::new));
+                Arrays.stream(Partie.bonusEnum.values()).map(Enum::toString).toArray(String[]::new));
         createTextAreasM(listModel.get(1), rightPanel, mapP, lab);
 
         // Create text areas for each player
-        for (int i = 1; i <= partieEnCours.nbJoueurs; i++) {
-            createTextAreas(listModel.get(i+1), rightPanel, new String[] {"Joueur " + i});
+        for (int i = 1; i <= partieEnCours.getNbJoueurs(); i++) {
+            createTextAreas(listModel.get(i + 1), rightPanel, new String[] { "Joueur " + i });
         }
 
         squarePanel.add(rightPanel);
@@ -137,7 +135,7 @@ public class ParametresPanel extends JPanel {
         retour.setForeground(Color.white);
         retour.setBackground(new Color(51, 153, 255));
 
-        JButton valider = new JButton("Valider");           
+        JButton valider = new JButton("Valider");
         valider.addActionListener(new ParametreController(valider, this.frame, this, partieEnCours));
         valider.setFont(new Font("Arial", Font.BOLD, 16));
         valider.setForeground(Color.white);
@@ -204,6 +202,7 @@ public class ParametresPanel extends JPanel {
                         textAreas[i].setForeground(Color.black);
                     }
                 }
+
                 @Override
                 public void focusLost(java.awt.event.FocusEvent evt) {
                     if (textAreas[i].getText().equals("")) {
@@ -230,7 +229,7 @@ public class ParametresPanel extends JPanel {
         textAreaPanel.add(avatarLabel);
 
         JPanel avatar = new JPanel(); // Avatar panel
-        avatar.setLayout(new FlowLayout());        
+        avatar.setLayout(new FlowLayout());
         avatar.setBorder(BorderFactory.createLineBorder(Color.black, 2));
 
         JPanel imagePanel = new JPanel(); // Image panel
@@ -264,10 +263,11 @@ public class ParametresPanel extends JPanel {
                             String filename = entry.getName();
                             InputStream stream = cl.getResourceAsStream(filename);
                             BufferedImage image = ImageIO.read(stream);
-                            if(image == null) {
+                            if (image == null) {
                                 continue;
                             }
-                            ImageIcon icon = new ImageIcon(image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH));
+                            ImageIcon icon = new ImageIcon(
+                                    image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH));
 
                             // Create a toggle button with the image icon
                             JToggleButton toggleButton = new JToggleButton();
@@ -275,7 +275,8 @@ public class ParametresPanel extends JPanel {
                             toggleButton.setSelectedIcon(icon);
 
                             // Récupérer le nom du fichier sans l'extension
-                            String fileNameWithoutExt = filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf("."));
+                            String fileNameWithoutExt = filename.substring(filename.lastIndexOf("/") + 1,
+                                    filename.lastIndexOf("."));
                             toggleButton.setName(fileNameWithoutExt);
 
                             toggleButton.addItemListener((ItemEvent e) -> {
@@ -333,7 +334,7 @@ public class ParametresPanel extends JPanel {
 
                         toggleButtons.add(toggleButton); // Add the toggle button to the image panel
                     }
-                
+
                 }
             }
         } catch (Exception e) {
@@ -346,10 +347,10 @@ public class ParametresPanel extends JPanel {
         parentPanel.add(textAreaPanel, label);
         avatar.add(imagePanel);
         textAreaPanel.add(avatar);
-        
-        
+
         parentPanel.add(textAreaPanel, label);
     }
+
     private <K, V> void createTextAreasM(String label, JPanel parentPanel, Map<K, V> m, String[] l) {
         JPanel textAreaPanel = new JPanel();
         textAreaPanel.setBackground(frame.mainColor);
@@ -366,12 +367,13 @@ public class ParametresPanel extends JPanel {
             textAreas[i].addFocusListener(new java.awt.event.FocusAdapter() {
                 @Override
                 public void focusGained(java.awt.event.FocusEvent evt) {
-                    if (textAreas[i].getText().equals(m.get(l[i]) +"")) {
+                    if (textAreas[i].getText().equals(m.get(l[i]) + "")) {
                         labels[i].setText(l[i]);
                         textAreas[i].setText("");
                         textAreas[i].setForeground(Color.black);
                     }
                 }
+
                 @Override
                 public void focusLost(java.awt.event.FocusEvent evt) {
                     if (textAreas[i].getText().equals("")) {

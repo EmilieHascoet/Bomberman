@@ -11,8 +11,8 @@ import model.Case.typeCaseEnum;
 public class Partie implements Serializable {
     // Déclarations des attributs
     private TreeMap<Integer, List<String>> leaderBoard;
-    public int time;
-    public int nbJoueurs;
+    private int time;
+    private int nbJoueurs;
 
     // Déclarations des associations
     // utiliser la méthode getJoueurs pour avoir la liste des joueurs actifs
@@ -115,6 +115,19 @@ public class Partie implements Serializable {
         return joueurs.subList(0, nbJoueurs);
     }
 
+    // get time
+    public int getTime() {
+        return time;
+    }
+
+    public int getNbJoueurs() {
+        return nbJoueurs;
+    }
+
+    public void SetNbJoueurs(int nbJoueurs) {
+        this.nbJoueurs = nbJoueurs;
+    }
+
     /**
      * Place les joueurs sur la carte et les cases de départ.
      */
@@ -142,7 +155,6 @@ public class Partie implements Serializable {
         for (Joueur joueur : getJoueurs()) {
             joueur.initJoueur();
         }
-        time = 300;
         genererNouvelleCarte();
         placerJoueursDepartCarte();
     }

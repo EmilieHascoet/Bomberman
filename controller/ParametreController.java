@@ -1,4 +1,5 @@
 package controller;
+
 import view.ChoixTouchePanel;
 
 import java.awt.Component;
@@ -161,9 +162,9 @@ public class ParametreController implements ActionListener {
                     Integer.parseInt(list.get("Portée de la bombe")), Integer.parseInt(list.get("Largeur du plateau")),
                     Integer.parseInt(list.get("Hauteur du plateau")));
 
-            for (int i = 0; i < partieEnCours.nbJoueurs; i++) {
+            for (int i = 0; i < partieEnCours.getNbJoueurs(); i++) {
                 String avatar = image.get("Joueur " + (i + 1));
-                if(avatar != null) {
+                if (avatar != null) {
                     partieEnCours.getJoueurs().get(i).avatar = Partie.avatar.valueOf(avatar);
                 }
                 partieEnCours.getJoueurs().get(i).nom = list.get("Joueur " + (i + 1));

@@ -14,7 +14,8 @@ public class ChangerToucheJDialog extends JDialog {
     private JTextField textField;
     Color backgrounfColor = new Color(231, 195, 239);
 
-    public ChangerToucheJDialog(int joueur, String ancienneTouche, String actionTouche, JButton boutonChooseTouche, Partie partieEnCours) {
+    public ChangerToucheJDialog(int joueur, String ancienneTouche, String actionTouche, JButton boutonChooseTouche,
+            Partie partieEnCours) {
         // Create a panel to add padding
         JPanel contentPanel = new JPanel(new BorderLayout());
         contentPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -53,15 +54,19 @@ public class ChangerToucheJDialog extends JDialog {
                     System.out.println(chosenKey);
                     // Controle que la touche choisie n'est pas déjà utilisée par un autre joueur
                     boolean toucheDejaUtilisee = false;
-                    for (int i = 0; i < partieEnCours.nbJoueurs; i++) {
+                    for (int i = 0; i < partieEnCours.getNbJoueurs(); i++) {
                         Touche touche = partieEnCours.getJoueurs().get(i).touche;
-                        if (touche.getHaut().equals(chosenKey) || touche.getBas().equals(chosenKey) || touche.getDroite().equals(chosenKey) || touche.getGauche().equals(chosenKey) || touche.getBombe().equals(chosenKey)) {
+                        if (touche.getHaut().equals(chosenKey) || touche.getBas().equals(chosenKey)
+                                || touche.getDroite().equals(chosenKey) || touche.getGauche().equals(chosenKey)
+                                || touche.getBombe().equals(chosenKey)) {
                             toucheDejaUtilisee = true;
                             break;
                         }
                     }
-                    if(toucheDejaUtilisee) {
-                        JOptionPane.showMessageDialog(ChangerToucheJDialog.this, "La touche '" + chosenKey + "' est déjà utilisée par un autre joueur", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    if (toucheDejaUtilisee) {
+                        JOptionPane.showMessageDialog(ChangerToucheJDialog.this,
+                                "La touche '" + chosenKey + "' est déjà utilisée par un autre joueur", "Erreur",
+                                JOptionPane.ERROR_MESSAGE);
                         return;
                     } else {
                         // Change le texte du bouton
@@ -73,7 +78,8 @@ public class ChangerToucheJDialog extends JDialog {
                         }
 
                         // Ajout du nouveau controller
-                        ChoixToucheControleur ctr = new ChoixToucheControleur(joueur, chosenKey, actionTouche, boutonChooseTouche, partieEnCours);
+                        ChoixToucheControleur ctr = new ChoixToucheControleur(joueur, chosenKey, actionTouche,
+                                boutonChooseTouche, partieEnCours);
                         boutonChooseTouche.addActionListener(ctr);
 
                         // Mettre à jour le modèle Touche du Joueur
@@ -104,9 +110,9 @@ public class ChangerToucheJDialog extends JDialog {
         this.add(contentPanel);
         this.setModal(true); // Bloque l'interaction avec le JFrame principal
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        this.setTitle("Changer la touche pour le joueur " + joueur+1 + " : " + actionTouche);
+        this.setTitle("Changer la touche pour le joueur " + joueur + 1 + " : " + actionTouche);
         this.setSize(500, 140);
         this.setLocationRelativeTo(null);
-        this.setVisible(true);  
+        this.setVisible(true);
     }
 }
