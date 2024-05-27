@@ -119,6 +119,7 @@ public class Partie implements Serializable {
     public int getTime() {
         return time;
     }
+
     public void setTime(int time) {
         this.time = time;
     }
@@ -158,6 +159,7 @@ public class Partie implements Serializable {
         for (Joueur joueur : getJoueurs()) {
             joueur.initJoueur();
         }
+        time = 300;
         genererNouvelleCarte();
         placerJoueursDepartCarte();
     }
