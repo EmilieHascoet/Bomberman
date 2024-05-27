@@ -119,6 +119,9 @@ public class Partie implements Serializable {
     public int getTime() {
         return time;
     }
+    public void setTime(int time) {
+        this.time = time;
+    }
 
     public int getNbJoueurs() {
         return nbJoueurs;
@@ -239,7 +242,7 @@ public class Partie implements Serializable {
         }
 
         // Sauvegarde le score du gagnant si la partie est terminée
-        boolean partieTerminee = nbJoueursEnVie <= 1;
+        boolean partieTerminee = nbJoueursEnVie <= 1 || time == 0;
         if (partieTerminee) {
             sauvegarderScores();
         }
@@ -253,7 +256,7 @@ public class Partie implements Serializable {
         System.out.println("Partie terminée");
         System.out.println("Scores: ");
         Joueur winner = getGagnant();
-        if (winner.getScore() != 0) {
+        if (winner != null && winner.getScore() != 0) {
             if (leaderBoard.containsKey(winner.getScore())) {
                 leaderBoard.get(winner.getScore()).add(winner.nom);
             } else {

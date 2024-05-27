@@ -377,6 +377,7 @@ public class PartiePanel extends JPanel {
         if (compteur % (1000 / this.tauxRafraichissement) == 0) {
             if (temps > 0) {
                 temps--;
+                partieEnCours.setTime(temps);
                 chrono.setText("Temps: " + temps / 60 + " : " + temps % 60);
             } else {
                 // Arrêtez le timer lorsque le temps est écoulé
