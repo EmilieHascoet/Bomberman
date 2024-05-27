@@ -88,7 +88,8 @@ public class FinPartieView extends JDialog {
         gbc.anchor = GridBagConstraints.NORTH;
         int numPlayers = partie.getJoueurs().size();
         for (int i = 0; i < numPlayers; i++) {
-            JLabel scoreLabel = new JLabel("Player " + (i + 1) + ": " + partie.getJoueurs().get(i).getScore());
+            JLabel scoreLabel = new JLabel(
+                    partie.getJoueurs().get(i).nom + " : " + partie.getJoueurs().get(i).getScore());
             if (i < 2) { // Joueurs 1 et 2 à gauche
                 gbc.gridx = i;
                 gbc.gridy = 1;
